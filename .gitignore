@@ -1,0 +1,7 @@
+/.settings/
+/test/
+/.buildpath
+/.project
+/.tern-project
+
+/protected/
