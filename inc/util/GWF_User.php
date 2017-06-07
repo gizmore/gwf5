@@ -1,6 +1,16 @@
 <?php
+/**
+ * The holy user object.
+ * 
+ * @author gizmore
+ * @since 1.0
+ * @version 5.0
+ */
 final class GWF_User extends GDO
 {
+	###########
+	### GDO ###
+	###########
 	public function gdoTableName() { return 'gwf_user'; }
 	public function gdoDependencies() { return array('GWF_Country', 'GWF_Language', 'GWF_Timezone'); }
 	public function gdoColumns()
@@ -28,35 +38,33 @@ final class GWF_User extends GDO
 			GDO_Time::make('user_last_activity'),
 		);
 	}
+
 	##############
 	### Getter ###
 	##############
 	public function getID() { return $this->getVar('user_id'); }
+	public function getType() { return $this->getVar('user_type'); }
+	public function isGhost() { return $this->getType() === 'ghost'; }
+	public function isGuest() { return $this->getType() === 'guest'; }
+	public function isMember() { return $this->getType() === 'member'; }
 	
-	### ###
+	###############
+	### Display ###
+	###############
 	public function displayName() { return $this->display('user_name'); }
+	public function display_admin_edit_user() { return GDO_Button::make('admin_edit_user')->label('btn_edit')->href($this->hrefAdminEdit())->render(); }
 	
-	public static function getByName(string $name)
-	{
-		return self::getBy('user_name', $name);
-	}
+	#############
+	### HREFs ###
+	#############
+	public function hrefAdminEdit() { return GWF5::getMethodHREF('Admin', 'UserEdit', "&id={$this->getID()}"); }
 	
 	##############
 	### Static ###
 	##############
-	public static function current()
-	{
-		if ( (!($session = GWF_Session::instance())) ||
-		     (!($user = $session->getUser())) )
-		{
-			$user = self::ghost();
-		}
-		return $user;
-	}
-	
-	public static function ghost()
-	{
-		return self::table()->blank(['user_type' => 'ghost']);
-	}
+	public static function getById(string $id) { return self::getBy('user_id', $id); }
+	public static function getByName(string $name) { return self::getBy('user_name', $name); }
+	public static function current() { return GWF_Session::user(); }
+	public static function ghost() { return self::table()->blank(['user_type' => 'ghost']); }
 	
 }

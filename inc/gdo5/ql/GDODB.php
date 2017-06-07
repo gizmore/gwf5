@@ -1,7 +1,9 @@
 <?php
 /**
+ * mysqli abstraction.
  * 
  * @author gizmore
+ * @version 5.0
  */
 class GDODB
 {

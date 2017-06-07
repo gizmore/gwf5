@@ -9,7 +9,7 @@ final class GWF_Template
 	protected static $MODULE_FILE = NULL;
 	
 	public static function getDesign() { return GWF_THEME; }
-	private static function pathError($path) { return GWF_Response::error('err_file', array(htmlspecialchars(str_replace('%DESIGN%', 'default', $path)))); }
+	private static function pathError(string $path) { return GWF_Response::error('err_file', array(htmlspecialchars(str_replace('%DESIGN%', 'default', $path)))); }
 	
 	/**
 	 * Get template from theme folder.
@@ -17,9 +17,9 @@ final class GWF_Template
 	 * @param array $tVars
 	 * @return string
 	 */
-	public static function templateMain($file, $tVars=NULL)
+	public static function templateMain(string $file, array $tVars=null)
 	{
-		return self::templatePHP(GWF_PATH.'theme/%DESIGN%/'.$file, $tVars);
+		return self::templatePHP("theme/%DESIGN%/$file", $tVars);
 	}
 	
 	/**
@@ -27,13 +27,13 @@ final class GWF_Template
 	 * @param $path path to template file
 	 * @return string
 	 */
-	private static function templatePHP($path, $tVars=NULL, $moduleName=NULL)
+	private static function templatePHP(string $path, array $tVars=null, string $moduleName=null)
 	{
 		if (!($path2 = self::getPath($path, $moduleName)))
 		{
 			return self::pathError($path);
 		}
-		if (is_array($tVars))
+		if ($tVars)
 		{
 			foreach ($tVars as $__key => $__value)
 			{
@@ -47,7 +47,7 @@ final class GWF_Template
 		return new GWF_Response($back);
 	}
 	
-	public static function moduleTemplatePHP($moduleName, $file, $tVars=NULL)
+	public static function moduleTemplatePHP(string $moduleName, string $file, array $tVars=null)
 	{
 		self::$MODULE_FILE = $file;
 		$path = GWF_PATH.'themes/%DESIGN%/module/'.$moduleName.'/'.self::$MODULE_FILE;
@@ -59,7 +59,7 @@ final class GWF_Template
 	 * @param string $path templatepath
 	 * @return string|false
 	 */
-	private static function getPath($path, $moduleName=NULL)
+	private static function getPath(string $path, string $moduleName=null)
 	{
 		// Try custom theme first.
 		$path1 = str_replace('%DESIGN%', self::getDesign(), $path);

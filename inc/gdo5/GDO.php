@@ -14,7 +14,11 @@ abstract class GDO
 	
 	public static $ENGINE = self::INNODB;
 	
+	/**
+	 * @return GDOType[]
+	 */
 	public abstract function gdoColumns();
+	
 	public function gdoTableName() { return strtolower(get_called_class()); }
 	public function gdoDependencies() { return null; }
 	
@@ -60,7 +64,7 @@ abstract class GDO
 	### Vars ###
 	############
 	private $gdoVars;
-	private $dirty = null;
+	private $dirty = false;
 	
 	/**
 	 * Get the GDOType for a key.
@@ -71,7 +75,6 @@ abstract class GDO
 	{
 		foreach ($this->gdoColumnsCache() as $column)
 		{
-			$column instanceof GDOType;
 			if ($column->name === $key)
 			{
 				return $column;
@@ -98,7 +101,7 @@ abstract class GDO
 		{
 			return $column->gdoDisplay($this, $this->getVar($key));
 		}
-		$method_name = sprintf('display_%s', $key);
+		$method_name = 'display_' . $key;
 		if (method_exists($this, $method_name))
 		{
 			return call_user_func(array($this, $method_name));
@@ -122,6 +125,20 @@ abstract class GDO
 		return $this->setVar($key, $type->getValue());
 	}
 	
+	public function markClean(string $key)
+	{
+		if ($this->dirty === false)
+		{
+			$this->dirty = array_keys($this->gdoVars);
+			unset($this->dirty[$key]);
+		}
+		elseif (is_array($this->dirty))
+		{
+			unset($this->dirty[$key]);
+		}
+		return $this;
+	}
+	
 	public function markDirty(string $key)
 	{
 		if ($this->dirty === false)
@@ -137,10 +154,10 @@ abstract class GDO
 	
 	public function isDirty()
 	{
-		return $this->dirty === false ? false : count($this->dirty) > 0;
+		return $this->dirty === false ? false : (count($this->dirty) > 0);
 	}
 	
-	public function setGDOVars(array $vars, $dirty=null)
+	public function setGDOVars(array $vars, $dirty=false)
 	{
 		$this->gdoVars = $vars;
 		$this->dirty = $dirty;
@@ -151,7 +168,7 @@ abstract class GDO
 	 * @param string ...$keys
 	 * @return string[]
 	 */
-	public function getVars(...$keys)
+	public function getVars(string ...$keys)
 	{
 		$back = array();
 		foreach ($keys as $key)
@@ -171,6 +188,10 @@ abstract class GDO
 		return $this->gdoColumn($key)->gdo($this)->getGDOValue();
 	}
 	
+	/**
+	 * Get gdoVars that have been changed.
+	 * @return string[]
+	 */
 	public function getDirtyVars()
 	{
 		if ($this->dirty === true)
@@ -200,10 +221,12 @@ abstract class GDO
 	}
 	
 	/**
+	 * Find a row by AutoInc Id.
 	 * @param string $id
 	 * @return self
+	 * @see GDO_AutoInc
 	 */
-	public function find(string $id)
+	public function find(string $id = null)
 	{
 		return $this->findWhere($this->gdoAutoIncColumn()->identifier() . ' = ' . GDO::quoteS($id));
 	}
@@ -234,39 +257,33 @@ abstract class GDO
 	
 	public function delete()
 	{
-		return $this->query()->delete()->from($this->gdoTableIdentifier())->where($this->getPKWhere())->exec();
+		if ($this->persisted)
+		{
+			$this->query()->delete()->from($this->gdoTableIdentifier())->where($this->getPKWhere())->exec();
+			$this->persisted = false;
+			$this->dirty = false;
+		}
+		return $this;
 	}
 	
 	public function replace()
 	{
-		$query = $this->query()->replace($this->gdoTableIdentifier())->values($this->getDirtyVars());
-		if ($query->exec())
+		if (!$this->persisted)
 		{
-			$this->afterInsert();
+			return $this->insert();
 		}
+		$this->query()->replace($this->gdoTableIdentifier())->values($this->getDirtyVars())->exec();
+		$this->dirty = false;
+		$this->persisted = true;
+		$this->gdoAfterUpdate();
+		return $this;
 	}
 	
 	public function insert()
 	{
-		$query = $this->query()->insert($this->gdoTableIdentifier())->values($this->getDirtyVars());
-		if ($query->exec())
-		{
-			$this->gdoAfterInsert();
-		}
-	}
-	
-	public function gdoAfterInsert()
-	{
-		if ($column = $this->gdoAutoIncColumn())
-		{
-			$db = GDODB::$INSTANCE;
-			if ($id = $db->insertId())
-			{
-				$this->setVar($column->name, (string)$id);
-			}
-		}
-		$this->persisted = true;
-		$this->dirty = false;
+		$this->query()->insert($this->gdoTableIdentifier())->values($this->getDirtyVars())->exec();
+		$this->afterCreate();
+		return $this;
 	}
 	
 	public function updateQuery()
@@ -284,6 +301,7 @@ abstract class GDO
 		{
 			$this->updateQuery()->set($this->getSetClause())->exec();
 			$this->dirty = false;
+			$this->gdoAfterUpdate();
 		}
 		return $this;
 	}
@@ -295,19 +313,25 @@ abstract class GDO
 	
 	public function saveVars(array $vars)
 	{
+		$worthy = false;
 		$query = $this->updateQuery();
 		foreach ($vars as $key => $value)
 		{
 			if ($this->gdoVars[$key] != $value)
 			{
 				$query->set(sprintf("%s=%s", self::quoteIdentifierS($key), self::quoteS($value)));
+				$this->markClean($key);
+				$worthy = true; # We got a change
 			}
 		}
-		if ($result = $query->exec())
+		if ($worthy)
 		{
+			$this->beforeUpdate($query);
+			$query->exec();
 			$this->gdoVars = array_merge($this->gdoVars, $vars);
-			return $result;
+			$this->gdoAfterUpdate();
 		}
+		return $this;
 	}
 	
 	/**
@@ -325,8 +349,7 @@ abstract class GDO
 		{
 			foreach ($this->gdoColumnsCache() as $column)
 			{
-				$column instanceof GDOType;
-				if ( ($this->dirty === true) || isset($this->dirty[$column->name]) )
+				if ( ($this->dirty === true) || (isset($this->dirty[$column->name])) )
 				{
 					if ($setClause !== '')
 					{
@@ -371,7 +394,6 @@ abstract class GDO
 		$columns = array();
 		foreach ($this->gdoColumnsCache() as $column)
 		{
-			$column instanceof GDOType;
 			if ($column->isPrimary())
 			{
 				$columns[] = $column;
@@ -425,7 +447,7 @@ abstract class GDO
 	 * @param array $initial
 	 * @return array
 	 */
-	public static function blankData($initial = array())
+	public static function blankData(array $initial = null)
 	{
 		$table = self::table();
 		$gdoVars = array();
@@ -436,14 +458,17 @@ abstract class GDO
 				$gdoVars = array_merge($gdoVars, $data);
 			}
 		}
-		$gdoVars = array_merge($gdoVars, $initial);
+		if ($initial)
+		{
+			$gdoVars = array_merge($gdoVars, $initial);
+		}
 		return $gdoVars;
 	}
 	
 	/**
 	 * @return self
 	 */
-	public static function blank($initial = array())
+	public static function blank(array $initial = null)
 	{
 		return self::entity(self::blankData($initial))->dirty();
 	}
@@ -504,12 +529,47 @@ abstract class GDO
 	 * @return GDOType[]
 	 */
 	public function gdoColumnsCache() { return GDODB::columnsS($this->gdoClassName()); }
+	
+	/**
+	 * @return GDOType[]
+	 */
+	public function getGDOColumns(string ...$names)
+	{
+		$columns = [];
+		foreach ($names as $key)
+		{
+			$columns[] = $this->gdoColumn($key);
+		}
+		return $columns;
+	}
 
 	##############
 	### Events ###
 	##############
-	public function afterInsert() {}
-	public function afterUpdate() {}
-	public function afterDelete() {}
+	private function beforeUpdate(GDOQuery $query)
+	{
+		foreach ($this->gdoColumnsCache() as $gdoType)
+		{
+			$gdoType->gdo($this)->gdoBeforeUpdate($query);
+		}
+	}
+	
+	private function afterCreate()
+	{
+		# Flags
+		$this->dirty = false;
+		$this->persisted = true;
+		# Trigger event for AutoCol, EditedAt, EditedBy, etc.
+		foreach ($this->gdoColumnsCache() as $gdoType)
+		{
+			$gdoType->gdo($this)->gdoAfterCreate();
+		}
+		$this->gdoAfterCreate();
+	}
+	
+	# Overrides
+	public function gdoAfterCreate() {}
+	public function gdoAfterUpdate() {}
+	public function gdoAfterDelete() {}
 	
 }

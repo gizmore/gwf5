@@ -12,7 +12,7 @@ GWF_Log::init();
 $db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME);
 $gwf5->loadModules();
 GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);
-$session = GWF_Session::start();
+$session = GWF_Session::instance();
 
 
 # Get module and method

@@ -150,7 +150,7 @@ class GDOQuery
 		return $this->set ? " SET {$this->set}" : "";
 	}
 	
-	public function order(string $column, bool $ascending)
+	public function order(string $column, bool $ascending=true)
 	{
 		$order = $column . ($ascending ? ' ASC' : ' DESC');
 		if ($this->order)

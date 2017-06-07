@@ -3,7 +3,7 @@ class GDO_Enum extends GDOType
 {
 	public $enumValues;
 	
-	public function enumValues(...$enumValues)
+	public function enumValues(string ...$enumValues)
 	{
 		$this->enumValues = $enumValues;
 		return $this;

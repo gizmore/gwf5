@@ -4,6 +4,7 @@ class GWF_Session extends GDO
 	const DUMMY_COOKIE_CONTENT = 'GWF_like_16_byte';
 	
 	private static $INSTANCE;
+	private static $STARTED = false;
 	
 	private static $COOKIE_NAME = 'GWF5';
 	private static $COOKIE_DOMAIN = 'localhost';
@@ -37,11 +38,12 @@ class GWF_Session extends GDO
 	 */
 	public static function user()
 	{
-		if (!($session = self::instance()))
+		if ( (!($session = self::instance())) ||
+		     (!($user = $session->getUser())) )
 		{
 			return GWF_User::ghost();
 		}
-		return $session->getUser();
+		return $user;
 	}
 	
 	/**
@@ -49,9 +51,10 @@ class GWF_Session extends GDO
 	 */
 	public static function instance()
 	{
-		if (!self::$INSTANCE)
+		if ( (!self::$INSTANCE) && (!self::$STARTED) )
 		{
 			self::$INSTANCE = self::start();
+			self::$STARTED = true; # only one try
 		}
 		return self::$INSTANCE;
 	}
@@ -93,7 +96,10 @@ class GWF_Session extends GDO
 	
 	public static function commit()
 	{
-		return self::instance()->save();
+		if ($session = self::instance())
+		{
+			return $session->save();
+		}
 	}
 	
 	/**
@@ -102,7 +108,7 @@ class GWF_Session extends GDO
 	 * @param string $cookieip
 	 * @return GWF_Session
 	 */
-	public static function start($cookieValue=true, $cookieIP=true)
+	private static function start($cookieValue=true, $cookieIP=true)
 	{
 		# Parse cookie value
 		if ($cookieValue === true)

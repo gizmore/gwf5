@@ -1,6 +1,9 @@
 <?php
+# Core
 require 'inc/gdo5/GDO.php';
 require 'inc/util/Common.php';
+# Traits
+require 'inc/util/trait/GWF_Fields.php';
 
 final class GWF5
 {
@@ -25,20 +28,10 @@ final class GWF5
 		self::$INSTANCE = $this;
 		
 		define('GWF_PATH', dirname(__FILE__, 2) . '/');
-
+		
 		spl_autoload_register(function($name) {
-			if (mb_strstr($name, 'GDO_') !== false)
-			{
-				$filename = GWF_PATH . "inc/util/gdo/$name.php";
-			}
-			else
-			{
-				$filename = GWF_PATH . "inc/util/$name.php";
-			}
-			if (is_file($filename))
-			{
-				include $filename;
-			}
+			$filename = $name[1] === 'D' ? "inc/util/gdo/$name.php" : "inc/util/$name.php";
+			@include $filename;
 		});
 		
 		GWF_Trans::addPath(GWF_PATH . 'inc/lang/util');
@@ -51,6 +44,11 @@ final class GWF5
 		return $this->moduleLoader->loadModules($loadDBOnly);
 	}
 	
+	public function getActiveModules()
+	{
+		return $this->moduleLoader->getActiveModules();
+	}
+	
 	/**
 	 * @param string $moduleName
 	 * @return GWF_Module
@@ -60,6 +58,12 @@ final class GWF5
 		$moduleName = $moduleName === true ? Common::getGetString('mo', GWF_MODULE) : $moduleName;
 		return $this->moduleLoader->getModule($moduleName);
 	}
+	
+	public static function getMethodHREF(string $moduleName, string $methodName, string $append='')
+	{
+		return sprintf('/index.php?mo=%s&me=%s%s', $moduleName, $methodName, $append);
+	}
+	
 	
 	public function render(GWF_Method $method, GWF_Response $response)
 	{

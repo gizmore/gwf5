@@ -7,11 +7,7 @@
  */
 class GWF_Form
 {
-	/**
-	 * 
-	 * @var GDOType[]
-	 */
-	private $fields;
+	use GWF_Fields;
 	
 	/**
 	 * @var string[]
@@ -35,26 +31,10 @@ class GWF_Form
 	################
 	public function __construct()
 	{
-		$this->fields = array();
 		$this->title = null;
 		$this->action = $_SERVER['REQUEST_URI'];
 		$this->method = 'post';
 		$this->enctype = 'application/x-www-form-urlencoded';
-	}
-	
-	public function addField(GDOType $field)
-	{
-		$this->fields[] = $field;
-		return $this;
-	}
-	
-	/**
-	 * Get fields
-	 * @return GDOType[]
-	 */
-	public function getFields()
-	{
-		return $this->fields;
 	}
 	
 	public function title(string $key, array $args=null)

@@ -7,6 +7,7 @@ class GDO_Submit extends GDOType
 	public function __construct()
 	{
 		$this->name = "submit";
+		$this->label('btn_save');
 	}
 	
 	public function render()

@@ -46,7 +46,7 @@ class GDO_Object extends GDOType
 	 */
 	public function foreignTable()
 	{
-		return $this->klass::table();
+		return GDODB::tableS($this->klass);
 	}
 	
 	/**
@@ -58,6 +58,12 @@ class GDO_Object extends GDOType
 		return $table->query()->from($table->gdoTableIdentifier());
 	}
 	
+	/**
+	 * Take the foreign key primary key definition and str_replace to convert to foreign key definition.
+	 * 
+	 * {@inheritDoc}
+	 * @see GDOType::gdoColumnDefine()
+	 */
 	public function gdoColumnDefine()
 	{
 		$table = $this->foreignTable();

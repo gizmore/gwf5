@@ -15,6 +15,8 @@ class Register_Guest extends GWF_MethodForm
 		{
 			$form->addField(GDO_Captcha::make());
 		}
+		$form->addField(GDO_Submit::make());
+		$form->addField(GDO_AntiCSRF::make());
 		return $form;
 	}
 }

@@ -6,15 +6,15 @@
  * @since 5.0
  *
  */
-class GDO_CreatedAt extends GDO_Time
+class GDO_CreatedBy extends GDO_Object
 {
 	public function __construct()
 	{
-		$this->notNull();
+		$this->klass = 'GWF_User';
 	}
 
 	public function blankData()
 	{
-		return [$this->name => time()];
+		return [$this->name => GWF_User::current()->getID()];
 	}
 }

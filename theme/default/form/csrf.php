@@ -1,4 +1,4 @@
-<?php $field instanceof GDO_CSRF; ?>
+<?php $field instanceof GDO_AntiCSRF; ?>
 <input
  type="hidden"
  name="form[<?php echo $field->name; ?>]"

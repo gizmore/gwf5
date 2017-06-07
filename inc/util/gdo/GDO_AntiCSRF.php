@@ -41,7 +41,10 @@ class GDO_AntiCSRF extends GDOType
 	{
 		$this->name = 'csrf';
 		
-		$this->refreshCSRFToken();
+		if (GWF_Session::instance())
+		{
+			$this->refreshCSRFToken();
+		}
 	}
 	
 	public function refreshCSRFToken()
@@ -63,13 +66,18 @@ class GDO_AntiCSRF extends GDOType
 	################
 	public function validate($value)
 	{
+		if (!GWF_Session::instance())
+		{
+			return $this->error('err_session_required');
+		}
+
 		# Check session for token
 		$csrf = GWF_Session::get('csrf', []);
 		if (!isset($csrf[$value]))
 		{
 			return $this->error('err_csrf');
 		}
-
+		
 		# Cleanup
 		$now = time();
 		foreach ($csrf as $token => $expire)
@@ -80,8 +88,9 @@ class GDO_AntiCSRF extends GDOType
 			}
 		}
 		
-		# Save
-		GWF_Session::set('csrf', $csrf);
+		# Save 
+		unset($csrf[$value]);
+		$this->refreshCSRFToken();
 		
 		return true;
 	}

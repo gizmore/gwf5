@@ -62,9 +62,10 @@ class GWF_Module extends GDO
 	##############
 	### Events ###
 	##############
-	public function onLoad() {}
-	public function onLoadLanguage() {}
 	public function onInit() {}
+	public function onLoad() {}
+	public function onLoadTopMenu(GWF_TopMenu $topMenu) {}
+	public function onLoadLanguage() {}
 	
 	###########
 	### GDO ###
@@ -76,8 +77,9 @@ class GWF_Module extends GDO
 		return array(
 			GDO_AutoInc::make('module_id'),
 			GDO_Name::make('module_name')->notNull()->unique(),
-			GDO_Char::make('module_version')->notNull()->initial('5.00')->label('module_version')->size(4),
-			GDO_Bool::make('module_enabled')->notNull()->initial('1')->label('module_enabled'),
+			GDO_Sort::make('module_priority')->notNull()->initial('50'),
+			GDO_Char::make('module_version')->notNull()->initial('5.00')->size(4),
+			GDO_Bool::make('module_enabled')->notNull()->initial('1'),
 // 			GDO_Many::make('module_vars')->klass('GWF_ModuleVar')->manyOn('LEFT JOIN gwf_module ON module_id=mv_module_id'),
 		);
 	}
@@ -157,5 +159,9 @@ class GWF_Module extends GDO
 		return new $klass($this);
 	}
 	
+	public function getMethodHREF(string $methodName)
+	{
+		return sprintf('/index.php?mo=%s&me=%s', $this->getName(), $methodName);
+	}
 	
 }

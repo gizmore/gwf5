@@ -11,7 +11,7 @@ class GDO_PersonName extends GDO_String
 	{
 		$this->min = 1;
 		$this->max = 128;
-		$this->pattern = "/[\\w ]+/d";
+		$this->pattern = "/[\\w ]+/";
 		$this->encoding = self::UTF8;
 		$this->caseSensitive = false;
 	}

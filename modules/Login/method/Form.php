@@ -14,15 +14,16 @@ final class Login_Form extends GWF_MethodForm
 		$form->addField(GDO_Checkbox::make('bind_ip'));
 		if (Module_Login::instance()->cfgCaptcha())
 		{
-			$form->addField(GDO_Captcha::make('captcha'));
+			$form->addField(GDO_Captcha::make());
 		}
-		$form->addField(GDO_Submit::make('btn_login'));
+		$form->addField(GDO_Submit::make()->label('btn_login'));
+		$form->addField(GDO_AntiCSRF::make());
 		return $form;
 	}
 	
 	public function formValidated(GWF_Form $form)
 	{
-		return $this->onLogin($form->getVar('login'), $form->getVar('password'), $form->getVar('bind_ip'));
+		return $this->onLogin($form);
 	}
 	
 	public function formInvalid(GWF_Form $form)
@@ -30,19 +31,34 @@ final class Login_Form extends GWF_MethodForm
 		return $this->error('err_login_failed')->add($form->render());
 	}
 	
-	public function onLogin(string $login, string $password, $ip)
+	public function onLogin(GWF_Form $form)
 	{
-		if ( (!($user = GWF_User::getByName($login))) ||
-		     (!($user->getGDOVar('user_password')->validate($password))) )
+		if ( (!($user = GWF_User::getByName($form->getVar('login')))) ||
+		     (!($user->getValue('user_password')->validate($form->getVar('user_password')))) )
 		{
-			return $this->error('err_login');
+			return $this->loginFailed()->add($form->render());
 		}
 		return $this->loginSuccess($user);
 	}
 	
 	public function loginSuccess(GWF_User $user)
 	{
-		return new GWF_Message('msg_authenticated');
+		$session = GWF_Session::instance();
+		$session->setValue('sess_user', $user);
+		$session->setValue('sess_data', null);
+		$session->save();
+		return new GWF_Message('msg_authenticated', [$user->displayName()]);
 	}
+	
+	public function loginFailed()
+	{
+		$ip = GDO_IP::current();
+		
+		$attempt = GWF_LoginAttempt::table()->blank(["la_ip"=>$ip])->insert();
+		$attemptsLeft = 1;
+		$bannedFor = 120;
+		return $this->error('err_login_failed', [$attemptsLeft, $bannedFor]);
+	}
+	
 
 }

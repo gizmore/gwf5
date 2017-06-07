@@ -9,18 +9,23 @@
 final class GWF_ModuleLoader
 {
 	/**
-	 * @var GWF_Module[]
-	 */
-	private $modules;
-	
-	/**
+	 * Base modules path, the modules folder.
 	 * @var string
 	 */
 	private $path;
 	
+	/**
+	 * @var GWF_Module[]
+	 */
+	private $modules = [];
+	
+	/**
+	 * @var GWF_Module[]
+	 */
+	private $activeModules = [];
+	
 	public function __construct(string $path)
 	{
-		$this->modules = array();
 		$this->path = $path;
 	}
 	
@@ -31,6 +36,15 @@ final class GWF_ModuleLoader
 	public function getModules()
 	{
 		return $this->modules;
+	}
+	
+		/**
+	 * Get all currently loaded modules.
+	 * @return GWF_Module[]
+	 */
+	public function getActiveModules()
+	{
+		return $this->activeModules;
 	}
 	
 	/**
@@ -50,19 +64,20 @@ final class GWF_ModuleLoader
 			$this->loadModulesFS();
 		}
 		$this->initModuleVars();
+		
 		return $this->modules;
 	}
 	
 	public function loadModulesDB()
 	{
-		$result = GWF_Module::table()->select('*')->where('module_enabled')->exec();
+		$result = GWF_Module::table()->select('*')->where('module_enabled')->order('module_priority')->exec();
 		while ($moduleData = $result->fetchAssoc())
 		{
 			$moduleName = $moduleData['module_name'];
 			if (!isset($this->modules[$moduleName]))
 			{
 				require(GWF_PATH . 'modules/'. $moduleName .'/Module_' . $moduleName. '.php');
-				$this->modules[$moduleName] = self::instanciate($moduleData);
+				$this->activeModules[$moduleName] = $this->modules[$moduleName] = self::instanciate($moduleData);
 			}
 		}
 		return $this->modules;

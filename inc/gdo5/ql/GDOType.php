@@ -52,7 +52,7 @@ abstract class GDOType
 	 * @param string $name
 	 * @return self
 	 */
-	public static function make($name=null)
+	public static function make(string $name=null)
 	{
 		$type = get_called_class();
 		$obj = new $type();
@@ -100,21 +100,21 @@ abstract class GDOType
 	#############
 	### Label ###
 	#############
-	public function label(string $label)
-	{
-		$this->label = $label;
-		return $this;
-	}
-	
 	public function noLabel()
 	{
 		$this->label = null;
 		return $this;
 	}
 	
-	public function displayLabel(array $args=null)
+	public function label(string $key, array $args=null)
 	{
-		return $this->label ? GWF_Trans::t($this->label, $args): '';
+		$this->label = GWF_Trans::t($key, $args);
+		return $this;
+	}
+	
+	public function displayLabel()
+	{
+		return $this->label ? $this->label : '';
 	}
 	
 	###################
@@ -215,16 +215,6 @@ abstract class GDOType
 		return $value ? GWF_HTML::escape($value) : '';
 	}
 	
-// 	/**
-// 	 * Get the GDO/GWF Value for this column.
-// 	 * Used in references etc?
-// 	 * @return string
-// 	 */
-// 	public function gdoValue(GDO $gdo, $value)
-// 	{
-// 		return $value;
-// 	}
-	
 	public function gdoDisplay(GDO $gdo, $value)
 	{
 		if ($value === null)
@@ -242,6 +232,16 @@ abstract class GDOType
 		return GWF_HTML::escape($value);
 	}
 	
+	##############
+	### Events ###
+	##############
+	public function gdoBeforeCreate() {}
+	public function gdoBeforeUpdate(GDOQuery $query) {}
+	public function gdoBeforeDelete() {}
+	public function gdoAfterCreate() {}
+	public function gdoAfterUpdate() {}
+	public function gdoAfterDelete() {}
+
 	##################
 	### Read/Write ###
 	##################

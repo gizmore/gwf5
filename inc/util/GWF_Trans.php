@@ -58,7 +58,8 @@ final class GWF_Trans
 		foreach (self::$PATHS as $path)
 		{
 			$path .= "_{$iso}.php";
-			$trans = array_merge($trans, require($path));
+			$trans2 = require($path);
+			$trans = array_merge($trans, $trans2);
 		}
 		self::$CACHE[$iso] = $trans;
 	}

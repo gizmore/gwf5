@@ -1,2 +1,2 @@
 <?php
-GWF_LoginAttempt::table()->createTable();
+echo GWF_Message::error('msg_upgrading', ['Login', '5.00'])->__toString();

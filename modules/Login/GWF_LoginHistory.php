@@ -1,8 +1,6 @@
 <?php
 class GWF_LoginHistory extends GDO
 {
-	public function gdoTableName() { return 'gwf_login_history'; }
-	
 	public function gdoColumns()
 	{
 		return array(
