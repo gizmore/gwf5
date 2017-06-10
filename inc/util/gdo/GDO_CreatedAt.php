@@ -6,15 +6,15 @@
  * @since 5.0
  *
  */
-class GDO_CreatedAt extends GDO_Time
+class GDO_CreatedAt extends GDO_Timestamp
 {
 	public function __construct()
 	{
 		$this->notNull();
 	}
 
-	public function blankData()
+	public function gdoColumnDefine()
 	{
-		return [$this->name => time()];
+		return "{$this->identifier()} TIMESTAMP{$this->gdoNullDefine()} DEFAULT CURRENT_TIMESTAMP";
 	}
 }

@@ -78,43 +78,45 @@ final class Login_Form extends GWF_MethodForm
 	################
 	### Security ###
 	################
+	private function banCut() { return time() - $this->banTimeout(); }
 	private function banTimeout() { return Module_Login::instance()->cfgFailureTimeout(); }
 	private function maxAttempts() { return Module_Login::instance()->cfgFailureAttempts(); }
-
-	private function banCheck()
-	{
-		$table = GWF_LoginAttempt::table();
-		$result = $table->select('MIN(la_time), COUNT(*)')->where('la_ip='.GDO::quoteS(GDO_IP::current()))->debug()->exec()->fetchRow();
-		list($mintime, $count) = $result;
-		if ($count >= $this->maxAttempts())
-		{
-			$left = $this->banTimeout() - time() + $mintime;
-			return GWF_Error::error('err_login_ban', [$left]);
-		}
-	}
 	
 	public function loginFailed($user)
 	{
 		# Insert attempt
 		$ip = GDO_IP::current();
 		$userid = $user ? $user->getID() : null;
-		$table = GWF_LoginAttempt::table();
-		$attempt = $table->blank(["la_ip"=>$ip, 'la_user_id'=>$userid])->insert();
+		$attempt = GWF_LoginAttempt::blank(["la_ip"=>$ip, 'la_user_id'=>$userid])->insert();
 		
 		# Count victim attack. If only 1, we got a new threat and mail it.
 		if ($user)
 		{
 			$this->checkSecurityThreat($user);
 		}
-
+		
 		# Count attacker attempts
-		$cut = time() - $this->banTimeout();
-		$condition = sprintf('la_ip=%s AND la_time > %s', GDO::quoteS($ip), $cut);
-		$result = $table->select('MIN(la_time), COUNT(*)')->where($condition)->debug()->exec()->fetchRow();
-		list($mintime, $attempts) = $result;
-		$bannedFor = $this->banTimeout() - time() + $mintime;
+		list($mintime, $attempts) = $this->banData();
+		$bannedFor = $mintime - $this->banCut();
 		$attemptsLeft = $this->maxAttempts() - $attempts;
 		return $this->error('err_login_failed', [$attemptsLeft, $bannedFor]);
+	}
+	
+	private function banCheck()
+	{
+		list($mintime, $count) = $this->banData();
+		if ($count >= $this->maxAttempts())
+		{
+			$bannedFor = $mintime - $this->banCut();
+			return GWF_Error::error('err_login_ban', [$bannedFor]);
+		}
+	}
+	
+	private function banData()
+	{
+		$table = GWF_LoginAttempt::table();
+		$condition = sprintf('la_ip=%s AND la_time>%d', GDO::quoteS(GDO_IP::current()), $this->banCut());
+		return $table->select('UNIX_TIMESTAMP(MIN(la_time)), COUNT(*)')->where($condition)->exec()->fetchRow();
 	}
 	
 	private function checkSecurityThreat(GWF_User $user)

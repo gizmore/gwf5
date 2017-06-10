@@ -1,11 +1,6 @@
 <?php
-final class GDO_EditedBy extends GDO_Time
+final class GDO_EditedBy extends GDO_User
 {
-	public function __construct()
-	{
-		$this->klass = 'GWF_User';
-	}
-	
 	public function gdoBeforeUpdate(GDOQuery $query)
 	{
 		$userId = GWF_User::current()->getID();

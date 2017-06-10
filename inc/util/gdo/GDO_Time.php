@@ -10,6 +10,6 @@ class GDO_Time extends GDOType
 {
 	public function gdoColumnDefine()
 	{
-		return "{$this->identifier()} TIMESTAMP{$this->gdoNullDefine()}{$this->gdoInitialDefine()}";
+		return "{$this->identifier()} DATETIME{$this->gdoNullDefine()}{$this->gdoInitialDefine()}";
 	}
 }

@@ -73,7 +73,7 @@ class GDODB
 		{
 			if (GWF5::instance()->isFullPageRequest())
 			{
-				printf("<!-- #%d took %.04f : %s -->\n", self::$QUERIES, $timeTaken, $query);
+				printf("<!- #%d took %.04f : %s -->\n", self::$QUERIES, $timeTaken, $query);
 			}
 			$timeTaken = sprintf('%.04f', $timeTaken);
 			GWF_Log::log('queries', "#" . self::$QUERIES . ": ($timeTaken) ".$query, GWF_Log::DEBUG);
