@@ -1,2 +1,2 @@
 "use strict";
-angular.module('gwf5', ['ngMaterial', 'ngSanitize', 'ui.router', 'flow']);
+angular.module('gwf5', ['ngMaterial', 'ngSanitize', 'ui.router', 'flow', 'lfNgMdFileInput']);

@@ -2,6 +2,8 @@
 return array(
 'form_title_register' => 'Sign up with %s',
 'btn_register' => 'Sign up',
+'err_username_taken' => 'This username is already in use.',
+'err_email_signup_max_reached' => 'This email is used on the max of %s accounts already.',
 'err_register' => 'The sign up process failed.',
 'err_no_activation' => 'Activating your account failed.',
 'tos_label' => 'I have read and agree to the <a href="%s">Terms of Service</a>',

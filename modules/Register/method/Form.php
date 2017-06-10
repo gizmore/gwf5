@@ -6,10 +6,9 @@ class Register_Form extends GWF_MethodForm
 		return t('page_title_register');
 	}
 
-	public function createForm()
+	public function createForm(GWF_Form $form)
 	{
 		$module = Module_Register::instance();
-		$form = new GWF_Form();
 		$form->title('form_title_register', [GWF5::instance()->getSiteName()]);
 		$form->addField(GDO_Validator::make('validator1')->validator(array($this, 'validateUniqueIP')));
 		$form->addField(GDO_Username::make('user_name')->required()->validator(array($this, 'validateUniqueUsername')));
@@ -28,7 +27,6 @@ class Register_Form extends GWF_MethodForm
 		}
 		$form->addField(GDO_Submit::make()->label('btn_register'));
 		$form->addField(GDO_AntiCSRF::make());
-		return $form;
 	}
 	
 	function validateUniqueIP(GDO_Validator $field)
@@ -50,7 +48,7 @@ class Register_Form extends GWF_MethodForm
 	{
 		$count = GWF_User::table()->countWhere("user_email={$email->quotedValue()}");
 		$max = Module_Register::instance()->cfgMaxUsersPerMail();
-		return $count < $max ? true :  $email->error('err_email_signup_max_reached', [$max]);
+		return $count < $max ? true : $email->error('err_email_signup_max_reached', [$max]);
 	}
 	
 	public function formInvalid(GWF_Form $form)

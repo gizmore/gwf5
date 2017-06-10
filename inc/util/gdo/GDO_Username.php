@@ -31,6 +31,6 @@ class GDO_Username extends GDO_String
 		$tVars = array(
 			'field' => $this,
 		);
-		return GWF_Template::templateMain('form/username.php', $tVars);
+		return GWF_Template::mainPHP('form/username.php', $tVars);
 	}
 }

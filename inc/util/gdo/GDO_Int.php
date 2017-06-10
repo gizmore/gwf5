@@ -92,7 +92,7 @@ class GDO_Int extends GDOType
 	
 	public function render()
 	{
-		return GWF_Template::templateMain('form/int.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('form/int.php', ['field'=>$this]);
 	}
 
 	public function renderCell()

@@ -17,8 +17,9 @@ final class GWF5
 	
 	private $response;
 	
+	public function getTheme() { return GWF_THEME; }
 	public function getSiteName() { return t('site_name'); }
-
+	
 	public function getFormat() { return Common::getRequestString('fmt', 'html'); }
 	public function isHTML() { return $this->getFormat() === 'html'; }
 	public function isJSON() { return $this->getFormat() === 'json'; }
@@ -114,7 +115,7 @@ final class GWF5
 						'response' => $this->response($response),
 						'method' => $method,
 					);
-					return GWF_Template::templateMain('index.php', $tVars);
+					return GWF_Template::mainPHP('index.php', $tVars);
 				}
 		}
 	}

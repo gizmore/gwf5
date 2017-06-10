@@ -264,6 +264,11 @@ abstract class GDO
 		return $this->query()->select($columns)->from($this->gdoTableIdentifier());
 	}
 	
+	public function deleteWhere(string $condition)
+	{
+		return $this->query()->delete($this->gdoTableIdentifier())->where($condition);
+	}
+	
 	public function delete()
 	{
 		if ($this->persisted)
@@ -512,6 +517,16 @@ abstract class GDO
 	public static function getBy(string $key, string $value)
 	{
 		return self::table()->findWhere(self::quoteIdentifierS($key) . '=' . self::quoteS($value));
+	}
+	
+	/**
+	 * Get a row by auto inc column. 
+	 * @param string $id
+	 * @return self
+	 */
+	public static function getById($id)
+	{
+		return self::getBy(self::table()->gdoAutoIncColumn()->name, $id);
 	}
 	
 	#############

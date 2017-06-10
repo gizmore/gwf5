@@ -46,11 +46,11 @@ class Module_Register extends GWF_Module
 	################
 	### Top Menu ###
 	################
-	public function onLoadTopMenu(GWF_TopMenu $topMenu)
+	public function onRenderFor(GWF_Navbar $navbar)
 	{
-		if (GWF_Session::user()->isGhost())
+		if ($navbar->isRight() && GWF_Session::user()->isGhost())
 		{
-			$topMenu->addField(GDO_Button::make('signup')->label('btn_register')->href($this->getMethodHREF('Form')));
+			$navbar->addField(GDO_Button::make('signup')->label('btn_register')->href($this->getMethodHREF('Form')));
 		}
 	}
 }

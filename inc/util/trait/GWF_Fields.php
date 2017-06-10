@@ -18,8 +18,17 @@ trait GWF_Fields
 	 */
 	public function addField(GDOType $field)
 	{
-		$this->fields[] = $field;
+		$this->fields[$field->name] = $field;
 		return $this;
+	}
+	
+	/**
+	 * @param string $name
+	 * @return GDOType
+	 */
+	public function getField(string $name)
+	{
+		return $this->fields[$name];
 	}
 	
 		/**

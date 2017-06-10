@@ -1,5 +1,7 @@
 <?php
 /**
+ * GWF Template Engine.
+ * 
  * @author gizmore
  * @version 5.0
  * @since 1.0
@@ -8,18 +10,36 @@ final class GWF_Template
 {
 	protected static $MODULE_FILE = NULL;
 	
-	public static function getDesign() { return GWF_THEME; }
-	private static function pathError(string $path) { return GWF_Response::error('err_file', array(htmlspecialchars(str_replace('%DESIGN%', 'default', $path)))); }
+	public static function getDesign() { return GWF5::instance()->getTheme(); }
+	private static function pathError(string $path) { return GWF_Error::error('err_file', array(htmlspecialchars(str_replace('%DESIGN%', 'default', $path)))); }
 	
+	#####################
+	### PHP Templates ###
+	#####################
 	/**
-	 * Get template from theme folder.
+	 * PHP Template inside the main theme folder.
 	 * @param string $file
 	 * @param array $tVars
 	 * @return GWF_Response
 	 */
-	public static function templateMain(string $file, array $tVars=null)
+	public static function mainPHP(string $file, array $tVars=null)
 	{
-		return self::templatePHP("theme/%DESIGN%/$file", $tVars);
+		return self::php("theme/%DESIGN%/$file", $tVars);
+	}
+	
+	/**
+	 * Template inside modules, or overriden in theme.
+	 * 
+	 * @param string $moduleName
+	 * @param string $file
+	 * @param array $tVars
+	 * @return GWF_Response
+	 */
+	public static function modulePHP(string $moduleName, string $file, array $tVars=null)
+	{
+		self::$MODULE_FILE = $file;
+		$path = GWF_PATH . 'themes/%DESIGN%/module/' . $moduleName . '/' . self::$MODULE_FILE;
+		return self::php($path, $tVars, $moduleName);
 	}
 	
 	/**
@@ -27,7 +47,7 @@ final class GWF_Template
 	 * @param $path path to template file
 	 * @return GWF_Response
 	 */
-	private static function templatePHP(string $path, array $tVars=null, string $moduleName=null)
+	private static function php(string $path, array $tVars=null, string $moduleName=null)
 	{
 		if (!($path2 = self::getPath($path, $moduleName)))
 		{
@@ -41,26 +61,57 @@ final class GWF_Template
 			}
 		}
 		ob_start();
-		require $path2;
+		include $path2;
 		$back = ob_get_contents();
 		ob_end_clean();
 		return new GWF_Response($back);
 	}
 	
+	########################
+	### Static Templates ###
+	########################
 	/**
-	 * 
+	 * Static file inside the main theme folder.
+	 * @param string $file
+	 * @param array $tVars
+	 * @return string
+	 */
+	public static function mainFile(string $file)
+	{
+		return self::file("theme/%DESIGN%/$file");
+	}
+	
+	/**
+	 * Static file inside modules, or overriden in theme.
 	 * @param string $moduleName
 	 * @param string $file
 	 * @param array $tVars
-	 * @return GWF_Response
+	 * @return string
 	 */
-	public static function moduleTemplatePHP(string $moduleName, string $file, array $tVars=null)
+	public static function moduleFile(string $moduleName, string $file)
 	{
 		self::$MODULE_FILE = $file;
-		$path = GWF_PATH.'themes/%DESIGN%/module/'.$moduleName.'/'.self::$MODULE_FILE;
-		return self::templatePHP($path, $tVars, $moduleName);
+		$path = GWF_PATH . 'themes/%DESIGN%/module/' . $moduleName . '/' . self::$MODULE_FILE;
+		return self::file($path, $moduleName);
 	}
 	
+	/**
+	 * Get file contents of a file inside template dir hierarchy
+	 * @param string $path path to template file
+	 * @return string
+	 */
+	private static function file(string $path, string $moduleName=null)
+	{
+		if (!($path2 = self::getPath($path, $moduleName)))
+		{
+			return self::pathError($path);
+		}
+		return new GWF_Response(file_get_contents($path2));
+	}
+	
+	#########################
+	### Path substitution ###
+	#########################
 	/**
 	 * Get the Path for the GWF Design if the file exists
 	 * @param string $path templatepath
@@ -70,7 +121,7 @@ final class GWF_Template
 	{
 		// Try custom theme first.
 		$path1 = str_replace('%DESIGN%', self::getDesign(), $path);
-		if (file_exists($path1))
+		if (is_file($path1))
 		{
 			return $path1;
 		}
@@ -80,11 +131,11 @@ final class GWF_Template
 		{
 			$path1 = GWF_PATH.'modules/'.$moduleName.'/tpl/'.self::$MODULE_FILE;
 		}
-		else // or default theme on main templates.
+		else // or default theme on parent template.
 		{
-			$path1 = str_replace('%DESIGN%', 'default', $path);
+			$path1 = str_replace('%DESIGN%', GWF_PARENT_THEME, $path);
 		}
-		if (file_exists($path1))
+		if (is_file($path1))
 		{
 			return $path1;
 		}
@@ -92,4 +143,3 @@ final class GWF_Template
 		return false;
 	}
 }
-

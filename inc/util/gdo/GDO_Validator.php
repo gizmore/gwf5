@@ -9,6 +9,6 @@ class GDO_Validator extends GDOType
 		$tVars = array(
 			'field' => $this,
 		);
-		return GWF_Template::templateMain('form/validator.php', $tVars);
+		return GWF_Template::mainPHP('form/validator.php', $tVars);
 	}
 }

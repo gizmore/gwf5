@@ -23,13 +23,13 @@ class GDO_Button extends GDO_Label
 	
 	public function render()
 	{
-		return GWF_Template::templateMain('form/button.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('form/button.php', ['field'=>$this]);
 	}
 	
 	public function renderCell()
 	{
 		$href = call_user_func(array($this->gdo, 'href_'.$this->name));
-		return GWF_Template::templateMain('cell/button.php', ['field'=>$this, 'href'=>$href])->getHTML();
+		return GWF_Template::mainPHP('cell/button.php', ['field'=>$this, 'href'=>$href])->getHTML();
 	}
 
 	public function displayHeaderLabel()

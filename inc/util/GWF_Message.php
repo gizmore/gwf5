@@ -8,7 +8,7 @@ class GWF_Message extends GWF_Response
 		{
 			GWF_Log::logMessage(GWF_Trans::tiso('en', $key, $args));
 		}
-		$this->html = GWF_Template::templateMain('message.php', ['response'=>$this]);
+		$this->html = GWF_Template::mainPHP('message.php', ['response'=>$this]);
 	}
 	
 }

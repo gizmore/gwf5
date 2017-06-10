@@ -22,6 +22,12 @@ abstract class GWF_MethodForm extends GWF_Method
 	public function execute()
 	{
 		$this->form = $this->getForm();
+		
+		if ($flowField = Common::getRequestString('flowField'))
+		{
+			return $this->form->flowUpload($flowField);
+		}
+		
 		if (isset($_REQUEST['submit']))
 		{
 			if ($this->form->validate())
@@ -33,6 +39,7 @@ abstract class GWF_MethodForm extends GWF_Method
 				return $this->formInvalid($this->form);
 			}
 		}
+		
 		return $this->renderPage();
 	}
 	

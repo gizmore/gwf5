@@ -26,14 +26,16 @@ class Module_GWF extends GWF_Module
 		GWF_Javascript::addBowerJavascript("jquery/dist/jquery$min.js");
 		GWF_Javascript::addBowerJavascript("bootstrap/dist/js/bootstrap$min.js");
 		GWF_Website::addBowerCSS("bootstrap/dist/css/bootstrap$min.css");
-		GWF_Javascript::addBowerJavascript("datatables.net/js/jquery.dataTables$min.js");
-		GWF_Javascript::addBowerJavascript("datatables.net-bs/js/dataTables.bootstrap$min.js");
-		GWF_Website::addBowerCSS("datatables.net-bs/css/dataTables.bootstrap$min.css");
+// 		GWF_Javascript::addBowerJavascript("datatables.net/js/jquery.dataTables$min.js");
+// 		GWF_Javascript::addBowerJavascript("datatables.net-bs/js/dataTables.bootstrap$min.js");
+// 		GWF_Website::addBowerCSS("datatables.net-bs/css/dataTables.bootstrap$min.css");
 		# Angular
 		GWF_Javascript::addBowerJavascript("angular/angular$min.js");
 		# Flow
 		GWF_Javascript::addBowerJavascript("flow.js/dist/flow$min.js");
 		GWF_Javascript::addBowerJavascript("ng-flow/dist/ng-flow$min.js");
+		GWF_Javascript::addBowerJavascript("lf-ng-md-file-input/dist/lf-ng-md-file-input$min.js");
+		GWF_Website::addBowerCSS("lf-ng-md-file-input/dist/lf-ng-md-file-input$min.css");
 		# Material
 		GWF_Javascript::addBowerJavascript("angular-animate/angular-animate$min.js");
 		GWF_Javascript::addBowerJavascript("angular-aria/angular-aria$min.js");

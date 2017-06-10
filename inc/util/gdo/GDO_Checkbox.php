@@ -20,12 +20,12 @@ class GDO_Checkbox extends GDO_Bool
 	
 	public function render()
 	{
-		return GWF_Template::templateMain('form/checkbox.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('form/checkbox.php', ['field'=>$this]);
 	}
 	
 	public function renderCell()
 	{
-		return GWF_Template::templateMain('cell/checkbox.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('cell/checkbox.php', ['field'=>$this]);
 	}
 	
 	public function validate($value)

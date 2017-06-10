@@ -50,6 +50,6 @@ final class GWF_Navbar
 			'navbar' => $this,
 			'fields' => $this->getFields(),
 		);
-		return GWF_Template::templateMain('navbar.php', $tVars);
+		return GWF_Template::mainPHP('navbar.php', $tVars);
 	}
 }

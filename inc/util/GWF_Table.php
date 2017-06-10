@@ -138,6 +138,6 @@ class GWF_Table extends GWF_Response
 			'headers' => $this->headers,
 			'pagemenu' => $this->pagemenu,
 		);
-		return GWF_Template::templateMain(self::$MODE_TPL[$this->mode], $tVars);
+		return GWF_Template::mainPHP(self::$MODE_TPL[$this->mode], $tVars);
 	}
 }

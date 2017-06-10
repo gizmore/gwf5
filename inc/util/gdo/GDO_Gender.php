@@ -18,7 +18,7 @@ class GDO_Gender extends GDO_Char
 	##############
 	public function render()
 	{
-		return GWF_Template::templateMain('form/gender.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('form/gender.php', ['field'=>$this]);
 	}
 
 	public function displayMaleLabel() { return t('male'); }

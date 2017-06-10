@@ -134,17 +134,26 @@ class GWF_Module extends GDO
 	public function filePath(string $path='') { return GWF_PATH . 'modules/' . $this->getName() . '/' . $path; }
 	public function wwwPath(string $path='') { return '/modules/' . $this->getName() . '/' . $path; }
 	public function includeClass(string $class) { require $this->filePath("$class.php"); }
-	public function template(string $file, array $tVars=null)
+	
+	#################
+	### Templates ###
+	#################
+	/**
+	 * @param string $file
+	 * @param array $tVars
+	 * @return GWF_Response
+	 */
+	public function templatePHP(string $file, array $tVars=null)
 	{
 		switch (GWF5::instance()->getFormat())
 		{
 			case 'json': return new GWF_Response($tVars);
-			case 'html': default: return GWF_Template::moduleTemplatePHP($this->getName(), $file, $tVars);
+			case 'html': default: return GWF_Template::modulePHP($this->getName(), $file, $tVars);
 		}
 	}
+	public function templateFile(string $file) { return GWF_Template::moduleFile($this->getName(), $file); }
 	public function error(string $key, array $args=null) { return new GWF_Error($key, $args); }
 	public function message(string $key, array $args=null) { return new GWF_Message($key, $args); }
-	
 	
 	############
 	### Init ###

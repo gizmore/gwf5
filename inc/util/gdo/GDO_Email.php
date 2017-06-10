@@ -11,7 +11,7 @@ class GDO_Email extends GDO_String
 		$tVars = array(
 			'field' => $this,
 		);
-		return GWF_Template::templateMain('form/email.php', $tVars);
+		return GWF_Template::mainPHP('form/email.php', $tVars);
 	}
 	
 	public function renderCell()

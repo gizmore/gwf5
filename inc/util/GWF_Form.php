@@ -95,7 +95,7 @@ class GWF_Form
 		return $this->values[$key];
 	}
 	
-	public function addValue(string $key, $value)
+	public function addValue(string $key=null, $value)
 	{
 		if (!$this->values)
 		{
@@ -127,7 +127,7 @@ class GWF_Form
 			'method' => $this->method,
 			'enctype' => $this->enctype,
 		);
-		return GWF_Template::templateMain('form.php', $tVars);
+		return GWF_Template::mainPHP('form.php', $tVars);
 	}
 
 	private function renderJSON()
@@ -148,4 +148,11 @@ class GWF_Form
 		return $json;
 	}
 	
+	##############
+	### Upload ###
+	##############
+	public function flowUpload(string $flowField)
+	{
+		$this->getField($flowField)->flowUpload();
+	}
 }

@@ -12,6 +12,6 @@ class GDO_Submit extends GDOType
 	
 	public function render()
 	{
-		return GWF_Template::templateMain('form/submit.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('form/submit.php', ['field'=>$this]);
 	}
 }

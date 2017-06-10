@@ -86,7 +86,7 @@ class GWF_PageMenu
 			'pagemenu' => $this,
 			'pages' => $this->pagesObject(),
 		);
-		return GWF_Template::templateMain('pagemenu.php', $tVars);
+		return GWF_Template::mainPHP('pagemenu.php', $tVars);
 	}
 	
 	

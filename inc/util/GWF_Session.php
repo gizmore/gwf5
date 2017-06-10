@@ -173,7 +173,7 @@ class GWF_Session extends GDO
 		return "{$this->getID()}-{$this->getToken()}";
 	}
 	
-	private function cookieSecure()
+	private static function cookieSecure()
 	{
 		return false; # TODO: Evaluate protocoll and OR with setting.
 	}

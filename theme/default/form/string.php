@@ -9,5 +9,5 @@
    <?php echo $field->htmlRequired(); ?>
    <?php echo $field->htmlPattern(); ?>
    <?php echo $field->htmlDisabled(); ?>/>
+  <div class="gwf-form-error"><?php echo $field->displayError(); ?></div>
 </md-input-container>
-<div class="gwf-form-error"><?php echo $field->displayError(); ?></div>

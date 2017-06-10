@@ -4,10 +4,13 @@
 /.project
 /.tern-project
 
-/protected/
 
+/protected/
 /bower_components/
+/dbimg/
+/temp/
 
 
 /modules/IP2Country/
 /modules/Avatar/
+

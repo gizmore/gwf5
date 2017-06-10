@@ -13,7 +13,7 @@ class GDO_Binary extends GDOType
 
 	public function render()
 	{
-		return GWF_Template::templateMain('form/binary.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('form/binary.php', ['field'=>$this]);
 	}
 
 }

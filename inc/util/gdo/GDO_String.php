@@ -56,14 +56,14 @@ class GDO_String extends GDOType
 		$tVars = array(
 			'field' => $this,
 		);
-		return GWF_Template::templateMain('form/string.php', $tVars);
+		return GWF_Template::mainPHP('form/string.php', $tVars);
 	}
 	
-	public function formValue()
-	{
-		$value = parent::formValue();
-		return $value ? GWF_String::utf8($value) : $value;
-	}
+// 	public function formValue()
+// 	{
+// 		$value = parent::formValue();
+// 		return $value ? GWF_String::utf8($value) : $value;
+// 	}
 	
 	public function validate($value)
 	{

@@ -6,8 +6,9 @@
    ng-init="data.cbx=<?php echo $field->formValue() > 0 ? 'true':'false'; ?>"
    ng-change="cbxChanged('#<?php echo $id; ?>');"
    ng-model="data.cbx"><?php echo $field->displayLabel(); ?></md-checkbox>
+  <div class="form-error"><?php echo $field->displayError(); ?></div>
 </md-input-container>
-<div class="form-error"><?php echo $field->displayError(); ?></div>
+<!-- HIDDEN CHECKBOX -->
 <input
  class="n"
  type="checkbox"
@@ -15,3 +16,5 @@
  name="form[<?php echo $field->name; ?>]"
  <?php echo $field->htmlChecked(); ?>
  <?php echo $field->htmlDisabled(); ?>></input>
+<!-- END HIDDEN CHECKBOX -->
+ 

@@ -36,7 +36,7 @@ class GDO_Password extends GDO_String
 	
 	public function render()
 	{
-		return GWF_Template::templateMain('form/password.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('form/password.php', ['field'=>$this]);
 	}
 	
 	public function validate($value)

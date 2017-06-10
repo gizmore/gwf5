@@ -241,26 +241,8 @@ abstract class GDOType
 	
 	public function displayFormValue()
 	{
-		$value = $this->formValue();
-		return $value ? GWF_HTML::escape($value) : '';
+		return GWF_HTML::escape($this->formValue());
 	}
-	
-// 	public function gdoDisplay(GDO $gdo, $value)
-// 	{
-// 		if ($value === null)
-// 		{
-// 			return "<i>null</i>";
-// 		}
-// 		if ($value === false)
-// 		{
-// 			return "<i>false</i>";
-// 		}
-// 		if ($value === true)
-// 		{
-// 			return "<i>true</i>";
-// 		}
-// 		return GWF_HTML::escape($value);
-// 	}
 	
 	public function quotedValue()
 	{
@@ -446,4 +428,9 @@ abstract class GDOType
 	{
 		return true;
 	}
+
+	###################
+	### Flow upload ###
+	###################
+	public function flowUpload() {}
 }

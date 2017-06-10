@@ -12,4 +12,15 @@ controller('GWFCbxCtrl', function($scope) {
 			jQuery(cbxName).removeAttr('checked'); 
 		}
 	};
+}).
+controller('GWFSelectCtrl', function($scope) {
+	$scope.init = function(selector, selection) {
+		$scope.data.selector = selector;
+		$scope.data.selection = selection;
+		$scope.valueSelected();
+	}
+	$scope.valueSelected = function() {
+		console.log('GWFSelectCtrl.valueSelected()', $scope.data.selection);
+		$($scope.data.selector).val($scope.data.selection);
+	};
 });

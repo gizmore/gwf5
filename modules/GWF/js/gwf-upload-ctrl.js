@@ -1,7 +1,6 @@
 'use strict';
 angular.module('gwf5').
 controller('GWFUploadCtrl', function($scope, $http) {
-	
 	$scope.data.transfer = {
 		fileNum: 0,
 		filesCount: 0,
@@ -12,8 +11,25 @@ controller('GWFUploadCtrl', function($scope, $http) {
 		inProgress: false,
 	};
 	
-	$scope.initGWFFormConfig = function(config) {
-		console.log('UploadCtrl.initGWFFormConfig()', config);
+	$scope.lfFilesChanged = function($event) {
+		console.log('UploadCtrl.lfFilesChanged()', $event, $scope.data, $scope.$flow);
+		var files = [];
+		var keep = [];
+		for (var i in $scope.data.lfFiles) {
+			var lfFile = $scope.data.lfFiles[i];
+			if ($scope.isValidFile(lfFile.lfFile)) {
+				files.push(lfFile.lfFile);
+				keep.push(lfFile);
+			}
+		}
+		$scope.data.lfFiles = keep;
+		setTimeout(function(){
+			$scope.$flow.addFiles(files, $event);
+		}, 1);
+	};
+	
+	$scope.initGWFConfig = function(config) {
+		console.log('UploadCtrl.initGWFConfig()', config);
 		$scope.data.config = config;
 	};
 	
@@ -21,7 +37,7 @@ controller('GWFUploadCtrl', function($scope, $http) {
 		console.log('UploadCtrl.onFlowSubmitted()', $flow);
 		var acceptedFiles = [];
 		for (var i in $flow.files) {
-			if ($scope.isValidFile($flow.files[i])) {
+			if ($scope.isValidFile($flow.files[i].file)) {
 				acceptedFiles.push($flow.files[i]);
 			}
 		}
@@ -31,13 +47,13 @@ controller('GWFUploadCtrl', function($scope, $http) {
 	
 	$scope.isValidFile = function($file) {
 		console.log('UploadCtrl.isValidFile()', $file, $scope.data.config);
-		var maxSize = $scope.data.config.maxSize;
-		var mimeTypes = $scope.data.config.mimeTypes;
+		var maxSize = $scope.data.config.maxsize;
+		var mimeTypes = $scope.data.config.mimes;
 		if ($file.size > maxSize) {
 			$scope.denyFile($file, 'Max size exceeded.');
 		}
-		else if ((mimeTypes.indexOf($file.file.type) < 0) && (mimeTypes.length > 0)) {
-			$scope.denyFile($file, 'Invalid mime type.');
+		else if ((mimeTypes.indexOf($file.type) < 0) && (mimeTypes.length > 0)) {
+			$scope.denyFile($file, 'Invalid mime type: '+$file.type);
 		}
 		else {
 			return true;

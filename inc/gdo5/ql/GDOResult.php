@@ -76,9 +76,18 @@ class GDOResult
 	 */
 	public function fetchObject()
 	{
+		return $this->fetchAs($this->table);
+	}
+	
+	/**
+	 * @param GDO $table
+	 * @return GDO
+	 */
+	public function fetchAs(GDO $table)
+	{
 		if ($gdoData = $this->fetchAssoc())
 		{
-			return $this->table->initCached($gdoData);
+			return $table->initCached($gdoData);
 		}
 	}
 

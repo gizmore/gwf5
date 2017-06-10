@@ -20,7 +20,7 @@ class GDO_Decimal extends GDO_Int
 	
 	public function render()
 	{
-		return GWF_Template::templateMain('form/decimal.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('form/decimal.php', ['field'=>$this]);
 	}
 	
 	public function getGDOValue()

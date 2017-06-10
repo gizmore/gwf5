@@ -1,7 +1,7 @@
 <?php
 class GWF_HTML
 {
-	public static function escape(string $s=null) { return $s ? htmlspecialchars($s) : ''; }
+	public static function escape(string $s=null) { return $s === null ? '' : htmlspecialchars($s); }
 	
 	public static function anchor(string $href, string $text=null)
 	{

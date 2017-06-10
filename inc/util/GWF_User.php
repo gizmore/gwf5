@@ -50,6 +50,7 @@ final class GWF_User extends GDO
 	public function isGhost() { return $this->getType() === 'ghost'; }
 	public function isGuest() { return $this->getType() === 'guest'; }
 	public function isMember() { return $this->getType() === 'member'; }
+	public function getGender() { return $this->getVar('user_gender'); }
 	
 	###############
 	### Display ###

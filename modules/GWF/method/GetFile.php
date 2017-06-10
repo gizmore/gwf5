@@ -1,8 +1,22 @@
 <?php
+/**
+ * Server a file from partially db(meta) and fs.
+ * @author gizmore
+ */
 final class GWF_GetFile extends GWF_Method
 {
+	public function getPermission() { return 'admin'; }
+	
 	public function execute()
 	{
-		
+		if (!($file = GWF_File::getById(Common::getRequestInt('file'))))
+		{
+			return $this->error('err_unknown_file', null, 404);
+		}
+		if (!GWF_File::isFile($file->getPath()))
+		{
+			return $this->error('err_file_not_found', [htmlspecialchars($file->getPath())]);
+		}
+		GWF_Stream::serve($file);
 	}
 }

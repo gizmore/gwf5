@@ -101,7 +101,7 @@ class GDO_AntiCSRF extends GDOType
 	##############
 	public function render()
 	{
-		return GWF_Template::templateMain('form/csrf.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('form/csrf.php', ['field'=>$this]);
 	}
 	
 	public function jsonFormValue()
