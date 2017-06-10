@@ -1,15 +1,10 @@
 <?php
 class Register_Form extends GWF_MethodForm
 {
-	public function title()
-	{
-		return t('page_title_register');
-	}
-
 	public function createForm(GWF_Form $form)
 	{
 		$module = Module_Register::instance();
-		$form->title('form_title_register', [GWF5::instance()->getSiteName()]);
+		$this->title('form_title_register', [GWF5::instance()->getSiteName()]);
 		$form->addField(GDO_Validator::make('validator1')->validator(array($this, 'validateUniqueIP')));
 		$form->addField(GDO_Username::make('user_name')->required()->validator(array($this, 'validateUniqueUsername')));
 		$form->addField(GDO_Password::make('user_password')->required()->hash());

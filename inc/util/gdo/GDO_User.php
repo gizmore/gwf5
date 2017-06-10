@@ -5,4 +5,26 @@ final class GDO_User extends GDO_Object
 	{
 		$this->klass = 'GWF_User';
 	}
+	
+	##################
+	### Completion ###
+	##################
+	public $completion;
+	public function completion()
+	{
+		$this->completion = true;
+		return $this;
+	}
+	
+	##############
+	### Exists ###
+	##############
+	public $exists;
+	public function exists()
+	{
+		$this->exists= true;
+		return $this;
+	}
+	
+	
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><?php echo $method->title(); ?></title>
+    <title><?php echo $method->title; ?></title>
     <link href="/theme/default/css/gwf5.css" rel="stylesheet" />
     <link href="/theme/default/css/gwf5-darkness.css" rel="stylesheet" />
     <?php echo GWF_Website::displayLink(); ?>

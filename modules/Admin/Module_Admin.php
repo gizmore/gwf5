@@ -13,11 +13,10 @@ class Module_Admin extends GWF_Module
 	###############
 	public function onRenderFor(GWF_Navbar $navbar)
 	{
-		if ( ($navbar->isRight()) && ((GWF_User::current()->isAdmin())) )
+		if ($navbar->isRight() && GWF_User::current()->isAdmin())
 		{
-			$navbar->addField(GDO_Button::make()->label('menu_admin')->href($this->getMethodHREF('Modules')));
+			$navbar->addField(GDO_Button::make('btn_admin')->label('btn_admin')->href($this->getMethodHREF('Modules')));
 		}
-		
 	}
 	
 }

@@ -24,6 +24,16 @@ class GDO_Username extends GDO_String
 	}
 	
 	##############
+	### Exists ###
+	##############
+	public $exists;
+	public function exists()
+	{
+		$this->exists= true;
+		return $this;
+	}
+	
+	##############
 	### Render ###
 	##############
 	public function render()
@@ -32,5 +42,27 @@ class GDO_Username extends GDO_String
 			'field' => $this,
 		);
 		return GWF_Template::mainPHP('form/username.php', $tVars);
+	}
+	
+	################
+	### Validate ###
+	################
+	public function validate($value)
+	{
+		# Check existance
+		if ($this->exists)
+		{
+			if ($user = GWF_User::getByName($value))
+			{
+				$this->gdo = $user;
+				return true;
+			}
+			else
+			{
+				return $this->error('err_user');
+			}
+		}
+		# Check name pattern validity
+		return parent::validate($value);
 	}
 }

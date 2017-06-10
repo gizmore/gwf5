@@ -34,7 +34,7 @@ class GDODB
 	 */
 	private static $COLUMNS = [];
 	
-	public function __construct(string $host, string $user, string $pass, string $db, $debug=false)
+	public function __construct(string $host, string $user, string $pass, string $db, bool $debug=false)
 	{
 		self::$INSTANCE = $this;
 		$this->debug = $debug;
@@ -71,6 +71,10 @@ class GDODB
 		self::$QUERY_TIME += $timeTaken;
 		if ($this->debug)
 		{
+			if (GWF5::instance()->isFullPageRequest())
+			{
+				printf("<!-- #%d took %.04f : %s -->\n", self::$QUERIES, $timeTaken, $query);
+			}
 			$timeTaken = sprintf('%.04f', $timeTaken);
 			GWF_Log::log('queries', "#" . self::$QUERIES . ": ($timeTaken) ".$query, GWF_Log::DEBUG);
 		}
@@ -80,6 +84,11 @@ class GDODB
 	public function insertId()
 	{
 		return mysqli_insert_id($this->link);
+	}
+	
+	public function affectedRows()
+	{
+		return mysqli_affected_rows($this->link);
 	}
 	
 	###################

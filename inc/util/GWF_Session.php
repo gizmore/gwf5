@@ -30,6 +30,8 @@ class GWF_Session extends GDO
 	public function getID() { return $this->getVar('sess_id'); }
 	public function getToken() { return $this->getVar('sess_token'); }
 	public function getUser() { return $this->getValue('sess_user'); }
+	public function getIP() { return $this->getValue('sess_ip'); }
+	public function getTime() { return $this->getValue('sess_time'); }
 	public function getData() { return $this->getValue('sess_data'); }
 	
 	/**
@@ -141,7 +143,7 @@ class GWF_Session extends GDO
 		return $session;
 	}
 	
-	private static function reload(string $cookieValue, $cookieIP=true)
+	private static function reload(string $cookieValue)
 	{
 		list($sessId, $sessToken) = @explode('-', $cookieValue, 2);
 		$query = self::table()->select('*')->where(sprintf('sess_id=%s AND sess_token=%s', GDO::quoteS($sessId), GDO::quoteS($sessToken)));
@@ -150,7 +152,8 @@ class GWF_Session extends GDO
 			return false;
 		}
 		
-		if (!$session->ipCheck($cookieIP))
+		# IP Check?
+		if ( ($ip = $session->getIP()) && ($ip !== GDO_IP::current()) )
 		{
 			return false;
 		}

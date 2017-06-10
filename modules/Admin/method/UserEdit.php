@@ -1,6 +1,8 @@
 <?php
 class Admin_UserEdit extends GWF_MethodForm
 {
+	use GWF_MethodAdmin;
+	
 	private $user;
 	
 	public function execute()
@@ -9,7 +11,7 @@ class Admin_UserEdit extends GWF_MethodForm
 		{
 			return $this->error('err_user')->add($this->execMethod('Users'));
 		}
-		return parent::execute();
+		return $this->renderNavBar()->add(parent::execute());
 	}
 	
 	public function createForm(GWF_Form $form)

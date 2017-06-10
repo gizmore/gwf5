@@ -8,10 +8,11 @@ abstract class GWF_Method
 		$this->module = $module;
 	}
 	
-	public function getName()
-	{
-		return GWF_String::substrFrom(get_called_class(), '_');
-	}
+	##############
+	### Helper ###
+	##############
+	public function getSiteName() { return GWF5::instance()->getSiteName(); }
+	public function getName() { return GWF_String::substrFrom(get_called_class(), '_'); }
 
 	################
 	### Override ###
@@ -31,9 +32,11 @@ abstract class GWF_Method
 	###########
 	### SEO ###
 	###########
-	public function title()
+	public $title;
+	public function title(string $key, array $args=null)
 	{
-		return GWF5::instance()->getSiteName();
+		$this->title = t($key, $args);
+		return $this;
 	}
 	
 	##############

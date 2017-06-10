@@ -4,7 +4,12 @@ class GWF_Response
 	protected $html;
 	protected $error;
 	
-	public function __construct($html='', $error=false)
+	public static function make($html)
+	{
+		return new self($html);
+	}
+	
+	public function __construct($html, $error=false)
 	{
 		$this->html = $html;
 		$this->error = $error;

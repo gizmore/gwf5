@@ -75,13 +75,6 @@ abstract class GDO
 	{
 		$columns = $this->gdoColumnsCache();
 		return $columns[$key];
-// 		foreach ($this->gdoColumnsCache() as $column)
-// 		{
-// 			if ($column->name === $key)
-// 			{
-// 				return $column;
-// 			}
-// 		}
 	}
 	
 	/**
@@ -97,23 +90,6 @@ abstract class GDO
 		return @$this->gdoVars[$key];
 	}
 	
-// 	public function display(string $key)
-// 	{
-// 		if ($column = $this->gdoColumn($key))
-// 		{
-// 			return $column->gdoDisplay($this, $this->getVar($key));
-// 		}
-// 		$method_name = 'display_' . $key;
-// 		if (method_exists($this, $method_name))
-// 		{
-// 			return call_user_func(array($this, $method_name));
-// 		}
-// 		else
-// 		{
-// 			return GWF_Error::error('err_missing_display_function', [$this->gdoClassName(), $method_name]);
-// 		}
-// 	}
-
 	public function setVar(string $key, $value, $markDirty=true)
 	{
 		$this->gdoVars[$key] = $value;
@@ -235,18 +211,18 @@ abstract class GDO
 	 * @return self
 	 * @see GDO_AutoInc
 	 */
-	public function find(string $id = null)
+	public function find(string $id=null)
 	{
-		return $this->findWhere($this->gdoAutoIncColumn()->identifier() . ' = ' . GDO::quoteS($id));
+		return $id ? $this->getById($id) : null;
 	}
 	
 	/**
 	 * @param string $where
 	 * @return int
 	 */
-	public function countWhere(string $where)
+	public function countWhere(string $condition)
 	{
-		$result = $this->query()->select("COUNT(*)")->from($this->gdoTableIdentifier())->where($where)->exec()->fetchRow();
+		$result = $this->query()->select("COUNT(*)")->from($this->gdoTableIdentifier())->where($condition)->exec()->fetchRow();
 		return $result[0];
 	}
 	
@@ -254,9 +230,9 @@ abstract class GDO
 	 * @param string $where
 	 * @return self
 	 */
-	public function findWhere(string $where)
+	public function findWhere(string $condition)
 	{
-		return $this->query()->select('*')->from($this->gdoTableIdentifier())->where($where)->first()->exec()->fetchObject();
+		return $this->query()->select('*')->from($this->gdoTableIdentifier())->where($condition)->first()->exec()->fetchObject();
 	}
 	
 	public function select(string $columns='*')
@@ -264,6 +240,10 @@ abstract class GDO
 		return $this->query()->select($columns)->from($this->gdoTableIdentifier());
 	}
 	
+	/**
+	 * @param string $condition
+	 * @return GDOQuery
+	 */
 	public function deleteWhere(string $condition)
 	{
 		return $this->query()->delete($this->gdoTableIdentifier())->where($condition);
@@ -282,10 +262,6 @@ abstract class GDO
 	
 	public function replace()
 	{
-		if (!$this->persisted)
-		{
-			return $this->insert();
-		}
 		$this->query()->replace($this->gdoTableIdentifier())->values($this->getDirtyVars())->exec();
 		$this->dirty = false;
 		$this->persisted = true;
@@ -526,7 +502,15 @@ abstract class GDO
 	 */
 	public static function getById($id)
 	{
-		return self::getBy(self::table()->gdoAutoIncColumn()->name, $id);
+		$table = self::table();
+		if ($column = $table->gdoAutoIncColumn())
+		{
+			if (!($user = $table->cache->findCached($id)))
+			{
+				$user = self::getBy($column->name, $id);
+			}
+			return $user;
+		}
 	}
 	
 	#############

@@ -46,30 +46,95 @@ final class Login_Form extends GWF_MethodForm
 	
 	public function onLogin(GWF_Form $form)
 	{
+		if ($response = $this->banCheck())
+		{
+			return $response->add($form->render());
+		}
+		
 		if ( (!($user = GWF_User::getByName($form->getVar('login')))) ||
 		     (!($user->getValue('user_password')->validate($form->getVar('user_password')))) )
 		{
-			return $this->loginFailed()->add($form->render());
+			return $this->loginFailed($user)->add($form->render());
 		}
-		return $this->loginSuccess($user);
+		return $this->loginSuccess($user, $form->getVar('bind_ip'));
 	}
 	
-	public function loginSuccess(GWF_User $user)
+	/**
+	 * @param GWF_User $user
+	 * @param bool $bindIP
+	 * @return GWF_Message
+	 */
+	public function loginSuccess(GWF_User $user, bool $bindIP=false)
 	{
 		$session = GWF_Session::instance();
 		$session->setValue('sess_user', $user);
 		$session->setValue('sess_data', null);
+		$ip = $bindIP ? GDO_IP::current() : null;
+		$session->setValue('sess_ip', $ip);
 		$session->save();
 		return new GWF_Message('msg_authenticated', [$user->displayName()]);
 	}
-	
-	public function loginFailed()
+
+	################
+	### Security ###
+	################
+	private function banTimeout() { return Module_Login::instance()->cfgFailureTimeout(); }
+	private function maxAttempts() { return Module_Login::instance()->cfgFailureAttempts(); }
+
+	private function banCheck()
 	{
+		$table = GWF_LoginAttempt::table();
+		$result = $table->select('MIN(la_time), COUNT(*)')->where('la_ip='.GDO::quoteS(GDO_IP::current()))->debug()->exec()->fetchRow();
+		list($mintime, $count) = $result;
+		if ($count >= $this->maxAttempts())
+		{
+			$left = $this->banTimeout() - time() + $mintime;
+			return GWF_Error::error('err_login_ban', [$left]);
+		}
+	}
+	
+	public function loginFailed($user)
+	{
+		# Insert attempt
 		$ip = GDO_IP::current();
+		$userid = $user ? $user->getID() : null;
+		$table = GWF_LoginAttempt::table();
+		$attempt = $table->blank(["la_ip"=>$ip, 'la_user_id'=>$userid])->insert();
 		
-		$attempt = GWF_LoginAttempt::table()->blank(["la_ip"=>$ip])->insert();
-		$attemptsLeft = 1;
-		$bannedFor = 120;
+		# Count victim attack. If only 1, we got a new threat and mail it.
+		if ($user)
+		{
+			$this->checkSecurityThreat($user);
+		}
+
+		# Count attacker attempts
+		$cut = time() - $this->banTimeout();
+		$condition = sprintf('la_ip=%s AND la_time > %s', GDO::quoteS($ip), $cut);
+		$result = $table->select('MIN(la_time), COUNT(*)')->where($condition)->debug()->exec()->fetchRow();
+		list($mintime, $attempts) = $result;
+		$bannedFor = $this->banTimeout() - time() + $mintime;
+		$attemptsLeft = $this->maxAttempts() - $attempts;
 		return $this->error('err_login_failed', [$attemptsLeft, $bannedFor]);
+	}
+	
+	private function checkSecurityThreat(GWF_User $user)
+	{
+		$table = GWF_LoginAttempt::table();
+		$cut = time() - $this->banTimeout();
+		$condition = sprintf('la_user_id=%s AND la_time > %d', $user->getID(), $cut);
+		if (1 === ($attempts = $table->countWhere($condition)))
+		{
+			$this->mailSecurityThreat($user);
+		}
+	}
+	
+	private function mailSecurityThreat(GWF_User $user)
+	{
+		$mail = new GWF_Mail();
+		$mail->setSender(GWF_BOT_EMAIL);
+		$mail->setSubject(t('mail_subj_login_threat', [$this->getSiteName()]));
+		$args = [$user->displayName(), $this->getSiteName(), GDO_IP::current()];
+		$mail->setBody(t('mail_body_login_threat', $args));
+		$mail->sendToUser($user);
 	}
 }

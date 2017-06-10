@@ -209,4 +209,9 @@ class GWF_Module extends GDO
 	{
 		return GWF_Javascript::addJavascript($this->wwwPath($path));
 	}
+	
+	public function addCSS(string $path)
+	{
+		return GWF_Website::addCSS($this->wwwPath($path));
+	}
 }

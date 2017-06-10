@@ -52,9 +52,20 @@ class Module_GWF extends GWF_Module
 	private function onIncludeGWFScripts()
 	{
 		$this->addJavascript('js/gwf-module.js');
+		
 		$this->addJavascript('js/gwf-app-ctrl.js');
+		$this->addJavascript('js/gwf-error-srvc.js');
+		$this->addJavascript('js/gwf-exception-srvc.js');
 		$this->addJavascript('js/gwf-form-ctrl.js');
+		$this->addJavascript('js/gwf-loading-srvc.js');
+		$this->addJavascript('js/gwf-request-interceptor.js');
+		$this->addJavascript('js/gwf-request-srvc.js');
+		$this->addJavascript('js/gwf-string-util.js');
 		$this->addJavascript('js/gwf-upload-ctrl.js');
+		$this->addJavascript('js/gwf-user.js');
+		$this->addJavascript('js/ng-crsrup.js');
+		$this->addJavascript('js/ng-enter.js');
+		$this->addJavascript('js/ng-html.js');
 	}
 
 	###############

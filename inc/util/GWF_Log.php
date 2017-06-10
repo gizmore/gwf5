@@ -138,13 +138,13 @@ final class GWF_Log
 	########################
 	### Default logfiles ###
 	########################
-	public static function logCron($message) { self::rawLog('cron', $message, 0); echo $message.PHP_EOL; } # TODO: remove echo
-	public static function logWebsocket($message) { self::rawLog('websocket', $message, 0); echo $message.PHP_EOL; }
-	public static function logDebug($message) { self::rawLog('debug', $message, self::DEBUG); echo $message.PHP_EOL; } # TODO: remove echo
-	public static function logError($message) { self::log('error', $message, self::GWF_ERROR); }
-	public static function logMessage($message) { self::log('message', $message, self::GWF_MESSAGE); }
-	public static function logWarning($message) { self::log('warning', $message, self::GWF_WARNING); }
-	public static function logCritical($message)
+	public static function logCron(string $message) { self::rawLog('cron', $message, 0); echo $message.PHP_EOL; } # TODO: remove echo
+	public static function logWebsocket(string $message) { self::rawLog('websocket', $message, 0); echo $message.PHP_EOL; }
+	public static function logDebug(string $message) { self::rawLog('debug', $message, self::DEBUG); echo $message.PHP_EOL; } # TODO: remove echo
+	public static function logError(string $message) { self::log('error', $message, self::GWF_ERROR); }
+	public static function logMessage(string $message) { self::log('message', $message, self::GWF_MESSAGE); }
+	public static function logWarning(string $message) { self::log('warning', $message, self::GWF_WARNING); }
+	public static function logCritical(string $message)
 	{
 		self::log('critical', $message, self::GWF_CRITICAL);
 		self::log('critical_details', GWF_Debug::backtrace(print_r($_GET, true).PHP_EOL.self::stripPassword($_POST).PHP_EOL.$message, false), self::GWF_CRITICAL); // TODO: formating

@@ -18,12 +18,14 @@ final class Module_Login extends GWF_Module
 		return array(
 			GDO_Checkbox::make('login_captcha')->initial('0'),
 			GDO_Checkbox::make('login_history')->initial('1'),
-			GDO_Int::make('login_tries')->initial('3')->min(1)->max(100),
 			GDO_Duration::make('login_timeout')->initial('600')->min(10)->max(72600),
+			GDO_Int::make('login_tries')->initial('3')->min(1)->max(100),
 		);
 	}
 	public function cfgCaptcha() { return $this->getConfigValue('login_captcha'); }
 	public function cfgHistory() { return $this->getConfigValue('login_history'); }
+	public function cfgFailureTimeout() { return $this->getConfigValue('login_timeout'); }
+	public function cfgFailureAttempts() { return $this->getConfigValue('login_tries'); }
 	
 	##############
 	### Navbar ###

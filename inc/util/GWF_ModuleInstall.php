@@ -68,17 +68,32 @@ class GWF_ModuleInstall
 	
 	public static function installMethods(GWF_Module $module)
 	{
+		self::loopMethods($module, array(__CLASS__, 'installMethod'));
+	}
+	
+	public static function loopMethods(GWF_Module $module, $callback)
+	{
 		$dir = $module->filePath('method');
 		if (GWF_File::isDir($dir))
 		{
-			GWF_Filewalker::traverse($dir, array(__CLASS__, 'installMethod'), false, false, $module);
+			GWF_Filewalker::traverse($dir, $callback, false, false, $module);
 		}
+	}
+	
+	public static function loopMethod(GWF_Module $module, string $path)
+	{
+		$entry = GWF_String::substrTo(basename($path), '.');
+		$class_name= $module->getName() . '_' . $entry;
+		if (!class_exists($class_name, false))
+		{
+			include $path;
+		}
+		return $module->getMethod($entry);
 	}
 	
 	public static function installMethod($entry, $path, GWF_Module $module)
 	{
-		include $path;
-		$method = $module->getMethod(GWF_String::substrTo($entry, '.'));
+		$method = self::loopMethod($module, $path);
 		if ($permission = $method->getPermission())
 		{
 			GWF_Permission::create($permission);

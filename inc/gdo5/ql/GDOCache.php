@@ -24,17 +24,30 @@ class GDOCache
 		$this->table = $gdo;
 		$this->newDummy();
 	}
-	
+
 	private function newDummy()
 	{
 		$class = $this->table->gdoClassName();
 		$this->dummy = new $class();
 	}
 	
+	/**
+	 * @param string $id
+	 * @return GDO
+	 */
+	public function findCached(string $id)
+	{
+		return @$this->cache[$id];
+	}
+	
+	/**
+	 * @param array $assoc
+	 * @return GDO
+	 */
 	public function initCached(array $assoc)
 	{
 		$this->dummy->setGDOVars($assoc);
-		$key = $this->dummy->getID(); //PKWhere();
+		$key = $this->dummy->getID();
 		if (!isset($this->cache[$key]))
 		{
 			$this->cache[$key] = $this->dummy->dirty(false)->setPersisted();

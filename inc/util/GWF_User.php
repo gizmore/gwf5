@@ -93,7 +93,6 @@ final class GWF_User extends GDO
 	##############
 	### Static ###
 	##############
-	public static function getById(string $id) { return self::getBy('user_id', $id); }
 	public static function getByName(string $name) { return self::getBy('user_name', $name); }
 	public static function current() { return GWF_Session::user(); }
 	public static function ghost() { return self::table()->blank(['user_type' => 'ghost']); }

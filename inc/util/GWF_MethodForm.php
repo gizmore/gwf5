@@ -43,6 +43,12 @@ abstract class GWF_MethodForm extends GWF_Method
 		return $this->renderPage();
 	}
 	
+	public function title(string $key, array $args=null)
+	{
+		$this->getForm()->title($key, $args);
+		return parent::title($key, $args);
+	}
+	
 	/**
 	 * @return GWF_Response
 	 */
