@@ -30,7 +30,7 @@ final class Login_Form extends GWF_MethodForm
 				$tVars = array(
 					'form' => $this->form,
 				);
-				return $this->template('form.php', $tVars);
+				return $this->templatePHP('form.php', $tVars);
 		}
 	}
 	
