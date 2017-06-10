@@ -7,6 +7,11 @@ class GDO_Checkbox extends GDO_Bool
 		$vars = Common::getRequestArray('form', []);
 		return isset($vars[$this->name]) ?  '1' : '0';
 	}
+	
+	public function isChecked()
+	{
+		return $this->getGDOVar() > 0;
+	}
 
 	public function htmlChecked()
 	{
@@ -16,5 +21,19 @@ class GDO_Checkbox extends GDO_Bool
 	public function render()
 	{
 		return GWF_Template::templateMain('form/checkbox.php', ['field'=>$this]);
+	}
+	
+	public function renderCell()
+	{
+		return GWF_Template::templateMain('cell/checkbox.php', ['field'=>$this]);
+	}
+	
+	public function validate($value)
+	{
+		if ( (!$this->null) && ($value == 0) )
+		{
+			return $this->error('err_checkbox_required');
+		}
+		return parent::validate($value);
 	}
 }

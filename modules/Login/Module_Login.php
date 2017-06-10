@@ -8,6 +8,7 @@ final class Module_Login extends GWF_Module
 
 	public function getClasses() { return array('GWF_LoginAttempt'); }
 	public function onLoadLanguage() { return $this->loadLanguage('lang/login'); }
+	public function isCoreModule() { return true; }
 	
 	##############
 	### Config ###
@@ -24,19 +25,21 @@ final class Module_Login extends GWF_Module
 	public function cfgCaptcha() { return $this->getConfigValue('login_captcha'); }
 	public function cfgHistory() { return $this->getConfigValue('login_history'); }
 	
-	################
-	### Top Menu ###
-	################
-	public function onLoadTopMenu(GWF_TopMenu $topMenu)
+	##############
+	### Navbar ###
+	##############
+	public function onRenderFor(GWF_Navbar $navbar)
 	{
-		if (GWF_Session::user()->isGhost())
+		if ($navbar->isRight())
 		{
-			$topMenu->addField(GDO_Button::make('signup')->label('btn_register')->href($this->getMethodHREF('Form')));
-			$topMenu->addField(GDO_Button::make('signin')->label('btn_login')->href($this->getMethodHREF('Form')));
-		}
-		else
-		{
-			$topMenu->addField(GDO_Button::make('signout')->label('btn_logout')->href($this->getMethodHREF('Logout')));
+			if (GWF_Session::user()->isGhost())
+			{
+				$navbar->addField(GDO_Button::make('signin')->label('btn_login')->href($this->getMethodHREF('Form')));
+			}
+			else
+			{
+				$navbar->addField(GDO_Button::make('signout')->label('btn_logout')->href($this->getMethodHREF('Logout')));
+			}
 		}
 	}
 }

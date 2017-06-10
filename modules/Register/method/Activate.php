@@ -14,6 +14,22 @@ class Register_Activate extends GWF_Method
 		{
 			return $this->error('err_no_activation');
 		}
+		$activation->delete();
 		
+		$user = GWF_User::table()->blank($activation->getGDOVars());
+		$user->setVars(array(
+			'user_type' => 'member',
+		));
+		$user->insert();
+		
+		$response = $this->message('msg_activated', [$user->displayName()]);
+		
+		if (Module_Register::instance()->cfgActivationLogin())
+		{
+			GWF5::instance()->getMethod('Login', 'Form')->loginSuccess($user);
+			$response->add($this->message('msg_authenticated'));
+		}
+		
+		return $response;
 	}
 }

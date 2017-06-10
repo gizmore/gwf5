@@ -15,7 +15,7 @@ final class GWF_Template
 	 * Get template from theme folder.
 	 * @param string $file
 	 * @param array $tVars
-	 * @return string
+	 * @return GWF_Response
 	 */
 	public static function templateMain(string $file, array $tVars=null)
 	{
@@ -25,7 +25,7 @@ final class GWF_Template
 	/**
 	 * Get a PHP Template output
 	 * @param $path path to template file
-	 * @return string
+	 * @return GWF_Response
 	 */
 	private static function templatePHP(string $path, array $tVars=null, string $moduleName=null)
 	{
@@ -47,6 +47,13 @@ final class GWF_Template
 		return new GWF_Response($back);
 	}
 	
+	/**
+	 * 
+	 * @param string $moduleName
+	 * @param string $file
+	 * @param array $tVars
+	 * @return GWF_Response
+	 */
 	public static function moduleTemplatePHP(string $moduleName, string $file, array $tVars=null)
 	{
 		self::$MODULE_FILE = $file;
@@ -57,7 +64,7 @@ final class GWF_Template
 	/**
 	 * Get the Path for the GWF Design if the file exists
 	 * @param string $path templatepath
-	 * @return string|false
+	 * @return string
 	 */
 	private static function getPath(string $path, string $moduleName=null)
 	{

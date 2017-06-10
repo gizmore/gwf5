@@ -23,6 +23,9 @@ class GDOResult
 		}
 	}
 	
+	################
+	### Num rows ###
+	################
 	/**
 	 * @return int
 	 */
@@ -31,12 +34,25 @@ class GDOResult
 		return mysqli_num_rows($this->result);
 	}
 	
+	#############
+	### Fetch ###
+	#############
 	public function fetchRow()
 	{
 		return mysqli_fetch_row($this->result);
 	}
 	
-
+	public function fetchAllRows()
+	{
+		$allRows = [];
+		while ($row = mysqli_fetch_row($this->result))
+		{
+			$allRows[] = $row;
+		}
+		return $allRows;
+	}
+	
+	
 	/**
 	 * @return string[]
 	 */
@@ -45,6 +61,15 @@ class GDOResult
 		return mysqli_fetch_assoc($this->result);
 	}
 	
+	public function fetchAllAssoc()
+	{
+		$data = [];
+		while ($row = $this->fetchAssoc())
+		{
+			$data[] = $row;
+		}
+		return $data;
+	}
 	
 	/**
 	 * @return GDO
@@ -62,7 +87,7 @@ class GDOResult
 	 */
 	public function fetchAllObjects()
 	{
-		$objects = array();
+		$objects = [];
 		while ($object = $this->fetchObject())
 		{
 			$objects[] = $object;
@@ -70,11 +95,37 @@ class GDOResult
 		return $objects;
 	}
 	
-	public function fetchAllAssoc()
+	/**
+	 * Fetch all 2 column rows as a 0 => 1 assoc array.
+	 * @return string[]
+	 */
+	public function fetchAllArray2d()
 	{
-		$data = array();
-		while ($row = $this->fetchAssoc())
+		$array2d = [];
+		while ($row = $this->fetchRow())
 		{
+			$array2d[$row[0]] = $row[1];
+		}
+		return $array2d;
+	}
+	
+	############
+	### JSON ###
+	############
+	/**
+	 * @param GDOType[] $headers
+	 * @return string[]
+	 */
+	public function renderJSON(array $headers)
+	{
+		$data = [];
+		while ($gdo = $this->fetchObject())
+		{
+			$row = [];
+			foreach($headers as $gdoType)
+			{
+				$row[] = $gdoType->gdo($gdo)->gdoRenderCell();
+			}
 			$data[] = $row;
 		}
 		return $data;

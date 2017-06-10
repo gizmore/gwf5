@@ -10,7 +10,7 @@ require 'inc/GWF5.php';
 # Load
 $db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME);
 $gwf5 = new GWF5();
-
+GWF_Log::init();
 $perf = new GWF_DebugInfo();
 
 GWF_Debug::init();
@@ -24,7 +24,7 @@ $db->queryWrite("SET foreign_key_checks = 0");
 
 
 global $tables;
-$tables = array();
+$tables = [];
 function wizardLoadUtil($entry, $path, $tables)
 {
 	global $tables;

@@ -16,9 +16,25 @@ class GDO_Button extends GDO_Label
 	##############
 	### Render ###
 	##############
+	public function htmlClass()
+	{
+		return sprintf(' class="gdo-button %s"', str_replace('_', '-', strtolower($this->gdoClassName())));
+	}
+	
 	public function render()
 	{
 		return GWF_Template::templateMain('form/button.php', ['field'=>$this]);
+	}
+	
+	public function renderCell()
+	{
+		$href = call_user_func(array($this->gdo, 'href_'.$this->name));
+		return GWF_Template::templateMain('cell/button.php', ['field'=>$this, 'href'=>$href])->getHTML();
+	}
+
+	public function displayHeaderLabel()
+	{
+		return '';
 	}
 }
 

@@ -1,4 +1,5 @@
 <?php
+define('GWF_CORE_VERSION', '5.00');
 # Core
 require 'inc/gdo5/GDO.php';
 require 'inc/util/Common.php';
@@ -16,8 +17,14 @@ final class GWF5
 	
 	private $response;
 	
-	public static function getFormat() { return 'html'; }
+	public function getSiteName() { return t('site_name'); }
 
+	public function getFormat() { return Common::getRequestString('fmt', 'html'); }
+	public function isHTML() { return $this->getFormat() === 'html'; }
+	public function isJSON() { return $this->getFormat() === 'json'; }
+	public function isAjax() { return isset($_REQUEST['ajax']); }
+	
+	public function isFullPageRequest() { return (!$this->isAjax()) && $this->isHTML(); }
 	/**
 	 * @var GWF_ModuleLoader
 	 */
@@ -39,11 +46,24 @@ final class GWF5
 		$this->moduleLoader = new GWF_ModuleLoader(GWF_PATH . 'modules/');
 	}
 	
+	public function __destruct()
+	{
+		GWF_Session::commit();
+		GWF_Log::flush();
+	}
+	
+	/**
+	 * @param string $loadDBOnly
+	 * @return GWF_Module[]
+	 */
 	public function loadModules($loadDBOnly = true)
 	{
 		return $this->moduleLoader->loadModules($loadDBOnly);
 	}
 	
+	/**
+	 * @return GWF_Module[]
+	 */
 	public function getActiveModules()
 	{
 		return $this->moduleLoader->getActiveModules();
@@ -59,6 +79,16 @@ final class GWF5
 		return $this->moduleLoader->getModule($moduleName);
 	}
 	
+	/**
+	 * @param string $moduleName
+	 * @param string $methodName
+	 * return GWF_Method
+	 */
+	public function getMethod(string $moduleName, string $methodName)
+	{
+		return $this->moduleLoader->getModule($moduleName)->getMethod($methodName);
+	}
+	
 	public static function getMethodHREF(string $moduleName, string $methodName, string $append='')
 	{
 		return sprintf('/index.php?mo=%s&me=%s%s', $moduleName, $methodName, $append);
@@ -67,12 +97,26 @@ final class GWF5
 	
 	public function render(GWF_Method $method, GWF_Response $response)
 	{
-		$this->response($response);
-		$tVars = array(
-			'response' => $this->response,
-			'method' => $method,
-		);
-		return GWF_Template::templateMain('index.php', $tVars);
+		switch ($this->getFormat())
+		{
+			case 'json':
+				header("Content-Type: application/json");
+				return $response->toJSON();
+			default:
+			case 'html':
+				if ($this->isAjax())
+				{
+					echo $response->__toString();
+				}
+				else
+				{
+					$tVars = array(
+						'response' => $this->response($response),
+						'method' => $method,
+					);
+					return GWF_Template::templateMain('index.php', $tVars);
+				}
+		}
 	}
 	
 	public function renderBlank()
@@ -83,6 +127,12 @@ final class GWF5
 	public function response(GWF_Response $response)
 	{
 		$this->response = $this->response ? $this->response->add($response) : $response;
-		return $this;
+		return $this->response;
 	}
 }
+
+function href($moduleName, $methodName, $append='')
+{
+	return GWF5::instance()->getMethodHREF($moduleName, $methodName, $append);
+}
+

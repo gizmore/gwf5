@@ -5,6 +5,13 @@ class GDO_Int extends GDOType
 	public $max = null;
 	public $unsigned = false;
 	public $bytes = 4;
+	public $step = 1;
+	
+	public function step($step)
+	{
+		$this->step = $step;
+		return $this;
+	}
 	
 	public function getGDOValue()
 	{
@@ -87,5 +94,14 @@ class GDO_Int extends GDOType
 	{
 		return GWF_Template::templateMain('form/int.php', ['field'=>$this]);
 	}
-	
+
+	public function renderCell()
+	{
+		return $this->gdo->getVar($this->name);
+	}
+
+	public function htmlClass()
+	{
+		return sprintf(' class="gdo-num %s"', str_replace('_', '-', strtolower($this->gdoClassName())));
+	}
 }

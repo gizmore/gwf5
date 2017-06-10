@@ -7,7 +7,7 @@ final class GWF_Array
 		{
 			return $value;
 		}
-		$back = array();
+		$back = [];
 		if ($value !== null)
 		{
 			$back[] = $value;

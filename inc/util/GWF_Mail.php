@@ -33,8 +33,8 @@ final class GWF_Mail
 	private $senderName = '';
 	private $subject = '';
 	private $body = '';
-	private $attachments = array();
-	private $headers = array();
+	private $attachments = [];
+	private $headers = [];
 	private $gpgKey = '';
 	private $resendCheck = false;
 
@@ -113,7 +113,7 @@ final class GWF_Mail
 
 	public static function sendDebugMail($subject, $body)
 	{
-		return self::sendMailS(GWF_BOT_EMAIL, GWF_ADMIN_EMAIL, GWF_SITENAME.$subject, GWF_Debug::getDebugText($body), false, true);
+		return self::sendMailS(GWF_BOT_EMAIL, GWF_ADMIN_EMAIL, GWF_SITENAME.": ".$subject, GWF_Debug::getDebugText($body), false, true);
 	}
 	
 	private static function br2nl($s, $nl=PHP_EOL)
@@ -317,7 +317,7 @@ final class GWF_Mail
 // 		{
 // 			if (flock($fh, LOCK_EX))
 // 			{
-// 				$keep = array();
+// 				$keep = [];
 // 				$changed = false;
 				
 // 				while (fscanf($fh, "%d:%s\n", $time, $hash))

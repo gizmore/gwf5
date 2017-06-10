@@ -18,9 +18,9 @@ class GWF_UserActivation extends GDO
 	
 	public function getID() { return $this->getVar('ua_id'); }
 	public function getToken() { return $this->getVar('ua_token'); }
+	public function getEmail() { return $this->getVar('user_email'); }
+	public function getUsername() { return $this->getVar('user_name'); }
 	
-	public function userActivationUserFields()
-	{
-		return $this->getVars('user_name', 'user_password', 'user_email', 'user_register_ip');
-	}
+	public function getHref() { return GWF_Url::relative("/index.php?mo=Register&me=Activate&id={$this->getID()}&token={$this->getToken()}"); }
+	public function getUrl() { return GWF_Url::absolute($this->getHref()); }
 }

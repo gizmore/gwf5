@@ -1,7 +1,17 @@
-<?php $field instanceof GDO_Checkbox; ?>
-<label for="form[<?php echo $field->name; ?>]"><?php echo $field->displayLabel(); ?></label>
+<?php $field instanceof GDO_Checkbox; $id = 'cbxform_' . $field->name; ?>
+<md-input-container class="md-block">
+  <md-checkbox
+   <?php echo $field->htmlDisabled(); ?>
+   ng-controller="GWFCbxCtrl"
+   ng-init="data.cbx=<?php echo $field->formValue() > 0 ? 'true':'false'; ?>"
+   ng-change="cbxChanged('#<?php echo $id; ?>');"
+   ng-model="data.cbx"><?php echo $field->displayLabel(); ?></md-checkbox>
+</md-input-container>
+<div class="form-error"><?php echo $field->displayError(); ?></div>
 <input
+ class="n"
  type="checkbox"
+ id="<?php echo $id; ?>"
  name="form[<?php echo $field->name; ?>]"
  <?php echo $field->htmlChecked(); ?>
  <?php echo $field->htmlDisabled(); ?>></input>

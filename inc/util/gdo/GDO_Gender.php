@@ -4,6 +4,8 @@ class GDO_Gender extends GDO_Char
 	public function __construct()
 	{
 		$this->size(1);
+		$this->notNull();
+		$this->initial = " ";
 	}
 	
 	public function validate($value)
@@ -19,7 +21,18 @@ class GDO_Gender extends GDO_Char
 		return GWF_Template::templateMain('form/gender.php', ['field'=>$this]);
 	}
 
-	public function displayMaleLabel() { return GWF_Trans::t('male'); }
-	public function displayFemaleLabel() { return GWF_Trans::t('female'); }
-	public function displayNoGenderLabel() { return GWF_Trans::t('no_gender'); }
+	public function displayMaleLabel() { return t('male'); }
+	public function displayFemaleLabel() { return t('female'); }
+	public function displayNoGenderLabel() { return t('no_gender'); }
+
+	public function renderCell()
+	{
+		switch ($this->getGDOVar())
+		{
+			case 'm': return l('male');
+			case 'f': return l('female');
+			default: return '';
+		}
+		
+	}
 }

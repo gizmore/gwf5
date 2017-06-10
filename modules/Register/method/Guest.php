@@ -19,4 +19,15 @@ class Register_Guest extends GWF_MethodForm
 		$form->addField(GDO_AntiCSRF::make());
 		return $form;
 	}
+	
+	public function formValidated(GWF_Form $form)
+	{
+		$user = GWF_User::table()->blank($form->values());
+		$user->setVars(array(
+			'user_register_ip' => GDO_IP::current(),
+			'user_register_time' => time(),
+		));
+		$user->insert();
+		return $this->message('msg_registered_as_guest', [$user->displayName()]);
+	}
 }

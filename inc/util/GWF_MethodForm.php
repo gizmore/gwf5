@@ -21,7 +21,7 @@ abstract class GWF_MethodForm extends GWF_Method
 	
 	public function execute()
 	{
-		$this->form = $this->createForm();
+		$this->form = $this->getForm();
 		if (isset($_REQUEST['submit']))
 		{
 			if ($this->form->validate())
@@ -33,7 +33,28 @@ abstract class GWF_MethodForm extends GWF_Method
 				return $this->formInvalid($this->form);
 			}
 		}
+		return $this->renderPage();
+	}
+	
+	/**
+	 * @return GWF_Response
+	 */
+	public function renderPage()
+	{
 		return $this->form->render();
+	}
+	
+	/**
+	 * @return GWF_Form
+	 */
+	public function getForm()
+	{
+		if (!$this->form)
+		{
+			$this->form = new GWF_Form();
+			$this->createForm($this->form);
+		}
+		return $this->form;
 	}
 	
 	################
@@ -42,7 +63,7 @@ abstract class GWF_MethodForm extends GWF_Method
 	/**
 	 * @return GWF_Form
 	 */
-	public abstract function createForm();
+	public abstract function createForm(GWF_Form $form);
 	
 	/**
 	 * @param GWF_Form $form
@@ -50,7 +71,7 @@ abstract class GWF_MethodForm extends GWF_Method
 	 */
 	public function formValidated(GWF_Form $form)
 	{
-		return $this->message('msg_form_saved')->add($this->form->render());
+		return $this->message('msg_form_saved')->add($this->renderPage());
 	}
 	
 	/**
@@ -59,6 +80,6 @@ abstract class GWF_MethodForm extends GWF_Method
 	 */
 	public function formInvalid(GWF_Form $form)
 	{
-		return $this->error('err_form_invalid')->add($this->form->render());
+		return $this->error('err_form_invalid')->add($this->renderPage());
 	}
 }

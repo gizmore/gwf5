@@ -10,13 +10,27 @@ final class GWF_Trans
 {
 	public static $ISO = 'en';
 	
-	private static $PATHS = array();
+	private static $PATHS = [];
 	private static $CACHE;
 	
 	public static function addPath(string $path)
 	{
 		self::$PATHS[] = $path;
-		self::$CACHE = array();
+		self::$CACHE = [];
+	}
+	
+	public static function getCache(string $iso)
+	{
+		return self::load($iso);
+	}
+	
+	public static function load($iso)
+	{
+		if (!isset(self::$CACHE[$iso]))
+		{
+			self::reload($iso);
+		}
+		return self::$CACHE[$iso];
 	}
 	
 	public static function t(string $key, array $args=null)
@@ -26,11 +40,7 @@ final class GWF_Trans
 	
 	public static function tiso(string $iso, string $key, array $args=null)
 	{
-		if (!isset(self::$CACHE[$iso]))
-		{
-			self::reload($iso);
-		}
-		
+		self::load($iso);
 		if (isset(self::$CACHE[$iso][$key]))
 		{
 			$text = self::$CACHE[$iso][$key];
@@ -54,7 +64,7 @@ final class GWF_Trans
 
 	private static function reload(string $iso)
 	{
-		$trans = array();
+		$trans = [];
 		foreach (self::$PATHS as $path)
 		{
 			$path .= "_{$iso}.php";
@@ -65,3 +75,6 @@ final class GWF_Trans
 	}
 
 }
+
+function t(string $key, array $args=null) { return GWF_Trans::t($key, $args); }
+function l(string $key, array $args=null) { echo t($key, $args); }

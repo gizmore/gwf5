@@ -4,27 +4,52 @@ class GWF_Response
 	protected $html;
 	protected $error;
 	
-	public function __construct(string $html='', $error=false)
+	public function __construct($html='', $error=false)
 	{
 		$this->html = $html;
 		$this->error = $error;
 	}
 	
+	public function getHTML()
+	{
+		return $this->html;
+	}
+	
 	public function add(GWF_Response $response)
 	{
 		$this->error = $response->error || $this->error;
-		$this->html .= $response->html;
+		if (is_array($this->html))
+		{
+			$this->html = array('data' => $response->html);
+		}
+		else
+		{
+			$this->html .= $response->html;
+		}
 		return $this;
 	}
 	
 	public static function error(string $key, array $args=null)
 	{
-		$html = GWF_Trans::t($key, $args);
+		$html = t($key, $args);
 		return new self($html, true);
 	}
 	
 	public function __toString()
 	{
-		return $this->html ? $this->html : '';
+		switch (GWF5::instance()->getFormat())
+		{
+			default:
+			case 'html': return $this->html ? $this->html : '';
+			case 'json': return $this->toJSON();
+		}
+	}
+	
+	public function toJSON()
+	{
+		return json_encode(array(
+			'data' => $this->html,
+			'error' => $this->error,
+		));
 	}
 }

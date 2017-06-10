@@ -6,10 +6,11 @@
  */
 final class Login_Form extends GWF_MethodForm
 {
-	public function createForm()
+	public function getUserType() { return 'ghost'; }
+	
+	public function createForm(GWF_Form $form)
 	{
-		$form = new GWF_Form();
-		$form->addField(GDO_Username::make('login'));
+		$form->addField(GDO_Username::make('login')->placeholder('plch_usename'));
 		$form->addField(GDO_Password::make('user_password'));
 		$form->addField(GDO_Checkbox::make('bind_ip'));
 		if (Module_Login::instance()->cfgCaptcha())
@@ -18,7 +19,19 @@ final class Login_Form extends GWF_MethodForm
 		}
 		$form->addField(GDO_Submit::make()->label('btn_login'));
 		$form->addField(GDO_AntiCSRF::make());
-		return $form;
+	}
+	
+	public function renderPage()
+	{
+		switch ($this->getFormat())
+		{
+			case 'json': return $this->form->render();
+			case 'html': default:
+				$tVars = array(
+					'form' => $this->form,
+				);
+				return $this->template('form.php', $tVars);
+		}
 	}
 	
 	public function formValidated(GWF_Form $form)
@@ -59,6 +72,4 @@ final class Login_Form extends GWF_MethodForm
 		$bannedFor = 120;
 		return $this->error('err_login_failed', [$attemptsLeft, $bannedFor]);
 	}
-	
-
 }

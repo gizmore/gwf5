@@ -1,0 +1,28 @@
+{
+  "name": "gwf5",
+  "homepage": "https://github.com/gizmore/gwf5",
+  "authors": [
+    "gizmore <gizmore@wechall.net>"
+  ],
+  "description": "gwf5 bower script",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-material": "^1.1.4",
+    "ng-flow": "^2.7.4",
+    "jquery": "^3.2.1",
+    "angular-sanitize": "^1.6.4",
+    "angular-ui-router": "^1.0.4",
+    "bootstrap": "^3.3.7",
+    "devextreme": "^17.1.3"
+  }
+}

@@ -1,4 +1,5 @@
-<section class="gwf-topmenu" layout="row" layout-fill flex>
+<?php $navbar instanceof GWF_Navbar; ?>
+<section class="gwf-navbar" layout="<?php echo $navbar->direction(); ?>" layout-fill flex>
   <ul>
     <?php foreach ($fields as $field) : $field instanceof GDOType; ?>
       <li><?php echo $field->render(); ?></li>

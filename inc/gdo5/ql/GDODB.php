@@ -27,12 +27,12 @@ class GDODB
 	/**
 	 * @var GDO[]
 	 */
-	private static $TABLES = array();
+	private static $TABLES = [];
 
 	/**
 	 * @var GDOType[]
 	 */
-	private static $COLUMNS = array();
+	private static $COLUMNS = [];
 	
 	public function __construct(string $host, string $user, string $pass, string $db, $debug=false)
 	{
@@ -90,14 +90,28 @@ class GDODB
 		if (!isset(self::$TABLES[$classname]))
 		{
 			self::$TABLES[$classname] = $gdo = new $classname();
-			# TODO: Cache the columns as name => value???
-			if (!(self::$COLUMNS[$classname] = $gdo->gdoColumns()))
+			if (!(self::$COLUMNS[$classname] = self::hashedColumns($gdo->gdoColumns())))
 			{
 				throw new GWF_Exception('err_gdo_columns_missing');
 			}
 			$gdo->initCache();
 		}
 		return self::$TABLES[$classname];
+	}
+	
+	/**
+	 * Extract name from gdo columns for hashmap.
+	 * @param GDOType[] $gdoColumns
+	 * @return GDOType[]
+	 */
+	private static function hashedColumns(array $gdoColumns)
+	{
+		$columns = [];
+		foreach ($gdoColumns as $gdoType)
+		{
+			$columns[$gdoType->name] = $gdoType;
+		}
+		return $columns;
 	}
 	
 	/**
@@ -114,8 +128,8 @@ class GDODB
 	####################
 	public function createTable(GDO $gdo)
 	{
-		$columns = array();
-		$primary = array();
+		$columns = [];
+		$primary = [];
 		
 		foreach ($gdo->gdoColumnsCache() as $colNr => $column)
 		{

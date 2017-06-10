@@ -5,3 +5,9 @@
 /.tern-project
 
 /protected/
+
+/bower_components/
+
+
+/modules/IP2Country/
+/modules/Avatar/

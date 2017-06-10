@@ -40,7 +40,7 @@ final class GWF_Log
 	private static $logbits = self::_DEFAULT;
 	private static $logformat = "%s [%s%s] - %s\n";
 	private static $cache = 0;
-	private static $logs = array();
+	private static $logs = [];
 
 	/**
 	 * Init the logger. If a username is given, the logger will log _additionally_ into a logs/username dir.
@@ -52,7 +52,7 @@ final class GWF_Log
 	{
 		self::$username = $username;
 		self::$logbits = $logbits;
-		self::$basedir = $basedir;
+		self::$basedir = GWF_PATH . $basedir;
 	}
 
 	public static function isEnabled($bits) { return ($bits === (self::$logbits & $bits)); }

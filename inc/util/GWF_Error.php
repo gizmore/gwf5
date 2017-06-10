@@ -3,7 +3,7 @@ class GWF_Error extends GWF_Response
 {
 	public function __construct(string $key, array $args=null, bool $log=true)
 	{
-		$this->html = GWF_Trans::t($key, $args);
+		$this->html = t($key, $args);
 		$this->error = true;
 		if ($log)
 		{

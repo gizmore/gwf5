@@ -7,6 +7,10 @@
  */
 class Admin_Modules extends GWF_MethodTable
 {
+	use GWF_MethodAdmin;
+	
+	public function getPermission() { return 'admin'; }
+	
 	/**
 	 * @var GWF_Module[]
 	 */
@@ -15,7 +19,7 @@ class Admin_Modules extends GWF_MethodTable
 	public function execute()
 	{
 		$this->modules = GWF5::instance()->loadModules(false);
-		return $this->renderInfoBox()->add(parent::execute());
+		return $this->renderNavBar()->add($this->renderInfoBox()->add(parent::execute()));
 	}
 	
 	public function renderInfoBox()
@@ -41,14 +45,16 @@ class Admin_Modules extends GWF_MethodTable
 	public function getHeaders()
 	{
 		return array(
-			GDO_Id::make('module_id'),
-			GDO_Checkbox::make('module_enabled'),
-			GDO_Name::make('module_name'),
-			GDO_Decimal::make('module_version'),
-			GDO_Decimal::make('fs_version'),
-			GDO_Blank::make('install_btn'),
-			GDO_Blank::make('config_btn'),
-			GDO_Blank::make('admin_btn'),
+// 			GDO_DeleteButton::make(),
+			GDO_Id::make('module_id')->label('id'),
+			GDO_Sort::make('module_priority')->label('sort'),
+			GDO_Checkbox::make('module_enabled')->label('enabled'),
+			GDO_Name::make('module_name')->label('name'),
+			GDO_Decimal::make('module_version')->label('version_db'),
+			GDO_Decimal::make('fs_version')->label('version_fs'),
+			GDO_Button::make('install_module')->label('btn_install'),
+			GDO_Button::make('configure_module')->label('btn_configure'),
+			GDO_Button::make('administrate_module')->label('btn_admin'),
 		);
 	}
 }

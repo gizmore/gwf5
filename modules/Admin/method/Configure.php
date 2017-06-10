@@ -1,10 +1,14 @@
 <?php
 class Admin_Configure extends GWF_MethodForm
 {
+	use GWF_MethodAdmin;
+	
 	/**
 	 * @var GWF_Module
 	 */
 	private $configModule;
+	
+	public function getPermission() { return 'admin'; }
 	
 	public function execute()
 	{
@@ -13,19 +17,18 @@ class Admin_Configure extends GWF_MethodForm
 		{
 			return $this->error('err_module')->add($this->execMethod('Modules'));
 		}
-		return parent::execute();
+		return $this->renderNavBar()->add(parent::execute());
 	}
 	
-	public function createForm()
+	public function createForm(GWF_Form $form)
 	{
 		$mod = $this->configModule;
-		$form = new GWF_Form();
-		$form->title('form_title_configure', [$this->configModule->display('module_name')]);
+		$form->title('form_title_configure', [$this->configModule->getName()]);
 		$form->addField(GDO_Name::make('module_name')->writable(false));
 		$form->addField(GDO_Path::make('module_path')->writable(false)->value($mod->filePath()));
 		$form->addField(GDO_Version::make('module_version')->writable(false));
 		$form->addField(GDO_Version::make('version_available')->writable(false)->value($mod->module_version));
-		if ($config = $mod->getConfig())
+		if ($config = $mod->getModuleConfig())
 		{
 			$form->addField(GDO_Divider::make('div1')->label('form_div_config_vars'));
 			foreach ($config as $gdoType)
@@ -37,7 +40,7 @@ class Admin_Configure extends GWF_MethodForm
 		$form->addField(GDO_Submit::make()->label('btn_save'));
 		$form->addField(GDO_AntiCSRF::make());
 		# Prefill with module
-		return $form->withGDOValuesFrom($this->configModule);
+		$form->withGDOValuesFrom($this->configModule);
 	}
 
 	public function formValidated(GWF_Form $form)
@@ -51,7 +54,7 @@ class Admin_Configure extends GWF_MethodForm
 			if ($gdoType->hasChanged())
 			{
 				GWF_ModuleVar::createModuleVar($mod, $gdoType);
-				$info[] = GWF_Trans::t('msg_modulevar_changed', [$gdoType->displayLabel(), htmlspecialchars($gdoType->oldValue), htmlspecialchars($gdoType->value)]);
+				$info[] = t('msg_modulevar_changed', [$gdoType->displayLabel(), htmlspecialchars($gdoType->oldValue), htmlspecialchars($gdoType->value)]);
 			}
 		}
 		

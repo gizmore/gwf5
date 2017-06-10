@@ -5,9 +5,16 @@ class GWF_PageMenuItem
 	public $href;
 	public $selected;
 	
+	public function __construct($page, $href, $selected)
+	{
+		$this->page = $page;
+		$this->href = $href;
+		$this->selected = $selected;
+	}
+	
 	public static function dotted()
 	{
-		return new self(0, '#', false);
+		return new self('…', 'javascript:;', false);
 	}
 	
 	public function htmlClass()

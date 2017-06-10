@@ -23,7 +23,18 @@ class GWF_Module extends GDO
 	/**
 	 * @return GDOType[]
 	 */
-	protected function getConfig() { return array(); }
+	protected function getConfig() { return []; }
+	
+	public function getModuleConfig()
+	{
+		return array_merge($this->getDefaultConfig(), $this->getConfig());
+	}
+	
+	public function getDefaultConfig()
+	{
+		return array(
+		);
+	}
 
 	##############
 	### Config ###
@@ -64,8 +75,9 @@ class GWF_Module extends GDO
 	##############
 	public function onInit() {}
 	public function onLoad() {}
-	public function onLoadTopMenu(GWF_TopMenu $topMenu) {}
+	public function onRenderFor(GWF_Navbar $navbar) {}
 	public function onLoadLanguage() {}
+	public function onIncludeScripts() {}
 	
 	###########
 	### GDO ###
@@ -78,9 +90,8 @@ class GWF_Module extends GDO
 			GDO_AutoInc::make('module_id'),
 			GDO_Name::make('module_name')->notNull()->unique(),
 			GDO_Sort::make('module_priority')->notNull()->initial('50'),
-			GDO_Char::make('module_version')->notNull()->initial('5.00')->size(4),
-			GDO_Bool::make('module_enabled')->notNull()->initial('1'),
-// 			GDO_Many::make('module_vars')->klass('GWF_ModuleVar')->manyOn('LEFT JOIN gwf_module ON module_id=mv_module_id'),
+			GDO_Char::make('module_version')->notNull()->initial('0.00')->size(4),
+			GDO_Bool::make('module_enabled')->notNull()->initial('0'),
 		);
 	}
 	
@@ -100,16 +111,20 @@ class GWF_Module extends GDO
 	public function getName() { return $this->getVar('module_name'); }
 	public function getVersion() { return $this->getVar('module_version'); }
 	public function isEnabled() { return $this->getVar('module_enabled') === '1'; }
+	public function isCoreModule() { return false; }
 	
 	###############
 	### Display ###
 	###############
-	public function display_css()
-	{
-		return 'gwf-module-update';
-	}
-	public function display_fs_version() { return $this->module_version; }
+	public function render_fs_version() { return $this->module_version; }
+		
 	
+	############
+	### Href ###
+	############
+	public function href_install_module() { return href('Admin', 'Install', '&module='.$this->getName()); }
+	public function href_configure_module() { return href('Admin', 'Configure', '&module='.$this->getName()); }
+	public function href_administrate_module() {}
 	
 	##############
 	### Helper ###
@@ -117,8 +132,16 @@ class GWF_Module extends GDO
 	public function canUpdate() { return $this->module_version != $this->getVersion(); }
 	public function canInstall() { return !$this->isPersisted(); }
 	public function filePath(string $path='') { return GWF_PATH . 'modules/' . $this->getName() . '/' . $path; }
+	public function wwwPath(string $path='') { return '/modules/' . $this->getName() . '/' . $path; }
 	public function includeClass(string $class) { require $this->filePath("$class.php"); }
-	public function template(string $file, array $tVars=null) { return GWF_Template::moduleTemplatePHP($this->getName(), $file, $tVars); }
+	public function template(string $file, array $tVars=null)
+	{
+		switch (GWF5::instance()->getFormat())
+		{
+			case 'json': return new GWF_Response($tVars);
+			case 'html': default: return GWF_Template::moduleTemplatePHP($this->getName(), $file, $tVars);
+		}
+	}
 	public function error(string $key, array $args=null) { return new GWF_Error($key, $args); }
 	public function message(string $key, array $args=null) { return new GWF_Message($key, $args); }
 	
@@ -154,14 +177,27 @@ class GWF_Module extends GDO
 	 */
 	public function getMethod(string $methodName)
 	{
-		require $this->filePath("method/$methodName.php");
+		
 		$klass = $this->getName() . '_' . $methodName;
+		
+		if (!class_exists($klass, false))
+		{
+			include $this->filePath("method/$methodName.php");
+		}
+		
 		return new $klass($this);
 	}
 	
 	public function getMethodHREF(string $methodName)
 	{
-		return sprintf('/index.php?mo=%s&me=%s', $this->getName(), $methodName);
+		return GWF_Url::relative(sprintf('/index.php?mo=%s&me=%s', $this->getName(), $methodName));
 	}
 	
+	##################
+	### Javascript ###
+	##################
+	public function addJavascript(string $path)
+	{
+		return GWF_Javascript::addJavascript($this->wwwPath($path));
+	}
 }

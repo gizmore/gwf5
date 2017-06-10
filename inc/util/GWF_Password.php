@@ -27,6 +27,11 @@ final class GWF_Password
 		$this->hash = $hash;
 	}
 	
+	public function __toString()
+	{
+		return $this->hash;
+	}
+	
 	public function validate(string $password)
 	{
 		return password_verify($password, $this->hash);

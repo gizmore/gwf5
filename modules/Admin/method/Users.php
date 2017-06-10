@@ -1,18 +1,32 @@
 <?php
 class Admin_Users extends GWF_MethodTable
 {
+	use GWF_MethodAdmin;
+	
+	private $fields = array('user_id', 'user_type', 'user_level', 'user_name', 'user_credits', 'user_gender', 'user_email');
+	
+	public function execute()
+	{
+		return $this->renderNavBar()->add(parent::execute());
+	}
+	
+	public function beforeRenderTable(GWF_Table $gwfTable)
+	{
+		$gwfTable->mode = GWF_Table::BOOTSTRAP;
+	}
+	
 	public function getHeaders()
 	{
 		$headers = array(
-			GDO_Button::make('admin_edit_user')->noLabel(),
+			GDO_EditButton::make('edit_admin')->noLabel(),
 		);
-		$userHeaders = GWF_User::table()->getGDOColumns('user_id', 'user_type', 'user_level', 'user_name', 'user_credits', 'user_gender', 'user_email');
+		$userHeaders = GWF_User::table()->getGDOColumns($this->fields);
 		return array_merge($headers, $userHeaders);
 	}
 	
 	public function getResult()
 	{
-		return GWF_User::table()->select('*')->exec();
+		return GWF_User::table()->select(implode(', ', $this->fields))->exec();
 	}
 
 	public function getResultCount()

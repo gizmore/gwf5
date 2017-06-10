@@ -64,7 +64,7 @@ abstract class GDOType
 	#############
 	public function error(string $key, array $args = null)
 	{
-		$this->error = GWF_Trans::t($key, $args);
+		$this->error = t($key, $args);
 		return false;
 	}
 	
@@ -92,7 +92,7 @@ abstract class GDOType
 	#################
 	public function validator($callback)
 	{
-		$this->validators = $this->validators ? $this->validators : array();
+		$this->validators = $this->validators ? $this->validators : [];
 		$this->validators[] = $callback;
 		return $this;
 	}
@@ -108,7 +108,7 @@ abstract class GDOType
 	
 	public function label(string $key, array $args=null)
 	{
-		$this->label = GWF_Trans::t($key, $args);
+		$this->label = t($key, $args);
 		return $this;
 	}
 	
@@ -117,12 +117,17 @@ abstract class GDOType
 		return $this->label ? $this->label : '';
 	}
 	
+	public function displayHeaderLabel()
+	{
+		return $this->displayLabel();
+	}
+	
 	###################
 	### Placeholder ###
 	###################
 	public function placeholder(string $placeholder, array $args=null)
 	{
-		$this->placeholder = GWF_Trans::t($placeholder, $args);
+		$this->placeholder = t($placeholder, $args);
 		return $this;
 	}
 	
@@ -142,9 +147,29 @@ abstract class GDOType
 	
 	public function displayTooltip(array $args=null)
 	{
-		return $this->tooltip ? GWF_Trans::t($this->tooltip, $args) : '';
+		return $this->tooltip ? t($this->tooltip, $args) : '';
 	}
 	
+	############
+	### Icon ###
+	############
+	public $icon;
+	public function htmlIcon()
+	{
+		return $this->icon ? $this->icon : '';
+	}
+	
+	public function matIcon(string $icon)
+	{
+		$this->icon = self::matIconS($icon);
+		return $this;
+	}
+	
+	public static function matIconS(string $icon)
+	{
+		return "<md-icon class=\"material-icons\">$icon</md-icon>";
+	}
+
 	###############
 	### Default ###
 	###############
@@ -172,6 +197,11 @@ abstract class GDOType
 	{
 		$this->gdo = $gdo;
 		return $this;
+	}
+	
+	public function getGDOVar()
+	{
+		return $this->gdo->getVar($this->name);
 	}
 	
 	public function value($value)
@@ -206,7 +236,7 @@ abstract class GDOType
 	public function formValue()
 	{
 		$vars = Common::getRequestArray('form', []);
-		return isset($vars[$this->name]) ? (string)$vars[$this->name] : $this->value;
+		return isset($vars[$this->name]) ? (string)$vars[$this->name] : $this->getValue();
 	}
 	
 	public function displayFormValue()
@@ -215,21 +245,26 @@ abstract class GDOType
 		return $value ? GWF_HTML::escape($value) : '';
 	}
 	
-	public function gdoDisplay(GDO $gdo, $value)
+// 	public function gdoDisplay(GDO $gdo, $value)
+// 	{
+// 		if ($value === null)
+// 		{
+// 			return "<i>null</i>";
+// 		}
+// 		if ($value === false)
+// 		{
+// 			return "<i>false</i>";
+// 		}
+// 		if ($value === true)
+// 		{
+// 			return "<i>true</i>";
+// 		}
+// 		return GWF_HTML::escape($value);
+// 	}
+	
+	public function quotedValue()
 	{
-		if ($value === null)
-		{
-			return "<i>null</i>";
-		}
-		if ($value === false)
-		{
-			return "<i>false</i>";
-		}
-		if ($value === true)
-		{
-			return "<i>true</i>";
-		}
-		return GWF_HTML::escape($value);
+		return GDO::quoteS($this->formValue());
 	}
 	
 	##############
@@ -330,6 +365,7 @@ abstract class GDOType
 	##############
 	### Render ###
 	##############
+	public function __toString() { return $this->render()->__toString(); }
 	public function render()
 	{
 		return '';
@@ -340,9 +376,29 @@ abstract class GDOType
 		return array(
 			'name' => $this->name,
 			'error' => $this->error,
-			'type' => get_class($this),
-			'value' => $this->formValue(),
+			'type' => get_called_class(),
+			'value' => $this->jsonFormValue(),
 		);
+	}
+	
+	public function jsonFormValue()
+	{
+		return $this->formValue();
+	}
+	
+	public function gdoRenderCell()
+	{
+		$method = "render_{$this->name}";
+		if (method_exists($this->gdo, $method))
+		{
+			return call_user_func([$this->gdo,$method]);
+		}
+		return $this->renderCell();
+	}
+	
+	public function renderCell()
+	{
+		return GWF_HTML::escape($this->gdo->getVar($this->name));
 	}
 	
 	##################
@@ -363,7 +419,7 @@ abstract class GDOType
 	{
 		$this->oldValue = $this->getValue();
 		$this->value = $value;
-		$form->addValue($this->name, $value);
+		$form->addValue($this->name, $this->value);
 	}
 	
 	public function hasChanged()

@@ -1,6 +1,23 @@
 <?php
+/**
+ * Renders a GDOResult.
+ * 
+ * @author gizmore
+ *
+ */
 class GWF_Table extends GWF_Response
 {
+	const BOOTSTRAP = 0;
+	const DATATABLE = 1;
+	public static $MODE_TPL = ['table.php', 'datatable.php'];
+	public $name = 'test';
+	public $mode = 0;
+	
+	/**
+	 * @var GWF_Method
+	 */
+	public $method;
+	
 	/**
 	 * @var GDOResult
 	 */
@@ -18,9 +35,13 @@ class GWF_Table extends GWF_Response
 	private $title;
 	public function title(string $key, array $args=null)
 	{
-		$this->title = GWF_Trans::t($key, $args);
+		$this->title = t($key, $args);
 		return $this;
 	}
+	
+	############
+	### Name ###
+	############
 
 	###############
 	### Headers ###
@@ -83,13 +104,40 @@ class GWF_Table extends GWF_Response
 	##############
 	public function render()
 	{
+		switch (GWF5::instance()->getFormat())
+		{
+			case 'json': return new GWF_Response($this->renderJSON());
+			case 'html': default: return $this->renderHTML();
+		}
+	}
+	
+	public function renderJSON()
+	{
+		return array(
+			'result' => $this->result->renderJSON(),
+			'headers' => $this->renderHeadersJSON(),
+			'pagemenu' => $this->pagemenu ? $this->pagemenu->renderJSON() : null,
+		);
+	}
+	
+	private function renderHeadersJSON()
+	{
+		$headers = [];
+		foreach ($this->headers as $gdoType)
+		{
+			$headers[] = $gdoType->renderJSON();
+		}
+		return $headers;
+	}
+	
+	public function renderHTML()
+	{
 		$tVars = array(
 			'table' => $this,
 			'result' => $this->result,
 			'headers' => $this->headers,
 			'pagemenu' => $this->pagemenu,
 		);
-		return GWF_Template::templateMain('table.php', $tVars);
-		
+		return GWF_Template::templateMain(self::$MODE_TPL[$this->mode], $tVars);
 	}
 }

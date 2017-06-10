@@ -40,25 +40,26 @@ class GDO_AntiCSRF extends GDOType
 	public function __construct()
 	{
 		$this->name = 'csrf';
-		
-		if (GWF_Session::instance())
-		{
-			$this->refreshCSRFToken();
-		}
 	}
 	
-	public function refreshCSRFToken()
+	public function csrfToken()
 	{
-		$this->value = GWF_Random::randomKey(8);
-		# Append csrf token to session
-		$csrf = GWF_Session::get('csrf', []);
-		$expire = time() + $this->csrfExpire;
-		$csrf[$this->value] = $expire;
-		while (count($csrf) > $this->csrfMaxTokens)
+		$token = '';
+		if (GWF_Session::instance())
 		{
-			array_shift($csrf);
+			$token = GWF_Random::randomKey(8);
+			# Append csrf token to session
+			$csrf = GWF_Session::get('csrf', []);
+			$expire = time() + $this->csrfExpire;
+			$csrf[$token] = $expire;
+			# Cleanup max
+			while (count($csrf) > $this->csrfMaxTokens)
+			{
+				array_shift($csrf);
+			}
+			GWF_Session::set('csrf', $csrf);
 		}
-		GWF_Session::set('csrf', $csrf);
+		return $token;
 	}
 	
 	################
@@ -78,7 +79,7 @@ class GDO_AntiCSRF extends GDOType
 			return $this->error('err_csrf');
 		}
 		
-		# Cleanup
+		# Cleanup expire
 		$now = time();
 		foreach ($csrf as $token => $expire)
 		{
@@ -88,9 +89,9 @@ class GDO_AntiCSRF extends GDOType
 			}
 		}
 		
-		# Save 
+		# Save
 		unset($csrf[$value]);
-		$this->refreshCSRFToken();
+		GWF_Session::set('csrf', $csrf);
 		
 		return true;
 	}
@@ -103,4 +104,8 @@ class GDO_AntiCSRF extends GDOType
 		return GWF_Template::templateMain('form/csrf.php', ['field'=>$this]);
 	}
 	
+	public function jsonFormValue()
+	{
+		return $this->csrfToken();
+	}
 }

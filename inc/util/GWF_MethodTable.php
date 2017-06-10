@@ -35,6 +35,7 @@ abstract class GWF_MethodTable extends GWF_Method
 	 * @param GWF_Table $gwfTable
 	 */
 	public function onDecorateTable(GWF_Table $gwfTable) {}
+	public function beforeRenderTable(GWF_Table $gwfTable) {}
 	
 	###############
 	### Execute ###
@@ -49,8 +50,10 @@ abstract class GWF_MethodTable extends GWF_Method
 		$gwfTable = new GWF_Table($this->getResult());
 		$this->onDecorateTable($gwfTable);
 		$gwfTable->href($this->href());
-		$gwfTable->paginated($this->getItemsPerPage(), $this->getResultCount());
+		$gwfTable->paginated($this->getResultCount(), $this->getItemsPerPage());
 		$gwfTable->headers($this->getHeaders());
+		$gwfTable->method = $this;
+		$this->beforeRenderTable($gwfTable);
 		return $gwfTable->render();
 	}
 }

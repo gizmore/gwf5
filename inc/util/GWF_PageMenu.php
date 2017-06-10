@@ -63,12 +63,32 @@ class GWF_PageMenu
 	##############
 	public function render()
 	{
+		switch (GWF5::instance()->getFormat())
+		{
+			case 'json': return $this->renderJSON();
+			case 'html': default: return $this->renderHTML();
+		}
+	}
+	
+	public function renderJSON()
+	{
+		return array(
+			'items' => $this->items,
+			'ipp' => $this->ipp,
+			'page' => $this->page,
+			'pages' => $this->pages,
+		);
+	}
+
+	public function renderHTML()
+	{
 		$tVars = array(
 			'pagemenu' => $this,
 			'pages' => $this->pagesObject(),
 		);
 		return GWF_Template::templateMain('pagemenu.php', $tVars);
 	}
+	
 	
 	private function pagesObject()
 	{

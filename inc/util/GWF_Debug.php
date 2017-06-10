@@ -324,7 +324,7 @@ final class GWF_Debug
 			$back .= $html ? '<em>'.$message.'</em>' : $message;
 		}
 
-		$implode = array();
+		$implode = [];
 		$preline = 'Unknown';
 		$prefile = 'Unknown';
 		$longest = 0;
@@ -346,7 +346,7 @@ final class GWF_Debug
 			$prefile = isset($row['file']) ? $row['file'] : '[unknown file]';
 		}
 
-		$copy = array();
+		$copy = [];
 		foreach ($implode as $imp)
 		{
 			list($func, $file, $line) = $imp;

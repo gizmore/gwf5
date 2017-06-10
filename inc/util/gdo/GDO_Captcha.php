@@ -11,7 +11,7 @@ class GDO_Captcha extends GDOType
 	
 	public function render()
 	{
-		$tVars = array();
+		$tVars = [];
 		return GWF_Template::templateMain('form/captcha.php', $tVars);
 	}
 }

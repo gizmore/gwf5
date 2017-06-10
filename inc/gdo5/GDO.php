@@ -73,13 +73,15 @@ abstract class GDO
 	 */
 	public function gdoColumn(string $key)
 	{
-		foreach ($this->gdoColumnsCache() as $column)
-		{
-			if ($column->name === $key)
-			{
-				return $column;
-			}
-		}
+		$columns = $this->gdoColumnsCache();
+		return $columns[$key];
+// 		foreach ($this->gdoColumnsCache() as $column)
+// 		{
+// 			if ($column->name === $key)
+// 			{
+// 				return $column;
+// 			}
+// 		}
 	}
 	
 	/**
@@ -95,34 +97,41 @@ abstract class GDO
 		return @$this->gdoVars[$key];
 	}
 	
-	public function display(string $key)
-	{
-		if ($column = $this->gdoColumn($key))
-		{
-			return $column->gdoDisplay($this, $this->getVar($key));
-		}
-		$method_name = 'display_' . $key;
-		if (method_exists($this, $method_name))
-		{
-			return call_user_func(array($this, $method_name));
-		}
-		else
-		{
-			return GWF_Error::error('err_missing_display_function', [$this->gdoClassName(), $method_name]);
-		}
-	}
+// 	public function display(string $key)
+// 	{
+// 		if ($column = $this->gdoColumn($key))
+// 		{
+// 			return $column->gdoDisplay($this, $this->getVar($key));
+// 		}
+// 		$method_name = 'display_' . $key;
+// 		if (method_exists($this, $method_name))
+// 		{
+// 			return call_user_func(array($this, $method_name));
+// 		}
+// 		else
+// 		{
+// 			return GWF_Error::error('err_missing_display_function', [$this->gdoClassName(), $method_name]);
+// 		}
+// 	}
 
-	public function setVar(string $key, string $value, $markDirty=true)
+	public function setVar(string $key, $value, $markDirty=true)
 	{
 		$this->gdoVars[$key] = $value;
 		return $markDirty ? $this->markDirty($key) : $this;
 	}
 	
+	public function setVars(array $vars, $markDirty=true)
+	{
+		foreach ($vars as $key => $value)
+		{
+			$this->setVar($key, $value, $markDirty);
+		}
+		return $this;
+	}
+	
 	public function setValue(string $key, $value, $markDirty=true)
 	{
-		$type = $this->gdoColumn($key);
-		$type->setGDOValue($value);
-		return $this->setVar($key, $type->getValue());
+		$this->gdoColumn($key)->gdo($this)->setGDOValue($value);
 	}
 	
 	public function markClean(string $key)
@@ -170,7 +179,7 @@ abstract class GDO
 	 */
 	public function getVars(string ...$keys)
 	{
-		$back = array();
+		$back = [];
 		foreach ($keys as $key)
 		{
 			$back[$key] = $this->getVar($key);
@@ -250,7 +259,7 @@ abstract class GDO
 		return $this->query()->select('*')->from($this->gdoTableIdentifier())->where($where)->first()->exec()->fetchObject();
 	}
 	
-	public function select(string $columns)
+	public function select(string $columns='*')
 	{
 		return $this->query()->select($columns)->from($this->gdoTableIdentifier());
 	}
@@ -259,7 +268,7 @@ abstract class GDO
 	{
 		if ($this->persisted)
 		{
-			$this->query()->delete()->from($this->gdoTableIdentifier())->where($this->getPKWhere())->exec();
+			$this->query()->delete($this->gdoTableIdentifier())->where($this->getPKWhere())->exec();
 			$this->persisted = false;
 			$this->dirty = false;
 		}
@@ -391,7 +400,7 @@ abstract class GDO
 	 */
 	public function gdoPrimaryKeyColumns()
 	{
-		$columns = array();
+		$columns = [];
 		foreach ($this->gdoColumnsCache() as $column)
 		{
 			if ($column->isPrimary())
@@ -450,7 +459,7 @@ abstract class GDO
 	public static function blankData(array $initial = null)
 	{
 		$table = self::table();
-		$gdoVars = array();
+		$gdoVars = [];
 		foreach ($table->gdoColumnsCache() as $column)
 		{
 			if ($data = $column->blankData())
@@ -460,7 +469,8 @@ abstract class GDO
 		}
 		if ($initial)
 		{
-			$gdoVars = array_merge($gdoVars, $initial);
+			# Merge only existing keys
+			$gdoVars = array_intersect_key($initial, $gdoVars) + $gdoVars;
 		}
 		return $gdoVars;
 	}
@@ -533,12 +543,12 @@ abstract class GDO
 	/**
 	 * @return GDOType[]
 	 */
-	public function getGDOColumns(string ...$names)
+	public function getGDOColumns(array $names)
 	{
 		$columns = [];
 		foreach ($names as $key)
 		{
-			$columns[] = $this->gdoColumn($key);
+			$columns[$key] = $this->gdoColumn($key);
 		}
 		return $columns;
 	}

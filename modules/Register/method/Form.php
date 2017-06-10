@@ -3,20 +3,24 @@ class Register_Form extends GWF_MethodForm
 {
 	public function title()
 	{
-		return GWF_Trans::t('page_title_register');
+		return t('page_title_register');
 	}
 
 	public function createForm()
 	{
 		$module = Module_Register::instance();
 		$form = new GWF_Form();
-		$form->title('form_title_register', [GWF_SITENAME]);
+		$form->title('form_title_register', [GWF5::instance()->getSiteName()]);
 		$form->addField(GDO_Validator::make('validator1')->validator(array($this, 'validateUniqueIP')));
 		$form->addField(GDO_Username::make('user_name')->required()->validator(array($this, 'validateUniqueUsername')));
-		$form->addField(GDO_Password::make('user_password')->required());
+		$form->addField(GDO_Password::make('user_password')->required()->hash());
 		if ($module->cfgEmailActivation())
 		{
 			$form->addField(GDO_Email::make('user_email')->required()->validator(array($this, 'validateUniqueEmail')));
+		}
+		if ($module->cfgTermsOfService())
+		{
+			$form->addField(GDO_Checkbox::make('tos')->required()->label('tos_label', [$module->cfgTosUrl()]));
 		}
 		if ($module->cfgCaptcha())
 		{
@@ -44,7 +48,7 @@ class Register_Form extends GWF_MethodForm
 
 	public function validateUniqueEmail(GDO_Email $email)
 	{
-		$count = GWF_User::table()->count()->where("user_email={$email->quotedValue()}");
+		$count = GWF_User::table()->countWhere("user_email={$email->quotedValue()}");
 		$max = Module_Register::instance()->cfgMaxUsersPerMail();
 		return $count < $max ? true :  $email->error('err_email_signup_max_reached', [$max]);
 	}
@@ -76,14 +80,20 @@ class Register_Form extends GWF_MethodForm
 		}
 		else
 		{
-			$url = $module->getMethod('Activate')->href("&id={$activation->getID()}&token={$activation->getToken()}");
-			return new GWF_Message('msg_activating', [$url]);
+			return new GWF_Message('msg_activating', [$activation->getHref()]);
 		}
 	}
 	
 	public function onEmailActivation(GWF_UserActivation $activation)
 	{
-		
+		$mail = new GWF_Mail();
+		$mail->setSubject(t('mail_activate_title', [GWF5::instance()->getSiteName()]));
+		$args = array($activation->getUsername(), GWF5::instance()->getSiteName(), $activation->getUrl());
+		$mail->setBody(t('mail_activate_body', $args));
+		$mail->setSender(GWF_BOT_EMAIL);
+		$mail->setReceiver($activation->getEmail());
+		$mail->sendAsHTML();
+		return new GWF_Message('msg_activation_mail_sent');
 	}
 	
 }

@@ -16,8 +16,23 @@ class GDO_Password extends GDO_String
 	
 	public function getGDOValue()
 	{
-		return new GWF_Password($this->getValue());
+		return new GWF_Password($this->gdo->getVar('user_password'));
 	}
+	
+	public $hashed = false;
+	public function hash(bool $hashed=true)
+	{
+		$this->hashed = $hashed;
+		return $this;
+	}
+	
+	public function addFormValue(GWF_Form $form, $value)
+	{
+		$this->oldValue = $this->getValue();
+		$this->value = $this->hashed ? GWF_Password::create($value)->__toString() : $value;
+		$form->addValue($this->name, $this->value);
+	}
+	
 	
 	public function render()
 	{

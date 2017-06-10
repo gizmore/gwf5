@@ -20,6 +20,7 @@ class GDOQuery
 	private $columns;
 	private $where;
 	private $join;
+	private $group;
 	private $having;
 	private $from;
 	private $type;
@@ -128,7 +129,7 @@ class GDOQuery
 	public function delete(string $tableName)
 	{
 		$this->write = true;
-		$this->type = "DELETE";
+		$this->type = "DELETE FROM";
 		return $this->from($tableName);
 	}
 	
@@ -168,12 +169,27 @@ class GDOQuery
 	{
 		if ($this->join)
 		{
-			$this->join .= $join;
+			$this->join .= " $join";
 		}
 		else
 		{
 			$this->join = " $join";
 		}
+		return $this;
+	}
+	
+	public function joinObject(string $key)
+	{
+		$gdoType = $this->table->gdoColumn($key);
+		$gdoType instanceof GDO_Object;
+		$table = $gdoType->foreignTable();
+		$join = "JOIN {$table->gdoTableIdentifier()} ON {$table->gdoAutoIncColumn()->identifier()}={$gdoType->identifier()}";
+		return $this->join($join);
+	}
+	
+	public function group($group)
+	{
+		$this->group = $this->group ? "{$this->group},{$group}" : $group;
 		return $this;
 	}
 	
@@ -189,8 +205,8 @@ class GDOQuery
 		{
 			return '';
 		}
-		$fields = array();
-		$values = array();
+		$fields = [];
+		$values = [];
 		foreach ($this->values as $key => $value)
 		{
 			$fields[] = GDO::quoteIdentifierS($key);
@@ -204,6 +220,11 @@ class GDOQuery
 	public function getJoin()
 	{
 		return $this->join ? " {$this->join}" : "";
+	}
+	
+	public function getGroup()
+	{
+		return $this->group ? " GROUP BY $this->group" : "";
 	}
 	
 	public function getOrderBy()
@@ -240,6 +261,7 @@ class GDOQuery
 		return $this->type . $this->getSelect() . $this->getFrom() . 
 			$this->getValues() . $this->getSet() .
 			$this->getJoin() . $this->getWhere() .
+			$this->getGroup() .
 			$this->getOrderBy() . $this->getLimit(); 
 	}
 

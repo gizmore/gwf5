@@ -15,7 +15,17 @@ class GDO_Object extends GDOType
 	 */
 	public function getGDOValue()
 	{
-		return $this->foreignTable()->find($this->getValue());
+		return $this->foreignTable()->find($this->gdo->getVar($this->name));
+	}
+	
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see GDOType::setGDOValue()
+	 */
+	public function setGDOValue($value)
+	{
+		$this->gdo->setVar($this->name, $value ? $value->getID() : null);
 	}
 	
 	#####################

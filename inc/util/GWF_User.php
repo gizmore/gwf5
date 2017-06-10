@@ -44,6 +44,9 @@ final class GWF_User extends GDO
 	##############
 	public function getID() { return $this->getVar('user_id'); }
 	public function getType() { return $this->getVar('user_type'); }
+	public function getName() { return $this->getVar('user_name'); }
+	public function getPersonName() { return $this->getVar('user_realname'); }
+	public function getGuestName() { return $this->getVar('user_guest_name'); }
 	public function isGhost() { return $this->getType() === 'ghost'; }
 	public function isGuest() { return $this->getType() === 'guest'; }
 	public function isMember() { return $this->getType() === 'member'; }
@@ -51,13 +54,40 @@ final class GWF_User extends GDO
 	###############
 	### Display ###
 	###############
-	public function displayName() { return $this->display('user_name'); }
-	public function display_admin_edit_user() { return GDO_Button::make('admin_edit_user')->label('btn_edit')->href($this->hrefAdminEdit())->render(); }
+	public function displayName()
+	{
+		if ($personName = $this->getPersonName())
+		{
+			return GWF_HTML::escape($personName);
+		}
+		elseif ($guestName = $this->getGuestName())
+		{
+			return GWF_HTML::escape($guestName);
+		}
+		else
+		{
+			return $this->getName();
+		}
+	}
+	public function hasPersonName()
+	{
+		return !!$this->getPersonName();
+	}
+	
+// 	public function display_admin_edit_user() { return GDO_Button::make('admin_edit_user')->label('btn_edit')->href($this->hrefAdminEdit())->render(); }
 	
 	#############
 	### HREFs ###
 	#############
-	public function hrefAdminEdit() { return GWF5::getMethodHREF('Admin', 'UserEdit', "&id={$this->getID()}"); }
+	public function href_edit_admin() { return href('Admin', 'UserEdit', "&id={$this->getID()}"); }
+	
+	#############
+	### Perms ###
+	#############
+	private $permissions;
+	public function loadPermissions() { if (!$this->permissions) { $this->permissions = GWF_UserPermission::load($this); } }
+	public function hasPermission(string $perm) { $this->loadPermissions(); return isset($this->permissions[$perm]); }
+	public function isAdmin() { return $this->hasPermission('admin'); }
 	
 	##############
 	### Static ###

@@ -39,13 +39,13 @@ class GWF_Form
 	
 	public function title(string $key, array $args=null)
 	{
-		$this->title = GWF_Trans::t($key, $args);
+		$this->title = t($key, $args);
 		return $this;
 	}
 	
 	public function info(string $key, array $args=null)
 	{
-		$this->info = GWF_Trans::t($key, $args);
+		$this->info = t($key, $args);
 		return $this;
 	}
 	
@@ -99,7 +99,7 @@ class GWF_Form
 	{
 		if (!$this->values)
 		{
-			$this->values = array();
+			$this->values = [];
 		}
 		$this->values[$key] = $value;
 		return $this;
@@ -110,7 +110,7 @@ class GWF_Form
 	##############
 	public function render()
 	{
-		switch (Common::getRequestString('fmt', 'html'))
+		switch (GWF5::instance()->getFormat())
 		{
 			case 'html': default: return $this->renderHTML();
 			case 'json': return $this->renderJSON();
@@ -135,12 +135,12 @@ class GWF_Form
 		$json = array(
 			'fields' => $this->jsonFields(), 
 		);
-		return json_encode($json);
+		return new GWF_Response($json);
 	}
 	
 	private function jsonFields()
 	{
-		$json = array();
+		$json = [];
 		foreach ($this->fields as $field)
 		{
 			$json[] = $field->renderJSON(); 

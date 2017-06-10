@@ -4,6 +4,7 @@ class GDO_Decimal extends GDO_Int
 	public $digitsBefore = 5;
 	public $digitsAfter = 5;
 	
+	
 	public function digits(int $before, int $after)
 	{
 		$this->digitsBefore = $before;
@@ -22,4 +23,8 @@ class GDO_Decimal extends GDO_Int
 		return GWF_Template::templateMain('form/decimal.php', ['field'=>$this]);
 	}
 	
+	public function getGDOValue()
+	{
+		return round($this->getValue(), $this->digitsAfter);
+	}
 }

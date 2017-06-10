@@ -12,15 +12,14 @@ class Admin_UserEdit extends GWF_MethodForm
 		return parent::execute();
 	}
 	
-	public function createForm()
+	public function createForm(GWF_Form $form)
 	{
-		$form = new GWF_Form();
 		foreach ($this->user->gdoColumnsCache() as $gdoType)
 		{
 			$form->addField($gdoType);
 		}
 		$form->addField(GDO_Submit::make());
 		$form->addField(GDO_AntiCSRF::make());
-		return $form->withGDOValuesFrom($this->user);
+		$form->withGDOValuesFrom($this->user);
 	}
 }

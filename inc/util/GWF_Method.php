@@ -18,9 +18,10 @@ abstract class GWF_Method
 	################
 	public function isEnabled() { return true; }
 	public function isGuestAllowed() { return true; }
-	public function isCookieRequired() { return true; }
-	public function isSessionRequired() { return true; }
-	public function getPermissions() {}
+	public function isCookieRequired() { return false; }
+	public function isSessionRequired() { return false; }
+	public function getPermission() {}
+	public function getUserType() {}
 	
 	/**
 	 * @return GWF_Response
@@ -32,7 +33,7 @@ abstract class GWF_Method
 	###########
 	public function title()
 	{
-		return GWF_SITENAME;
+		return GWF5::instance()->getSiteName();
 	}
 	
 	##############
@@ -40,9 +41,9 @@ abstract class GWF_Method
 	##############
 	public function error(string $key, array $args=null) { return $this->module->error($key, $args); }
 	public function message(string $key, array $args=null) { return $this->module->message($key, $args); }
-	public function href(string $app='') { return sprintf('/index.php?mo=%s&me=%s&fmt=%s%s', $this->module->getName(), $this->getName(), GWF5::getFormat(), $app); }
+	public function href(string $app='') { return sprintf('/index.php?mo=%s&me=%s%s', $this->module->getName(), $this->getName(), $app); }
 	public function template(string $filename, array $tVars=null) { return $this->module->template($filename, $tVars); }
-	
+	public function getFormat() { return GWF5::instance()->getFormat(); }
 	############
 	### Exec ###
 	############
@@ -51,10 +52,23 @@ abstract class GWF_Method
 	 */
 	public function exec()
 	{
+		$user = GWF_User::current();
+		
 		if (!($this->isEnabled()))
 		{
 			return new GWF_Error('err_method_disabled');
 		}
+		
+		if ( (!$this->isGuestAllowed()) && (!GWF_User::current()->isMember()) )
+		{
+			return new GWF_Error('err_members_only');
+		}
+		
+		if ( ($this->getUserType()) && ($this->getUserType() !== $user->getType()) )
+		{
+			return new GWF_Error('err_already_authenticated');
+		}
+			
 		return $this->execute();
 	}
 	

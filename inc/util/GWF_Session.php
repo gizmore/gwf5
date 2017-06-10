@@ -4,7 +4,7 @@ class GWF_Session extends GDO
 	const DUMMY_COOKIE_CONTENT = 'GWF_like_16_byte';
 	
 	private static $INSTANCE;
-	private static $STARTED = false;
+	public static $STARTED = false;
 	
 	private static $COOKIE_NAME = 'GWF5';
 	private static $COOKIE_DOMAIN = 'localhost';
@@ -96,9 +96,9 @@ class GWF_Session extends GDO
 	
 	public static function commit()
 	{
-		if ($session = self::instance())
+		if (self::$INSTANCE)
 		{
-			return $session->save();
+			self::$INSTANCE->save();
 		}
 	}
 	

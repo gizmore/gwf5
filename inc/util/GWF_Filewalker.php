@@ -23,7 +23,7 @@ final class GWF_Filewalker
 			$callback_dir = array(__CLASS__, 'filewalker_stub');
 		}
 		
-		$dirstack = array();
+		$dirstack = [];
 		while ($entry = $dir->read())
 		{
 			$fullpath = $path.'/'.$entry;
