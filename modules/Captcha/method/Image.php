@@ -20,12 +20,13 @@ class Captcha_Image extends GWF_Method
 		GWF_HTTP::noCache();
 		
 		# Setup Font, Color, Size
-		$aFonts = $module->cfgCaptchaFonts();
-		$rgbcolor = $module->cfgCaptchaBG();
+		$aFonts = json_decode($module->cfgCaptchaFonts());
+		$aFonts = array_map(function($font){ return GWF_PATH . 'inc/fonts/'.$font; }, $aFonts);
+		$rgbcolor = ltrim($module->cfgCaptchaBG(), '#');
 		$width = $module->cfgCaptchaWidth();
 		$height = $module->cfgCaptchaHeight();
 		$oVisualCaptcha = new PhpCaptcha($aFonts, $width, $height, $rgbcolor);
 		
-		return new GWF_Response($oVisualCaptcha->Create('', Common::getGetString('chars', true)));
+		return new GWF_Response($oVisualCaptcha->Create('', GWF_Session::get('php_lock_captcha', true)));
 	}
 }

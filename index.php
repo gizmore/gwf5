@@ -37,14 +37,20 @@ else
 	$method = $module->defaultMethod();
 }
 
+ob_start();
+
 # Exec
 if (!($response = $method->exec()))
 {
 	$response = new GWF_Error('err_blank_response');
 }
 
+$response = GWF_Response::make(ob_get_clean())->add($response);
+
 # Render
 echo $gwf5->render($method, $response);
+
+
 
 # ----
 if ($gwf5->isFullPageRequest())

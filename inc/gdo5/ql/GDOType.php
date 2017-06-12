@@ -428,6 +428,10 @@ abstract class GDOType
 	{
 		return true;
 	}
+	
+	public function onValidated()
+	{
+	}
 
 	###################
 	### Flow upload ###

@@ -69,7 +69,21 @@ class GWF_Form
 				}
 			}
 		}
+		
+		if ($valid)
+		{
+			$this->onValidated();
+		}
+		
 		return $valid;
+	}
+	
+	public function onValidated()
+	{
+		foreach ($this->fields as $gdoType)
+		{
+			$gdoType->onValidated();
+		}
 	}
 	
 	##############

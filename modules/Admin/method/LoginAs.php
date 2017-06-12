@@ -11,6 +11,11 @@ final class Admin_LoginAs extends GWF_MethodForm
 		$form->addField(GDO_AntiCSRF::make());
 	}
 	
+	public function execute()
+	{
+		return $this->renderNavBar()->add(parent::execute());
+	}
+	
 	/**
 	 * @return Login_Form
 	 */
