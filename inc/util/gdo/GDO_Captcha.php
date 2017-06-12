@@ -11,7 +11,13 @@ class GDO_Captcha extends GDOType
 	
 	public function render()
 	{
-		$tVars = [];
-		return GWF_Template::mainPHP('form/captcha.php', $tVars);
+		return GWF_Template::mainPHP('form/captcha.php', ['field' => $this]);
 	}
+	
+	public function validate($value)
+	{
+		return true;
+		
+	}
+	
 }

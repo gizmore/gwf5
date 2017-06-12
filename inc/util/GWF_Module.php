@@ -14,7 +14,8 @@ class GWF_Module extends GDO
 	public $module_version = "5.00";
 	public $module_author = "Christian Busch <gizmore@wechall.net>";
 	public $module_license = "MIT";
-
+	public $module_priority = 50;
+	
 	/**
 	 * @return string[]
 	 */

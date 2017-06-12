@@ -10,7 +10,7 @@ final class Login_Form extends GWF_MethodForm
 	
 	public function createForm(GWF_Form $form)
 	{
-		$form->addField(GDO_Username::make('login')->placeholder('plch_usename'));
+		$form->addField(GDO_Username::make('login')->tooltip('tt_login'));
 		$form->addField(GDO_Password::make('user_password'));
 		$form->addField(GDO_Checkbox::make('bind_ip'));
 		if (Module_Login::instance()->cfgCaptcha())
@@ -19,6 +19,7 @@ final class Login_Form extends GWF_MethodForm
 		}
 		$form->addField(GDO_Submit::make()->label('btn_login'));
 		$form->addField(GDO_AntiCSRF::make());
+		$form->addField(GDO_Button::make('btn_recovery')->href(href('Recovery', 'Form')));
 	}
 	
 	public function renderPage()
@@ -48,10 +49,10 @@ final class Login_Form extends GWF_MethodForm
 	{
 		if ($response = $this->banCheck())
 		{
-			return $response->add($form->render());
+			return $response->add($this->renderPage());
 		}
 		
-		if ( (!($user = GWF_User::getByName($form->getVar('login')))) ||
+		if ( (!($user = GWF_User::getByLogin($form->getVar('login')))) ||
 		     (!($user->getValue('user_password')->validate($form->getVar('user_password')))) )
 		{
 			return $this->loginFailed($user)->add($form->render());
@@ -115,15 +116,14 @@ final class Login_Form extends GWF_MethodForm
 	private function banData()
 	{
 		$table = GWF_LoginAttempt::table();
-		$condition = sprintf('la_ip=%s AND la_time>%d', GDO::quoteS(GDO_IP::current()), $this->banCut());
+		$condition = sprintf('la_ip=%s AND la_time > FROM_UNIXTIME(%d)', GDO::quoteS(GDO_IP::current()), $this->banCut());
 		return $table->select('UNIX_TIMESTAMP(MIN(la_time)), COUNT(*)')->where($condition)->exec()->fetchRow();
 	}
 	
 	private function checkSecurityThreat(GWF_User $user)
 	{
 		$table = GWF_LoginAttempt::table();
-		$cut = time() - $this->banTimeout();
-		$condition = sprintf('la_user_id=%s AND la_time > %d', $user->getID(), $cut);
+		$condition = sprintf('la_user_id=%s AND la_time > FROM_UNIXTIME(%d)', $user->getID(), $this->banCut());
 		if (1 === ($attempts = $table->countWhere($condition)))
 		{
 			$this->mailSecurityThreat($user);

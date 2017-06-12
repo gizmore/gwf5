@@ -132,8 +132,13 @@ final class GWF5
 	}
 }
 
+
 function href($moduleName, $methodName, $append='')
 {
 	return GWF5::instance()->getMethodHREF($moduleName, $methodName, $append);
 }
 
+function url($moduleName, $methodName, $append='')
+{
+	return GWF_Url::absolute(href($moduleName, $methodName, $append));
+}

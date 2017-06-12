@@ -492,6 +492,7 @@ abstract class GDO
 	 */
 	public static function getBy(string $key, string $value)
 	{
+// 		$cache = self::table()->cache;
 		return self::table()->findWhere(self::quoteIdentifierS($key) . '=' . self::quoteS($value));
 	}
 	

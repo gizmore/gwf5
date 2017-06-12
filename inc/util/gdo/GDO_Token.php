@@ -13,6 +13,7 @@ class GDO_Token extends GDO_Char
 	public function __construct()
 	{
 		$this->size(self::$LENGTH);
+		$this->notNull();
 	}
 	
 	public function size(int $size)

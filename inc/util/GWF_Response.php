@@ -9,6 +9,16 @@ class GWF_Response
 		return new self($html);
 	}
 	
+	public static function message(string $key, array $args=null)
+	{
+		return new self(t($key, $args));
+	}
+	
+	public static function error(string $key, array $args=null)
+	{
+		return new self(t($key, $args), true);
+	}
+	
 	public function __construct($html, $error=false)
 	{
 		$this->html = $html;
@@ -32,12 +42,6 @@ class GWF_Response
 			$this->html .= $response->html;
 		}
 		return $this;
-	}
-	
-	public static function error(string $key, array $args=null)
-	{
-		$html = t($key, $args);
-		return new self($html, true);
 	}
 	
 	public function __toString()

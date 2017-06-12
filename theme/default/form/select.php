@@ -1,14 +1,17 @@
-<?php $field instanceof GDO_Gender; ?>
+<?php $field instanceof GDO_Select; ?>
 <md-input-container class="md-block md-float md-icon-left" flex>
   <label><?php echo $field->displayLabel(); ?></label>
   <md-select
+   <?php if ($field->multiple) : ?>
+   multiple
+   <?php endif; ?>
    ng-controller="GWFSelectCtrl"
    ng-model="selection"
-   ng-init="selection = '<?php echo $field->displayFormValue(); ?>'"
-   ng-change="valueSelected('#gwfsel_<?php echo $field->name; ?>')">
-    <md-option value="0"><?php l('no_gender'); ?></md-option>
-    <md-option value="m"><?php l('male'); ?></md-option>
-    <md-option value="f"><?php l('female'); ?></md-option>
+   ng-init='init(<?php echo $field->formValue(); ?>)'
+   ng-change="multiValueSelected('#gwfsel_<?php echo $field->name; ?>')">
+    <?php foreach ($field->choices as $value => $choice) : ?>
+      <md-option value="<?php echo htmlspecialchars($value); ?>"><?php echo htmlspecialchars($choice); ?></md-option>
+    <?php endforeach; ?>
   </md-select>
   <input
    class="n"

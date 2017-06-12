@@ -1,7 +1,8 @@
 <?php
 class Module_GWF extends GWF_Module
 {
-	public $module_version= "5.01";
+	public $module_version = "5.01";
+	public $module_priority = 5;
 	
 	public function isCoreModule() { return true; }
 	public function onLoadLanguage() { return $this->loadLanguage('lang/gwf'); }
@@ -22,10 +23,14 @@ class Module_GWF extends GWF_Module
 	public function onIncludeScripts()
 	{
 		$min = $this->cfgMinifyJS() !== 'no' ? '.min' : '';
+		
+// 		die($this->cfgMinifyJS());
+		
 		# jQuery
 		GWF_Javascript::addBowerJavascript("jquery/dist/jquery$min.js");
 		GWF_Javascript::addBowerJavascript("bootstrap/dist/js/bootstrap$min.js");
 		GWF_Website::addBowerCSS("bootstrap/dist/css/bootstrap$min.css");
+// 		# jQuery Datatables
 // 		GWF_Javascript::addBowerJavascript("datatables.net/js/jquery.dataTables$min.js");
 // 		GWF_Javascript::addBowerJavascript("datatables.net-bs/js/dataTables.bootstrap$min.js");
 // 		GWF_Website::addBowerCSS("datatables.net-bs/css/dataTables.bootstrap$min.css");
@@ -34,8 +39,6 @@ class Module_GWF extends GWF_Module
 		# Flow
 		GWF_Javascript::addBowerJavascript("flow.js/dist/flow$min.js");
 		GWF_Javascript::addBowerJavascript("ng-flow/dist/ng-flow$min.js");
-		GWF_Javascript::addBowerJavascript("lf-ng-md-file-input/dist/lf-ng-md-file-input$min.js");
-		GWF_Website::addBowerCSS("lf-ng-md-file-input/dist/lf-ng-md-file-input$min.css");
 		# Material
 		GWF_Javascript::addBowerJavascript("angular-animate/angular-animate$min.js");
 		GWF_Javascript::addBowerJavascript("angular-aria/angular-aria$min.js");
@@ -45,6 +48,14 @@ class Module_GWF extends GWF_Module
 		GWF_Javascript::addBowerJavascript("angular-ui-router/release/angular-ui-router$min.js");
 		GWF_Website::addBowerCSS("angular-material/angular-material$min.css");
 		GWF_Website::addCSS("https://fonts.googleapis.com/icon?family=Material+Icons");
+// 		# MD Color
+// 		GWF_Javascript::addBowerJavascript("tinycolor/dist/tinycolor-min.js");
+// 		GWF_Javascript::addBowerJavascript("md-color-picker/dist/mdColorPicker$min.js");
+// 		GWF_Website::addBowerCSS("md-color-picker/dist/mdColorPicker$min.css");
+		# MD File
+		GWF_Javascript::addBowerJavascript("lf-ng-md-file-input/dist/lf-ng-md-file-input$min.js");
+		GWF_Website::addBowerCSS("lf-ng-md-file-input/dist/lf-ng-md-file-input$min.css");
+		
 		# GWF
 		$this->onIncludeGWFScripts();
 	}

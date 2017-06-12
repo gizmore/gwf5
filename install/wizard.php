@@ -80,6 +80,14 @@ $db->queryWrite("SET foreign_key_checks = 1");
 $modules = $gwf5->loadModules(false);
 GWF_ModuleInstall::installModules($modules);
 
+$user = GWF_User::blank(array(
+'user_name'=>'gizmore',
+'user_email' => 'gizmore@gizmore.org',
+'user_type' => 'member',
+))->insert();
+
+GWF_UserPermission::grant($user, 'admin');
+
 echo $gwf5->renderBlank();
 
 echo $perf->display();

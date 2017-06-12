@@ -53,6 +53,7 @@ class Admin_Install extends GWF_MethodForm
 	}
 	public function execute_wipe()
 	{
+		GWF_ModuleInstall::dropModule($this->configModule);
 		return GWF_Message::error('msg_module_wiped', [$this->configModule->getName()])->add($this->execMethod('Modules'));
 	}
 	public function execute_enable()

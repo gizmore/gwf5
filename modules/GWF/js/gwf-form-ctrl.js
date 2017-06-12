@@ -13,14 +13,21 @@ controller('GWFCbxCtrl', function($scope) {
 		}
 	};
 }).
+controller('GWFColorCtrl', function($scope) {
+	
+}).
 controller('GWFSelectCtrl', function($scope) {
-	$scope.init = function(selector, selection) {
-		$scope.data.selector = selector;
-		$scope.data.selection = selection;
-		$scope.valueSelected();
-	}
-	$scope.valueSelected = function() {
-		console.log('GWFSelectCtrl.valueSelected()', $scope.data.selection);
-		$($scope.data.selector).val($scope.data.selection);
+	$scope.init = function(selectedValues) {
+		console.log('GWFSelectCtrl.init()', selectedValues);
+		$scope.selection = selectedValues;
+	};
+	$scope.multiValueSelected = function(selector) {
+		console.log('GWFSelectCtrl.multiValueSelected()', selector, $scope.selection);
+		$(selector).attr('value', JSON.stringify($scope.selection));
+	};
+
+	$scope.valueSelected = function(selector) {
+		console.log('GWFSelectCtrl.valueSelected()', selector, $scope.selection);
+		$(selector).attr('value', $scope.selection);
 	};
 });

@@ -153,7 +153,7 @@ final class GWF_Mail
 	{
 		$this->setupGPG($user);
 
-		if ($user->isOptionEnabled(GWF_User::EMAIL_TEXT))
+		if ($user->wantsTextMail())
 		{
 			return $this->sendAsText();
 		}
@@ -213,7 +213,7 @@ final class GWF_Mail
 		}
 		else
 		{
-			return @mail($to, $subject, $encrypted, $headers); //, '-r ' . $this->sender);
+			return mail($to, $subject, $encrypted, $headers); //, '-r ' . $this->sender);
 		}
 	}
 	

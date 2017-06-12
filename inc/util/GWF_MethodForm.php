@@ -32,15 +32,21 @@ abstract class GWF_MethodForm extends GWF_Method
 		{
 			if ($this->form->validate())
 			{
-				return $this->formValidated($this->form);
+				$response = $this->formValidated($this->form);
 			}
 			else
 			{
-				return $this->formInvalid($this->form);
+				$response = $this->formInvalid($this->form);
 			}
 		}
+		else
+		{
+			$response = $this->renderPage();
+		}
 		
-		return $this->renderPage();
+		$this->form->cleanup();
+		
+		return $response;
 	}
 	
 	public function title(string $key, array $args=null)

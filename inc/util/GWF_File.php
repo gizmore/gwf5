@@ -86,6 +86,12 @@ class GWF_File extends GDO
 		
 	}
 	
+	public static function scandir(string $dir)
+	{
+		$files = array_slice(scandir($dir), 2);
+		return $files;
+	}
+	
 	public static function removeDir(string $dir)
 	{
 		if (is_dir($dir))

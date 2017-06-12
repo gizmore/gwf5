@@ -15,7 +15,7 @@ class GWF_ModuleInstall
 		
 		if (!$module->isPersisted())
 		{
-			$module->setVars(['module_enabled'=>'1', 'module_version'=>'5.00']);
+			$module->setVars(['module_enabled'=>'1', 'module_version'=>'5.00', 'module_priority' => $module->module_priority]);
 			$module->insert();
 			self::upgradeTo($module, '5.00');
 		}
@@ -39,6 +39,28 @@ class GWF_ModuleInstall
 					$gdo = $class::table();
 					$gdo instanceof GDO;
 					$gdo->createTable();
+				}
+			}
+		}
+	}
+	
+	public static function dropModule(GWF_Module $module)
+	{
+		self::dropModuleClasses($module);
+		$module->delete();
+	}
+	
+	public static function dropModuleClasses(GWF_Module $module)
+	{
+		if ($classes = $module->getClasses())
+		{
+			foreach ($module->getClasses() as $class)
+			{
+				if (is_subclass_of($class, 'GDO'))
+				{
+					$gdo = $class::table();
+					$gdo instanceof GDO;
+					$gdo->dropTable();
 				}
 			}
 		}

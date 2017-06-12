@@ -1,4 +1,4 @@
-<?php $field instanceof GDO_Gender; ?>
+<?php $field instanceof GDO_Enum; ?>
 <md-input-container class="md-block md-float md-icon-left" flex>
   <label><?php echo $field->displayLabel(); ?></label>
   <md-select
@@ -6,9 +6,9 @@
    ng-model="selection"
    ng-init="selection = '<?php echo $field->displayFormValue(); ?>'"
    ng-change="valueSelected('#gwfsel_<?php echo $field->name; ?>')">
-    <md-option value="0"><?php l('no_gender'); ?></md-option>
-    <md-option value="m"><?php l('male'); ?></md-option>
-    <md-option value="f"><?php l('female'); ?></md-option>
+    <?php foreach ($field->enumValues as $enumValue) : ?>
+      <md-option value="<?php echo $enumValue; ?>"><?php l($enumValue); ?></md-option>
+    <?php endforeach; ?>
   </md-select>
   <input
    class="n"

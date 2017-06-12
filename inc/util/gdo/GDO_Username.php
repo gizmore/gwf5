@@ -52,7 +52,7 @@ class GDO_Username extends GDO_String
 		# Check existance
 		if ($this->exists)
 		{
-			if ($user = GWF_User::getByName($value))
+			if ($user = GWF_User::getByLogin($value))
 			{
 				$this->gdo = $user;
 				return true;

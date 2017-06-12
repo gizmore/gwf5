@@ -57,13 +57,16 @@ class GWF_Form
 		$valid = true;
 		foreach ($this->fields as $field)
 		{
-			if (!$field->formValidate($this))
+			if ($field->writable)
 			{
-				if (!$field->error)
+				if (!$field->formValidate($this))
 				{
-					$field->error('err_field_invalid', [$field->displayLabel()]);
+					if (!$field->error)
+					{
+						$field->error('err_field_invalid', [$field->displayLabel()]);
+					}
+					$valid = false;
 				}
-				$valid = false;
 			}
 		}
 		return $valid;
@@ -154,5 +157,13 @@ class GWF_Form
 	public function flowUpload(string $flowField)
 	{
 		$this->getField($flowField)->flowUpload();
+	}
+	
+	public function cleanup()
+	{
+		foreach ($this->fields as $field)
+		{
+			$field->cleanup();
+		}
 	}
 }

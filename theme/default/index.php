@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="index, follow" />
   </head>
-  <body ng-app="gwf5" layout="column" layout-fill flex ng-controller="GWFAppCtrl">
+  <body ng-app="gwf5" layout="column" layout-fill flex ng-controller="GWFAppCtrl" ng-cloak>
   
     <!-- Begin Toolbar -->
     <md-toolbar class="md-hue-2">

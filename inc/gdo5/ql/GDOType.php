@@ -433,4 +433,5 @@ abstract class GDOType
 	### Flow upload ###
 	###################
 	public function flowUpload() {}
+	public function cleanup() {}
 }

@@ -14,4 +14,10 @@ class GDO_Enum extends GDOType
 		$values = implode(',', array_map(array('GDO', 'quoteS'), $this->enumValues));
 		return "{$this->identifier()} ENUM ($values){$this->gdoNullDefine()}{$this->gdoInitialDefine()}";
 	}
+
+	public function render()
+	{
+		return GWF_Template::mainPHP('form/enum.php', ['field' => $this]);
+	}
+
 }
