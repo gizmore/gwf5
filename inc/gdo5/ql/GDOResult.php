@@ -116,12 +116,22 @@ class GDOResult
 	 * Fetch all 2 column rows as a 0 => 1 assoc array.
 	 * @return string[]
 	 */
-	public function fetchAllArray2d()
+	public function fetchAllArray2dPair()
 	{
 		$array2d = [];
 		while ($row = $this->fetchRow())
 		{
 			$array2d[$row[0]] = $row[1];
+		}
+		return $array2d;
+	}
+	
+	public function fetchAllArray2dObject()
+	{
+		$array2d = [];
+		while ($object = $this->fetchObject())
+		{
+			$array2d[$object->getID()] = $object;
 		}
 		return $array2d;
 	}

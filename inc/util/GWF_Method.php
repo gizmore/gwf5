@@ -71,6 +71,11 @@ abstract class GWF_Method
 		{
 			return new GWF_Error('err_already_authenticated');
 		}
+		
+		if ( ($permission = $this->getPermission()) && (!$user->hasPermission($permission)) )
+		{
+			return new GWF_Error('err_permission_required', [t('perm_'.$permission)]);
+		}
 			
 		return $this->execute();
 	}

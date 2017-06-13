@@ -29,7 +29,7 @@ final class GWF_User extends GDO
 			GDO_Date::make('user_register_time'),
 			GDO_IP::make('user_register_ip'),
 			GDO_Gender::make('user_gender'),
-			GDO_Object::make('user_country_id')->klass('GWF_Country'),
+			GDO_Country::make('user_country')->emptyChoice('no_country'),
 // 			GDO_Object::make('user_language_id')->klass('GWF_Language'),
 // 			GDO_Object::make('user_timezone_id')->klass('GWF_Timezone'),
 			GDO_Time::make('user_last_activity'),
@@ -52,8 +52,8 @@ final class GWF_User extends GDO
 	public function hasMail() { return !!$this->getMail(); }
 	public function getMail() { return $this->getVar('user_email'); }
 	public function getRegisterIP() { return $this->getVar('user_register_ip'); }
-	public function getCountryISO() { return $this->getVar('user_country_id'); }
-	public function getCountry() { return $this->getValue('user_country_id'); }
+	public function getCountryISO() { return $this->getVar('user_country'); }
+	public function getCountry() { return $this->getValue('user_country'); }
 
 	###############
 	### Display ###
@@ -88,7 +88,7 @@ final class GWF_User extends GDO
 	#############
 	private $permissions;
 	public function loadPermissions() { if (!$this->permissions) { $this->permissions = GWF_UserPermission::load($this); } }
-	public function hasPermission(string $perm) { $this->loadPermissions(); return isset($this->permissions[$perm]); }
+	public function hasPermission(string $permission) { $this->loadPermissions(); return isset($this->permissions[$permission]); }
 	public function isAdmin() { return $this->hasPermission('admin'); }
 	
 	##############

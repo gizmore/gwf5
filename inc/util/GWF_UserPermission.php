@@ -15,7 +15,7 @@ final class GWF_UserPermission extends GDO
 		{
 			return [];
 		}
-		return self::table()->select('perm_name, 1')->join("JOIN gwf_permission on perm_perm_id = perm_id")->where("perm_user_id={$user->getID()}")->exec()->fetchAllArray2d();
+		return self::table()->select('perm_name, 1')->join("JOIN gwf_permission on perm_perm_id = perm_id")->where("perm_user_id={$user->getID()}")->exec()->fetchAllArray2dPair();
 	}
 	
 	public static function grantPermission(GWF_User $user, GWF_Permission $permission)

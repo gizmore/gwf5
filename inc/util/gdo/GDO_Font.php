@@ -10,11 +10,10 @@ class GDO_Font extends GDO_Select
 	 */
 	public static function directory() { return GWF_PATH . 'inc/fonts/'; }
 	
-	###
-	public function __construct()
+	public function render()
 	{
-		parent::__construct();
 		$this->choices = $this->fontChoices();
+		return parent::render();
 	}
 	
 	public function fontChoices()

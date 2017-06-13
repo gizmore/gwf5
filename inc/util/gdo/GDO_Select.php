@@ -1,16 +1,26 @@
 <?php
 class GDO_Select extends GDO_Combobox
 {
+	public function formValue()
+	{
+		if (null === ($value = parent::formValue()))
+		{
+			$value = $this->emptyValue;
+		}
+		return $value;
+	}
+	
+	public function addFormValue(GWF_Form $form, $value)
+	{
+		$value = $value === $this->emptyValue ? null : $value;
+		return parent::addFormValue($form, $value);
+	}
+	
 	public function validate($value)
 	{
 		return $this->multiple ? $this->validateMultiple($value) : $this->validateSingle($value);
 	}
 	
-// 	public function getGDOValue()
-// 	{
-// 		return json_decode($this->formValue());
-// 	}
-
 	private function validateMultiple($value)
 	{
 		$values = json_decode($value);
@@ -36,11 +46,12 @@ class GDO_Select extends GDO_Combobox
 	}
 	
 	private function validateSingle($value)
-	{			
+	{
 		if ( ($this->null) && ($value === $this->emptyValue) )
 		{
 			return true;
 		}
+		
 		if (!isset($this->choices[$value]))
 		{
 			return $this->error('err_invalid_choice');

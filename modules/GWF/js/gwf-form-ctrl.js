@@ -16,13 +16,15 @@ controller('GWFCbxCtrl', function($scope) {
 controller('GWFCKEditorCtrl', function($scope) {
 }).
 controller('GWFSelectCtrl', function($scope) {
-	$scope.init = function(selectedValues) {
+	$scope.init = function(selectedValues, multiple) {
 		console.log('GWFSelectCtrl.init()', selectedValues);
+		$scope.multiple = multiple;
 		$scope.selection = selectedValues;
 	};
 	$scope.multiValueSelected = function(selector) {
 		console.log('GWFSelectCtrl.multiValueSelected()', selector, $scope.selection);
-		$(selector).attr('value', JSON.stringify($scope.selection));
+		var value = $scope.multiple ? JSON.stringify($scope.selection) : $scope.selection;
+		$(selector).attr('value', value);
 	};
 
 	$scope.valueSelected = function(selector) {

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Edit a user.
+ * 
+ * @author gizmore
+ * @see GWF_User
+ */
 class Admin_UserEdit extends GWF_MethodForm
 {
 	use GWF_MethodAdmin;
@@ -16,12 +22,20 @@ class Admin_UserEdit extends GWF_MethodForm
 	
 	public function createForm(GWF_Form $form)
 	{
+		$this->title('ft_admin_useredit', [$this->getSiteName(), $this->user->displayName()]);
 		foreach ($this->user->gdoColumnsCache() as $gdoType)
 		{
 			$form->addField($gdoType);
 		}
+		$form->getField('user_id')->writable(false);
 		$form->addField(GDO_Submit::make());
 		$form->addField(GDO_AntiCSRF::make());
 		$form->withGDOValuesFrom($this->user);
+	}
+	
+	public function formValidated(GWF_Form $form)
+	{
+		$this->user->saveVars($form->values());
+		return parent::formValidated($form);
 	}
 }

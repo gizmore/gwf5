@@ -475,7 +475,7 @@ abstract class GDO
 	##############
 	public function getID()
 	{
-		if ($column = $this->gdoAutoIncColumn())
+		if ($column = $this->gdoPrimaryKeyColumn())
 		{
 			return $this->getVar($column->name);
 		}

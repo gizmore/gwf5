@@ -50,6 +50,11 @@ class GDO_Int extends GDOType
 	
 	public function validate($value)
 	{
+		if ( ($value === null) && ($this->null) )
+		{
+			return true;
+		}
+		
 		if ( (($this->min !== null) && ($value < $this->min)) || (($this->max !== null) && ($value > $this->max)) )
 		{
 			return $this->intError();

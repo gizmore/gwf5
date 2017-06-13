@@ -49,6 +49,11 @@ class GDO_Username extends GDO_String
 	################
 	public function validate($value)
 	{
+		if ( ($value === null) && ($this->null) )
+		{
+			return true;
+		}
+		
 		# Check existance
 		if ($this->exists)
 		{

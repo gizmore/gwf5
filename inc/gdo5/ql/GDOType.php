@@ -236,8 +236,20 @@ abstract class GDOType
 	public function formValue()
 	{
 		$vars = Common::getRequestArray('form', []);
-		return isset($vars[$this->name]) ? (string)$vars[$this->name] : $this->getValue();
+		return isset($vars[$this->name]) ? $vars[$this->name] : $this->getValue();
 	}
+	
+// 	private function filterFormValue(string $value)
+// 	{
+// 		if (is_string($value))
+// 		{
+// 			if ('' === ($value = trim($value)))
+// 			{
+// 				$value = null;
+// 			}
+// 		}
+// 		return $value;
+// 	}
 	
 	public function displayFormValue()
 	{
@@ -388,13 +400,19 @@ abstract class GDOType
 	##################
 	public function formValidate(GWF_Form $form)
 	{
-		$value = $this->formValue();
+		$value = $this->filteredFormValue();
 		if (($this->validate($value)) && ($this->validatorsValidate()))
 		{
 			# Add form value if validated.
 			$this->addFormValue($form, $value);
 			return true;
 		}
+	}
+	
+	private function filteredFormValue()
+	{
+		$value = trim($this->formValue());
+		return $value === '' ? null : $value;
 	}
 	
 	public function addFormValue(GWF_Form $form, $value)

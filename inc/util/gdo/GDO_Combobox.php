@@ -1,11 +1,6 @@
 <?php
 class GDO_Combobox extends GDO_String
 {
-	public function __construct()
-	{
-		
-	}
-	
 	###############
 	### Choices ###
 	###############
@@ -18,9 +13,8 @@ class GDO_Combobox extends GDO_String
 	
 	public $emptyValue = "0";
 	public $emptyChoice;
-	public function emptyChoice(string $key, array $args=null, $value="0")
+	public function emptyChoice(string $key, array $args=null)
 	{
-		$this->emptyValue = $value;
 		$this->emptyChoice = t($key, $args);
 		return $this;
 	}
