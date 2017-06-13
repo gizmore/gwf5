@@ -55,6 +55,12 @@ class Module_GWF extends GWF_Module
 		# MD File
 		GWF_Javascript::addBowerJavascript("lf-ng-md-file-input/dist/lf-ng-md-file-input$min.js");
 		GWF_Website::addBowerCSS("lf-ng-md-file-input/dist/lf-ng-md-file-input$min.css");
+		# TinyMCE
+// 		GWF_Javascript::addBowerJavascript("tinymce/tinymce$min.js");
+// 		GWF_Javascript::addBowerJavascript("angular-ui-tinymce/dist/tinymce.min.js");
+		# CKEditor
+// 		GWF_Javascript::addBowerJavascript("ckeditor/ckeditor.js");
+// 		GWF_Javascript::addBowerJavascript("angular-ckeditor/angular-ckeditor$min.js");
 		
 		# GWF
 		$this->onIncludeGWFScripts();

@@ -1,9 +1,10 @@
 <?php $field instanceof GDO_Captcha; ?>
 <md-input-container class="md-block md-float md-icon-left" layout-fill flex>
   <label for="form[<?php echo $field->name; ?>]"><?php echo $field->displayLabel(); ?></label>
-    <img
-     src="<?php echo $field->hrefCaptcha(); ?>"
-     onclick="this.src='<?php echo $field->hrefNewCaptcha(); ?>'+(new Date().getTime())" />
+  <img
+   class="gwf-captcha-img"
+   src="<?php echo $field->hrefCaptcha(); ?>"
+   onclick="this.src='<?php echo $field->hrefNewCaptcha(); ?>'+(new Date().getTime())" />
   <?php echo $field->htmlIcon(); ?>
   <input
    type="text"

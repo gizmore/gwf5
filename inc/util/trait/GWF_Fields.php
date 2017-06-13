@@ -23,6 +23,20 @@ trait GWF_Fields
 	}
 	
 	/**
+	 * 
+	 * @param GDOType[] $fields
+	 * @return self
+	 */
+	public function addFields(array $fields)
+	{
+		foreach ($fields as $field)
+		{
+			$this->fields[$field->name] = $field;
+		}
+		return $this;
+	}
+
+	/**
 	 * @param string $name
 	 * @return GDOType
 	 */
@@ -39,7 +53,5 @@ trait GWF_Fields
 	{
 		return $this->fields;
 	}
-	
-	
 	
 }

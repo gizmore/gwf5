@@ -16,6 +16,7 @@ final class Recovery_Form extends GWF_MethodForm
 		{
 			$form->addField(GDO_Captcha::make());
 		}
+		$form->addField(GDO_AntiCSRF::make());
 		$form->addField(GDO_Submit::make());
 	}
 	
@@ -27,7 +28,7 @@ final class Recovery_Form extends GWF_MethodForm
 			return GWF_Error::error('err_recovery_needs_a_mail', [$user->displayName()]);
 		}
 		$this->sendMail($user);
-		return GWF_Message::message('msg_recovery_mail_sent', [$user->getVar('user_email')]);
+		return GWF_Message::message('msg_recovery_mail_sent');
 	}
 
 	private function sendMail(GWF_User $user)

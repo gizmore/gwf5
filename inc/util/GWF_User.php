@@ -51,6 +51,10 @@ final class GWF_User extends GDO
 	public function wantsTextMail() { return $this->getVar('user_mail_fmt') === 'txt'; }
 	public function hasMail() { return !!$this->getMail(); }
 	public function getMail() { return $this->getVar('user_email'); }
+	public function getRegisterIP() { return $this->getVar('user_register_ip'); }
+	public function getCountryISO() { return $this->getVar('user_country_id'); }
+	public function getCountry() { return $this->getValue('user_country_id'); }
+
 	###############
 	### Display ###
 	###############

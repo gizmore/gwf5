@@ -76,7 +76,15 @@ while (count($tables))
 
 $db->queryWrite("SET foreign_key_checks = 1");
 
-	
+####################
+### Lang/Country ###
+####################
+require 'GWF_InstallData.php';
+GWF_InstallData::install();
+
+###############
+### Modules ###
+###############
 $modules = $gwf5->loadModules(false);
 GWF_ModuleInstall::installModules($modules);
 
@@ -84,6 +92,7 @@ $user = GWF_User::blank(array(
 'user_name'=>'gizmore',
 'user_email' => 'gizmore@gizmore.org',
 'user_type' => 'member',
+'user_password' => GWF_Password::create('11111111')->__toString(),
 ))->insert();
 
 GWF_UserPermission::grant($user, 'admin');

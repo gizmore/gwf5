@@ -27,6 +27,11 @@ class Captcha_Image extends GWF_Method
 		$height = $module->cfgCaptchaHeight();
 		$oVisualCaptcha = new PhpCaptcha($aFonts, $width, $height, $rgbcolor);
 		
+		if (isset($_REQUEST['new']))
+		{
+			GWF_Session::remove('php_lock_captcha');
+		}
+		
 		return new GWF_Response($oVisualCaptcha->Create('', GWF_Session::get('php_lock_captcha', true)));
 	}
 }

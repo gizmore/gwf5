@@ -504,7 +504,7 @@ abstract class GDO
 	public static function getById($id)
 	{
 		$table = self::table();
-		if ($column = $table->gdoAutoIncColumn())
+		if ($column = $table->gdoPrimaryKeyColumn())
 		{
 			if (!($user = $table->cache->findCached($id)))
 			{

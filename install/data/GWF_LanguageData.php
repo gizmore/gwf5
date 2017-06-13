@@ -16,7 +16,7 @@ final class GWF_LanguageData
 	public static function getCountries()
 	{
 		# id => name, langs (iso639-3), region, tld, pop
-		# MAX ID is 313 atm
+		# MAX ID is 314 atm
 		return array(
 	//		'0' => array('Unknown Country', 'eng', '--', '--'),
 	//		"666" => array('Local Area Network', 'eng', '--', '--'),
@@ -81,7 +81,7 @@ final class GWF_LanguageData
 			'48' => array('Croatia', 'cro', 'eu', 'HR', 4486881),
 			'62' => array('Cuba', 'spa', 'ma', 'CU', 11477459),
 			'76' => array('Cyprus', 'gre:tur', 'eu', 'CY', 1102677),
-			'20' => array('Czech Republic', 'cze', 'eu', 'CS', 10201707),
+			'20' => array('Czech Republic', 'cze', 'eu', 'CZ', 10201707),
 			'21' => array('Denmark', 'dan', 'eu', 'DK', 5515575),
 			'135' => array('Djibouti', 'ara:fre:afa:som', 'af', 'DJ', 740528),
 			'136' => array('Dominica', 'eng', 'ma', 'DM', 72813),
@@ -231,6 +231,7 @@ final class GWF_LanguageData
 			'3' => array('South Africa', 'afr:zul:xho:nso:tsw:sot:tso', 'af', 'ZA', 49109107),
 			'313' => array('South Georgia and the South Sandwich Islands', 'eng', 'sa', 'GS', 0),
 	//		'317' => array('South Ossetia, Republic of', '', '', ''),
+			'233' => array('South Sudan', 'ara:eng', 'af', 'SS', 0),
 			'5' => array('Spain', 'spa', 'eu', 'ES', 46505963),
 			'230' => array('Sri Lanka', 'sin:tam', 'as', 'LK', 21513990),
 			'231' => array('St. Helena', 'eng', 'ma', 'sa', 7670),

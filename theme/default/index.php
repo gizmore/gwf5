@@ -31,9 +31,6 @@
   
       <!-- LEFT SIDENAV -->
       <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-whiteframe="4">
-        <md-toolbar class="md-theme-indigo">
-          <h1 class="md-toolbar-tools"><?php l('sidenav_left_title'); ?></h1>
-        </md-toolbar>
         <?php echo GWF_Navbar::left()->render(); ?>
       </md-sidenav>
       <!-- END LEFT SIDENAV -->

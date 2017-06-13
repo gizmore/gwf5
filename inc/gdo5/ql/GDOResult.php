@@ -37,6 +37,14 @@ class GDOResult
 	#############
 	### Fetch ###
 	#############
+	public function fetchValue()
+	{
+		if ($row = $this->fetchRow())
+		{
+			return $row[0];
+		}
+	}
+	
 	public function fetchRow()
 	{
 		return mysqli_fetch_row($this->result);

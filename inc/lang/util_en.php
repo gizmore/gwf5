@@ -11,4 +11,12 @@ return array(
 'err_field_invalid' => 'Your value for %s is not accepted.',
 'err_blank_response' => 'The module gave a blank response, which is unusual.',
 'err_checkbox_required' => 'You have to checkmark this field in order to proceed.',
+		
+		
+# Country names
+'country_de' => 'Germany',
+
+# Language names
+'lang_de' => 'German',
+		
 );

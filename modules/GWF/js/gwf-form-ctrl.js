@@ -13,8 +13,7 @@ controller('GWFCbxCtrl', function($scope) {
 		}
 	};
 }).
-controller('GWFColorCtrl', function($scope) {
-	
+controller('GWFCKEditorCtrl', function($scope) {
 }).
 controller('GWFSelectCtrl', function($scope) {
 	$scope.init = function(selectedValues) {

@@ -17,7 +17,7 @@ class GDO_Captcha extends GDOType
 	
 	public function hrefNewCaptcha()
 	{
-		return "/index.php?mo=Captcha&me=Image&ajax=1";
+		return "/index.php?mo=Captcha&me=Image&ajax=1&new=1";
 	}
 
 	public function render()
@@ -32,15 +32,16 @@ class GDO_Captcha extends GDOType
 			GWF_Session::set('php_lock_captcha', $value);
 			return true;
 		}
-		unset($_GET['form'][$this->name]);
-		unset($_POST['form'][$this->name]);
-		unset($_REQUEST['form'][$this->name]);
+		$this->onValidated();
 		return $this->error('err_captcha');
 	}
 	
 	public function onValidated()
 	{
 		GWF_Session::remove('php_lock_captcha');
+		unset($_GET['form'][$this->name]);
+		unset($_POST['form'][$this->name]);
+		unset($_REQUEST['form'][$this->name]);
 	}
 	
 }

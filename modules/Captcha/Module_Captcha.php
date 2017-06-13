@@ -1,6 +1,7 @@
 <?php
 final class Module_Captcha extends GWF_Module
 {
+	public function onLoadLanguage() { return $this->loadLanguage('lang/captcha'); }
 	public function getClasses() { return ['GDO_Captcha']; }
 	public function getConfig()
 	{
