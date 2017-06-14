@@ -20,8 +20,8 @@ class GDO_String extends GDOType
 	public function encoding(int $encoding) { $this->encoding = $encoding; return $this; }
 	
 	public function pattern(string $pattern) { $this->pattern = $pattern; return $this; }
-	public function htmlPattern() { return $this->pattern ? " pattern=\"{$this->pattern}\"" : ''; }
-	
+	public function htmlPattern() { return $this->pattern ? " pattern=\"{$this->htmlPatternValue()}\"" : ''; }
+	public function htmlPatternValue() { return trim($this->pattern, '/'); }
 	public function caseI(bool $caseInsensitive=true) { return $this->caseS(!$caseInsensitive); }
 	public function caseS(bool $caseSensitive=true) { $this->caseSensitive = $caseSensitive; return $this; }
 	

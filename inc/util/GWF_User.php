@@ -36,7 +36,7 @@ final class GWF_User extends GDO
 			GDO_Username::make('user_guest_name'),
 			GDO_Int::make('user_level')->unsigned()->notNull()->initial('0')->label('level'),
 			GDO_Int::make('user_credits')->unsigned()->notNull()->initial('0')->label('credits'),
-			GDO_PersonName::make('user_realname'),
+			GDO_PersonName::make('user_real_name'),
 			GDO_Enum::make('user_type')->enumValues(self::GHOST, self::GUEST, self::MEMBER)->notNull()->initial(self::GUEST),
 			GDO_EmailFormat::make('user_email_fmt'),
 			GDO_Email::make('user_email'),
@@ -62,8 +62,8 @@ final class GWF_User extends GDO
 	public function getID() { return $this->getVar('user_id'); }
 	public function getType() { return $this->getVar('user_type'); }
 	public function getName() { return $this->getVar('user_name'); }
-	public function getPersonName() { return $this->getVar('user_realname'); }
 	public function getGuestName() { return $this->getVar('user_guest_name'); }
+	public function getRealName() { return $this->getVar('user_real_name'); }
 	public function isGhost() { return $this->getType() === 'ghost'; }
 	public function isGuest() { return $this->getType() === 'guest'; }
 	public function isMember() { return $this->getType() === 'member'; }
@@ -87,9 +87,9 @@ final class GWF_User extends GDO
 	###############
 	public function displayName()
 	{
-		if ($personName = $this->getPersonName())
+		if ($realName = $this->getRealName())
 		{
-			return GWF_HTML::escape($personName);
+			return GWF_HTML::escape($realName);
 		}
 		elseif ($guestName = $this->getGuestName())
 		{
@@ -100,10 +100,6 @@ final class GWF_User extends GDO
 			return $this->getName();
 		}
 	}
-// 	public function hasPersonName()
-// 	{
-// 		return !!$this->getPersonName();
-// 	}
 	
 	#############
 	### HREFs ###

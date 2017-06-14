@@ -19,7 +19,6 @@ GWF_Debug::enableExceptionHandler();
 GWF_Debug::setDieOnError(false);
 GWF_Debug::setMailOnError(true);
 
-
 $db->queryWrite("SET foreign_key_checks = 0");
 
 

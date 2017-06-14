@@ -12,8 +12,10 @@ GWF_Log::init();
 $db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME);
 GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);
 GWF_Debug::init();
-GWF_Debug::setDieOnError();
-GWF_Debug::setMailOnError();
+GWF_Debug::enableErrorHandler();
+GWF_Debug::enableExceptionHandler();
+GWF_Debug::setDieOnError(false);
+GWF_Debug::setMailOnError(true);
 
 # Load modules
 $modules = $gwf5->loadModules();

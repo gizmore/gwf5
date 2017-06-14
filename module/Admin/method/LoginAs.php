@@ -5,7 +5,6 @@ final class Admin_LoginAs extends GWF_MethodForm
 	
 	public function createForm(GWF_Form $form)
 	{
-		$this->title('ft_login_as');
 		$form->addField(GDO_Username::make('user_name')->completion()->exists());
 		$form->addField(GDO_Submit::make());
 		$form->addField(GDO_AntiCSRF::make());

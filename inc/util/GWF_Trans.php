@@ -77,4 +77,6 @@ final class GWF_Trans
 }
 
 function t(string $key, array $args=null) { return GWF_Trans::t($key, $args); }
+function ten(string $key, array $args=null) { return GWF_Trans::tiso('en', $key, $args); }
+function tiso(string $iso, string $key, array $args=null) { return GWF_Trans::tiso($iso, $key, $args); }
 function l(string $key, array $args=null) { echo t($key, $args); }

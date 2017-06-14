@@ -39,7 +39,7 @@ final class GWF5
 		
 		spl_autoload_register(function($name) {
 			$filename = $name[1] === 'D' ? "inc/util/gdo/$name.php" : "inc/util/$name.php";
-			@include $filename;
+			include $filename;
 		});
 		
 		GWF_Trans::addPath(GWF_PATH . 'inc/lang/util');
@@ -60,6 +60,7 @@ final class GWF5
 			$finished = true;
 			GWF_Session::commit();
 			GWF_Log::flush();
+			echo @ob_get_clean();
 		}
 	}
 	

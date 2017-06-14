@@ -82,7 +82,7 @@ class GDO_File extends GDO_Object
 	################
 	public function formValue()
 	{
-		return $this->multiple ? $this->getFiles($this->name) : $this->getFile($this->name);
+		return $this->getFiles($this->name);
 	}
 	
 	protected function filteredFormValue()

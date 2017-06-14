@@ -3,9 +3,13 @@ class GDO_Checkbox extends GDO_Bool
 {
 	public function formValue()
 	{
-		if ($this->value) { return $this->value; }
 		$vars = Common::getRequestArray('form', []);
 		return isset($vars[$this->name]) ?  '1' : '0';
+	}
+	
+	public function displayFormValue()
+	{
+		return $this->value;
 	}
 	
 	public function isChecked()

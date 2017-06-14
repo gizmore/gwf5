@@ -25,7 +25,7 @@ abstract class GWF_MethodCronjob extends GWF_Method
 	public function end() { GWF_Log::logCron('[DONE] '.get_called_class().PHP_EOL); }
 
 	public function log(string $msg) { GWF_Log::logCron('[+] '.$msg); }
-	public function error(string $msg) { GWF_Log::logCron('[ERROR] '.$msg); return false; }
-	public function warning(string $msg) { GWF_Log::logCron('[WARNING] '.$msg); }
-	public function notice(string $msg) { GWF_Log::logCron('[NOTICE] '.$msg); }
+	public function logError(string $msg) { GWF_Log::logCron('[ERROR] '.$msg); return false; }
+	public function logWarning(string $msg) { GWF_Log::logCron('[WARNING] '.$msg); }
+	public function logNotice(string $msg) { GWF_Log::logCron('[NOTICE] '.$msg); }
 }

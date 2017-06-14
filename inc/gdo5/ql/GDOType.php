@@ -436,7 +436,7 @@ abstract class GDOType
 	
 	public function validate($value)
 	{
-		return true;
+		return $value === null ? ($this->null ? true : $this->error('err_is_null', [$this->name])) : true;
 	}
 	
 	

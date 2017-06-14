@@ -13,6 +13,16 @@ class GDO_Gender extends GDO_Char
 		return $value === 'm' || $value === 'f' || $value === "0" ? true : $this->error('err_gender');
 	}
 	
+	public static function displayS($value)
+	{
+		switch ($value)
+		{
+		case 'm': return t('male'); break;
+		case 'f': return t('female'); break;
+		default: return t('no_gender'); break;
+		}
+	}
+	
 	##############
 	### Render ###
 	##############

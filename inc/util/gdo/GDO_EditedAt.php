@@ -1,4 +1,9 @@
 <?php
+/**
+ * 
+ * @author gizmore
+ *
+ */
 final class GDO_EditedAt extends GDO_Timestamp
 {
 	public function gdoColumnDefine()
