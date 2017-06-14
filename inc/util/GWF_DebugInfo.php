@@ -15,6 +15,7 @@ final class GWF_DebugInfo
 		return array(
 			'dbReads' => GDODB::$READS,
 			'dbWrites' => GDODB::$WRITES,
+			'dbCommits' => GDODB::$COMMITS,
 			'dbQueries' => GDODB::$QUERIES,
 			'dbTime' => round(GDODB::$QUERY_TIME, 4),
 			'phpTime' => round($phpTime, 4),
@@ -31,7 +32,7 @@ final class GWF_DebugInfo
 <gwf-debug-info>
 <section>
 <h5>Database</h5>
-<label>Queries</label><value>{$data['dbQueries']}({$data['dbWrites']} writes)</value>
+<label>Queries</label><value>{$data['dbQueries']} ({$data['dbWrites']} writes, {$data['dbCommits']} commits)</value>
 </section>
 <section>
 <h5>Memory</h5>

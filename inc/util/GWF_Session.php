@@ -23,7 +23,7 @@ class GWF_Session extends GDO
 			GDO_Token::make('sess_token')->notNull(),
 			GDO_Object::make('sess_user')->klass('GWF_User'),
 			GDO_IP::make('sess_ip'),
-			GDO_Time::make('sess_time'),
+			GDO_UpdatedAt::make('sess_time'),
 			GDO_Serialize::make('sess_data'),
 		);
 	}
@@ -139,11 +139,10 @@ class GWF_Session extends GDO
 			return false;
 		}
 
-		self::$INSTANCE = $session;
 		return $session;
 	}
 	
-	private static function reload(string $cookieValue)
+	public static function reload(string $cookieValue)
 	{
 		list($sessId, $sessToken) = @explode('-', $cookieValue, 2);
 		$query = self::table()->select('*')->where(sprintf('sess_id=%s AND sess_token=%s', GDO::quoteS($sessId), GDO::quoteS($sessToken)));
@@ -158,6 +157,8 @@ class GWF_Session extends GDO
 			return false;
 		}
 		
+		self::$INSTANCE = $session;
+		
 		return $session;
 	}
 	
@@ -171,7 +172,7 @@ class GWF_Session extends GDO
 		setcookie(self::$COOKIE_NAME, $this->cookieContent(), time() + self::$COOKIE_SECONDS, '/', self::$COOKIE_DOMAIN, self::cookieSecure(), !self::$COOKIE_JS);
 	}
 	
-	private function cookieContent()
+	public function cookieContent()
 	{
 		return "{$this->getID()}-{$this->getToken()}";
 	}

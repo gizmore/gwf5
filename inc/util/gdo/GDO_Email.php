@@ -4,6 +4,7 @@ class GDO_Email extends GDO_String
 	public function __construct()
 	{
 		$this->pattern = "/^[^@]+@[^@]+$/i";
+		$this->label('email');
 	}
 	
 	public function render()

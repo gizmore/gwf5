@@ -102,6 +102,12 @@ class GWF_ModuleInstall
 		}
 	}
 	
+	/**
+	 * Helper to get the method for a method loop.
+	 * @param GWF_Module $module
+	 * @param string $path
+	 * @return GWF_Method
+	 */
 	public static function loopMethod(GWF_Module $module, string $path)
 	{
 		$entry = GWF_String::substrTo(basename($path), '.');

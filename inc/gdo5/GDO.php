@@ -42,15 +42,18 @@ abstract class GDO
 		{
 			return "'" . self::escapeS($value) . "'";
 		}
-		if ($value === null)
+		elseif ($value === null)
 		{
 			return "NULL";
 		}
-		if (is_numeric($value))
+		elseif (is_numeric($value))
 		{
 			return $value;
 		}
-		throw new GWF_Exception('err_param', array('name' => 'value', 'value' => $value));
+		else
+		{
+			throw new GWF_Exception('err_cannot_quote', [htmlspecialchars($value)]);
+		}
 	}
 	
 	#################
@@ -211,9 +214,16 @@ abstract class GDO
 	 * @return self
 	 * @see GDO_AutoInc
 	 */
-	public function find(string $id=null)
+	public function find(string $id=null, bool $exception=true)
 	{
-		return $id ? $this->getById($id) : null;
+		if (!($gdo = $this->getById($id)))
+		{
+			if ($exception)
+			{
+				throw new GWF_Exception('err_gdo_not_found', [get_called_class(), htmlspecialchars($id)]);
+			}
+		}
+		return $gdo;
 	}
 	
 	/**
@@ -235,6 +245,10 @@ abstract class GDO
 		return $this->query()->select('*')->from($this->gdoTableIdentifier())->where($condition)->first()->exec()->fetchObject();
 	}
 	
+	/**
+	 * @param string $columns
+	 * @return GDOQuery
+	 */
 	public function select(string $columns='*')
 	{
 		return $this->query()->select($columns)->from($this->gdoTableIdentifier());
@@ -303,7 +317,7 @@ abstract class GDO
 	
 	public function saveVars(array $vars)
 	{
-		$worthy = false;
+		$worthy = false; # Anything changed?
 		$query = $this->updateQuery();
 		foreach ($vars as $key => $value)
 		{
@@ -316,12 +330,29 @@ abstract class GDO
 		}
 		if ($worthy)
 		{
-			$this->beforeUpdate($query);
+			$this->beforeUpdate($query); # Can do trickery here... not needed? 
 			$query->exec();
 			$this->gdoVars = array_merge($this->gdoVars, $vars);
-			$this->gdoAfterUpdate();
+			$this->gdoAfterUpdate(); # GDO_AutoInc uses this hook
 		}
 		return $this;
+	}
+	
+	public function saveValue(string $key, $value)
+	{
+		$this->gdoColumn($key)->setGDOValue($value);
+		return $this->saveVar($key, $this->getVar($key));
+	}
+	
+	public function saveValues(array $values)
+	{
+		$vars = array();
+		foreach ($values as $key => $value)
+		{
+			$this->gdoColumn($key)->setGDOValue($value);
+			$vars[$key] = $this->getVar($key);
+		}
+		return $this->saveVars($vars);
 	}
 	
 	/**
@@ -397,9 +428,13 @@ abstract class GDO
 	 */
 	public function gdoPrimaryKeyColumn()
 	{
-		foreach ($this->gdoPrimaryKeyColumns() as $column)
+		foreach ($this->gdoColumnsCache() as $column)
 		{
-			return $column;
+			if ($column->isPrimary())
+			{
+				return $column;
+			}
+			return $columns;
 		}
 	}
 	
@@ -492,7 +527,6 @@ abstract class GDO
 	 */
 	public static function getBy(string $key, string $value)
 	{
-// 		$cache = self::table()->cache;
 		return self::table()->findWhere(self::quoteIdentifierS($key) . '=' . self::quoteS($value));
 	}
 	
@@ -503,14 +537,17 @@ abstract class GDO
 	 */
 	public static function getById($id)
 	{
-		$table = self::table();
-		if ($column = $table->gdoPrimaryKeyColumn())
+		if ($id)
 		{
-			if (!($user = $table->cache->findCached($id)))
+			$table = self::table();
+			if ($column = $table->gdoPrimaryKeyColumn())
 			{
-				$user = self::getBy($column->name, $id);
+				if (!($user = $table->cache->findCached($id)))
+				{
+					$user = self::getBy($column->name, $id);
+				}
+				return $user;
 			}
-			return $user;
 		}
 	}
 	
@@ -582,4 +619,9 @@ abstract class GDO
 	public function gdoAfterUpdate() {}
 	public function gdoAfterDelete() {}
 	
+}
+
+function quote(string $value=null)
+{
+	return GDO::quoteS($value);
 }

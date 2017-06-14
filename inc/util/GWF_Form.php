@@ -89,14 +89,17 @@ class GWF_Form
 	##############
 	### Values ###
 	##############
-	public function withGDOValuesFrom(GDO $gdo)
+	public function withGDOValuesFrom(GDO $gdo=null)
 	{
-		$vars = $gdo->getGDOVars();
-		foreach ($this->fields as $field)
+		if ($gdo)
 		{
-			if (isset($vars[$field->name]))
+			$vars = $gdo->getGDOVars();
+			foreach ($this->fields as $field)
 			{
-				$field->value($vars[$field->name]);
+				if (isset($vars[$field->name]))
+				{
+					$field->value($vars[$field->name]);
+				}
 			}
 		}
 		return $this;

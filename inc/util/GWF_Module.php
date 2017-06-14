@@ -118,7 +118,6 @@ class GWF_Module extends GDO
 	### Display ###
 	###############
 	public function render_fs_version() { return $this->module_version; }
-		
 	
 	############
 	### Href ###
@@ -132,8 +131,8 @@ class GWF_Module extends GDO
 	##############
 	public function canUpdate() { return $this->module_version != $this->getVersion(); }
 	public function canInstall() { return !$this->isPersisted(); }
-	public function filePath(string $path='') { return GWF_PATH . 'modules/' . $this->getName() . '/' . $path; }
-	public function wwwPath(string $path='') { return '/modules/' . $this->getName() . '/' . $path; }
+	public function filePath(string $path='') { return GWF_PATH . 'module/' . $this->getName() . '/' . $path; }
+	public function wwwPath(string $path='') { return '/module/' . $this->getName() . '/' . $path; }
 	public function includeClass(string $class) { require $this->filePath("$class.php"); }
 	
 	#################
@@ -187,20 +186,22 @@ class GWF_Module extends GDO
 	 */
 	public function getMethod(string $methodName)
 	{
-		
 		$klass = $this->getName() . '_' . $methodName;
-		
 		if (!class_exists($klass, false))
 		{
-			include $this->filePath("method/$methodName.php");
+			$filename = $this->filePath("method/$methodName.php");
+			if (!GWF_File::isFile($filename))
+			{
+				return null;
+			}
+			include $filename;
 		}
-		
 		return new $klass($this);
 	}
 	
-	public function getMethodHREF(string $methodName)
+	public function getMethodHREF(string $methodName, string $append='')
 	{
-		return GWF_Url::relative(sprintf('/index.php?mo=%s&me=%s', $this->getName(), $methodName));
+		return href($this->getName(), $methodName, $append);
 	}
 	
 	##################

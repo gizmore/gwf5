@@ -12,13 +12,12 @@ class GDO_Serialize extends GDO_Text
 	public function getGDOValue()
 	{
 		$value = $this->gdo->getVar($this->name);
-		$value = $value ? unserialize($value) : [];
-		return $value;
+		return $value === null ? null : unserialize($value);
 	}
 	
 	public function setGDOValue($value)
 	{
-		$this->value = $value ? serialize($value) : null;
+		$this->value = $value === null ? null : serialize($value);
 		return $this->gdo->setVar($this->name, $this->value);
 	}
 	

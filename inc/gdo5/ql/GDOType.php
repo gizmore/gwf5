@@ -80,6 +80,7 @@ abstract class GDOType
 	{
 		$this->name = $name;
 		return $this->label($name);
+// 		return $this;
 	}
 
 	public function identifier()
@@ -175,7 +176,7 @@ abstract class GDOType
 	###############
 	public function initial($initial)
 	{
-		$this->initial= $initial;
+		$this->initial = (string)$initial;
 		return $this;
 	}
 	
@@ -238,18 +239,6 @@ abstract class GDOType
 		$vars = Common::getRequestArray('form', []);
 		return isset($vars[$this->name]) ? $vars[$this->name] : $this->getValue();
 	}
-	
-// 	private function filterFormValue(string $value)
-// 	{
-// 		if (is_string($value))
-// 		{
-// 			if ('' === ($value = trim($value)))
-// 			{
-// 				$value = null;
-// 			}
-// 		}
-// 		return $value;
-// 	}
 	
 	public function displayFormValue()
 	{
@@ -409,9 +398,12 @@ abstract class GDOType
 		}
 	}
 	
-	private function filteredFormValue()
+	protected function filteredFormValue()
 	{
-		$value = trim($this->formValue());
+		if ($value = $this->formValue())
+		{
+			$value = trim($value);
+		}
 		return $value === '' ? null : $value;
 	}
 	
@@ -447,9 +439,8 @@ abstract class GDOType
 		return true;
 	}
 	
-	public function onValidated()
-	{
-	}
+	
+	public function onValidated() {}
 
 	###################
 	### Flow upload ###

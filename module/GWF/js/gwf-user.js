@@ -1,3 +1,4 @@
+"use strict";
 var GWF_User = function(json) {
 	
 	this.JSON = json;

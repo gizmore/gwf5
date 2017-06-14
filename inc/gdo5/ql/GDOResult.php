@@ -104,14 +104,22 @@ class GDOResult
 	 */
 	public function fetchAllObjects()
 	{
+		return $this->fetchAllObjectsAs($this->table);
+	}
+	
+	/**
+	 * @return GDO[]
+	 */
+	public function fetchAllObjectsAs(GDO $table)
+	{
 		$objects = [];
-		while ($object = $this->fetchObject())
+		while ($object = $this->fetchAs($table))
 		{
 			$objects[] = $object;
 		}
 		return $objects;
 	}
-	
+
 	/**
 	 * Fetch all 2 column rows as a 0 => 1 assoc array.
 	 * @return string[]

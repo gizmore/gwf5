@@ -1,0 +1,17 @@
+<?php $field instanceof GDO_Timestamp; $id = 'date_'.$field->name; ?>
+<md-input-container class="md-block md-float md-icon-left" flex>
+  <?php echo $field->htmlIcon(); ?>
+  <md-datepicker
+   ng-init="pickDate='<?php echo $field->displayFormValue(); ?>'"
+   md-placeholder="<?php echo $field->displayLabel(); ?>"
+   ng-model="pickDate"
+   ng-change="$('#<?php echo $id ?>').val(pickDate)"
+   md-current-view="<?php echo $field->dateStartView; ?>"></md-datepicker>
+ <div class="gwf-form-error"><?php echo $field->displayError(); ?></div>
+</md-input-container>
+<input
+ id="<?php echo $id; ?>"
+ type="hidden"
+ name="form[<?php echo $field->name; ?>]"
+ value="<?php echo $field->displayFormValue(); ?>" />
+ 

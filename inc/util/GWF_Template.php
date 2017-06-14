@@ -1,14 +1,26 @@
 <?php
 /**
  * GWF Template Engine.
+ * Very cheap / basic
  * 
+ * There are 4 types of template.
+ * 
+ * mainPHP => php template is in /theme folder
+ * mainFile => raw file template is in /theme folder
+ * modulePHP => php template is in the according module/xxx/tpl folder 
+ * moduleFile => raw file template is in the according module/xxx/tpl folder
+ * 
+ * Module templates can be overriden by theme/module/xxx/tpl/ folder
+ * 
+ * Themes have a parent theme, so one level of inheritance is possible.
+ *  
  * @author gizmore
  * @version 5.0
  * @since 1.0
  */
 final class GWF_Template
 {
-	protected static $MODULE_FILE = NULL;
+	protected static $MODULE_FILE = NULL; # ouch global temp var
 	
 	public static function getDesign() { return GWF5::instance()->getTheme(); }
 	private static function pathError(string $path) { return GWF_Error::error('err_file', array(htmlspecialchars(str_replace('%DESIGN%', 'default', $path)))); }
@@ -57,13 +69,12 @@ final class GWF_Template
 		{
 			foreach ($tVars as $__key => $__value)
 			{
-				$$__key = $__value;
+				$$__key = $__value; # make tVars locals for the template
 			}
 		}
 		ob_start();
 		include $path2;
-		$back = ob_get_contents();
-		ob_end_clean();
+		$back = ob_get_clean();
 		return new GWF_Response($back);
 	}
 	
@@ -129,17 +140,13 @@ final class GWF_Template
 		// Try module file on module templates.
 		if ($moduleName)
 		{
-			$path1 = GWF_PATH.'modules/'.$moduleName.'/tpl/'.self::$MODULE_FILE;
+			$path1 = GWF_PATH.'module/'.$moduleName.'/tpl/'.self::$MODULE_FILE;
 		}
 		else // or default theme on parent template.
 		{
 			$path1 = str_replace('%DESIGN%', GWF_PARENT_THEME, $path);
 		}
-		if (is_file($path1))
-		{
-			return $path1;
-		}
 		
-		return false;
+		return is_file($path1) ? $path1 : null;
 	}
 }

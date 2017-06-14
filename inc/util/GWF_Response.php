@@ -33,9 +33,13 @@ class GWF_Response
 	public function add(GWF_Response $response)
 	{
 		$this->error = $response->error || $this->error;
-		if (is_array($this->html))
+		if (empty($this->html))
 		{
-			$this->html = array('data' => $response->html);
+			$this->html = $response->html;
+		}
+		elseif (is_array($this->html))
+		{
+			$this->html['data'] = $response->html;
 		}
 		else
 		{
@@ -51,6 +55,7 @@ class GWF_Response
 			default:
 			case 'html': return $this->html ? $this->html : '';
 			case 'json': return $this->toJSON();
+			case 'ws': return $this->replyWS();
 		}
 	}
 	

@@ -32,7 +32,7 @@ class GDO_String extends GDOType
 	{
 		$charset = $this->gdoCharsetDefine();
 		$collate = $this->gdoCollateDefine();
-		return "{$this->identifier()} VARCHAR({$this->max}) CHARSET $charset COLLATE $collate{$this->gdoNullDefine()}";
+		return "{$this->identifier()} VARCHAR({$this->max}) CHARSET $charset $collate{$this->gdoNullDefine()}";
 	}
 	
 	public function gdoCharsetDefine()
@@ -47,8 +47,12 @@ class GDO_String extends GDOType
 	
 	public function gdoCollateDefine()
 	{
-		$append = $this->isBinary() ? '' : ($this->caseSensitive ? '_bin' : '_general_ci');
-		return $this->gdoCharsetDefine() . $append;
+		if ($this->isBinary())
+		{
+			return '';
+		}
+		$append = $this->caseSensitive ? '_bin' : '_general_ci';
+		return 'COLLATE ' . $this->gdoCharsetDefine() . $append;
 	}
 
 	public function render()

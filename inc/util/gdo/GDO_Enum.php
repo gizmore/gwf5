@@ -1,6 +1,8 @@
 <?php
 class GDO_Enum extends GDOType
 {
+	use GDO_NameLabelTrait;
+	
 	public $enumValues;
 	
 	public function enumValues(string ...$enumValues)

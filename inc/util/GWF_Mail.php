@@ -355,11 +355,11 @@ final class GWF_Mail
 // 		return $back;
 // 	}
 	
-	private function computeSentHash()
-	{
-		$b = $this->subject.$this->body;
-		return crc32($b).md5($b).substr(sha1($b), 0, 32);
-	}
+// 	private function computeSentHash()
+// 	{
+// 		$b = $this->subject.$this->body;
+// 		return crc32($b).md5($b).substr(sha1($b), 0, 32);
+// 	}
 
 	public function setupGPG(GWF_User $user)
 	{
@@ -367,7 +367,7 @@ final class GWF_Mail
 		{
 			if (function_exists('gnupg_init'))
 			{
-				if (false !== ($fingerprint = GWF_PublicKey::getFingerprintForUser($user)))
+				if ($fingerprint = GWF_PublicKey::getFingerprintForUser($user))
 				{
 					$this->setGPGKey($fingerprint);
 				}

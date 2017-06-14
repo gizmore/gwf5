@@ -1,12 +1,18 @@
 <?php
+/**
+ * Basic JS loading and configuration
+ * 
+ * @author gizmore
+ *
+ */
 class Module_GWF extends GWF_Module
 {
 	public $module_version = "5.01";
-	public $module_priority = 5;
+	public $module_priority = 5; # Load early
 	
 	public function isCoreModule() { return true; }
 	public function onLoadLanguage() { return $this->loadLanguage('lang/gwf'); }
-
+	
 	##############
 	### Config ###
 	##############
@@ -23,8 +29,6 @@ class Module_GWF extends GWF_Module
 	public function onIncludeScripts()
 	{
 		$min = $this->cfgMinifyJS() !== 'no' ? '.min' : '';
-		
-// 		die($this->cfgMinifyJS());
 		
 		# jQuery
 		GWF_Javascript::addBowerJavascript("jquery/dist/jquery$min.js");
@@ -83,8 +87,24 @@ class Module_GWF extends GWF_Module
 		$this->addJavascript('js/ng-crsrup.js');
 		$this->addJavascript('js/ng-enter.js');
 		$this->addJavascript('js/ng-html.js');
+		
+		GWF_Javascript::addJavascriptInline($this->gwfConfigJS());
+		GWF_Javascript::addJavascriptInline($this->gwfUserJS());
 	}
 
+	private function gwfConfigJS()
+	{
+		return "window.GWF_CONFIG = {};";
+	}
+	
+	public function gwfUserJS()
+	{
+		$user = GWF_User::current();
+// 		$user->loadPermissions();
+		$json = json_encode($user->getVars('user_id', 'user_name', 'user_guest_name', 'user_type', 'user_level', 'user_credits'));
+		return "window.GWF_USER = new GWF_User($json);";
+	}
+	
 	###############
 	### Navbars ###
 	###############

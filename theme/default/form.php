@@ -11,7 +11,6 @@
         <md-content layout="row" layout-fill flex>
           <?php echo $field->render(); ?>
         </md-content>
-        
       <?php endforeach; ?>
     </form>
   

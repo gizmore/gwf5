@@ -23,7 +23,7 @@ final class GWF_Cronjob
 		$method = GWF_ModuleInstall::loopMethod($module, $path);
 		if ($method instanceof GWF_MethodCronjob)
 		{
-			$method->execute();
+			$method->execwrap();
 		}
 	}
 }

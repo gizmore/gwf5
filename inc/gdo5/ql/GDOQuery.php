@@ -55,6 +55,11 @@ class GDOQuery
 		return $this->from($tableName);
 	}
 	
+	/**
+	 * @param string $condition
+	 * @param string $op
+	 * @return GDOQuery
+	 */
 	public function where(string $condition, $op="AND")
 	{
 		if ($this->where)

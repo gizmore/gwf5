@@ -11,8 +11,5 @@ class GWF_Country extends GDO
 	
 	public function getISO() { return $this->getVar('c_iso'); }
 	
-	public function displayName()
-	{
-		return t('country_'.$this->getISO());
-	}
+	public function displayName() { return t('country_'.$this->getISO()); }
 }

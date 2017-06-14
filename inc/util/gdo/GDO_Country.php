@@ -6,8 +6,9 @@ final class GDO_Country extends GDO_Select
 	public function __construct()
 	{
 		$this->klass = "GWF_Country";
-		$this->choices = $this->countryChoices();
+		$this->label('country');
 	}
+	
 	
 	private function countryChoices()
 	{
@@ -27,6 +28,13 @@ final class GDO_Country extends GDO_Select
 	
 	public function render()
 	{
+		$this->choices = $this->countryChoices();
 		return GWF_Template::mainPHP('form/country.php', ['field'=>$this]);
+	}
+
+	public function validate($value)
+	{
+		$this->choices = $this->countryChoices();
+		return parent::validate($value);
 	}
 }

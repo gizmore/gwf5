@@ -14,6 +14,8 @@
  */
 abstract class GWF_MethodForm extends GWF_Method
 {
+	public function isTransactional() { return true; }
+	
 	/**
 	 * @var GWF_Form
 	 */
@@ -71,6 +73,7 @@ abstract class GWF_MethodForm extends GWF_Method
 		if (!$this->form)
 		{
 			$this->form = new GWF_Form();
+			$this->title('ft_'.strtolower(get_called_class()));
 			$this->createForm($this->form);
 		}
 		return $this->form;
@@ -100,5 +103,11 @@ abstract class GWF_MethodForm extends GWF_Method
 	public function formInvalid(GWF_Form $form)
 	{
 		return $this->error('err_form_invalid')->add($this->renderPage());
+	}
+	
+	
+	public function executeWebsocket(GWS_Message $msg)
+	{
+		$this->getForm()->withWSValuesFrom($msg);
 	}
 }

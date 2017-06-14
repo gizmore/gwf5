@@ -1,16 +1,18 @@
 <?php
 class GDO_Box extends GDO_Blank
 {
+	public function name(string $name) { $this->name = $name; return $this; }
+	
 	public function title(string $html)
 	{
-		return $this->label = $html;
+		$this->label = $html;
 		return $this;
 	}
 	
 	public $content;
 	public function content(string $html)
 	{
-		return $this->content = $html;
+		$this->content = $html;
 		return $this;
 	}
 	

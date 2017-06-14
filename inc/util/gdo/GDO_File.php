@@ -1,11 +1,7 @@
 <?php
 class GDO_File extends GDO_Object
 {
-	public function __construct()
-	{
-		$this->klass = 'GWF_File';
-		$this->action = '/flow_upload.php';
-	}
+	public $klass = 'GWF_File';
 	
 	public $mimes = [];
 	public function mime(string $mime)
@@ -86,7 +82,12 @@ class GDO_File extends GDO_Object
 	################
 	public function formValue()
 	{
-		return $this->getFiles($this->name, []);
+		return $this->multiple ? $this->getFiles($this->name) : $this->getFile($this->name);
+	}
+	
+	protected function filteredFormValue()
+	{
+		return $this->formValue();
 	}
 	
 	public function validate($value)
@@ -134,15 +135,15 @@ class GDO_File extends GDO_Object
 		return GWF_File::isFile($file) ? file_get_contents($file) : false;
 	}
 	
-	private function getFile($key, $default)
+	private function getFile(string $key)
 	{
-		if ($files = $this->getFiles($key, $default))
+		if ($files = $this->getFiles($key))
 		{
 			return $files[0];
 		}
 	}
 	
-	private function getFiles($key, $default)
+	private function getFiles(string $key)
 	{
 		$files = array();
 		$path = $this->getTempDir($key);

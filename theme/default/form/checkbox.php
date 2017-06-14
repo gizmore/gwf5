@@ -3,9 +3,9 @@
   <md-checkbox
    <?php echo $field->htmlDisabled(); ?>
    ng-controller="GWFCbxCtrl"
-   ng-init="data.cbx=<?php echo $field->formValue() > 0 ? 'true':'false'; ?>"
+   ng-init="cbx=<?php echo $field->formValue() > 0 ? 'true':'false'; ?>"
    ng-change="cbxChanged('#<?php echo $id; ?>');"
-   ng-model="data.cbx"><?php echo $field->displayLabel(); ?></md-checkbox>
+   ng-model="cbx"><?php echo $field->displayLabel(); ?></md-checkbox>
   <div class="form-error"><?php echo $field->displayError(); ?></div>
 </md-input-container>
 <!-- HIDDEN CHECKBOX -->

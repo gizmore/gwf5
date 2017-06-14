@@ -5,6 +5,7 @@ class GDO_Gender extends GDO_Char
 	{
 		$this->size(1);
 		$this->initial("0");
+		$this->label('gender');
 	}
 	
 	public function validate($value)

@@ -44,13 +44,23 @@ final class GWF5
 		
 		GWF_Trans::addPath(GWF_PATH . 'inc/lang/util');
 
-		$this->moduleLoader = new GWF_ModuleLoader(GWF_PATH . 'modules/');
+		$this->moduleLoader = new GWF_ModuleLoader(GWF_PATH . 'module/');
 	}
 	
 	public function __destruct()
 	{
-		GWF_Session::commit();
-		GWF_Log::flush();
+		$this->finish();
+	}
+	
+	public function finish()
+	{
+		static $finished;
+		if (!isset($finished))
+		{
+			$finished = true;
+			GWF_Session::commit();
+			GWF_Log::flush();
+		}
 	}
 	
 	/**
@@ -74,10 +84,14 @@ final class GWF5
 	 * @param string $moduleName
 	 * @return GWF_Module
 	 */
-	public function getModule($moduleName=true)
+	public function getModule(string $moduleName)
 	{
-		$moduleName = $moduleName === true ? Common::getGetString('mo', GWF_MODULE) : $moduleName;
 		return $this->moduleLoader->getModule($moduleName);
+	}
+	
+	public function defaultMethod()
+	{
+		return method(GWF_MODULE, GWF_METHOD);
 	}
 	
 	/**
@@ -132,13 +146,20 @@ final class GWF5
 	}
 }
 
-
-function href($moduleName, $methodName, $append='')
+#####################
+### Global helper ###
+#####################
+function href(string $moduleName, string $methodName, string $append='')
 {
 	return GWF5::instance()->getMethodHREF($moduleName, $methodName, $append);
 }
 
-function url($moduleName, $methodName, $append='')
+function url(string $moduleName, string $methodName, string $append='')
 {
 	return GWF_Url::absolute(href($moduleName, $methodName, $append));
+}
+
+function method(string $moduleName, string $methodName)
+{
+	return GWF5::instance()->getModule($moduleName)->getMethod($methodName);
 }

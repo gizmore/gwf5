@@ -7,20 +7,28 @@
  */
 class GDODB
 {
-	public static $INSTANCE; 
+	public static $INSTANCE;
+	/**
+	 * @return GDODB
+	 */
 	public static function instance() { return self::$INSTANCE; }
 	
 	private $link;
 	
+	/**
+	 * @var bool
+	 */
 	private $debug;
 	
 	public $reads = 0;
 	public $writes = 0;
+	public $commits = 0;
 	public $queries = 0;
 	public $queryTime = 0;
 	
 	public static $READS = 0;
 	public static $WRITES = 0;
+	public static $COMMITS = 0;
 	public static $QUERIES = 0;
 	public static $QUERY_TIME = 0;
 	
@@ -39,41 +47,40 @@ class GDODB
 		self::$INSTANCE = $this;
 		$this->debug = $debug;
 		$this->link = mysqli_connect($host, $user, $pass, $db);
-		$this->queryWrite("SET NAMES UTF8");
+		$this->queryRead("SET NAMES UTF8");
 	}
-	
+
+	#############
+	### Query ###
+	#############
 	public function queryRead($query)
 	{
-		$this->reads++;
-		self::$READS++;
+		$this->reads++; self::$READS++;
 		return $this->query($query);
 	}
 	
 	public function queryWrite($query)
 	{
-		$this->writes++;
-		self::$WRITES++;
+		$this->writes++; self::$WRITES++;
 		return $this->query($query);
 	}
 	
 	private function query($query)
 	{
-		$this->queries++;
-		self::$QUERIES++;
+		$this->queries++; self::$QUERIES++;
 		$t1 = microtime(true);
 		if (!($result = mysqli_query($this->link, $query)))
 		{
-			throw new GWF_Exception("err_db", [mysqli_error($this->link), $query]);
+			throw new GWF_Exception("err_db", [mysqli_error($this->link), htmlspecialchars($query)]);
 		}
 		$t2 = microtime(true);
 		$timeTaken = $t2 - $t1;
-		$this->queryTime += $timeTaken;
-		self::$QUERY_TIME += $timeTaken;
+		$this->queryTime += $timeTaken; self::$QUERY_TIME += $timeTaken;
 		if ($this->debug)
 		{
-			printf("<!- #%d took %.04f : %s -->\n", self::$QUERIES, $timeTaken, $query);
 			$timeTaken = sprintf('%.04f', $timeTaken);
-			GWF_Log::log('queries', "#" . self::$QUERIES . ": ($timeTaken) ".$query, GWF_Log::DEBUG);
+			printf("<!- #%d took %ss : %s -->\n", self::$QUERIES, $timeTaken, htmlspecialchars($query));
+			GWF_Log::log('queries', "#" . self::$QUERIES . ": ({$timeTaken}s) ".$query, GWF_Log::DEBUG);
 		}
 		return $result;
 	}
@@ -91,15 +98,17 @@ class GDODB
 	###################
 	### Table cache ###
 	###################
-	public static function tableS($classname)
+	/**
+	 * @param string $classname
+	 * @throws GWF_Exception
+	 * @return GDO
+	 */
+	public static function tableS(string $classname)
 	{
 		if (!isset(self::$TABLES[$classname]))
 		{
 			self::$TABLES[$classname] = $gdo = new $classname();
-			if (!(self::$COLUMNS[$classname] = self::hashedColumns($gdo->gdoColumns())))
-			{
-				throw new GWF_Exception('err_gdo_columns_missing');
-			}
+			self::$COLUMNS[$classname] = self::hashedColumns($gdo->gdoColumns());
 			$gdo->initCache();
 		}
 		return self::$TABLES[$classname];
@@ -121,10 +130,10 @@ class GDODB
 	}
 	
 	/**
-	 * @param unknown $classname
-	 * @return mixed
+	 * @param string $classname
+	 * @return GDOType[]
 	 */
-	public static function columnsS($classname)
+	public static function columnsS(string $classname)
 	{
 		return self::$COLUMNS[$classname];
 	}
@@ -132,6 +141,11 @@ class GDODB
 	####################
 	### Table create ###
 	####################
+	/**
+	 * Create a database table from a GDO. 
+	 * @param GDO $gdo
+	 * @return bool
+	 */
 	public function createTable(GDO $gdo)
 	{
 		$columns = [];
@@ -158,7 +172,11 @@ class GDODB
 		$columns = implode(",\n", $columns);
 		
 		$query = "CREATE TABLE IF NOT EXISTS {$gdo->gdoTableIdentifier()} (\n$columns\n) ENGINE = {$gdo->gdoEngine()}";
-		echo "<pre>$query</pre>\n";
+		
+		if ($this->debug)
+		{
+			printf("<pre>%s</pre>\n", htmlspecialchars($query));
+		}
 		return $this->queryWrite($query);
 	}
 	
@@ -170,5 +188,29 @@ class GDODB
 	public function truncateTable(GDO $gdo)
 	{
 		return $this->queryWrite("TRUNCATE TABLE IF EXISTS {$gdo->gdoTableIdentifier()}");
+	}
+	
+	###################
+	### Transaction ###
+	###################
+	public function transactionBegin()
+	{
+		return mysqli_begin_transaction($this->link);
+	}
+	
+	public function transactionEnd()
+	{
+		$this->commits++; self::$COMMITS++;
+		$t1 = microtime(true);
+		$result = mysqli_commit($this->link);
+		$t2 = microtime(true);
+		$tt = $t2 - $t1;
+		$this->queryTime += $tt; self::$QUERY_TIME += $tt;
+		return $result;
+	}
+	
+	public function transactionRollback()
+	{
+		return mysqli_rollback($this->link);
 	}
 }

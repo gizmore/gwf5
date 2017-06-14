@@ -79,7 +79,7 @@ final class GWF_ModuleLoader
 			$moduleName = $moduleData['module_name'];
 			if (!isset($this->modules[$moduleName]))
 			{
-				require(GWF_PATH . 'modules/'. $moduleName .'/Module_' . $moduleName. '.php');
+				include(GWF_PATH . 'module/'. $moduleName .'/Module_' . $moduleName. '.php');
 				$this->activeModules[$moduleName] = $this->modules[$moduleName] = $module = self::instanciate($moduleData);
 				$module->setPersisted(true);
 			}

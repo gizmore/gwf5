@@ -13,7 +13,7 @@ class GDO_Char extends GDO_String
 	public function gdoColumnDefine()
 	{
 		return
-		"{$this->identifier()} CHAR({$this->max}) CHARSET {$this->gdoCharsetDefine()} COLLATE {$this->gdoCollateDefine()}" .
+		"{$this->identifier()} CHAR({$this->max}) CHARSET {$this->gdoCharsetDefine()} {$this->gdoCollateDefine()}" .
 		$this->gdoNullDefine() . $this->gdoInitialDefine();
 	}
 }
