@@ -71,6 +71,16 @@ class GWF_Module extends GDO
 		return $this->getConfigColumn($key)->getGDOValue();
 	}
 	
+	public function saveConfigVar(string $key, string $value)
+	{
+		GWF_ModuleVar::createModuleVar($this, $this->getConfigColumn($key)->value($value));
+	}
+	
+	public function saveConfigValue(string $key, $value)
+	{
+		GWF_ModuleVar::createModuleVar($this, $this->getConfigColumn($key)->setGDOValue($value));
+	}
+	
 	##############
 	### Events ###
 	##############
