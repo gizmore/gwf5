@@ -11,4 +11,9 @@ class GWF_Message extends GWF_Response
 		$this->html = GWF_Template::mainPHP('message.php', ['response'=>$this]);
 	}
 	
+	public static function make($html)
+	{
+		return new self($html);
+	}
+	
 }

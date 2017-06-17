@@ -12,4 +12,9 @@ class GWF_Error extends GWF_Response
 		$this->html = GWF_Template::mainPHP('error.php', ['response'=>$this]);
 	}
 	
+	public static function make($html)
+	{
+		return new self($html);
+	}
+	
 }
