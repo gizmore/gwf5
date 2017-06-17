@@ -37,7 +37,7 @@ final class GWF_User extends GDO
 			GDO_Int::make('user_level')->unsigned()->notNull()->initial('0')->label('level'),
 			GDO_Int::make('user_credits')->unsigned()->notNull()->initial('0')->label('credits'),
 			GDO_PersonName::make('user_real_name'),
-			GDO_Enum::make('user_type')->enumValues(self::GHOST, self::GUEST, self::MEMBER)->notNull()->initial(self::GUEST),
+			GDO_Enum::make('user_type')->enumValues(self::GHOST, self::GUEST, self::MEMBER)->label('type')->notNull()->initial(self::GUEST),
 			GDO_EmailFormat::make('user_email_fmt'),
 			GDO_Email::make('user_email'),
 			GDO_Password::make('user_password'),

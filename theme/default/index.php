@@ -12,6 +12,7 @@
   <body ng-app="gwf5" layout="column" layout-fill flex ng-controller="GWFAppCtrl" ng-cloak>
   
     <!-- Begin Toolbar -->
+    <header>
     <md-toolbar class="md-hue-2">
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="<?php l('btn_left_menu'); ?>" ng-disabled="data.leftMenu.disabled" ng-click="openLeft()">
@@ -23,6 +24,7 @@
         </md-button>
       </div>
     </md-toolbar>
+    </header>
 	<!-- End Toolbar -->
  
  	<?php echo GWF_Javascript::displayJavascripts(Module_GWF::instance()->cfgMinifyJS() === 'concat'); ?>
@@ -54,5 +56,12 @@
       <!-- END RIGHT SIDENAV -->
 
     </section>
+    
+    <!-- BEGIN FOOTER -->
+    <footer>
+      <?php echo GWF_Navbar::bottom()->render(); ?>
+    </footer>
+    <!-- END FOOTER -->
+
   </body>
 </html>

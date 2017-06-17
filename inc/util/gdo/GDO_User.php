@@ -1,8 +1,27 @@
 <?php
-final class GDO_User extends GDO_Object
+class GDO_User extends GDO_Object
 {
+	public $klass = 'GWF_User';
+	
 	public function __construct()
 	{
-		$this->klass = 'GWF_User';
+		$this->label('user');
+	}
+	
+	/**
+	 * @return GWF_User
+	 */
+	public function getUser()
+	{
+		if (!($user = $this->getGDOValue()))
+		{
+			$user = GWF_User::ghost();
+		}
+		return $user;
+	}
+	
+	public function renderCell()
+	{
+		return $this->getUser()->displayName();
 	}
 }

@@ -79,8 +79,7 @@ abstract class GDOType
 	public function name(string $name)
 	{
 		$this->name = $name;
-		return $this->label($name);
-// 		return $this;
+		return $this->label ? $this : $this->label($name);
 	}
 
 	public function identifier()

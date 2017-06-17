@@ -22,6 +22,7 @@ controller('GWFFormCtrl', function($scope) {
 }).controller('GWFTableToggleCtrl', function($scope){
 	$scope.cbxToggleAll = function($event) {
 		console.log('GWFTableToggleCtrl.cbxToggleAll()', $event);
+		
 	};
 }).controller('GWFCKEditorCtrl', function($scope) {
 }).controller('GWFSelectCtrl', function($scope) {

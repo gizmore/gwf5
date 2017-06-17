@@ -3,6 +3,9 @@ class Admin_Install extends GWF_MethodForm
 {
 	use GWF_MethodAdmin;
 	
+	/**
+	 * @var GWF_Module
+	 */
 	private $configModule;
 	
 	public function execute()
@@ -58,10 +61,12 @@ class Admin_Install extends GWF_MethodForm
 	}
 	public function execute_enable()
 	{
+		$this->configModule->saveVar('module_enabled', '1');
 		return GWF_Message::error('msg_module_enabled', [$this->configModule->getName()])->add($this->execMethod('Modules'));
 	}
 	public function execute_disable()
 	{
+		$this->configModule->saveVar('module_enabled', '0');
 		return GWF_Message::error('msg_module_disabled', [$this->configModule->getName()])->add($this->execMethod('Modules'));
 	}
 	

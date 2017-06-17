@@ -1,8 +1,13 @@
 <?php
 return array(
-'user_name' => 'Username',
-'user_email' => 'Email',
-'user_password' => 'Password',
+'created_at' => 'Created at',
+'id' => 'ID',
+'title' => 'Title',
+'user' => 'User',
+'username' => 'Username',
+'gender' => 'Gender',
+'email' => 'Email',
+'password' => 'Password',
 		
 'btn_save' => 'Save',
 'btn_upload' => 'Upload',

@@ -44,7 +44,7 @@ class GDO_AntiCSRF extends GDOType
 	
 	public function csrfToken()
 	{
-		$token = '';
+		$csrf = '';
 		if (GWF_Session::instance())
 		{
 			if (!($csrf = GWF_Session::get('xsrf')))

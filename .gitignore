@@ -21,3 +21,5 @@
 /module/Currency/
 /module/Payment/
 /module/Broker/
+/module/PM/
+#/module/Perf/

@@ -8,9 +8,10 @@
  */
 class GDO_CreatedAt extends GDO_Timestamp
 {
+	public $null = false;
 	public function __construct()
 	{
-		$this->notNull();
+		$this->label('created_at');
 	}
 
 	public function gdoColumnDefine()
