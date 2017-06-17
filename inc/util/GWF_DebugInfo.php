@@ -1,11 +1,14 @@
 <?php
 final class GWF_DebugInfo
 {
+	public static $INSTANCE;
+	
 	private $t1;
 	
 	public function __construct()
 	{
 		$this->t1 = microtime(true);
+		self::$INSTANCE = $this;
 	}
 	
 	public function data()
