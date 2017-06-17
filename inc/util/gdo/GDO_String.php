@@ -1,4 +1,11 @@
 <?php
+/**
+ * Generic string datatype.
+ * Features charset, min and max length, regex patterns.
+ * Filters by LIKE.
+ * @author gizmore
+ *
+ */
 class GDO_String extends GDOType
 {
 	const UTF8 = 1;
@@ -28,6 +35,9 @@ class GDO_String extends GDOType
 	public function min($min) { $this->min = $min; return $this; }
 	public function max($max) { $this->max = $max; return $this; }
 	
+	######################
+	### Table creation ###
+	######################
 	public function gdoColumnDefine()
 	{
 		$charset = $this->gdoCharsetDefine();
@@ -55,6 +65,9 @@ class GDO_String extends GDOType
 		return 'COLLATE ' . $this->gdoCharsetDefine() . $append;
 	}
 
+	##############
+	### Render ###
+	##############
 	public function render()
 	{
 		$tVars = array(
@@ -63,6 +76,9 @@ class GDO_String extends GDOType
 		return GWF_Template::mainPHP('form/string.php', $tVars);
 	}
 	
+	################
+	### Validate ###
+	################
 	public function validate($value)
 	{
 		if ( ($value === null) && ($this->null) )
@@ -104,6 +120,22 @@ class GDO_String extends GDOType
 		elseif ($this->min !== null)
 		{
 			return $this->error('err_strlen_too_small', [$this->min]);
+		}
+	}
+	
+	##############
+	### filter ###
+	##############
+	public function renderFilter()
+	{
+		return GWF_Template::mainPHP('filter/string.php', ['field'=>$this]);
+	}
+
+	public function filterQuery(GDOQuery $query)
+	{
+		if ($filter = $this->filterValue())
+		{
+			$query->where(sprintf('%s LIKE %s', $this->identifier(), str_replace('*', '%', quote($filter))));
 		}
 	}
 }

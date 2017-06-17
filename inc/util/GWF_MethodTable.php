@@ -8,8 +8,9 @@
  */
 abstract class GWF_MethodTable extends GWF_Method
 {
-	
 	public function getItemsPerPage() { return Module_GWF::instance()->cfgItemsPerPage(); }
+	
+	protected $table;
 	
 	################
 	### Abstract ###
@@ -47,11 +48,12 @@ abstract class GWF_MethodTable extends GWF_Method
 	
 	public function renderTable()
 	{
-		$gwfTable = new GWF_Table($this->getResult());
-		$this->onDecorateTable($gwfTable);
-		$gwfTable->href($this->href());
+		$gwfTable = $this->table = new GWF_Table();
+		$gwfTable->href($_SERVER['REQUEST_URI']);
+		$gwfTable->addFields($this->getHeaders());
 		$gwfTable->paginated($this->getResultCount(), $this->getItemsPerPage());
-		$gwfTable->headers($this->getHeaders());
+		$gwfTable->result($this->getResult());
+		$this->onDecorateTable($gwfTable);
 		$gwfTable->method = $this;
 		$this->beforeRenderTable($gwfTable);
 		return $gwfTable->render();

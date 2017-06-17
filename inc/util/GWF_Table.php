@@ -7,6 +7,8 @@
  */
 class GWF_Table extends GWF_Response
 {
+	use GWF_Fields;
+	
 	const BOOTSTRAP = 0;
 	const DATATABLE = 1;
 	public static $MODE_TPL = ['table.php', 'datatable.php'];
@@ -21,12 +23,17 @@ class GWF_Table extends GWF_Response
 	/**
 	 * @var GDOResult
 	 */
-	private $result;
-	public function __construct(GDOResult $result, string $param='table')
+	public $result;
+	public function __construct(string $param='table')
+	{
+		$this->param = $param;
+// 		$this->href = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] . $this->hrefAppend() : '';
+	}
+	
+	public function result(GDOResult $result)
 	{
 		$this->result = $result;
-		$this->param = $param;
-		$this->href = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] . $this->hrefAppend() : '';
+		return $this;
 	}
 	
 	#############
@@ -43,34 +50,15 @@ class GWF_Table extends GWF_Response
 	### Name ###
 	############
 
-	###############
-	### Headers ###
-	###############
-	/**
-	 * @var GDOType[]
-	 */
-	private $headers = [];
-	public function headers(array $headers)
-	{
-		$this->headers = $headers;
-		return $this;
-	}
-	public function addHeader(GDOType $gdoType)
-	{
-		$this->headers[] = $gdoType;
-		return $this;
-	}
-	
-	
 	
 	############
 	### HREF ###
 	############
-	private $href;
-	private $param;
+	public $href;
+	public $param = "page";
 	public function href(string $href)
 	{
-		$this->href = $href . $this->hrefAppend();
+		$this->href = $href; # . $this->hrefAppend();
 		return $this;
 	}
 	
@@ -80,10 +68,21 @@ class GWF_Table extends GWF_Response
 		return $this;
 	}
 	
-	public function hrefAppend()
-	{
-		return sprintf('&%1$s[filter]=%%FILTER%%&%1$s[by]=%%BY%%&%1$s[dir]=%%DIR%%', $this->param);
-	}
+// 	public function hrefAppend()
+// 	{
+// // 		http_build_query($query_data)
+// 		return sprintf('&%1$s[filter]=%%FILTER%%&%1$s[by]=%%BY%%&%1$s[dir]=%%DIR%%', $this->param);
+// 	}
+	
+// 	public function getFilter()
+// 	{
+// 		return Common::getR
+// 	}
+	
+// 	public function getSorting()
+// 	{
+		
+// 	}
 
 	################
 	### PageMenu ###
@@ -91,10 +90,10 @@ class GWF_Table extends GWF_Response
 	/**
 	 * @var GWF_PageMenu
 	 */
-	private $pagemenu;
-	public function paginated(int $totalItems, int $ipp=50)
+	public $pagemenu;
+	public function paginated(int $totalItems, int $ipp=50, $param='page')
 	{
-		$this->pagemenu = new GWF_PageMenu($totalItems, $ipp, $this->param);
+		$this->pagemenu = new GWF_PageMenu($totalItems, $ipp, $param);
 		$this->pagemenu->href($this->href);
 		return $this;
 	}
@@ -123,7 +122,7 @@ class GWF_Table extends GWF_Response
 	private function renderHeadersJSON()
 	{
 		$headers = [];
-		foreach ($this->headers as $gdoType)
+		foreach ($this->getFields() as $gdoType)
 		{
 			$headers[] = $gdoType->renderJSON();
 		}
@@ -135,7 +134,7 @@ class GWF_Table extends GWF_Response
 		$tVars = array(
 			'table' => $this,
 			'result' => $this->result,
-			'headers' => $this->headers,
+			'headers' => $this->getFields(),
 			'pagemenu' => $this->pagemenu,
 		);
 		return GWF_Template::mainPHP(self::$MODE_TPL[$this->mode], $tVars);

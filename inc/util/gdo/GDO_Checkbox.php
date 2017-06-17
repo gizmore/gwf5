@@ -32,6 +32,11 @@ class GDO_Checkbox extends GDO_Bool
 		return GWF_Template::mainPHP('cell/checkbox.php', ['field'=>$this]);
 	}
 	
+	public function renderFilter()
+	{
+		return GWF_Template::mainPHP('filter/checkbox.php', ['field'=>$this]);
+	}
+	
 	public function validate($value)
 	{
 		if ( (!$this->null) && ($value == 0) )

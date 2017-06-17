@@ -25,7 +25,7 @@ class GWF_PageMenu
 	
 	public function getFrom()
 	{
-		return $this->page * $this->ipp;
+		return ($this->page - 1) * $this->ipp;
 	}
 	
 	############
@@ -34,13 +34,14 @@ class GWF_PageMenu
 	public $href;
 	public function href(string $href)
 	{
-		$this->href = $href . $this->hrefAppend();
+		$search = '&' . $this->param . '=' . Common::getRequestString($this->param, '');
+		$this->href = str_replace($search, '', $href) . $this->hrefAppend();
 		return $this;
 	}
 	
 	public function hrefAppend()
 	{
-		return sprintf('&%1$s[page]=%%PAGE%%', $this->param);
+		return sprintf('&%1$s=%%PAGE%%', $this->param);
 	}
 	
 	public function replaceHREF(int $page)
@@ -82,26 +83,34 @@ class GWF_PageMenu
 
 	public function renderHTML()
 	{
-		$tVars = array(
-			'pagemenu' => $this,
-			'pages' => $this->pagesObject(),
-		);
-		return GWF_Template::mainPHP('pagemenu.php', $tVars);
+		if ($this->pages > 1)
+		{
+			$tVars = array(
+				'pagemenu' => $this,
+				'pages' => $this->pagesObject(),
+			);
+			return GWF_Template::mainPHP('pagemenu.php', $tVars);
+		}
 	}
 	
 	
 	private function pagesObject()
 	{
-		return array(
-			new GWF_PageMenuItem(1, $this->replaceHref(1), $this->page == 1),
-			GWF_PageMenuItem::dotted(),
-			GWF_PageMenuItem::dotted(),
-			new GWF_PageMenuItem(8, $this->replaceHref(8), $this->page == 8),
-			new GWF_PageMenuItem(8, $this->replaceHref(8), $this->page == 8),
-			new GWF_PageMenuItem(8, $this->replaceHref(8), $this->page == 8),
-			GWF_PageMenuItem::dotted(),
-			GWF_PageMenuItem::dotted(),
-			new GWF_PageMenuItem(400, $this->replaceHref(400), $this->page == 400),
-		);
+		$pages = [];
+		$pages[] = new GWF_PageMenuItem($this->page, $this->replaceHREF($this->page), true);
+		for ($i = 1; $i <= 4; $i++)
+		{
+			$page = $this->page - $i;
+			if ($page > 0)
+			{
+				array_unshift($pages, new GWF_PageMenuItem($page, $this->replaceHREF($page)));
+			}
+			$page = $this->page + $i;
+			if ($page <= $this->pages)
+			{
+				$pages[] = new GWF_PageMenuItem($page, $this->replaceHREF($page));
+			}
+		}
+		return $pages;
 	}
 }

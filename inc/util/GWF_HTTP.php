@@ -160,7 +160,7 @@ final class GWF_HTTP
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		
 		# Handle HTTPS links
-		if(Common::startsWith($url, 'https://'))
+		if(GWF_String::startsWith($url, 'https://'))
 		{
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,0);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); # should be 1!

@@ -9,7 +9,7 @@ include'inc/GWF5.php';
 $gwf5 = new GWF5();
 $perf = new GWF_DebugInfo();
 GWF_Log::init();
-$db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME);
+$db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME, GWF_DB_DEBUG);
 GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);
 GWF_Debug::init();
 GWF_Debug::enableErrorHandler();

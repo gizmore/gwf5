@@ -101,7 +101,7 @@ class Module_GWF extends GWF_Module
 	{
 		$user = GWF_User::current();
 // 		$user->loadPermissions();
-		$json = json_encode($user->getVars('user_id', 'user_name', 'user_guest_name', 'user_type', 'user_level', 'user_credits'));
+		$json = json_encode($user->getVars(['user_id', 'user_name', 'user_guest_name', 'user_type', 'user_level', 'user_credits']));
 		return "window.GWF_USER = new GWF_User($json);";
 	}
 	

@@ -11,7 +11,7 @@ class GDO_IP extends GDO_String
 		$this->max = 45;
 		$this->encoding = self::ASCII;
 		$this->caseSensitive = true;
-		$this->pattern = "/^[.:0-9a-f]{3,45}$/i";
+		$this->pattern = "/^[.:0-9a-fA-F]{3,45}$/";
 	}
 	
 }

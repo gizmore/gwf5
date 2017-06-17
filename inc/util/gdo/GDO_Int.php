@@ -104,6 +104,22 @@ class GDO_Int extends GDOType
 	{
 		return $this->gdo->getVar($this->name);
 	}
+	
+	public function renderFilter()
+	{
+		return GWF_Template::mainPHP('filter/int.php', ['field'=>$this]);
+	}
+	
+	public function filterQuery(GDOQuery $query)
+	{
+		if ($filter = $this->filterValue())
+		{
+			$min = (int)GWF_String::substrTo($filter, '-', $filter);
+			$max = (int)GWF_String::substrFrom($filter, '-', $filter);
+			$nam = $this->identifier();
+			$query->where("$nam >= $min AND $nam <= $max");
+		}
+	}
 
 	public function htmlClass()
 	{

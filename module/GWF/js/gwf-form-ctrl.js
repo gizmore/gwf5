@@ -1,8 +1,7 @@
 "use strict";
 angular.module('gwf5').
 controller('GWFFormCtrl', function($scope) {
-}).
-controller('GWFCbxCtrl', function($scope) {
+}).controller('GWFCbxCtrl', function($scope) {
 	$scope.cbxChanged = function(cbxName) {
 //		console.log('GWFCbxCtrl.cbxChanged()', cbxName);
 		if ($scope.cbx) {
@@ -12,10 +11,12 @@ controller('GWFCbxCtrl', function($scope) {
 			jQuery(cbxName).removeAttr('checked'); 
 		}
 	};
-}).
-controller('GWFCKEditorCtrl', function($scope) {
-}).
-controller('GWFSelectCtrl', function($scope) {
+}).controller('GWFTableToggleCtrl', function($scope){
+	$scope.cbxToggleAll = function($event) {
+		console.log('GWFTableToggleCtrl.cbxToggleAll()', $event);
+	};
+}).controller('GWFCKEditorCtrl', function($scope) {
+}).controller('GWFSelectCtrl', function($scope) {
 	$scope.init = function(selectedValues, multiple) {
 //		console.log('GWFSelectCtrl.init()', selectedValues);
 		$scope.multiple = multiple;

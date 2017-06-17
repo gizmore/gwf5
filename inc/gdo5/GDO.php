@@ -153,10 +153,10 @@ abstract class GDO
 	}
 	
 	/**
-	 * @param string ...$keys
+	 * @param string[] $keys
 	 * @return string[]
 	 */
-	public function getVars(string ...$keys)
+	public function getVars(array $keys)
 	{
 		$back = [];
 		foreach ($keys as $key)

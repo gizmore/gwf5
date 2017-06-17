@@ -27,10 +27,10 @@ class Admin_Modules extends GWF_MethodTable
 		return new GWF_Message('msg_there_are_updates');
 	}
 	
-	public function onDecorateTable(GWF_Table $gwfTable)
-	{
-		$gwfTable->title('table_title_admin_modules');
-	}
+// 	public function onDecorateTable(GWF_Table $gwfTable)
+// 	{
+// 		$gwfTable->title('table_title_admin_modules');
+// 	}
 	
 	public function getResult()
 	{

@@ -122,6 +122,18 @@ abstract class GDOType
 	{
 		return $this->displayLabel();
 	}
+	####################
+	### Table Filter ###
+	####################
+	public function renderFilter()
+	{
+		return '';
+	}
+	
+	public function filterQuery(GDOQuery $query)
+	{
+		return $query;
+	}
 	
 	###################
 	### Placeholder ###
@@ -238,6 +250,17 @@ abstract class GDOType
 	{
 		$vars = Common::getRequestArray('form', []);
 		return isset($vars[$this->name]) ? $vars[$this->name] : $this->getValue();
+	}
+	
+	public function filterValue()
+	{
+		$vars = Common::getRequestArray('f', []);
+		return @$vars[$this->name];
+	}
+	
+	public function displayFilterValue()
+	{
+		return GWF_HTML::escape($this->filterValue());
 	}
 	
 	public function displayFormValue()

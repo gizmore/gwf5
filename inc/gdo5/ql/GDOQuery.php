@@ -91,6 +91,12 @@ class GDOQuery
 		return $this;
 	}
 	
+	public function fromSelf()
+	{
+		return $this->from($this->table->gdoTableIdentifier());
+	}
+	
+	
 	public function getFrom()
 	{
 		return $this->from ? " {$this->from}" : "";

@@ -6,7 +6,7 @@
  * @see GWF_User
  * @see GWF_Table
  */
-class Admin_Users extends GWF_MethodTable
+class Admin_Users extends GWF_MethodQueryTable
 {
 	use GWF_MethodAdmin;
 	
@@ -17,28 +17,25 @@ class Admin_Users extends GWF_MethodTable
 		return $this->renderNavBar()->add(parent::execute());
 	}
 	
-	public function beforeRenderTable(GWF_Table $gwfTable)
+	public function getGDO()
 	{
-		$gwfTable->mode = GWF_Table::BOOTSTRAP;
+		return GWF_User::table();
 	}
 	
 	public function getHeaders()
 	{
 		$headers = array(
+			GDO_RowNum::make(),
 			GDO_EditButton::make('edit_admin')->noLabel(),
 		);
 		$userHeaders = GWF_User::table()->getGDOColumns($this->fields);
 		return array_merge($headers, $userHeaders);
 	}
 	
+	
 	public function getResult()
 	{
-		return GWF_User::table()->select(implode(', ', $this->fields))->exec();
-	}
-
-	public function getResultCount()
-	{
-		return GWF_User::table()->countWhere("true");
+		return $this->getQueryPaginated()->select(implode(', ', $this->fields))->exec();
 	}
 	
 }

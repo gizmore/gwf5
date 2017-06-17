@@ -1,6 +1,13 @@
 <?php
+/**
+ * Add JS here, it calls minify on it, if enabled.
+ * @author gizmore
+ */
 final class GWF_Javascript
 {
+	###################################
+	### Asset loader and obfuscator ###
+	###################################
 	private static $_javascripts = [];
 	private static $_javascript_inline = '';
 	
@@ -44,5 +51,12 @@ final class GWF_Javascript
 		// 		return self::$_javascript_inline ? sprintf('; $(function(){ %s; });', self::$_javascript_inline) : '';
 		return self::$_javascript_inline ? sprintf('; %s;', self::$_javascript_inline) : '';
 	}
-	
+
+	############
+	### JSON ###
+	############
+	public static function jsonEncodeSingleQuote($object)
+	{
+		return str_replace("\"", "'", json_encode($object));
+	}
 }
