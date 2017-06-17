@@ -175,23 +175,14 @@ abstract class GDOType
 	############
 	### Icon ###
 	############
-	public $icon;
-	public function htmlIcon()
-	{
-		return $this->icon ? $this->icon : '';
-	}
+	public static function matIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
+// 	public static function aweIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
 	
-	public function matIcon(string $icon)
-	{
-		$this->icon = self::matIconS($icon);
-		return $this;
-	}
+	private $icon;
+	public function htmlIcon() { return $this->icon ? $this->icon : ''; }
+	public function rawIcon(string $icon) { $this->icon = $icon; return $this; }
+	public function matIcon(string $icon) { return $this->rawIcon(self::matIconS($icon)); }
 	
-	public static function matIconS(string $icon)
-	{
-		return "<md-icon class=\"material-icons\">$icon</md-icon>";
-	}
-
 	###############
 	### Default ###
 	###############
@@ -415,7 +406,8 @@ abstract class GDOType
 	
 	public function renderCell()
 	{
-		return GWF_HTML::escape($this->gdo->getVar($this->name));
+		$value = $this->gdo ? $this->gdo->getVar($this->name) : $this->getValue();
+		return GWF_HTML::escape($value);
 	}
 	
 	##################
@@ -424,7 +416,7 @@ abstract class GDOType
 	public function formValidate(GWF_Form $form)
 	{
 		$value = $this->filteredFormValue();
-		if (($this->validate($value)) && ($this->validatorsValidate()))
+		if (($this->validate($value)) && ($this->validatorsValidate($form)))
 		{
 			# Add form value if validated.
 			$this->addFormValue($form, $value);
@@ -453,13 +445,13 @@ abstract class GDOType
 		return $this->oldValue != $this->value;
 	}
 	
-	public function validatorsValidate()
+	public function validatorsValidate(GWF_Form $form)
 	{
 		if ($this->validators)
 		{
 			foreach ($this->validators as $validator)
 			{
-				if (!call_user_func($validator, $this))
+				if (!call_user_func($validator, $form, $this))
 				{
 					return false;
 				}

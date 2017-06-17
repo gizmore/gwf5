@@ -18,5 +18,6 @@
    <?php if ($field->preview) : ?>preview<?php endif; ?>
    <?php echo $field->htmlDisabled(); ?>
    <?php echo $field->htmlRequired(); ?>></lf-ng-md-file-input>
+  <br/>
   <div class="gwf-form-error"><?php echo $field->displayError(); ?></div>
 </md-input-container>

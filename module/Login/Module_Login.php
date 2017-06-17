@@ -36,11 +36,11 @@ final class Module_Login extends GWF_Module
 		{
 			if (GWF_Session::user()->isGhost())
 			{
-				$navbar->addField(GDO_Button::make('signin')->label('btn_login')->href($this->getMethodHREF('Form')));
+				$navbar->addField(GDO_Link::make('signin')->label('btn_login')->href($this->getMethodHREF('Form')));
 			}
 			else
 			{
-				$navbar->addField(GDO_Button::make('signout')->label('btn_logout')->href($this->getMethodHREF('Logout')));
+				$navbar->addField(GDO_Link::make('signout')->label('btn_logout')->href($this->getMethodHREF('Logout')));
 			}
 		}
 	}

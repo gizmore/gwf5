@@ -95,15 +95,15 @@ class GDOResult
 	{
 		if ($gdoData = $this->fetchAssoc())
 		{
-			$class = $table->gdoClassName();
-			if ($class::$CACHED)
+			if ($table->gdoCached())
 			{
 				return $table->initCached($gdoData);
 			}
 			else
 			{
+				$class = $table->gdoClassName();
 				$object = new $class();
-				return $object->setGDOVars($gdoData);
+				return $object->setGDOVars($gdoData)->setPersisted();
 			}
 		}
 	}

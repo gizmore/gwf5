@@ -11,5 +11,6 @@ class GDO_Blank extends GDOType
 {
 	public function blankData() {}
 	public function render() { return ''; }
+	public function renderCell() { return $this->render(); }
 	public function addFormValue(GWF_Form $form, $value) {}
 }

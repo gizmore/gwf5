@@ -50,7 +50,7 @@ class GDOCache
 		$key = $this->dummy->getID();
 		if (!isset($this->cache[$key]))
 		{
-			$this->cache[$key] = $this->dummy->dirty(false)->setPersisted();
+			$this->cache[$key] = $this->dummy->setPersisted();
 			$this->newDummy();
 		}
 		return $this->cache[$key];

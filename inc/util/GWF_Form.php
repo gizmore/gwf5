@@ -112,7 +112,7 @@ class GWF_Form
 	
 	public function getVar(string $key)
 	{
-		return $this->values[$key];
+		return @$this->values[$key];
 	}
 	
 	public function addValue(string $key=null, $value)

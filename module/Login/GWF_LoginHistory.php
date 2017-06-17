@@ -1,6 +1,7 @@
 <?php
 class GWF_LoginHistory extends GDO
 {
+	public function gdoCached() { return false; }
 	public function gdoColumns()
 	{
 		return array(

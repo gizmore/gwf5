@@ -15,7 +15,7 @@ class Module_Admin extends GWF_Module
 	{
 		if ($navbar->isRight() && GWF_User::current()->isAdmin())
 		{
-			$navbar->addField(GDO_Button::make('btn_admin')->label('btn_admin')->href($this->getMethodHREF('Modules')));
+			$navbar->addField(GDO_Link::make('btn_admin')->label('btn_admin')->href($this->getMethodHREF('Modules')));
 		}
 	}
 	

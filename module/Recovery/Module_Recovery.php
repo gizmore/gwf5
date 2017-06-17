@@ -35,7 +35,7 @@ class Module_Recovery extends GWF_Module
 	{
 		if ($navbar->isRight() && GWF_Session::user()->isGhost())
 		{
-			$navbar->addField(GDO_Button::make('btn_recovery')->href($this->getMethodHREF('Form')));
+			$navbar->addField(GDO_Link::make('btn_recovery')->href($this->getMethodHREF('Form')));
 		}
 	}
 }

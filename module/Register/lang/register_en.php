@@ -8,7 +8,7 @@ return array(
 'msg_activated' => 'Welcome, %s, your account is now activated.',
 
 'err_username_taken' => 'This username is already in use.',
-'err_email_signup_max_reached' => 'This email is used on the max of %s accounts already.',
+'err_email_taken' => 'This email is already resgistered here.',
 'err_register' => 'The sign up process failed.',
 'err_no_activation' => 'Activating your account failed.',
 		

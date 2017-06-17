@@ -13,13 +13,13 @@ abstract class GDO
 	const MEMORY = 'memory';
 	
 	public static $ENGINE = self::INNODB;
-	public static $CACHED = true;
 	
 	/**
 	 * @return GDOType[]
 	 */
 	public abstract function gdoColumns();
 	
+	public function gdoCached() { return true; }
 	public function gdoTableName() { return strtolower(get_called_class()); }
 	public function gdoDependencies() { return null; }
 	
@@ -33,8 +33,8 @@ abstract class GDO
 	### Escaping ###
 	################
 	
-	public static function escapeIdentifierS(string $identifier) { return str_replace("`", "\`", $identifier); }
-	public static function quoteIdentifierS(string $identifier) { return "`" . self::escapeIdentifierS($identifier) . "`"; }
+// 	public static function escapeIdentifierS(string $identifier) { return str_replace("`", "\`", $identifier); }
+	public static function quoteIdentifierS(string $identifier) { return $identifier; } # NOT NEEDED yet :) return "`" . self::escapeIdentifierS($identifier) . "`"; }
 
 	public static function escapeS(string $value) { return str_replace(array("'", '"'), array("\\'", '\\"'), $value); }
 	public static function quoteS($value)
@@ -206,7 +206,7 @@ abstract class GDO
 	 */
 	public function query()
 	{
-		return new GDOQuery($this);
+		return new GDOQuery($this); # TODO: Clear query instead of new?
 	}
 	
 	/**
@@ -234,7 +234,7 @@ abstract class GDO
 	public function countWhere(string $condition)
 	{
 		$result = $this->query()->select("COUNT(*)")->from($this->gdoTableIdentifier())->where($condition)->exec()->fetchRow();
-		return $result[0];
+		return (int)$result[0];
 	}
 	
 	/**
@@ -430,6 +430,10 @@ abstract class GDO
 			{
 				$columns[] = $column;
 			}
+			else
+			{
+				break;
+			}
 		}
 		return $columns;
 	}
@@ -545,7 +549,7 @@ abstract class GDO
 	 * @param string $id
 	 * @return self
 	 */
-	public static function getById($id)
+	public static function getById(string $id=null)
 	{
 		if ($id)
 		{

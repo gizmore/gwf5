@@ -24,6 +24,7 @@ return array(
 'sort' => 'Sort',
 'version' => 'Version',
 'path' => 'Path',
+'retype' => 'Retype',
 'user_allow_email' => 'Allow people to E-Mail me',
 'birthdate' => 'Birthdate',
 
@@ -32,8 +33,12 @@ return array(
 'btn_save' => 'Save',
 'btn_upload' => 'Upload',
 
+# Generic Messages
+'msg_form_saved' => 'Your data has been safed successfully.',		
+
 # Generic Errors
 'err_db' => "Database Error: %s<br/>\n%s<br/>\n",
+'err_token' => 'Your token is invalid.',
 'err_csrf' => 'Your form token is invalid. Maybe you have tried to refresh a form submission or have cookie problems.',
 'err_field_invalid' => 'Your value for %s is not accepted.',
 'err_blank_response' => 'The module gave a blank response, which is unusual.',
@@ -41,7 +46,9 @@ return array(
 'err_strlen_between' => 'This string has to be between %s and %s characters in length.',
 'err_form_invalid' => 'Your sent form is incomplete as it contains errors.',
 'err_user_required' => 'You need to be authenticated before using this function.',
-
+'err_upload_min_files' => 'You have to upload at least %s file(s).',
+'err_upload_max_files' => 'You may not upload more than %s files(s).',
+		
 # Dateformats
 'df_day' => 'm/d/Y',
 'df_short' => 'm/d/Y H:i',

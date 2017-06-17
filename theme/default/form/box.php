@@ -1,9 +1,9 @@
 <?php $field instanceof GDO_Box; ?>
-<md-whiteframe class="md-whiteframe-4dp">
-<md-content layout-padding flex layout="row" layout-fill>
+<md-content flex layout="row" layout-fill layout-padding class="gwf-box">
+<md-whiteframe layout-padding class="md-whiteframe-4dp">
   <?php if ($field->label) : ?>
   <h1><?php echo $field->label; ?></h1>
   <?php endif;?>
-  <p><?php echo $field->content; ?></p>
-</md-content>
+  <p><?php echo nl2br($field->content); ?></p>
 </md-whiteframe>
+</md-content>

@@ -127,18 +127,18 @@ abstract class GWF_Method
 	public function execTransactional()
 	{
 		$db = GDODB::instance();
-		try
-		{
-			$db->transactionBegin();
+// 		try
+// 		{
+// 			$db->transactionBegin();
 			$result = $this->execute();
-			$db->transactionEnd();
+// 			$db->transactionEnd();
 			return $result;
-		}
-		catch (Exception $e)
-		{
-			$db->transactionRollback();
-			throw $e;
-		}
+// 		}
+// 		catch (Exception $e)
+// 		{
+// 			$db->transactionRollback();
+// 			throw $e;
+// 		}
 	}
 	
 	

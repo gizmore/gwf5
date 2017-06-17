@@ -2,8 +2,15 @@
 class GDO_User extends GDO_Object
 {
 	public $klass = 'GWF_User';
-	
+
 	public function defaultLabel() { return $this->label('user'); }
+
+	private $ghost = false;
+	public function ghost(bool $ghost=true)
+	{
+		$this->ghost = $ghost;
+		return $this;
+	}
 	
 	/**
 	 * @return GWF_User
@@ -12,7 +19,10 @@ class GDO_User extends GDO_Object
 	{
 		if (!($user = $this->getGDOValue()))
 		{
-			$user = GWF_User::ghost();
+			if ($this->ghost)
+			{
+				$user = GWF_User::ghost();
+			}
 		}
 		return $user;
 	}

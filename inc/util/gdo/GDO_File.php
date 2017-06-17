@@ -97,11 +97,11 @@ class GDO_File extends GDO_Object
 		$valid = true;
 		if (count($value) < $this->minfiles)
 		{
-			$valid = $this->error('err_upload_min_files', [count($value), $this->minfiles]);
+			$valid = $this->error('err_upload_min_files', [$this->minfiles]);
 		}
 		elseif (count($value) > $this->maxfiles)
 		{
-			$valid = $this->error('err_upload_max_files', [count($value), $this->maxfiles]);
+			$valid = $this->error('err_upload_max_files', [$this->maxfiles]);
 		}
 		
 		if (!$valid)

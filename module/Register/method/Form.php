@@ -24,7 +24,7 @@ class Register_Form extends GWF_MethodForm
 		$form->addField(GDO_Button::make('btn_recovery')->href(href('Recovery', 'Form')));
 	}
 	
-	function validateUniqueIP(GDO_Validator $field)
+	function validateUniqueIP(GWF_Form $form, GDO_Validator $field)
 	{
 		$ip = GDO::quoteS(GDO_IP::current());
 		$cut = time() - Module_Register::instance()->cfgMaxUsersPerIPTimeout();
@@ -33,17 +33,16 @@ class Register_Form extends GWF_MethodForm
 		return $count < $max ? true :  $field->error('err_email_signup_max_reached', [$max]);
 	}
 	
-	public function validateUniqueUsername(GDO_Username $username)
+	public function validateUniqueUsername(GWF_Form $form, GDO_Username $username)
 	{
 		$existing = GWF_User::table()->getByName($username->formValue());
 		return $existing ? $username->error('err_username_taken') : true;
 	}
 
-	public function validateUniqueEmail(GDO_Email $email)
+	public function validateUniqueEmail(GWF_Form $form, GDO_Email $email)
 	{
 		$count = GWF_User::table()->countWhere("user_email={$email->quotedValue()}");
-		$max = Module_Register::instance()->cfgMaxUsersPerMail();
-		return $count < $max ? true : $email->error('err_email_signup_max_reached', [$max]);
+		return $count === 0 ? true : $email->error('err_email_taken');
 	}
 	
 	public function formInvalid(GWF_Form $form)

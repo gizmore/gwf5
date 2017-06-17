@@ -1,6 +1,7 @@
 <?php
 class GWF_ModuleVar extends GDO
 {
+	public function gdoCached() { return false; }
 	###########
 	### GDO ###
 	###########

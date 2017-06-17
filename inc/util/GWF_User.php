@@ -72,15 +72,14 @@ final class GWF_User extends GDO
 	public function hasMail() { return !!$this->getMail(); }
 	public function getMail() { return $this->getVar('user_email'); }
 	public function getRegisterIP() { return $this->getVar('user_register_ip'); }
+	public function getLangISO() { return $this->getVar('user_language'); }
+	public function getLanguage() { return $this->getValue('user_language'); }
 	public function getCountryISO() { return $this->getVar('user_country'); }
 	public function getCountry() { return $this->getValue('user_country'); }
 	public function hideOnline() { return $this->getVar('user_hide_online') === '1'; }
 	public function isDeleted() { return $this->getVar('user_deleted_at') !== null; }
 	public function getBirthdate() { return $this->getVar('user_birthdate'); }
-	public function getAge()
-	{
-// 		die($this->getBirthdate());
-	}
+	public function getAge() { return GWF_Time::getAge($this->getBirthdate()); }
 
 	###############
 	### Display ###
