@@ -1,12 +1,16 @@
 <?php
 return array(
-'form_title_register' => 'Sign up with %s',
+'ft_register_form' => '[%s] Sign up',
+'tos_label' => 'I have read and agree to the <a href="%s">Terms of Service</a>',
 'btn_register' => 'Sign up',
+		
+'msg_activation_mail_sent' => 'We have sent you an email. To complete your sign up process please follow the instructions there.',
+'msg_activated' => 'Welcome, %s, your account is now activated.',
+
 'err_username_taken' => 'This username is already in use.',
 'err_email_signup_max_reached' => 'This email is used on the max of %s accounts already.',
 'err_register' => 'The sign up process failed.',
 'err_no_activation' => 'Activating your account failed.',
-'tos_label' => 'I have read and agree to the <a href="%s">Terms of Service</a>',
 		
 'mail_activate_title'=> '%s: Activate your account',
 'mail_activate_body' =>

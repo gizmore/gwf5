@@ -9,6 +9,8 @@ class Admin_Modules extends GWF_MethodTable
 {
 	use GWF_MethodAdmin;
 	
+	public function isPaginated() { return false; }
+	
 	public function getPermission() { return 'admin'; }
 	
 	/**
@@ -24,13 +26,8 @@ class Admin_Modules extends GWF_MethodTable
 	
 	public function renderInfoBox()
 	{
-		return new GWF_Message('msg_there_are_updates');
+		return GDO_Box::make()->content(t('msg_there_are_updates'))->render();
 	}
-	
-// 	public function onDecorateTable(GWF_Table $gwfTable)
-// 	{
-// 		$gwfTable->title('table_title_admin_modules');
-// 	}
 	
 	public function getResult()
 	{

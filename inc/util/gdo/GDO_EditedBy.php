@@ -1,6 +1,8 @@
 <?php
 final class GDO_EditedBy extends GDO_User
 {
+	public function defaultLabel() { return $this->label('edited_by'); }
+	
 	public function gdoBeforeUpdate(GDOQuery $query)
 	{
 		$userId = GWF_User::current()->getID();

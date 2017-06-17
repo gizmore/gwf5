@@ -3,10 +3,7 @@ class GDO_User extends GDO_Object
 {
 	public $klass = 'GWF_User';
 	
-	public function __construct()
-	{
-		$this->label('user');
-	}
+	public function defaultLabel() { return $this->label('user'); }
 	
 	/**
 	 * @return GWF_User

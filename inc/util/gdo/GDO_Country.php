@@ -6,9 +6,9 @@ final class GDO_Country extends GDO_Select
 	public function __construct()
 	{
 		$this->klass = "GWF_Country";
-		$this->label('country');
 	}
 	
+	public function defaultLabel() { return $this->label('country'); }
 	
 	private function countryChoices()
 	{

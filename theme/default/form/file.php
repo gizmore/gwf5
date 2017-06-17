@@ -2,7 +2,7 @@
 <md-input-container
  ng-controller="GWFUploadCtrl"
  flex
- class="md-block md-float md-icon-left"
+ class="md-block md-float md-icon-left<?php echo $field->classError(); ?>"
  flow-init="{target: '<?php echo $field->action; ?>', singleFile: <?php echo $field->multiple?'false':'true'; ?>, fileParameterName: '<?php echo $field->name; ?>', testChunks: false}"
  flow-file-progress="onFlowProgress($file, $flow, $message);"
  flow-file-success="onFlowSuccess($file, $flow, $message);"

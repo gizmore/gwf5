@@ -37,10 +37,7 @@ class GDO_AntiCSRF extends GDOType
 	#################
 	### Construct ###
 	#################
-	public function __construct()
-	{
-		$this->name = 'xsrf';
-	}
+	public $name = 'xsrf';
 	
 	public function csrfToken()
 	{

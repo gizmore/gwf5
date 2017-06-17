@@ -14,16 +14,12 @@ class GDO_AutoInc extends GDO_Int
 	###############
 	### GDOType ###
 	###############
-	public function __construct()
-	{
-		$this->unsigned();
-		$this->label('id');
-	}
+	public $unsigned = true;
 	
 	public function name(string $name)
 	{
 		$this->name = $name;
-		return $this;
+		return $this->label('id');
 	}
 	
 	##############

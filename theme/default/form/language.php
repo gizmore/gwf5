@@ -1,5 +1,5 @@
 <?php $field instanceof GDO_Language; ?>
-<md-input-container class="md-block md-float md-icon-left" flex>
+<md-input-container class="md-block md-float md-icon-left<?php echo $field->classError(); ?>" flex>
   <label><?php echo $field->displayLabel(); ?></label>
   <md-select
    ng-controller="GWFSelectCtrl"
@@ -24,7 +24,7 @@
     <?php foreach ($field->choices as $iso => $language) : $language instanceof GWF_Language; ?>
       <md-option value="<?php echo $iso; ?>">
         <img
-         class="gwf-language"
+         class="gwf-language n"
          alt="<?php echo $language->displayName(); ?>"
          src="/theme/default/img/language/<?php echo $language->getID(); ?>.png" />
         <?php echo $language->displayName(); ?>

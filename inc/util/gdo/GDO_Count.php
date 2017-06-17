@@ -1,15 +1,15 @@
 <?php
-final class GDO_Count extends GDOType
+class GDO_Count extends GDO_Blank
 {
-	private $n = 1;
+	private $num;
 	
 	public function __construct()
 	{
-		$this->name('count');
+		$this->num = 1;
 	}
 	
 	public function renderCell()
 	{
-		return $n++;
+		return $this->num++;
 	}
 }

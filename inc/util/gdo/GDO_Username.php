@@ -6,13 +6,11 @@
  */
 class GDO_Username extends GDO_String
 {
-	public function __construct()
-	{
-		$this->min = 2;
-		$this->max = 32;
-		$this->pattern = "/^[a-z][-_0-9a-z]{1,31}$/i";
-		$this->label('username');
-	}
+	public $min = 2;
+	public $max = 32;
+	public $pattern = "/^[a-z][-_0-9a-z]{1,31}$/i";
+
+	public function defaultLabel() { return $this->label('username'); }
 	
 	##################
 	### Completion ###

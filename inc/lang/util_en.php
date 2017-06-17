@@ -1,22 +1,48 @@
 <?php
 return array(
+'site_name' => GWF_SITENAME,
+
+# util/gdo and util/gwf fields
 'created_at' => 'Created at',
 'id' => 'ID',
+'file' => 'File',
 'title' => 'Title',
+'message' => 'Message',
+'captcha' => 'Captcha',
 'user' => 'User',
+'ip' => 'IP',
 'username' => 'Username',
 'gender' => 'Gender',
 'email' => 'Email',
+'email_fmt' => 'Email Format',
+'language' => 'Language',
+'country' => 'Country',
 'password' => 'Password',
-		
+'user_real_name' => 'Real Name',
+'name' => 'Name',
+'enabled' => 'Enabled',
+'sort' => 'Sort',
+'version' => 'Version',
+'path' => 'Path',
+'user_allow_email' => 'Allow people to E-Mail me',
+'birthdate' => 'Birthdate',
+
+# Generic Buttons
+'btn_send' => 'Send',
 'btn_save' => 'Save',
 'btn_upload' => 'Upload',
 
+# Generic Errors
 'err_db' => "Database Error: %s<br/>\n%s<br/>\n",
+'err_csrf' => 'Your form token is invalid. Maybe you have tried to refresh a form submission or have cookie problems.',
 'err_field_invalid' => 'Your value for %s is not accepted.',
 'err_blank_response' => 'The module gave a blank response, which is unusual.',
 'err_checkbox_required' => 'You have to checkmark this field in order to proceed.',
-		
+'err_strlen_between' => 'This string has to be between %s and %s characters in length.',
+'err_form_invalid' => 'Your sent form is incomplete as it contains errors.',
+'err_user_required' => 'You need to be authenticated before using this function.',
+
+# Dateformats
 'df_day' => 'm/d/Y',
 'df_short' => 'm/d/Y H:i',
 'tu_s' => 's',
@@ -25,6 +51,15 @@ return array(
 'tu_d' => 'd',
 'tu_y' => 'y',
 
+# Email formats
+'enum_html' => 'HTML',
+'enum_text' => 'Text',
+
+# Gender
+'enum_male' => 'male',
+'enum_female' => 'female',
+'enum_no_gender' => 'not specified',
+		
 # Country names
 'country_de' => 'Germany',
 

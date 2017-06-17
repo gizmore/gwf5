@@ -1,7 +1,7 @@
 <?php
 class GDO_Box extends GDO_Blank
 {
-	public function name(string $name) { $this->name = $name; return $this; }
+	public function defaultLabel() { return $this; }
 	
 	public function title(string $html)
 	{

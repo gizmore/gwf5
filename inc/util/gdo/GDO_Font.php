@@ -5,6 +5,8 @@
  */
 class GDO_Font extends GDO_Select
 {
+	public function defaultLabel() { return $this->label('font'); }
+	
 	/**
 	 * TTF Font directory of php/gwf. 
 	 */

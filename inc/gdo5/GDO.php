@@ -445,7 +445,6 @@ abstract class GDO
 			{
 				return $column;
 			}
-			return $columns;
 		}
 	}
 	

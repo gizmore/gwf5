@@ -3,6 +3,8 @@ class GDO_File extends GDO_Object
 {
 	public $klass = 'GWF_File';
 	
+	public function defaultLabel() { return $this->label('file'); }
+	
 	public $mimes = [];
 	public function mime(string $mime)
 	{

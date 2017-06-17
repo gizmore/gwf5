@@ -16,6 +16,12 @@ class GDO_Token extends GDO_Char
 		$this->notNull();
 	}
 	
+	public function name(string $name)
+	{
+		$this->name = $name;
+		return $this->label('token');
+	}
+	
 	public function size(int $size)
 	{
 		$this->pattern = '/^[a-zA-Z0-9]{'.$size.'}$/d';

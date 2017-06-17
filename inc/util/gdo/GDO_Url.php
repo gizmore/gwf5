@@ -9,15 +9,14 @@
  */
 final class GDO_Url extends GDO_String
 {
+	public function defaultLabel() { return $this->label('url'); }
+	
 	public $reachable = false;
 	public $allowLocal = false;
 	
-	public function __construct()
-	{
-		$this->min = 0;
-		$this->max = 255;
-		$this->pattern = "#^(?:https?|/)://#i";
-	}
+	public $min = 0;
+	public $mxa = 255;
+	public $pattern = "#^(?:https?|/)://#i";
 	
 	public function allowLocal(bool $allowLocal=true)
 	{

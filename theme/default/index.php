@@ -58,7 +58,7 @@
     </section>
     
     <!-- BEGIN FOOTER -->
-    <footer>
+    <footer class="md-whiteframe-4dp" layout="row" layout-align="center center">
       <?php echo GWF_Navbar::bottom()->render(); ?>
     </footer>
     <!-- END FOOTER -->

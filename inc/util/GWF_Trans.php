@@ -41,12 +41,15 @@ final class GWF_Trans
 	public static function tiso(string $iso, string $key, array $args=null)
 	{
 		self::load($iso);
-		if (isset(self::$CACHE[$iso][$key]))
+		if ($text = @self::$CACHE[$iso][$key])
 		{
-			$text = self::$CACHE[$iso][$key];
 			if ($args)
 			{
-				$text = vsprintf($text, $args);
+				if (!($text = @vsprintf($text, $args)))
+				{
+					$text = @self::$CACHE[$iso][$key] . ': ';
+					$text .= json_encode($args);
+				}
 			}
 		}
 		else # Fallback key + printargs

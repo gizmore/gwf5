@@ -1,5 +1,5 @@
 <?php $field instanceof GDO_Color; ?>
-<md-input-container class="md-block md-float md-icon-left" flex>
+<md-input-container class="md-block md-float md-icon-left<?php echo $field->classError(); ?>" flex>
   <label for="form[<?php echo $field->name; ?>]"><?php echo $field->displayLabel(); ?></label>
   <?php echo $field->htmlIcon(); ?>
   <input

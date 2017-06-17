@@ -1,9 +1,6 @@
 <?php
-class GDO_Validator extends GDOType
+class GDO_Validator extends GDO_Blank
 {
-	public function blankData() {}
-	public function addFormValue(GWF_Form $form, $value) {}
-	
 	public function render()
 	{
 		$tVars = array(

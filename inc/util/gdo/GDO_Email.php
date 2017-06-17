@@ -1,18 +1,13 @@
 <?php
 class GDO_Email extends GDO_String
 {
-	public function __construct()
-	{
-		$this->pattern = "/^[^@]+@[^@]+$/i";
-		$this->label('email');
-	}
+	public $pattern = "/^[^@]+@[^@]+$/i";
+	
+	public function defaultLabel() { return $this->label('email'); }
 	
 	public function render()
 	{
-		$tVars = array(
-			'field' => $this,
-		);
-		return GWF_Template::mainPHP('form/email.php', $tVars);
+		return GWF_Template::mainPHP('form/email.php', ['field'=>$this]);
 	}
 	
 	public function renderCell()

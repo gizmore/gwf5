@@ -12,6 +12,7 @@ class GDO_Password extends GDO_String
 		$this->max = 60;
 		$this->encoding = self::ASCII;
 		$this->caseSensitive = true;
+		$this->label('password');
 	}
 	
 	public function getGDOValue()

@@ -10,7 +10,6 @@ final class Recovery_Form extends GWF_MethodForm
 	
 	public function createForm(GWF_Form $form)
 	{
-		$this->title('ft_recovery_form');
 		$form->addField(GDO_Username::make('login')->tooltip('tt_recovery_login')->exists());
 		if (Module_Recovery::instance()->cfgCaptcha())
 		{

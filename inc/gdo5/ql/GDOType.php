@@ -68,6 +68,11 @@ abstract class GDOType
 		return false;
 	}
 	
+	public function classError()
+	{
+		return $this->error ? ' has-error' : '';
+	}
+	
 	public function displayError()
 	{
 		return $this->error ? GWF_HTML::escape($this->error) : '';
@@ -79,9 +84,14 @@ abstract class GDOType
 	public function name(string $name)
 	{
 		$this->name = $name;
-		return $this->label ? $this : $this->label($name);
+		return $this->defaultLabel();
 	}
-
+	
+	public function defaultLabel()
+	{
+		return $this->label($this->name);
+	}
+	
 	public function identifier()
 	{
 		return GDO::quoteIdentifierS($this->name);

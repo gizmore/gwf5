@@ -9,11 +9,9 @@
 class GDO_CreatedAt extends GDO_Timestamp
 {
 	public $null = false;
-	public function __construct()
-	{
-		$this->label('created_at');
-	}
 
+	public function defaultLabel() { return $this->label('created_at'); }
+	
 	public function gdoColumnDefine()
 	{
 		return "{$this->identifier()} TIMESTAMP{$this->gdoNullDefine()} DEFAULT CURRENT_TIMESTAMP";

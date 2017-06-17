@@ -10,8 +10,7 @@ class GWF_ModuleVar extends GDO
 		return array(
 			GDO_Object::make('mv_module_id')->klass('GWF_Module')->notNull()->primary()->index(),
 			GDO_Name::make('mv_name')->primary()->notNull(),
-			GDO_Value::make('mv_value')->notNull(),
-// 			GDO_Primary::make('pkmodulemodvar')->keys('mv_module_id', 'mv_name'),
+			GDO_String::make('mv_value')->notNull(),
 		);
 	}
 	public function getVarName() { return $this->getVar('mv_name'); }

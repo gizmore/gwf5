@@ -3,4 +3,4 @@
  type="hidden"
  name="form[<?php echo $field->name; ?>]"
  value="<?php echo $field->csrfToken(); ?>"></input>
-<div class="form-error"><?php echo $field->displayError(); ?></div>
+<div class="gwf-form-error"><?php echo $field->displayError(); ?></div>

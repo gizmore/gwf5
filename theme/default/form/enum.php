@@ -1,5 +1,5 @@
 <?php $field instanceof GDO_Enum; ?>
-<md-input-container class="md-block md-float md-icon-left" flex>
+<md-input-container class="md-block md-float md-icon-left<?php echo $field->classError(); ?>" flex>
   <label><?php echo $field->displayLabel(); ?></label>
   <md-select
    ng-controller="GWFSelectCtrl"
@@ -7,7 +7,7 @@
    ng-init="selection = '<?php echo $field->displayFormValue(); ?>'"
    ng-change="valueSelected('#gwfsel_<?php echo $field->name; ?>')">
     <?php foreach ($field->enumValues as $enumValue) : ?>
-      <md-option value="<?php echo $enumValue; ?>"><?php l($enumValue); ?></md-option>
+      <md-option value="<?php echo $enumValue; ?>"><?php l('enum_'.$enumValue); ?></md-option>
     <?php endforeach; ?>
   </md-select>
   <input

@@ -8,6 +8,8 @@
  */
 class GDO_CreatedBy extends GDO_User 
 {
+	public function defaultLabel() { return $this->label('created_by'); }
+	
 	public function blankData()
 	{
 		return [$this->name => GWF_User::current()->getID()];

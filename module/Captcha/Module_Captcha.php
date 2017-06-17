@@ -7,7 +7,7 @@ final class Module_Captcha extends GWF_Module
 	{
 		return array(
 			GDO_Font::make('captcha_font')->initial('["arial.ttf"]')->multiple()->minSelected(1)->notNull(),
-			GDO_Color::make('captcha_bg')->initial('#ffffff')->notNull(),
+			GDO_Color::make('captcha_bg')->initial('#f8f8f8')->notNull(),
 			GDO_Int::make('captcha_width')->initial('256')->min(48)->max(512)->notNull(),
 			GDO_Int::make('captcha_height')->initial('48')->min(24)->max(256)->notNull(),
 		);

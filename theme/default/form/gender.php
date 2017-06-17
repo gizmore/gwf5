@@ -1,5 +1,5 @@
-<?php $field instanceof GDO_Gender; ?>
-<md-input-container class="md-block md-float md-icon-left" flex>
+<?php $field instanceof GDO_Gender; var_dump($field); ?>
+<md-input-container class="md-block md-float md-icon-left<?php echo $field->classError(); ?>" flex>
   <label><?php echo $field->displayLabel(); ?></label>
   <md-select
    ng-controller="GWFSelectCtrl"
@@ -11,7 +11,6 @@
     <md-option value="f"><?php l('female'); ?></md-option>
   </md-select>
   <input
-   class="n"
    type="hidden"
    id="gwfsel_<?php echo $field->name; ?>"
    value="<?php echo $field->displayFormValue(); ?>"

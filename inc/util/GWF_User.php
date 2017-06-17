@@ -43,7 +43,7 @@ final class GWF_User extends GDO
 			GDO_Password::make('user_password'),
 			GDO_DateTime::make('user_register_time'),
 			GDO_IP::make('user_register_ip'),
-			GDO_Date::make('user_birthdate'),
+			GDO_Date::make('user_birthdate')->label('birthdate'),
 			GDO_Gender::make('user_gender'),
 			GDO_Country::make('user_country')->emptyChoice('no_country'),
 			GDO_Language::make('user_language')->initial('en')->notNull(),

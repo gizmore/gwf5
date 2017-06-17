@@ -7,6 +7,12 @@ class GDO_Int extends GDOType
 	public $bytes = 4;
 	public $step = 1;
 	
+	public function name(string $name)
+	{
+		$this->name = $name;
+		return $this->label($name);
+	}
+	
 	public function step($step)
 	{
 		$this->step = $step;

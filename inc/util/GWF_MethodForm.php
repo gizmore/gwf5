@@ -73,7 +73,7 @@ abstract class GWF_MethodForm extends GWF_Method
 		if (!$this->form)
 		{
 			$this->form = new GWF_Form();
-			$this->title('ft_'.strtolower(get_called_class()));
+			$this->title('ft_'.strtolower(get_called_class()), [$this->getSiteName()]);
 			$this->createForm($this->form);
 		}
 		return $this->form;

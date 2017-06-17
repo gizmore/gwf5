@@ -29,7 +29,7 @@ class Register_Activate extends GWF_Method
 		if (Module_Register::instance()->cfgActivationLogin())
 		{
 			GWF5::instance()->getMethod('Login', 'Form')->loginSuccess($user);
-			$response->add($this->message('msg_authenticated'));
+			$response->add($this->message('msg_authenticated', [$user->displayName()]));
 		}
 		
 		return $response;

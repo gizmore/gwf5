@@ -5,9 +5,5 @@
  */
 class GDO_DeletedAt extends GDO_Time
 {
-	public function __construct()
-	{
-		$this->label('deleted_at');
-	}
-	
+	public function defaultLabel() { return $this->label('deleted_at'); }
 }

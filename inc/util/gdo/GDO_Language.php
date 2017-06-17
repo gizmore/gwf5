@@ -11,8 +11,9 @@ final class GDO_Language extends GDO_Select
 	public function __construct()
 	{
 		$this->klass = "GWF_Language";
-		$this->label('language');
 	}
+	
+	public function defaultLabel() { return $this->label('language'); }
 	
 	public function validate($value)
 	{

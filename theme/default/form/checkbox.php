@@ -1,12 +1,12 @@
 <?php $field instanceof GDO_Checkbox; $id = 'cbxform_' . $field->name; ?>
-<md-input-container class="md-block">
+<md-input-container class="md-block<?php echo $field->classError(); ?>">
   <md-checkbox
    <?php echo $field->htmlDisabled(); ?>
    ng-controller="GWFCbxCtrl"
    ng-init="cbx=<?php echo $field->displayFormValue() > 0 ? 'true':'false'; ?>"
    ng-change="cbxChanged('#<?php echo $id; ?>');"
    ng-model="cbx"><?php echo $field->displayLabel(); ?></md-checkbox>
-  <div class="form-error"><?php echo $field->displayError(); ?></div>
+  <div class="gwf-form-error"><?php echo $field->displayError(); ?></div>
 </md-input-container>
 <!-- HIDDEN CHECKBOX -->
 <input

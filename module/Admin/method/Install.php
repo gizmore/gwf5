@@ -30,11 +30,11 @@ class Admin_Install extends GWF_MethodForm
 	
 	public function createForm(GWF_Form $form)
 	{
-		$form->title('form_title_admin_install', []);
-		$form->addField(GDO_Submit::make('install')->label('btn_module_install'));
+		$this->title('ft_admin_install', [$this->getSiteName(), $this->configModule->getName()]);
+		$form->addField(GDO_Submit::make('install')->label('btn_install'));
 		$form->addField(GDO_Submit::make('wipe')->label('btn_module_wipe'));
-		$form->addField(GDO_Submit::make('enable')->label('btn_module_enable'));
-		$form->addField(GDO_Submit::make('disable')->label('btn_module_disable'));
+		$form->addField(GDO_Submit::make('enable')->label('btn_enable'));
+		$form->addField(GDO_Submit::make('disable')->label('btn_disable'));
 		$form->addField(GDO_AntiCSRF::make());
 	}
 	

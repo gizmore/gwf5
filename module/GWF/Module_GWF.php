@@ -114,6 +114,11 @@ class Module_GWF extends GWF_Module
 		{
 			$navbar->addField(GDO_Label::make()->label('gwf_sidebar_version', [GWF_CORE_VERSION]));
 		}
+		
+// 		if ($navbar->isBottom() && $this->cfgCopyright())
+		{
+			
+		}
 
 	}
 }

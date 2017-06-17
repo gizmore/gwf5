@@ -9,6 +9,8 @@
  */
 class GDO_Text extends GDO_String
 {
+	public function defaultLabel() { return $this->label('message'); }
+	
 	public $max = 4096;
 	
 	public function gdoColumnDefine()

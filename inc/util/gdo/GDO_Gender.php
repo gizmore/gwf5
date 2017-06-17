@@ -8,7 +8,7 @@ class GDO_Gender extends GDO_Enum
 	public function __construct()
 	{
 		$this->enumValues(self::MALE, self::FEMALE, SELF::NONE);
-		$this->label('gender');
 	}
 	
+	public function defaultLabel() { return $this->label('gender'); }
 }

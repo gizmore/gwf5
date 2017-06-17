@@ -11,7 +11,7 @@ final class Login_Form extends GWF_MethodForm
 	public function createForm(GWF_Form $form)
 	{
 		$form->addField(GDO_Username::make('login')->tooltip('tt_login'));
-		$form->addField(GDO_Password::make('user_password'));
+		$form->addField(GDO_Password::make('password'));
 		$form->addField(GDO_Checkbox::make('bind_ip'));
 		if (Module_Login::instance()->cfgCaptcha())
 		{
@@ -22,28 +22,28 @@ final class Login_Form extends GWF_MethodForm
 		$form->addField(GDO_Button::make('btn_recovery')->href(href('Recovery', 'Form')));
 	}
 	
-	public function renderPage()
-	{
-		switch ($this->getFormat())
-		{
-			case 'json': return $this->form->render();
-			case 'html': default:
-				$tVars = array(
-					'form' => $this->form,
-				);
-				return $this->templatePHP('form.php', $tVars);
-		}
-	}
+// 	public function renderPage()
+// 	{
+// 		switch ($this->getFormat())
+// 		{
+// 			case 'json': return $this->form->render();
+// 			case 'html': default:
+// 				$tVars = array(
+// 					'form' => $this->form,
+// 				);
+// 				return $this->templatePHP('form.php', $tVars);
+// 		}
+// 	}
 	
 	public function formValidated(GWF_Form $form)
 	{
 		return $this->onLogin($form);
 	}
 	
-	public function formInvalid(GWF_Form $form)
-	{
-		return $this->error('err_login_failed')->add($form->render());
-	}
+// 	public function formInvalid(GWF_Form $form)
+// 	{
+// 		return $this->error('err_form')->add($form->render());
+// 	}
 	
 	public function onLogin(GWF_Form $form)
 	{
@@ -53,7 +53,7 @@ final class Login_Form extends GWF_MethodForm
 		}
 		
 		if ( (!($user = GWF_User::getByLogin($form->getVar('login')))) ||
-		     (!($user->getValue('user_password')->validate($form->getVar('user_password')))) )
+		     (!($user->getValue('user_password')->validate($form->getVar('password')))) )
 		{
 			return $this->loginFailed($user)->add($form->render());
 		}
@@ -101,7 +101,7 @@ final class Login_Form extends GWF_MethodForm
 		list($mintime, $attempts) = $this->banData();
 		$bannedFor = $mintime - $this->banCut();
 		$attemptsLeft = $this->maxAttempts() - $attempts;
-		return $this->error('err_login_failed', [$attemptsLeft, $bannedFor]);
+		return $this->error('err_login_failed', [$attemptsLeft, GWF_Time::humanDuration($bannedFor)]);
 	}
 	
 	private function banCheck()
@@ -110,7 +110,7 @@ final class Login_Form extends GWF_MethodForm
 		if ($count >= $this->maxAttempts())
 		{
 			$bannedFor = $mintime - $this->banCut();
-			return GWF_Error::error('err_login_ban', [$bannedFor]);
+			return GWF_Error::error('err_login_ban', [GWF_Time::humanDuration($bannedFor)]);
 		}
 	}
 	

@@ -23,10 +23,10 @@ class Admin_Configure extends GWF_MethodForm
 	public function createForm(GWF_Form $form)
 	{
 		$mod = $this->configModule;
-		$form->title('form_title_configure', [$this->configModule->getName()]);
+		$form->title('ft_admin_configure', [$this->getSiteName(), $this->configModule->getName()]);
 		$form->addField(GDO_Name::make('module_name')->writable(false));
 		$form->addField(GDO_Path::make('module_path')->writable(false)->value($mod->filePath()));
-		$form->addField(GDO_Version::make('module_version')->writable(false));
+		$form->addField(GDO_Version::make('version')->writable(false));
 		$form->addField(GDO_Version::make('version_available')->writable(false)->value($mod->module_version));
 		if ($config = $mod->getModuleConfig())
 		{

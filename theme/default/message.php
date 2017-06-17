@@ -1,2 +1,5 @@
 <?php $response instanceof GWF_Message; ?>
-<div class="gwf-message"><?php echo $response->__toString(); ?></div>
+<md-content class="gwf-message" layout="row" layout-fill flex layout-padding>
+  <i class="material-icons">done</i>
+  <p><?php echo $response->__toString(); ?></p>
+</md-content>

@@ -1,5 +1,5 @@
 <?php $field instanceof GDO_Select; ?>
-<md-input-container class="md-block md-float md-icon-left" flex>
+<md-input-container class="md-block md-float md-icon-left<?php echo $field->classError(); ?>" flex>
   <label><?php echo $field->displayLabel(); ?></label>
   <md-select
    <?php if ($field->multiple) : ?>
