@@ -1,23 +1,23 @@
 <?php
+/**
+ * Generic response wrapper which can chain more response.
+ * 
+ * @author gizmore
+ * @see GWF_Error
+ * @see GWF_Message
+ */
 class GWF_Response
 {
 	protected $html;
 	protected $error;
 	
-	public static function make($html)
-	{
-		return new self($html);
-	}
-	
-	public static function message(string $key, array $args=null)
-	{
-		return new self(t($key, $args));
-	}
-	
-	public static function error(string $key, array $args=null)
-	{
-		return new self(t($key, $args), true);
-	}
+	/**
+	 * @param unknown $html
+	 * @return self
+	 */
+	public static function make($html) { return new self($html); }
+	public static function message(string $key, array $args=null) { return self::make(t($key, $args)); }
+	public static function error(string $key, array $args=null) { return self::make(t($key, $args), true); }
 	
 	public function __construct($html, $error=false)
 	{
