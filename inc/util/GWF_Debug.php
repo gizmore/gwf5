@@ -312,6 +312,18 @@ final class GWF_Debug
 	 */
 	public static function backtrace($message='', $html=true)
 	{
+		return self::backtraceMessage($message, $html, debug_backtrace());
+	}
+	
+	public static function backtraceException(Exception $e, $html=true)
+	{
+		return self::backtraceMessage($e->getMessage(), $html, explode("\n", $e->getTraceAsString()));
+	}
+	
+	private static function backtraceMessage($message, $html=true, array $stack)
+	{
+		$badformat = false;
+		
 		# Fix full path disclosure
 		$message = self::shortpath($message);
 
@@ -329,30 +341,42 @@ final class GWF_Debug
 		$prefile = 'Unknown';
 		$longest = 0;
 		$i = 0;
-		foreach (debug_backtrace() as $row)
+		foreach ($stack as $row)
 		{
-			if ($i++ > 0)
+			if (is_array($row))
 			{
-				$function = sprintf('%s%s()', isset($row['class']) ? $row['class'].$row['type'] : '', $row['function']);
-				$implode[] = array(
-					$function,
-					$prefile,
-					$preline,
-				);
-				$len = strlen($function);
-				$longest = max(array($len, $longest));
+				if ($i++ > 0)
+				{
+					$function = sprintf('%s%s()', isset($row['class']) ? $row['class'].$row['type'] : '', $row['function']);
+					$implode[] = array(
+						$function,
+						$prefile,
+						$preline,
+					);
+					$len = strlen($function);
+					$longest = max(array($len, $longest));
+				}
+				$preline = isset($row['line']) ? $row['line'] : '?';
+				$prefile = isset($row['file']) ? $row['file'] : '[unknown file]';
 			}
-			$preline = isset($row['line']) ? $row['line'] : '?';
-			$prefile = isset($row['file']) ? $row['file'] : '[unknown file]';
+			else
+			{
+				$badformat = true;
+// 				$longest = max(array(strlen($row), $longest));
+				$copy[] = $row;
+			}
 		}
 
-		$copy = [];
-		foreach ($implode as $imp)
+		if (!$badformat)
 		{
-			list($func, $file, $line) = $imp;
-			$len = strlen($func);
-			$func .= str_repeat('.', $longest-$len);
-			$copy[] = sprintf('%s %s line %s.', $func, self::shortpath($file), $line);
+			$copy = [];
+			foreach ($implode as $imp)
+			{
+				list($func, $file, $line) = $imp;
+				$len = strlen($func);
+				$func .= str_repeat('.', $longest-$len);
+				$copy[] = sprintf('%s %s line %s.', $func, self::shortpath($file), $line);
+			}
 		}
 
 		$back .= $html === true ? '<hr/>' : PHP_EOL;

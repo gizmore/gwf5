@@ -39,10 +39,10 @@ class GDO_Checkbox extends GDO_Bool
 	
 	public function validate($value)
 	{
-		if ( (!$this->null) && ($value == 0) )
-		{
-			return $this->error('err_checkbox_required');
-		}
-		return parent::validate($value);
+// 		if ( (!$this->null) && ($value == 0) )
+// 		{
+// 			return $this->error('err_checkbox_required');
+// 		}
+		return true; #parent::validate($value);
 	}
 }

@@ -43,12 +43,19 @@ if (!$method)
 
 
 # Exec
-ob_start();
-if (!($response = $method->exec()))
+try
 {
-	$response = new GWF_Error('err_blank_response');
+	ob_start();
+	if (!($response = $method->exec()))
+	{
+		$response = new GWF_Error('err_blank_response');
+	}
+	$response = GWF_Response::make(ob_get_clean())->add($response);
 }
-$response = GWF_Response::make(ob_get_clean())->add($response);
+catch (Exception $e)
+{
+	$response = new GWF_Response(GDO_Box::make()->content(GWF_Debug::backtraceException($e)));
+}
 
 
 # Render

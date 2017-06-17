@@ -21,4 +21,11 @@ return array(
 'msg_module_installed' => 'The %s module has been successfully installed.',
 
 'ft_admin_configure' => '[%s] Configure %s',
+'version_available' => 'Version available',
+'form_div_config_vars' => 'Configuration Variables',
+		
+'msg_module_saved' => 'Config has been saved. %s',
+'msg_modulevar_changed' => '%s changed from <i>%s</i> to <i>%s</i>.',
+		
+'ft_admin_loginas' => '[%s] Login As',
 );

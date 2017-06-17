@@ -48,7 +48,12 @@ return array(
 'err_user_required' => 'You need to be authenticated before using this function.',
 'err_upload_min_files' => 'You have to upload at least %s file(s).',
 'err_upload_max_files' => 'You may not upload more than %s files(s).',
-		
+'err_permission_required' => 'You need <i>%s</i> permissions to access this function.',
+'err_save_unpersisted_entity' => 'Tried to save an unpersisted entity of type <i>%s</i>.',
+
+# Permissions
+'perm_admin' => 'Administrator',
+
 # Dateformats
 'df_day' => 'm/d/Y',
 'df_short' => 'm/d/Y H:i',

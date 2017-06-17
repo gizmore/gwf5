@@ -25,7 +25,7 @@ final class GWF_Minify
 	
 	public static function minifiedJavascriptPath($path)
 	{
-		return Common::startsWith($path, '/') ? self::minifiedJavascript($path) : $path; 
+		return GWF_String::startsWith($path, '/') ? self::minifiedJavascript($path) : $path; 
 	}
 	
 	public static function minifiedJavascript($path)

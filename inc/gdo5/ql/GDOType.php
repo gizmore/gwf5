@@ -189,7 +189,7 @@ abstract class GDOType
 	public function initial($initial)
 	{
 		$this->initial = (string)$initial;
-		return $this;
+		return $this->notNull();
 	}
 	
 	public function gdoInitialDefine()

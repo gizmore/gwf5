@@ -277,7 +277,7 @@ abstract class GDO
 	
 	public function replace()
 	{
-		$this->query()->replace($this->gdoTableIdentifier())->values($this->getDirtyVars())->exec();
+		$this->query()->replace($this->gdoTableIdentifier())->values($this->gdoVars)->exec();
 		$this->dirty = false;
 		$this->persisted = true;
 		$this->gdoAfterUpdate();
@@ -371,6 +371,10 @@ abstract class GDO
 	 */
 	public function entityQuery()
 	{
+		if (!$this->persisted)
+		{
+			throw new GWF_Exception('err_save_unpersisted_entity', [$this->gdoClassName()]);
+		}
 		return $this->query()->where($this->getPKWhere());
 	}
 	
