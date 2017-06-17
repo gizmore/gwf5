@@ -356,6 +356,16 @@ abstract class GDO
 		return $this->saveVars($vars);
 	}
 	
+	public function toJSON()
+	{
+		$values = [];
+		foreach ($this->gdoColumnsCache() as $key => $gdoType)
+		{
+			$values = array_merge($values, $gdoType->value(@$this->gdoVars[$key])->gdo($this)->toJSON());
+		}
+		return $values;
+	}
+	
 	/**
 	 * @return GDOQuery
 	 */

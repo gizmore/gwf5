@@ -85,6 +85,7 @@ class GWF_Module extends GDO
 	### Events ###
 	##############
 	public function onInit() {}
+	public function onWipe() {}
 	public function onLoad() {}
 	public function onRenderFor(GWF_Navbar $navbar) {}
 	public function onLoadLanguage() {}

@@ -20,39 +20,30 @@ final class GWF_Website
 
 
 // 	public static function plaintext() { header('Content-Type: text/plain; charset=UTF-8'); }
-// 	public static function isAjax() { return isset($_REQUEST['ajax']); }
 
-// 	public static function redirect($url)
-// 	{
-// 		if (!self::isAjax())
-// 		{
-// 			header('Location: ' . $url);
-// 			echo "You should be redirected to: ".htmlspecialchars($url);
-// #			die();
-// 		}
-// 		else
-// 		{
-// 			return self::ajaxRedirect($url);
-// 		}
-// 	}
-// 	private static function ajaxRedirect($url)
-// 	{
-// 		# Don't do this at home kids!
-// 		return sprintf('<script type="text/javascript">setTimeout(function(){ window.location.href="%s" }, 1);</script>', $url);
-// 	}
-// 	public static function redirectMeta($url, $seconds)
-// 	{
-// 		header(sprintf('refresh: %d; url=%s', $seconds, $url));
-// 	}
-// 	public static function redirectBack()
-// 	{
-// 		$url = GWF_WEB_ROOT;
-// 		if (false !== ($url2 = GWF_Session::getLastURL()))
-// 		{
-// 			$url = GWF_WEB_ROOT.ltrim($url2, '/');
-// 		}
-// 		self::redirect($url);
-// 	}
+	public static function redirect($url)
+	{
+		switch (GWF5::instance()->getFormat())
+		{
+			case 'html':
+				if (GWF5::instance()->isAjax())
+				{
+					$response = new GWF_Response(self::ajaxRedirect($url));
+				}
+				else
+				{
+					header('Location: ' . $url);
+					$anchor = GWF_HTML::anchor($url, t('msg_redirect_target'));
+					$response = GWF_Message::message('msg_redirected', $anchor);
+				}
+			case 'json': return array('redirect' => $url);
+		}
+	}
+	private static function ajaxRedirect($url)
+	{
+		# Don't do this at home kids!
+		return sprintf('<script type="text/javascript">setTimeout(function(){ window.location.href="%s" }, 1);</script>', $url);
+	}
 
 	public static function addInlineCSS($css) { self::$_inline_css .= $css; }
 // 	public static function addMetaDescr($s) { self::$_meta['description'][1] .= $s; }

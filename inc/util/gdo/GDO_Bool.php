@@ -10,4 +10,5 @@ class GDO_Bool extends GDO_Int
 	{
 		return $this->getValue() > 0;
 	}
+
 }

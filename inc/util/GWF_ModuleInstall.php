@@ -46,6 +46,7 @@ class GWF_ModuleInstall
 	
 	public static function dropModule(GWF_Module $module)
 	{
+		$module->onWipe();
 		self::dropModuleClasses($module);
 		$module->delete();
 	}

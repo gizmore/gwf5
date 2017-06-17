@@ -8,13 +8,20 @@
  */
 final class GDO_RowNum extends GDO_Checkbox
 {
-	public $name = 'row';
+	public $name = 'rbx';
+	
+	public $num = 0;
+	public function displayHeaderLabel()
+	{
+		return parent::displayHeaderLabel();
+	}
 	
 	###############################
 	### Different filter header ###
 	###############################
 	public function renderFilter()
 	{
+		$this->num = 0;
 		return GWF_Template::mainPHP('filter/rownum.php', ['field'=>$this]);
 	}
 	

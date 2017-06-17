@@ -12,8 +12,13 @@ class GWF_Table extends GWF_Response
 	const BOOTSTRAP = 0;
 	const DATATABLE = 1;
 	public static $MODE_TPL = ['table.php', 'datatable.php'];
-	public $name = 'test';
+	public $name = 'f';
 	public $mode = 0;
+	
+	/**
+	 * @var GWF_Navbar
+	 */
+	public $navbar;
 	
 	/**
 	 * @var GWF_Method
@@ -67,17 +72,6 @@ class GWF_Table extends GWF_Response
 		$this->param = $param;
 		return $this;
 	}
-	
-// 	public function hrefAppend()
-// 	{
-// // 		http_build_query($query_data)
-// 		return sprintf('&%1$s[filter]=%%FILTER%%&%1$s[by]=%%BY%%&%1$s[dir]=%%DIR%%', $this->param);
-// 	}
-	
-// 	public function getFilter()
-// 	{
-// 		return Common::getR
-// 	}
 	
 // 	public function getSorting()
 // 	{
@@ -136,6 +130,7 @@ class GWF_Table extends GWF_Response
 			'result' => $this->result,
 			'headers' => $this->getFields(),
 			'pagemenu' => $this->pagemenu,
+			'navbar' => $this->navbar,
 		);
 		return GWF_Template::mainPHP(self::$MODE_TPL[$this->mode], $tVars);
 	}

@@ -111,20 +111,20 @@ class GDOResult
 	/**
 	 * @return GDO[]
 	 */
-	public function fetchAllObjects()
+	public function fetchAllObjects(bool $json=false)
 	{
-		return $this->fetchAllObjectsAs($this->table);
+		return $this->fetchAllObjectsAs($this->table, $json);
 	}
 	
 	/**
 	 * @return GDO[]
 	 */
-	public function fetchAllObjectsAs(GDO $table)
+	public function fetchAllObjectsAs(GDO $table, bool $json=false)
 	{
 		$objects = [];
-		while ($object = $this->fetchAs($table))
+		while ($object = $this->fetchAs($table, $json))
 		{
-			$objects[] = $object;
+			$objects[] = $json ? $object->toJSON() : $object;
 		}
 		return $objects;
 	}

@@ -372,6 +372,8 @@ abstract class GDOType
 	### Render ###
 	##############
 	public function __toString() { return $this->render()->__toString(); }
+	public function toJSON() { return array($this->name => $this->getGDOValue()); }
+	
 	public function render()
 	{
 		return '';

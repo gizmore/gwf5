@@ -2,13 +2,21 @@
 angular.module('gwf5').
 controller('GWFFormCtrl', function($scope) {
 }).controller('GWFCbxCtrl', function($scope) {
-	$scope.cbxChanged = function(cbxName) {
-//		console.log('GWFCbxCtrl.cbxChanged()', cbxName);
+	$scope.cbxChanged = function(cbxName, $event) {
+		console.log('GWFCbxCtrl.cbxChanged()', cbxName, $event);
 		if ($scope.cbx) {
 			jQuery(cbxName).attr('checked', 'checked'); 
 		}
 		else {
 			jQuery(cbxName).removeAttr('checked'); 
+		}
+	};
+	$scope.cbxChangedDyn = function(cbxName) {
+		if ($scope[cbxName]) {
+			jQuery('#'+cbxName).attr('checked', 'checked'); 
+		}
+		else {
+			jQuery('#'+cbxName).removeAttr('checked'); 
 		}
 	};
 }).controller('GWFTableToggleCtrl', function($scope){

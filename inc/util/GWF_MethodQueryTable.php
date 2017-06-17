@@ -44,6 +44,16 @@ abstract class GWF_MethodQueryTable extends GWF_MethodTable
 	}
 	
 	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see GWF_MethodTable::getResult()
+	 */
+	public function getResult()
+	{
+		return $this->getQueryPaginated()->select('*')->exec();
+	}
+	
+	/**
 	 * @return GDOQuery
 	 */
 	public function getQuery()
@@ -56,8 +66,15 @@ abstract class GWF_MethodQueryTable extends GWF_MethodTable
 	 */
 	public function getQueryPaginated()
 	{
-		$start = $this->table->pagemenu->getFrom();
-		return $this->getQuery()->limit($this->getItemsPerPage(), $start);
+		if ($this->table->pagemenu)
+		{
+			$start = $this->table->pagemenu->getFrom();
+			return $this->getQuery()->limit($this->getItemsPerPage(), $start);
+		}
+		else
+		{
+			return $this->getQuery();
+		}
 	}
 	
 	public function execute()
