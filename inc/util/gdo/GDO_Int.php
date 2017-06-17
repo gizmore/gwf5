@@ -92,6 +92,7 @@ class GDO_Int extends GDOType
 			case 2: return "MEDIUM";
 			case 4: return "";
 			case 8: return "BIG";
+			default: throw new GWF_Exception('err_int_bytes_length', [$this->bytes]);
 		}
 	}
 	

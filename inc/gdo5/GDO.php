@@ -13,6 +13,7 @@ abstract class GDO
 	const MEMORY = 'memory';
 	
 	public static $ENGINE = self::INNODB;
+	public static $CACHED = true;
 	
 	/**
 	 * @return GDOType[]
