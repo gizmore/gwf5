@@ -293,10 +293,7 @@ abstract class GDO
 		$this->dirty = false;
 		$this->persisted = true;
 		$this->gdoAfterUpdate();
-		if ($this->gdoCached())
-		{
-			$this->recache();
-		}
+		$this->recache();
 		return $this;
 	}
 	
@@ -615,7 +612,10 @@ abstract class GDO
 	}
 	public function recache()
 	{
-		self::table()->cache->recache($this);
+		if ($this->gdoCached())
+		{
+			self::table()->cache->recache($this);
+		}
 	}
 	public function __wakeup()
 	{

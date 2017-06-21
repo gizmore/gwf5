@@ -35,6 +35,7 @@ final class GWF_UserSetting extends GDO
 		{
 			$settings = self::load($user);
 			$user->set('gwf_setting', $settings);
+			$user->recache();
 		}
 		return self::$settings[$key]->value(@$settings[$key])->getGDOValue();
 	}

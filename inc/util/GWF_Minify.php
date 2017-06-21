@@ -32,8 +32,6 @@ final class GWF_Minify
 	{
 		$src = GWF_PATH . GWF_String::substrTo($path, '?', $path);
 		
-		$b = basename($path);
-		
 		if (GWF_File::isFile($src))
 		{
 			$md5 = md5(file_get_contents($src));
@@ -50,7 +48,7 @@ final class GWF_Minify
 					exec($command, $output, $return);
 					if ($return != 0)
 					{
-						return $path;
+						return $path; # On error, the original file is left. so you notice.
 					}
 				}
 			}

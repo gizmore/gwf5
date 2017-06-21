@@ -79,7 +79,7 @@ final class GWF_ModuleLoader
 		{
 			$module->initModule();
 		}
-		$this->initModuleVars();
+// 		$this->initModuleVars();
 	}
 	
 	public function loadModules($loadDBOnly = true)
