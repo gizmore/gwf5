@@ -2,6 +2,7 @@
 <md-input-container class="md-block md-float md-icon-left<?php echo $field->classError(); ?>" flex ng-controller="GWFDatepickerCtrl">
   <?php echo $field->htmlIcon(); ?>
   <md-datepicker
+   autocomplete="off"
    ng-init="pickDate='<?php echo $field->displayFormValue(); ?>'"
    md-placeholder="<?php echo $field->displayLabel(); ?>"
    ng-model="pickDate"

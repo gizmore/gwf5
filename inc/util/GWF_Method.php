@@ -6,6 +6,7 @@
  * @see GWF_MethodForm
  * @see GWF_MethodTable
  * @see GWF_MethodCronjob
+ * @see GWF_Module
  * 
  * @author gizmore
  * @version 5.0
@@ -138,7 +139,7 @@ abstract class GWF_Method
 	
 	public function execWrap()
 	{
-// 		$this->module->initModule();
+		$this->module->initModule();
 		$this->init();
 		return $this->isTransactional() && (count($_POST) > 0) ? $this->execTransactional() : $this->execute();
 	}

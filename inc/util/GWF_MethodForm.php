@@ -23,6 +23,17 @@ abstract class GWF_MethodForm extends GWF_Method
 	
 	public function execute()
 	{
+		return $this->renderForm();
+	}
+	
+	public function title(string $key, array $args=null)
+	{
+		$this->getForm()->title($key, $args);
+		return parent::title($key, $args);
+	}
+	
+	public function renderForm()
+	{
 		$this->form = $this->getForm();
 		
 		if ($flowField = Common::getRequestString('flowField'))
@@ -49,12 +60,6 @@ abstract class GWF_MethodForm extends GWF_Method
 		$this->form->cleanup();
 		
 		return $response;
-	}
-	
-	public function title(string $key, array $args=null)
-	{
-		$this->getForm()->title($key, $args);
-		return parent::title($key, $args);
 	}
 	
 	/**

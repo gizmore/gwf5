@@ -36,6 +36,7 @@ class Admin_UserEdit extends GWF_MethodForm
 	public function formValidated(GWF_Form $form)
 	{
 		$this->user->saveVars($form->values());
+		$form->withGDOValuesFrom($this->user);
 		return parent::formValidated($form);
 	}
 }

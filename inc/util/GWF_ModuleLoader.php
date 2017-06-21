@@ -24,6 +24,8 @@ final class GWF_ModuleLoader
 	 */
 	private $activeModules = [];
 	
+	private $loadedFS = false;
+	
 	public function __construct(string $path)
 	{
 		$this->path = $path;
@@ -64,10 +66,7 @@ final class GWF_ModuleLoader
 			$cache = $this->loadModules();
 			GDOCache::set('gwf_modules', $cache);
 		}
-		else
-		{
-			$this->initFromCache($cache);
-		}
+		$this->initFromCache($cache);
 		return $cache;
 	}
 	
@@ -75,6 +74,7 @@ final class GWF_ModuleLoader
 	{
 		$this->modules = $cache;
 		$this->activeModules = $cache;
+// 		uasort($this->modules, function($a, $b){return $a->module_priority - $b->module_priority; });
 		foreach ($this->modules as $module)
 		{
 			$module->initModule();
@@ -92,12 +92,20 @@ final class GWF_ModuleLoader
 		}
 		if (!$loadDBOnly)
 		{
-			$this->loadModulesFS();
-			$loaded = true;
+			if (!$this->loadedFS)
+			{
+				$this->loadModulesFS();
+				$this->loadedFS = $loaded = true;
+			}
 		}
 		if ($loaded)
 		{
+// 			uasort($this->modules, function($a, $b){return $b->module_priority - $a->module_priority; });
 			$this->initModuleVars();
+			foreach ($this->modules as $module)
+			{
+				$module->initModule();
+			}
 		}
 		return $this->modules;
 	}
@@ -144,7 +152,7 @@ final class GWF_ModuleLoader
 		$instance = new $klass();
 		$instance instanceof GWF_Module;
 		$instance->setGDOVars($moduleData, $dirty);
-		$instance->initModule();
+// 		$instance->initModule();
 		return $instance;
 	}
 

@@ -17,7 +17,12 @@ class Admin_Configure extends GWF_MethodForm
 		{
 			return $this->error('err_module')->add($this->execMethod('Modules'));
 		}
-		return $this->renderNavBar()->add(parent::execute());
+		return $this->renderNavBar()->add($this->renderInstall()->add(parent::execute()));
+	}
+	
+	public function renderInstall()
+	{
+		return $this->execMethod('Install');
 	}
 	
 	public function createForm(GWF_Form $form)

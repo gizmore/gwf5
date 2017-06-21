@@ -1,14 +1,13 @@
 <?php
 class GDO_User extends GDO_Object
 {
-	public $klass = 'GWF_User';
-
 	public function defaultLabel() { return $this->label('user'); }
 	
 	public function __construct()
 	{
-		$this->matIcon('face');
+		$this->klass('GWF_User');
 		$this->completion(href('GWF', 'CompleteUser', '&ajax=1&fmt=json'));
+		$this->matIcon('face');
 	}
 
 	private $ghost = false;

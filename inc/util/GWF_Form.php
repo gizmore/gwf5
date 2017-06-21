@@ -84,6 +84,9 @@ class GWF_Form
 		{
 			$gdoType->onValidated();
 		}
+// 		$_POST = [];
+// 		$_FILES = [];
+// 		$_REQUEST = $_GET;
 	}
 	
 	##############

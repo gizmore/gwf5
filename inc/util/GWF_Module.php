@@ -182,12 +182,13 @@ class GWF_Module extends GDO
 	############
 	### Init ###
 	############
-// 	private $inited = false;
+	public function __wakeup() { $this->inited = false; } # TODO: wakeup knows that language and settings are also memcached soon? :)
+	private $inited = false;
 	public function initModule()
 	{
-// 		if (!$this->inited)
-// 		{
-// 			$this->inited = true;			
+		if (!$this->inited)
+		{
+			$this->inited = true;			
 			if ($classes = $this->getClasses())
 			{
 				foreach ($classes as $class)
@@ -198,7 +199,7 @@ class GWF_Module extends GDO
 			$this->onLoadLanguage();
 			$this->registerSettings();
 			$this->onInit();
-// 		}
+		}
 	}
 	
 	public function loadLanguage(string $path)

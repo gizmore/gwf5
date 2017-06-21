@@ -25,9 +25,9 @@ final class Recovery_Change extends GWF_MethodForm
 		$form->addField(GDO_AntiCSRF::make());
 	}
 
-	public function validatePasswordEqual(GDO_Validator $gdoType)
+	public function validatePasswordEqual(GWF_Form $form, GDO_Validator $gdoType)
 	{
-		return $this->form->getVar('new_password') === $this->form->getVar('password_retype') ? true : $this->error('err_password_retype');
+		return $form->getVar('new_password') === $form->getVar('password_retype') ? true : $this->error('err_password_retype');
 	}
 	
 	public function formValidated(GWF_Form $form)

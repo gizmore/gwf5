@@ -27,7 +27,8 @@ abstract class GDO
 	public function gdoEngine() { return get_called_class()::$ENGINE; }
 	public function gdoTableIdentifier() { return self::quoteIdentifierS($this->gdoTableName()); }
 	
-	public function gdoClassName() { return get_class($this); }
+	public function gdoAbstract() { return false; }
+	public function gdoClassName() { return self::gdoClassNameS(); } # get_class($this); }
 	public static function gdoClassNameS() { return get_called_class(); }
 
 	################

@@ -6,6 +6,7 @@ final class GDO_Country extends GDO_Select
 	public function __construct()
 	{
 		$this->klass = "GWF_Country";
+		$this->min = $this->max = 2;
 	}
 	
 	public function defaultLabel() { return $this->label('country'); }

@@ -22,28 +22,10 @@ final class Login_Form extends GWF_MethodForm
 		$form->addField(GDO_Button::make('btn_recovery')->href(href('Recovery', 'Form')));
 	}
 	
-// 	public function renderPage()
-// 	{
-// 		switch ($this->getFormat())
-// 		{
-// 			case 'json': return $this->form->render();
-// 			case 'html': default:
-// 				$tVars = array(
-// 					'form' => $this->form,
-// 				);
-// 				return $this->templatePHP('form.php', $tVars);
-// 		}
-// 	}
-	
 	public function formValidated(GWF_Form $form)
 	{
 		return $this->onLogin($form);
 	}
-	
-// 	public function formInvalid(GWF_Form $form)
-// 	{
-// 		return $this->error('err_form')->add($form->render());
-// 	}
 	
 	public function onLogin(GWF_Form $form)
 	{

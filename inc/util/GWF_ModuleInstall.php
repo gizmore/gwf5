@@ -40,7 +40,10 @@ class GWF_ModuleInstall
 				{
 					$gdo = $class::table();
 					$gdo instanceof GDO;
-					$gdo->createTable();
+					if (!$gdo->gdoAbstract())
+					{
+						$gdo->createTable();
+					}
 				}
 			}
 		}
@@ -63,7 +66,10 @@ class GWF_ModuleInstall
 				{
 					$gdo = $class::table();
 					$gdo instanceof GDO;
-					$gdo->dropTable();
+					if (!$gdo->gdoAbstract())
+					{
+						$gdo->dropTable();
+					}
 				}
 			}
 		}

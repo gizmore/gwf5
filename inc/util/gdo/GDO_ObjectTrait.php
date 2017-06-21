@@ -32,10 +32,17 @@ trait GDO_ObjectTrait
 	### Class to join ###
 	#####################
 	public $klass;
-	public function klass($klass)
+	private $table;
+	public function klass($klass, GDO $table=null)
 	{
 		$this->klass = $klass;
+		$this->table = $table ? $table : GDO::tableFor($klass);
 		return $this;
+	}
+	
+	public function table(GDO $table=null)
+	{
+		return $table ? $this->klass($table->gdoClassName(), $table) : $this;
 	}
 	
 	########################
@@ -56,7 +63,7 @@ trait GDO_ObjectTrait
 	 */
 	public function foreignTable()
 	{
-		return GDODB::tableS($this->klass);
+		return $this->table;
 	}
 	
 	/**

@@ -20,7 +20,8 @@ return array(
 		
 'ft_admin_install' => '[%s] Install %s',
 'msg_module_installed' => 'The %s module has been successfully installed.',
-
+'msg_module_wiped' => 'The %s has been wiped from disk. All database records should have been destroyed.',
+		
 'ft_admin_configure' => '[%s] Configure %s',
 'version_available' => 'Version available',
 'form_div_config_vars' => 'Configuration Variables',
@@ -29,6 +30,7 @@ return array(
 'msg_modulevar_changed' => '%s changed from <i>%s</i> to <i>%s</i>.',
 		
 'ft_admin_loginas' => '[%s] Login As',
-		
+'err_user' => 'This user is unknown.',
+
 'ft_admin_useredit' => '[%s] %s UserEdit',
 );

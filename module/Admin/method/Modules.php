@@ -49,7 +49,7 @@ class Admin_Modules extends GWF_MethodTable
 			GDO_Name::make('module_name')->label('name'),
 			GDO_Decimal::make('module_version')->label('version_db'),
 			GDO_Decimal::make('fs_version')->label('version_fs'),
-			GDO_Button::make('install_module')->label('btn_install'),
+// 			GDO_Button::make('install_module')->label('btn_install'),
 			GDO_Button::make('configure_module')->label('btn_configure'),
 			GDO_Button::make('administrate_module')->label('btn_admin'),
 		);

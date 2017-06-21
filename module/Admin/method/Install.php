@@ -11,21 +11,18 @@ class Admin_Install extends GWF_MethodForm
 	public function execute()
 	{
 		GWF5::instance()->loadModules(false);
-		if (!($this->configModule = GWF5::instance()->getModule(Common::getRequestString('module'))))
+		if ($this->configModule = GWF5::instance()->getModule(Common::getRequestString('module')))
 		{
-			return $this->error('err_module')->add($this->execMethod('Modules'));
-		}
-		
-		$buttons = ['install', 'wipe', 'enable', 'disable'];
-		foreach ($buttons as $button)
-		{
-			if (isset($_POST[$button]))
+			$buttons = ['install', 'wipe', 'enable', 'disable'];
+			foreach ($buttons as $button)
 			{
-				return $this->executeButton($button);
+				if (isset($_POST[$button]))
+				{
+					return $this->executeButton($button);
+				}
 			}
+			return parent::execute();
 		}
-		
-		return $this->renderNavBar()->add(parent::execute());
 	}
 	
 	public function createForm(GWF_Form $form)
@@ -52,23 +49,25 @@ class Admin_Install extends GWF_MethodForm
 	public function execute_install()
 	{
 		GWF_ModuleInstall::installModule($this->configModule);
-		return GWF_Message::error('msg_module_installed', [$this->configModule->getName()])->add($this->execMethod('Modules'));
+		return GWF_Message::message('msg_module_installed', [$this->configModule->getName()]);
 	}
+	
 	public function execute_wipe()
 	{
 		GWF_ModuleInstall::dropModule($this->configModule);
-		return GWF_Message::error('msg_module_wiped', [$this->configModule->getName()])->add($this->execMethod('Modules'));
+		return GWF_Message::message('msg_module_wiped', [$this->configModule->getName()]);
 	}
+	
 	public function execute_enable()
 	{
 		$this->configModule->saveVar('module_enabled', '1');
-		return GWF_Message::error('msg_module_enabled', [$this->configModule->getName()])->add($this->execMethod('Modules'));
+		return GWF_Message::message('msg_module_enabled', [$this->configModule->getName()]);
 	}
+
 	public function execute_disable()
 	{
 		$this->configModule->saveVar('module_enabled', '0');
-		return GWF_Message::error('msg_module_disabled', [$this->configModule->getName()])->add($this->execMethod('Modules'));
+		return GWF_Message::message('msg_module_disabled', [$this->configModule->getName()]);
 	}
-	
 	
 }
