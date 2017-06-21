@@ -206,9 +206,6 @@ final class GWF_Mail
 		{
 			$printmail = sprintf('<h1>Local EMail:</h1><pre>%s<br/>%s</pre>', htmlspecialchars($this->subject), $message);
 			echo $printmail;
-// 			GWF5::instance()->response(new GWF_Response($printmail, true));
-// 			GWF_Website::addDefaultOutput(sprintf('<h1>Local EMail:</h1><pre>%s<br/>%s</pre>', htmlspecialchars($this->subject), $message));
-// 			GWF_Website::addDefaultOutput(sprintf('<h1>Local EMail:</h1><pre>%s<br/>%s</pre>', htmlspecialchars($this->subject), $encrypted));
 			return true;
 		}
 		else

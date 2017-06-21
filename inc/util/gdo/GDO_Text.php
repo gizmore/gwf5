@@ -15,8 +15,6 @@ class GDO_Text extends GDO_String
 	
 	public function gdoColumnDefine()
 	{
-		$charset = $this->gdoCharsetDefine();
-		$collate = $this->gdoCollateDefine();
-		return "{$this->identifier()} TEXT({$this->max}) CHARSET $charset $collate{$this->gdoNullDefine()}";
+		return "{$this->identifier()} TEXT({$this->max}) CHARSET {$this->gdoCharsetDefine()} {$this->gdoCollateDefine()}{$this->gdoNullDefine()}";
 	}
 }

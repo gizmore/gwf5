@@ -19,6 +19,11 @@ class GWF_Table extends GWF_Response
 	 * @var GWF_Navbar
 	 */
 	public $navbar;
+	public function navbar(string $direction=GWF_Navbar::ROW)
+	{
+		$this->navbar = new GWF_Navbar(10, $direction);
+		return $this->navbar;
+	}
 	
 	/**
 	 * @var GWF_Method
@@ -45,9 +50,9 @@ class GWF_Table extends GWF_Response
 	### Title ###
 	#############
 	private $title;
-	public function title(string $key, array $args=null)
+	public function title(string $title=null)
 	{
-		$this->title = t($key, $args);
+		$this->title = $title;
 		return $this;
 	}
 	
@@ -91,7 +96,17 @@ class GWF_Table extends GWF_Response
 		$this->pagemenu->href($this->href);
 		return $this;
 	}
-		
+
+	##############
+	### Filter ###
+	##############
+	public $filtered=false;
+	public function filtered(bool $filtered=true)
+	{
+		$this->filtered = $filtered;
+		return $this;
+	}
+	
 	##############
 	### Render ###
 	##############
@@ -127,6 +142,7 @@ class GWF_Table extends GWF_Response
 	{
 		$tVars = array(
 			'table' => $this,
+			'title' => $this->title,
 			'result' => $this->result,
 			'headers' => $this->getFields(),
 			'pagemenu' => $this->pagemenu,

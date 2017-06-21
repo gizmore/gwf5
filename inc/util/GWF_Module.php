@@ -16,6 +16,8 @@ class GWF_Module extends GDO
 	public $module_license = "MIT";
 	public $module_priority = 50;
 	
+	public function memCached() { return false; }
+	
 	/**
 	 * @return string[]
 	 */
@@ -26,16 +28,16 @@ class GWF_Module extends GDO
 	 */
 	protected function getConfig() { return []; }
 	
-	public function getModuleConfig()
-	{
-		return array_merge($this->getDefaultConfig(), $this->getConfig());
-	}
+// 	public function getModuleConfig()
+// 	{
+// 		return array_merge($this->getDefaultConfig(), $this->getConfig());
+// 	}
 	
-	public function getDefaultConfig()
-	{
-		return array(
-		);
-	}
+// 	public function getDefaultConfig()
+// 	{
+// 		return array(
+// 		);
+// 	}
 
 	##############
 	### Config ###
@@ -85,6 +87,7 @@ class GWF_Module extends GDO
 	### Events ###
 	##############
 	public function onInit() {}
+	public function onInstall() {}
 	public function onWipe() {}
 	public function onLoad() {}
 	public function onRenderFor(GWF_Navbar $navbar) {}
@@ -95,7 +98,7 @@ class GWF_Module extends GDO
 	### GDO ###
 	###########
 	public function gdoColumnsCache() { return GDODB::columnsS('GWF_Module'); } # Polymorph fix
-	public function gdoTableName() { return "gwf_module"; }
+	public function gdoTableName() { return "gwf_module"; } # Polymorph fix
 	public function gdoColumns()
 	{
 		return array(
@@ -124,6 +127,7 @@ class GWF_Module extends GDO
 	public function getVersion() { return $this->getVar('module_version'); }
 	public function isEnabled() { return $this->getVar('module_enabled') === '1'; }
 	public function isCoreModule() { return false; }
+	public function getSiteName() { return GWF5::instance()->getSiteName(); }
 	
 	###############
 	### Display ###
@@ -144,7 +148,7 @@ class GWF_Module extends GDO
 	public function canInstall() { return !$this->isPersisted(); }
 	public function filePath(string $path='') { return GWF_PATH . 'module/' . $this->getName() . '/' . $path; }
 	public function wwwPath(string $path='') { return '/module/' . $this->getName() . '/' . $path; }
-	public function includeClass(string $class) { require $this->filePath("$class.php"); }
+	public function includeClass(string $class) { include $this->filePath("$class.php"); }
 	
 	#################
 	### Templates ###
@@ -169,23 +173,44 @@ class GWF_Module extends GDO
 	############
 	### Init ###
 	############
+// 	private $inited = false;
 	public function initModule()
 	{
-		if ($classes = $this->getClasses())
-		{
-			foreach ($classes as $class)
+// 		if (!$this->inited)
+// 		{
+// 			$this->inited = true;			
+			if ($classes = $this->getClasses())
 			{
-				$this->includeClass($class);
+				foreach ($classes as $class)
+				{
+					$this->includeClass($class);
+				}
 			}
-		}
-		$this->onLoadLanguage();
-		$this->onInit();
+			$this->onLoadLanguage();
+			$this->registerSettings();
+			$this->onInit();
+// 		}
 	}
 	
 	public function loadLanguage(string $path)
 	{
 		GWF_Trans::addPath($this->filePath($path));
 		return $this;
+	}
+	
+	/**
+	 * @return GWF_UserSetting[]
+	 */
+	public function getUserSettings(){}
+	public function registerSettings()
+	{
+		if ($settings = $this->getUserSettings())
+		{
+			foreach ($settings as $setting)
+			{
+				GWF_UserSetting::register($setting);
+			}
+		}
 	}
 	
 	##############

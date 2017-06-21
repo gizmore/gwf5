@@ -9,6 +9,7 @@
 abstract class GWF_MethodTable extends GWF_Method
 {
 	public function getItemsPerPage() { return Module_GWF::instance()->cfgItemsPerPage(); }
+	public function isFiltered() { return true; }
 	public function isPaginated() { return true; }
 	protected $table;
 	
@@ -55,6 +56,7 @@ abstract class GWF_MethodTable extends GWF_Method
 		{
 			$gwfTable->paginated($this->getResultCount(), $this->getItemsPerPage());
 		}
+		$gwfTable->filtered($this->isFiltered());
 		$gwfTable->result($this->getResult());
 		$this->onDecorateTable($gwfTable);
 		return $gwfTable->render();

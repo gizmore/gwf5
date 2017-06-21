@@ -135,7 +135,8 @@ class GDO_String extends GDOType
 	{
 		if ($filter = $this->filterValue())
 		{
-			$query->where(sprintf('%s LIKE %s', $this->identifier(), str_replace('*', '%', quote($filter))));
+			$condition = sprintf('%s LIKE %s', $this->identifier(), str_replace('*', '%', quote($filter)));
+			$this->filterQueryCondition($query, $condition);
 		}
 	}
 }

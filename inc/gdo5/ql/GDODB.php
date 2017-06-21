@@ -47,7 +47,7 @@ class GDODB
 		self::$INSTANCE = $this;
 		$this->debug = $debug;
 		$this->link = mysqli_connect($host, $user, $pass, $db);
-		$this->queryRead("SET NAMES UTF8");
+		$this->query("SET NAMES UTF8");
 	}
 
 	#############
@@ -109,7 +109,11 @@ class GDODB
 		{
 			self::$TABLES[$classname] = $gdo = new $classname();
 			self::$COLUMNS[$classname] = self::hashedColumns($gdo->gdoColumns());
-			$gdo->initCache();
+			$gdo instanceof GDO;
+			if ($gdo->gdoCached())
+			{
+				$gdo->initCache();
+			}
 		}
 		return self::$TABLES[$classname];
 	}

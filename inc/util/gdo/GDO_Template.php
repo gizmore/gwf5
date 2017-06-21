@@ -10,7 +10,7 @@ final class GDO_Template extends GDO_Blank
 	
 	public $file;
 	public $tVars;
-	public function template(string $file, array $tVars=null)
+	public function template(string $file, array $tVars=[])
 	{
 		$this->file = $file;
 		$this->tVars = $tVars;
@@ -19,6 +19,8 @@ final class GDO_Template extends GDO_Blank
 	
 	public function render()
 	{
+		$this->tVars['field'] = $this;
+		$this->tVars['gdo'] = $this->gdo;
 		return $this->module ?
 			GWF_Template::modulePHP($this->module->getName(), $this->file, $this->tVars) : 
 			GWF_Template::mainPHP($this->file, $this->tVars);

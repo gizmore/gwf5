@@ -28,12 +28,14 @@ class Admin_Configure extends GWF_MethodForm
 		$form->addField(GDO_Path::make('module_path')->writable(false)->value($mod->filePath()));
 		$form->addField(GDO_Version::make('version')->writable(false));
 		$form->addField(GDO_Version::make('version_available')->writable(false)->value($mod->module_version));
-		if ($config = $mod->getModuleConfig())
+		if ($config = $mod->getConfigCache())
 		{
 			$form->addField(GDO_Divider::make('div1')->label('form_div_config_vars'));
 			foreach ($config as $gdoType)
 			{
-				$form->addField($gdoType->value($mod->getConfigValue($gdoType->name)));
+				$gdoType->value($mod->getConfigVar($gdoType->name));
+// 				$gdoType->va ($mod->getConfigValue($gdoType->name));
+				$form->addField($gdoType);
 			}
 			$form->addField(GDO_Divider::make('div2'));
 		}
@@ -56,6 +58,11 @@ class Admin_Configure extends GWF_MethodForm
 				GWF_ModuleVar::createModuleVar($mod, $gdoType);
 				$info[] = t('msg_modulevar_changed', [$gdoType->displayLabel(), htmlspecialchars($gdoType->oldValue), htmlspecialchars($gdoType->value)]);
 			}
+		}
+		
+		if (count($info) > 0)
+		{
+// 			GDOCache::unset('gwf_modules');
 		}
 		
 		# Announce

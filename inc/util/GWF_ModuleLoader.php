@@ -56,6 +56,31 @@ final class GWF_ModuleLoader
 		return @$this->modules[$moduleName];
 	}
 	
+	
+	public function loadModulesCache()
+	{
+		if (!($cache = GDOCache::get('gwf_modules')))
+		{
+			$cache = $this->loadModules();
+			GDOCache::set('gwf_modules', $cache);
+		}
+		else
+		{
+			$this->initFromCache($cache);
+		}
+		return $cache;
+	}
+	
+	private function initFromCache(array $cache)
+	{
+		$this->modules = $cache;
+		$this->activeModules = $cache;
+		foreach ($this->modules as $module)
+		{
+			$module->initModule();
+		}
+	}
+	
 	public function loadModules($loadDBOnly = true)
 	{
 		if (count($this->activeModules) === 0)
@@ -66,6 +91,7 @@ final class GWF_ModuleLoader
 		{
 			$this->loadModulesFS();
 		}
+
 		$this->initModuleVars();
 		
 		return $this->modules;

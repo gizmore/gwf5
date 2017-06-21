@@ -16,6 +16,16 @@ class Module_GWF extends GWF_Module
 	##############
 	### Config ###
 	##############
+	public function getUserSettings()
+	{
+		return array(
+			GDO_Date::make('user_birthdate')->label('birthdate'),
+			GDO_Checkbox::make('user_hide_online')->initial('0'),
+			GDO_Checkbox::make('user_want_adult')->initial('0'),
+			GDO_Checkbox::make('user_allow_email')->initial('0'),
+			GDO_Checkbox::make('user_show_birthdays')->initial('0'),
+		);
+	}
 	public function getConfig()
 	{
 		return array(

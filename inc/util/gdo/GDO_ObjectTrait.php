@@ -1,6 +1,13 @@
 <?php
 trait GDO_ObjectTrait
 {
+	private $cascade = 'CASCADE';
+	public function cascadeNull()
+	{
+		$this->cascade = 'SET NULL';
+		return $this;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * @see GDOType::getGDOValue()
@@ -8,7 +15,7 @@ trait GDO_ObjectTrait
 	 */
 	public function getGDOValue()
 	{
-		return $this->foreignTable()->find($this->gdo->getVar($this->name), false);
+		return $this->foreignTable()->find($this->value, false);
 	}
 	
 	/**
@@ -82,6 +89,6 @@ trait GDO_ObjectTrait
 		$define = str_replace(' AUTO_INCREMENT', '', $define);
 		$on = $this->fkOn ? $this->fkOn : ($primaryKey->identifier());
 		return "$define{$this->gdoNullDefine()}".
-				",FOREIGN KEY ({$this->identifier()}) REFERENCES $tableName($on) ON DELETE CASCADE ON UPDATE CASCADE";
+				",FOREIGN KEY ({$this->identifier()}) REFERENCES $tableName($on) ON DELETE {$this->cascade} ON UPDATE CASCADE";
 	}
 }

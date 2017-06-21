@@ -39,6 +39,7 @@ class GDO_Int extends GDOType
 	public function unsigned()
 	{
 		$this->unsigned = true;
+		$this->min = $this->min <= 0 ? 0 : $this->min;
 		return $this;
 	}
 	
@@ -124,10 +125,10 @@ class GDO_Int extends GDOType
 			$min = (int)GWF_String::substrTo($filter, '-', $filter);
 			$max = (int)GWF_String::substrFrom($filter, '-', $filter);
 			$nam = $this->identifier();
-			$query->where("$nam >= $min AND $nam <= $max");
+			$this->filterQueryCondition($query, "$nam >= $min AND $nam <= $max");
 		}
 	}
-
+	
 	public function htmlClass()
 	{
 		return sprintf(' class="gdo-num %s"', str_replace('_', '-', strtolower($this->gdoClassName())));

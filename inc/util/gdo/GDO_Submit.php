@@ -14,4 +14,9 @@ class GDO_Submit extends GDOType
 	{
 		return GWF_Template::mainPHP('form/submit.php', ['field'=>$this]);
 	}
+	
+	public function renderCell()
+	{
+		return $this->render();
+	}
 }

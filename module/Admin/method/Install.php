@@ -45,8 +45,8 @@ class Admin_Install extends GWF_MethodForm
 		{
 			return parent::formInvalid($form);
 		}
-		$methodName = 'execute_' . $button;
-		return call_user_func(array($this, $methodName));
+		GDOCache::unset('gwf_modules');
+		return call_user_func(array($this, "execute_$button"));
 	}
 	
 	public function execute_install()

@@ -6,7 +6,7 @@
  * @since 2.0
  *
  */
-class GWF_LoginAttempt extends GDO
+final class GWF_LoginAttempt extends GDO
 {
 	public function gdoCached() { return false; }
 	public function gdoColumns()

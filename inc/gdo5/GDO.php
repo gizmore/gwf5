@@ -20,6 +20,7 @@ abstract class GDO
 	public abstract function gdoColumns();
 	
 	public function gdoCached() { return true; }
+	public function memCached() { return $this->gdoCached(); }
 	public function gdoTableName() { return strtolower(get_called_class()); }
 	public function gdoDependencies() { return null; }
 	
@@ -92,6 +93,16 @@ abstract class GDO
 	public function getVar(string $key)
 	{
 		return @$this->gdoVars[$key];
+	}
+	
+	public function display(string $key)
+	{
+		return GWF_HTML::escape(@$this->gdoVars[$key]);
+	}
+	
+	public function edisplay(string $key)
+	{
+		echo $this->display($key);
 	}
 	
 	public function setVar(string $key, $value, $markDirty=true)
@@ -231,7 +242,7 @@ abstract class GDO
 	 * @param string $where
 	 * @return int
 	 */
-	public function countWhere(string $condition)
+	public function countWhere(string $condition='true')
 	{
 		$result = $this->query()->select("COUNT(*)")->from($this->gdoTableIdentifier())->where($condition)->exec()->fetchRow();
 		return (int)$result[0];
@@ -281,6 +292,10 @@ abstract class GDO
 		$this->dirty = false;
 		$this->persisted = true;
 		$this->gdoAfterUpdate();
+		if ($this->gdoCached())
+		{
+			$this->recache();
+		}
 		return $this;
 	}
 	
@@ -289,6 +304,11 @@ abstract class GDO
 		$this->query()->insert($this->gdoTableIdentifier())->values($this->getDirtyVars())->exec();
 		$this->afterCreate();
 		return $this;
+	}
+	
+	public function update()
+	{
+		return $this->query()->update($this->gdoTableIdentifier());
 	}
 	
 	public function updateQuery()
@@ -306,6 +326,7 @@ abstract class GDO
 		{
 			$this->updateQuery()->set($this->getSetClause())->exec();
 			$this->dirty = false;
+			$this->recache();
 			$this->gdoAfterUpdate();
 		}
 		return $this;
@@ -334,6 +355,7 @@ abstract class GDO
 			$this->beforeUpdate($query); # Can do trickery here... not needed? 
 			$query->exec();
 			$this->gdoVars = array_merge($this->gdoVars, $vars);
+			$this->recache();
 			$this->gdoAfterUpdate(); # GDO_AutoInc uses this hook
 		}
 		return $this;
@@ -534,6 +556,11 @@ abstract class GDO
 		}
 	}
 	
+	public function displayName()
+	{
+		return $this->getID();
+	}
+	
 	##############
 	### Get by ###
 	##############
@@ -560,11 +587,11 @@ abstract class GDO
 			$table = self::table();
 			if ($column = $table->gdoPrimaryKeyColumn())
 			{
-				if (!($user = $table->cache->findCached($id)))
+				if ( (!$table->cache) || (!($object = $table->cache->findCached($id))) )
 				{
-					$user = self::getBy($column->name, $id);
+					$object = self::getBy($column->name, $id);
 				}
-				return $user;
+				return $object;
 			}
 		}
 	}
@@ -572,10 +599,27 @@ abstract class GDO
 	#############
 	### Cache ###
 	#############
+	/**
+	 * @var GDOCache
+	 */
 	private $cache;
 	public function initCache() { $this->cache = new GDOCache($this); }
-	public function initCached(array $row) { return $this->cache->initCached($row); }
-	
+	public function initCached(array $row)
+	{
+		return $this->memCached() ? $this->cache->initGDOMemcached($row) : $this->cache->initGDOCached($row);
+	}
+	public function gkey()
+	{
+		return $this->gdoClassName() . $this->getID();
+	}
+	public function recache()
+	{
+		self::table()->cache->recache($this);
+	}
+	public function __wakeup()
+	{
+		self::table();
+	}
 	###########################
 	###  Table manipulation ###
 	###########################
@@ -637,6 +681,10 @@ abstract class GDO
 	public function gdoAfterUpdate() {}
 	public function gdoAfterDelete() {}
 	
+	public function gdoHashcode()
+	{
+		return md5(json_encode(array_values($this->gdoVars)));
+	}
 }
 
 function quote(string $value=null)

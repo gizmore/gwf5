@@ -8,6 +8,9 @@ final class GWF_Navbar
 	const TOP = 3;
 	const BOTTOM = 4;
 	
+	const ROW = 'row';
+	const COLUMN = 'column';
+	
 	public function isLeft() { return $this->position === self::LEFT; }
 	public function isRight() { return $this->position === self::RIGHT; }
 	public function isTop() { return $this->position === self::TOP; }
@@ -22,10 +25,10 @@ final class GWF_Navbar
 	 * @return GWF_Navbar
 	 */
 	public static function create(int $position, string $direction) { return new self($position, $direction); }
-	public static function left() { return self::create(self::LEFT, 'column'); }
-	public static function right() { return self::create(self::RIGHT, 'column'); }
-	public static function top() { return self::create(self::TOP, 'row'); }
-	public static function bottom() { return self::create(self::BOTTOM, 'row'); }
+	public static function left() { return self::create(self::LEFT, self::COLUMN); }
+	public static function right() { return self::create(self::RIGHT, self::COLUMN); }
+	public static function top() { return self::create(self::TOP, self::ROW); }
+	public static function bottom() { return self::create(self::BOTTOM, self::ROW); }
 	
 	private $position;
 	public function position() { return $this->position; }

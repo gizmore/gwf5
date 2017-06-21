@@ -73,9 +73,41 @@ class GDOQuery
 		return $this;
 	}
 	
+	/**
+	 * @param string $condition
+	 * @return GDOQuery
+	 */
+	public function or(string $condition)
+	{
+		return $this->where($condition, "OR");
+	}
+	
 	public function getWhere()
 	{
 		return $this->where ? " WHERE {$this->where}" : "";
+	}
+	
+	/**
+	 * @param string $condition
+	 * @param string $op
+	 * @return GDOQuery
+	 */
+	public function having(string $condition, $op="AND")
+	{
+		if ($this->having)
+		{
+			$this->having .= " $op ($condition)";
+		}
+		else
+		{
+			$this->having= "($condition)";
+		}
+		return $this;
+	}
+	
+	public function getHaving()
+	{
+		return $this->having ? " HAVING {$this->having}" : "";
 	}
 	
 	public function from(string $tableName)
@@ -271,8 +303,10 @@ class GDOQuery
 	{
 		return $this->type . $this->getSelect() . $this->getFrom() . 
 			$this->getValues() . $this->getSet() .
-			$this->getJoin() . $this->getWhere() .
+			$this->getJoin() .
+			$this->getWhere() .
 			$this->getGroup() .
+			$this->getHaving() .
 			$this->getOrderBy() . $this->getLimit(); 
 	}
 

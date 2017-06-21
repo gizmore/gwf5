@@ -97,6 +97,10 @@ class GDOResult
 		{
 			if ($table->gdoCached())
 			{
+				if ($table->memCached())
+				{
+					
+				}
 				return $table->initCached($gdoData);
 			}
 			else

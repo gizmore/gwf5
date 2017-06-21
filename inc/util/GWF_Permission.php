@@ -35,6 +35,6 @@ final class GWF_Permission extends GDO
 	############
 	### HREF ###
 	############
-	public function hrefEdit() { return href('Admin', 'Permission', '&permission='.$this->getID()); }
+	public function href_edit() { return href('Admin', 'Permission', '&permission='.$this->getID()); }
 	
 }

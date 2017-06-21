@@ -1,5 +1,5 @@
 <?php $field instanceof GDO_Email; ?>
-<md-input-container class="md-block md-float md-icon-left">
+<md-input-container class="md-block md-float md-icon-left<?php echo $field->classError(); ?>">
   <label for="form[<?php echo $field->name; ?>]"><?php echo $field->displayLabel(); ?></label>
   <?php echo GDO_Button::matIconS('email'); ?>
   <input

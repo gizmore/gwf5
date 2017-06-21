@@ -9,6 +9,7 @@ require 'inc/GWF5.php';
 
 # Load
 $db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME);
+GDOCache::init();
 $gwf5 = new GWF5();
 GWF_Log::init();
 $perf = new GWF_DebugInfo();

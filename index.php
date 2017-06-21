@@ -9,16 +9,17 @@ include'inc/GWF5.php';
 $gwf5 = new GWF5();
 $perf = new GWF_DebugInfo();
 GWF_Log::init();
-$db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME, GWF_DB_DEBUG);
+$db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME, (GWF_DB_DEBUG && !isset($_REQUEST['ajax'])));
 GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);
 GWF_Debug::init();
 GWF_Debug::enableErrorHandler();
 GWF_Debug::enableExceptionHandler();
-GWF_Debug::setDieOnError(false);
+GWF_Debug::setDieOnError(true);
 GWF_Debug::setMailOnError(true);
+GDOCache::init();
 
 # Load modules
-$modules = $gwf5->loadModules();
+$modules = $gwf5->loadModulesCache();
 
 # Include JS
 if ($gwf5->isFullPageRequest())
@@ -28,7 +29,6 @@ if ($gwf5->isFullPageRequest())
 		$module->onIncludeScripts();
 	}
 }
-
 
 # Get module and method
 $module = $method = null;
@@ -40,7 +40,6 @@ if (!$method)
 {
 	$method = $gwf5->defaultMethod();
 }
-
 
 # Exec
 try
@@ -54,17 +53,8 @@ try
 }
 catch (Exception $e)
 {
-	$response = new GWF_Response(GDO_Box::make()->content(GWF_Debug::backtraceException($e)));
+	$response = new GWF_Response(GDO_Box::make()->content(ob_get_clean().GWF_Debug::backtraceException($e)));
 }
-
 
 # Render
 echo $gwf5->render($method, $response);
-
-$gwf5->finish();
-
-# Debug
-if ($gwf5->isFullPageRequest())
-{
-	echo "<!-- " . $perf->display() . ' -->';
-}

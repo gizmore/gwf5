@@ -47,4 +47,30 @@ controller('GWFFormCtrl', function($scope) {
 		var value = $scope.pickDate.toISOString().substr(0, 19).replace('T', ' ');
 		$(selector).val(value);
 	};
+}).controller('GWFAutoCompleteCtrl', function($scope, $q, GWFRequestSrvc) {
+	$scope.init = function(gwfConfig, formId) {
+		console.log('GWFAutoCompleteCtrl.init()', gwfConfig, formId);
+		$scope.config = gwfConfig;
+		$scope.formid = formId;
+		$scope.selectedItem = gwfConfig.value;
+	};
+	$scope.objectSelected = function(item) {
+		console.log('GWFAutoCompleteCtrl.objectSelected()', item);
+		$($scope.formid).val(item.id);
+	};
+	$scope.query = function(searchText) {
+		console.log('GWFAutoCompleteCtrl.query()', searchText);
+		var defer = $q.defer();
+		GWFRequestSrvc.send($scope.config.url, {query:searchText}, true).
+			then($scope.querySuccess.bind($scope, defer), $scope.queryFailure.bind($scope, defer));
+		return defer.promise;
+	};
+	$scope.querySuccess = function(defer, result) {
+		console.log('GWFAutoCompleteCtrl.querySuccess()', result);
+		defer.resolve(result.data);
+	};
+	$scope.queryFailure = function(defer, result) {
+		console.log('GWFAutoCompleteCtrl.queryFailure()', result);
+		defer.reject(result);
+	};
 });

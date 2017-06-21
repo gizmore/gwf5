@@ -3,12 +3,27 @@ final class GWF_Stream
 {
 	public static function path(string $path)
 	{
+		$out = false;
+		if (ob_get_level()>0)
+		{
+			$out = ob_end_clean();
+		}
+		$result = self::_path($path);
+		if ($out !== false)
+		{
+			ob_start();
+			echo $out;
+		}
+		return $result;
+	}
+	
+	public static function _path(string $path)
+	{
 		if ($fh = fopen($path, 'rb'))
 		{
 			while (!feof($fh))
 			{
 				echo fread($fh, 1024*1024);
-				ob_flush();
 				flush();
 			}
 			fclose($fh);

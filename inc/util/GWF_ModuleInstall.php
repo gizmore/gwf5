@@ -26,6 +26,8 @@ class GWF_ModuleInstall
 		}
 		
 		self::installMethods($module);
+
+		$module->onInstall();
 	}
 	
 	public static function installModuleClasses(GWF_Module $module)
@@ -55,7 +57,7 @@ class GWF_ModuleInstall
 	{
 		if ($classes = $module->getClasses())
 		{
-			foreach ($module->getClasses() as $class)
+			foreach (array_reverse($module->getClasses()) as $class)
 			{
 				if (is_subclass_of($class, 'GDO'))
 				{

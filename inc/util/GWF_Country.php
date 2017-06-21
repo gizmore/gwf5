@@ -1,6 +1,8 @@
 <?php
 class GWF_Country extends GDO
 {
+	public function memCached() { return false; }
+	
 	public function gdoColumns()
 	{
 		return array(

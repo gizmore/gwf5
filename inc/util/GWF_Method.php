@@ -26,12 +26,29 @@ abstract class GWF_Method
 		$this->name = GWF_String::substrFrom(get_called_class(), '_');
 	}
 	
+// 	###############
+// 	### Factory ###
+// 	###############
+// 	public static function instance()
+// 	{
+// 		$klass = get_called_class();
+// 		$module = GWF5::instance()->getModule(GWF_String::substrTo($klass, '_'));
+// 		return new $klass($module);
+// 	}
+	
 	##############
 	### Helper ###
 	##############
 	public function getName() { return $this->name; }
 	public function getSiteName() { return GWF5::instance()->getSiteName(); }
-
+	
+	/**
+	 * Get selected checkboxes of a table via GDO_NumRow as CSV.
+	 * @example 1,2,3,5
+	 * @return string
+	 */
+	public function getRBX() { $rbx = implode(',', array_map('intval', array_keys(Common::getRequestArray('rbx')))); return empty($rbx) ? null : $rbx; }
+	
 	################
 	### Override ###
 	################
@@ -43,6 +60,8 @@ abstract class GWF_Method
 	public function isTransactional() { return false; }
 	public function getPermission() {}
 	public function getUserType() {}
+	public function init() {}
+	
 	
 	/**
 	 * @return GWF_Response
@@ -67,6 +86,7 @@ abstract class GWF_Method
 	public function href(string $app='') { return sprintf('/index.php?mo=%s&me=%s%s', $this->module->getName(), $this->getName(), $app); }
 	public function templatePHP(string $filename, array $tVars=null) { return $this->module->templatePHP($filename, $tVars); }
 	public function getFormat() { return GWF5::instance()->getFormat(); }
+
 	############
 	### Exec ###
 	############
@@ -83,12 +103,12 @@ abstract class GWF_Method
 			return new GWF_Error('err_method_disabled');
 		}
 		
-		if ($this->isUserRequired() && $user->isGhost())
+		if ( ($this->isUserRequired()) && (!$user->isAuthenticated()) )
 		{
 			return new GWF_Error('err_user_required');
 		}
 		
-		if ( (!$this->isGuestAllowed()) && (!GWF_User::current()->isMember()) )
+		if ( (!$this->isGuestAllowed()) && (!$user->isMember()) )
 		{
 			return new GWF_Error('err_members_only');
 		}
@@ -118,6 +138,8 @@ abstract class GWF_Method
 	
 	public function execWrap()
 	{
+// 		$this->module->initModule();
+		$this->init();
 		return $this->isTransactional() && (count($_POST) > 0) ? $this->execTransactional() : $this->execute();
 	}
 

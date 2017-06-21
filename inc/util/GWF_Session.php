@@ -145,11 +145,22 @@ class GWF_Session extends GDO
 	public static function reload(string $cookieValue)
 	{
 		list($sessId, $sessToken) = @explode('-', $cookieValue, 2);
-		$query = self::table()->select('*')->where(sprintf('sess_id=%s AND sess_token=%s', GDO::quoteS($sessId), GDO::quoteS($sessToken)));
-		if (!($session = $query->exec()->fetchObject()))
+		# Fetch from possibly from cache via find :)
+		if (!($session = self::table()->find($sessId, false)))
 		{
 			return false;
 		}
+		
+		if ($session->getToken() !== $sessToken)
+		{
+			return false;
+		}
+		#
+// 		$query = self::table()->select('*')->where(sprintf('sess_id=%s AND sess_token=%s', GDO::quoteS($sessId), GDO::quoteS($sessToken)));
+// 		if (!($session = $query->exec()->fetchObject()))
+// 		{
+// 			return false;
+// 		}
 		
 		# IP Check?
 		if ( ($ip = $session->getIP()) && ($ip !== GDO_IP::current()) )

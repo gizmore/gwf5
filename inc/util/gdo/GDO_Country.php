@@ -15,7 +15,11 @@ final class GDO_Country extends GDO_Select
 		static $CHOICES;
 		if (!isset($CHOICES))
 		{
-			$CHOICES = GWF_Country::table()->select('*')->exec()->fetchAllArray2dObject();
+			if (!($CHOICES = GDOCache::get('all_country')))
+			{
+				$CHOICES = GWF_Country::table()->select('*')->exec()->fetchAllArray2dObject();
+				GDOCache::set('all_country', $CHOICES);
+			}
 		}
 		return $CHOICES;
 	}

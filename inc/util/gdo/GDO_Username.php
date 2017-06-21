@@ -6,6 +6,8 @@
  */
 class GDO_Username extends GDO_String
 {
+	const LENGTH = 32;
+	
 	public $min = 2;
 	public $max = 32;
 	public $pattern = "/^[a-z][-_0-9a-z]{1,31}$/i";

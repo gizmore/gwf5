@@ -4,6 +4,12 @@ class GDO_User extends GDO_Object
 	public $klass = 'GWF_User';
 
 	public function defaultLabel() { return $this->label('user'); }
+	
+	public function __construct()
+	{
+		$this->matIcon('face');
+		$this->completion(href('GWF', 'CompleteUser', '&ajax=1&fmt=json'));
+	}
 
 	private $ghost = false;
 	public function ghost(bool $ghost=true)
@@ -31,4 +37,5 @@ class GDO_User extends GDO_Object
 	{
 		return $this->getUser()->displayName();
 	}
+	
 }

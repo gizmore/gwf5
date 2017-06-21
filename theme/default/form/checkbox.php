@@ -8,7 +8,6 @@
    ng-model="cbx"><?php echo $field->displayLabel(); ?></md-checkbox>
   <div class="gwf-form-error"><?php echo $field->displayError(); ?></div>
 </md-input-container>
-<!-- HIDDEN CHECKBOX -->
 <input
  class="n"
  type="checkbox"
@@ -16,5 +15,4 @@
  name="form[<?php echo $field->name; ?>]"
  <?php echo $field->htmlChecked(); ?>
  <?php echo $field->htmlDisabled(); ?>></input>
-<!-- END HIDDEN CHECKBOX -->
  

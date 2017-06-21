@@ -26,9 +26,19 @@ class GDO_Button extends GDO_Label
 		return GWF_Template::mainPHP('form/button.php', ['field'=>$this]);
 	}
 	
+	public function gdoHREF()
+	{
+		return call_user_func(array($this->gdo, 'href_'.$this->name));
+	}
+	
+	public function gdoLabel()
+	{
+		return call_user_func(array($this->gdo, 'display_'.$this->name));
+	}
+	
 	public function renderCell()
 	{
-		$href = call_user_func(array($this->gdo, 'href_'.$this->name));
+		$href = $this->gdoHREF();
 		return GWF_Template::mainPHP('cell/button.php', ['field'=>$this, 'href'=>$href])->getHTML();
 	}
 

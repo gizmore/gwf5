@@ -50,7 +50,10 @@ return array(
 'err_upload_max_files' => 'You may not upload more than %s files(s).',
 'err_permission_required' => 'You need <i>%s</i> permissions to access this function.',
 'err_save_unpersisted_entity' => 'Tried to save an unpersisted entity of type <i>%s</i>.',
-
+'err_file' => 'File not found: %s',
+'err_already_authenticated' => 'You are already authenticated.',
+'err_gdo_not_found' => 'Could not find %s with ID %s.',
+		
 # Permissions
 'perm_admin' => 'Administrator',
 
@@ -71,11 +74,5 @@ return array(
 'enum_male' => 'male',
 'enum_female' => 'female',
 'enum_no_gender' => 'not specified',
-		
-# Country names
-'country_de' => 'Germany',
 
-# Language names
-'lang_de' => 'German',
-		
 );

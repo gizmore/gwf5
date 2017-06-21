@@ -2,5 +2,6 @@
 <a
  class="md-button primary gwf-button"
  <?php echo $field->htmlHREF(); ?>>
-    <?php echo $field->displayLabel(); ?>
+  <?php echo $field->htmlIcon(); ?>
+  <?php echo $field->displayLabel(); ?>
 </a>

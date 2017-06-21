@@ -3,6 +3,7 @@ define('GWF_CORE_VERSION', '5.00');
 # Core
 require 'inc/gdo5/GDO.php';
 require 'inc/util/Common.php';
+require 'inc/util/GWF_String.php';
 # Traits
 require 'inc/util/trait/GWF_Fields.php';
 
@@ -38,7 +39,14 @@ final class GWF5
 		define('GWF_PATH', dirname(__FILE__, 2) . '/');
 		
 		spl_autoload_register(function($name) {
-			$filename = $name[1] === 'D' ? "inc/util/gdo/$name.php" : "inc/util/$name.php";
+			if ($name[0] === 'G')
+			{
+				$filename = $name[1] === 'D' ? "inc/util/gdo/$name.php" : "inc/util/$name.php";
+			}
+			elseif ($modulename = GWF_String::substrFrom($name, 'Module_', null))
+			{
+				$filename = "module/$modulename/$name.php";
+			}
 			include $filename;
 		});
 		
@@ -62,6 +70,11 @@ final class GWF5
 			GWF_Log::flush();
 			echo @ob_get_clean();
 		}
+	}
+	
+	public function loadModulesCache()
+	{
+		return $this->moduleLoader->loadModulesCache();
 	}
 	
 	/**

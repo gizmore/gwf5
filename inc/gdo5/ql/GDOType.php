@@ -134,6 +134,13 @@ abstract class GDOType
 	####################
 	### Table Filter ###
 	####################
+	public $virtual = false;
+	public function virtual()
+	{
+		$this->virtual = true;
+		return $this;
+	}
+	
 	public function renderFilter()
 	{
 		return '';
@@ -142,6 +149,11 @@ abstract class GDOType
 	public function filterQuery(GDOQuery $query)
 	{
 		return $query;
+	}
+	
+	public function filterQueryCondition(GDOQuery $query, string $condition)
+	{
+		return $this->virtual ? $query->having($condition) : $query->where($condition);
 	}
 	
 	###################
@@ -175,6 +187,7 @@ abstract class GDOType
 	############
 	### Icon ###
 	############
+	public static function iconS(string $icon) { return self::matIconS($icon); }
 	public static function matIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
 // 	public static function aweIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
 	
@@ -182,6 +195,7 @@ abstract class GDOType
 	public function htmlIcon() { return $this->icon ? $this->icon : ''; }
 	public function rawIcon(string $icon) { $this->icon = $icon; return $this; }
 	public function matIcon(string $icon) { return $this->rawIcon(self::matIconS($icon)); }
+	public function icon($icon) { return $this->rawIcon(self::iconS($icon)); }
 	
 	###############
 	### Default ###
@@ -209,6 +223,10 @@ abstract class GDOType
 	public function gdo(GDO $gdo)
 	{
 		$this->gdo = $gdo;
+		if ($this->name)
+		{
+			$this->value = $gdo->getVar($this->name);
+		}
 		return $this;
 	}
 	
@@ -239,7 +257,7 @@ abstract class GDOType
 	
 	public function setGDOValue($value)
 	{
-		return $this;
+		return $this->value($value);
 	}
 	
 	/**
@@ -394,15 +412,15 @@ abstract class GDOType
 		return $this->formValue();
 	}
 	
-	public function gdoRenderCell()
-	{
-		$method = "render_{$this->name}";
-		if (method_exists($this->gdo, $method))
-		{
-			return call_user_func([$this->gdo,$method]);
-		}
-		return $this->renderCell();
-	}
+// 	public function gdoRenderCell()
+// 	{
+// 		$method = "render_{$this->name}";
+// 		if (method_exists($this->gdo, $method))
+// 		{
+// 			return call_user_func([$this->gdo,$method]);
+// 		}
+// 		return $this->renderCell();
+// 	}
 	
 	public function renderCell()
 	{
