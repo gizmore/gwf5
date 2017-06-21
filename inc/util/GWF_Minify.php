@@ -25,18 +25,20 @@ final class GWF_Minify
 	
 	public static function minifiedJavascriptPath($path)
 	{
-		return GWF_String::startsWith($path, '/') ? self::minifiedJavascript($path) : $path; 
+		return GWF_String::startsWith($path, '/') ? self::minifiedJavascript(substr($path, 1)) : $path; 
 	}
 	
 	public static function minifiedJavascript($path)
 	{
-		$src = GWF_PATH . Common::substrUntil($path, '?', $path);
+		$src = GWF_PATH . GWF_String::substrTo($path, '?', $path);
+		
+		$b = basename($path);
 		
 		if (GWF_File::isFile($src))
 		{
 			$md5 = md5(file_get_contents($src));
 			$dest = self::tempDir() . $md5 . '.js'; 
-			if (!Common::isFile($dest))
+			if (!GWF_File::isFile($dest))
 			{
 				if (strpos($src, '.min.js'))
 				{
@@ -44,10 +46,15 @@ final class GWF_Minify
 				}
 				else
 				{
-					`uglifyjs --compress --mangle --screw-ie8 -o $dest  -- $src`;
+					$command = "ng-annotate -ar $src | uglifyjs --compress --mangle --screw-ie8 -o $dest";
+					exec($command, $output, $return);
+					if ($return != 0)
+					{
+						return $path;
+					}
 				}
 			}
-			return GWF_WEB_ROOT."temp/minify/$md5.js";
+			return "/temp/minify/$md5.js";
 		}
 		return $path;
 	}

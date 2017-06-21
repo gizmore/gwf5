@@ -77,6 +77,7 @@ final class GWF_ModuleLoader
 		$this->activeModules = $cache;
 		foreach ($this->modules as $module)
 		{
+			$this->initModuleVars();
 			$module->initModule();
 		}
 	}
@@ -87,13 +88,15 @@ final class GWF_ModuleLoader
 		{
 			$this->loadModulesDB();
 		}
-		if (!$loadDBOnly)
+		elseif (!$loadDBOnly)
 		{
 			$this->loadModulesFS();
 		}
-
+		else
+		{
+			return $this->modules;
+		}
 		$this->initModuleVars();
-		
 		return $this->modules;
 	}
 	
@@ -148,12 +151,11 @@ final class GWF_ModuleLoader
 	############
 	public function initModuleVars()
 	{
-		$result = GWF_ModuleVar::table()->select('module_name, mv_name, mv_value')->join('JOIN gwf_module ON module_id=mv_module_id')->exec();
+		$result = GWF_ModuleVar::table()->select('module_name, mv_name, mv_value')->join('LEFT JOIN gwf_module ON module_id=mv_module_id')->exec();
 		while ($row = $result->fetchRow())
 		{
-			if (isset($this->modules[$row[0]]))
+			if ($module = @$this->modules[$row[0]])
 			{
-				$module = $this->modules[$row[0]];
 				if ($var = $module->getConfigColumn($row[1]))
 				{
 					$var->value($row[2]);

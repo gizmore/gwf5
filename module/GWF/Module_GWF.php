@@ -34,7 +34,7 @@ class Module_GWF extends GWF_Module
 		);
 	}
 	public function cfgItemsPerPage() { return $this->getConfigValue('ipp'); }
-	public function cfgMinifyJS() { return $this->getConfigValue('minify_js'); }
+	public function cfgMinifyJS() { return $this->getConfigVar('minify_js'); }
 
 	public function onIncludeScripts()
 	{

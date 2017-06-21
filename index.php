@@ -17,6 +17,7 @@ GWF_Debug::enableExceptionHandler();
 GWF_Debug::setDieOnError(true);
 GWF_Debug::setMailOnError(true);
 GDOCache::init();
+// GDOCache::flush();
 
 # Load modules
 $modules = $gwf5->loadModulesCache();

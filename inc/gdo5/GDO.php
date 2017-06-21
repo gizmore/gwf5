@@ -217,7 +217,7 @@ abstract class GDO
 	 */
 	public function query()
 	{
-		return new GDOQuery($this); # TODO: Clear query instead of new?
+		return new GDOQuery(self::tableFor($this->gdoClassName()));
 	}
 	
 	/**
@@ -279,7 +279,8 @@ abstract class GDO
 	{
 		if ($this->persisted)
 		{
-			$this->query()->delete($this->gdoTableIdentifier())->where($this->getPKWhere())->exec();
+			$query = $this->query();
+			$query->delete($this->gdoTableIdentifier())->where($this->getPKWhere())->exec();
 			$this->persisted = false;
 			$this->dirty = false;
 		}

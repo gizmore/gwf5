@@ -8,6 +8,7 @@ return array(
 'btn_login_as' => 'Login as…',
 
 'msg_there_are_updates' => 'Some modules have updates available.',
+'err_module' => 'Unknown module.',
 		
 'version_db' => 'Vers.',
 'version_fs' => 'V.FS.',

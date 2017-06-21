@@ -51,7 +51,9 @@ final class GWF5
 		});
 		
 		GWF_Trans::addPath(GWF_PATH . 'inc/lang/util');
-
+		GWF_Trans::addPath(GWF_PATH . 'inc/lang/country');
+		GWF_Trans::addPath(GWF_PATH . 'inc/lang/language');
+			
 		$this->moduleLoader = new GWF_ModuleLoader(GWF_PATH . 'module/');
 	}
 	

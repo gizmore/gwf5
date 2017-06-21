@@ -26,8 +26,6 @@
     </header>
 	<!-- End Toolbar -->
  
- 	<?php echo GWF_Javascript::displayJavascripts(Module_GWF::instance()->cfgMinifyJS() === 'concat'); ?>
- 
     <section layout="row" flex>
   
       <!-- LEFT SIDENAV -->
@@ -61,6 +59,9 @@
       <?php echo GWF_Navbar::bottom()->render(); ?>
     </footer>
     <!-- END FOOTER -->
+
+	<!-- JS -->
+ 	<?php echo GWF_Javascript::displayJavascripts(Module_GWF::instance()->cfgMinifyJS() === 'concat'); ?>
 
   </body>
 </html>

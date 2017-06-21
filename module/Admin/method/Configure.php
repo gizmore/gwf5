@@ -33,7 +33,6 @@ class Admin_Configure extends GWF_MethodForm
 			$form->addField(GDO_Divider::make('div1')->label('form_div_config_vars'));
 			foreach ($config as $gdoType)
 			{
-				$gdoType->value($mod->getConfigVar($gdoType->name));
 // 				$gdoType->va ($mod->getConfigValue($gdoType->name));
 				$form->addField($gdoType);
 			}
@@ -62,7 +61,7 @@ class Admin_Configure extends GWF_MethodForm
 		
 		if (count($info) > 0)
 		{
-// 			GDOCache::unset('gwf_modules');
+			GDOCache::unset('gwf_modules');
 		}
 		
 		# Announce

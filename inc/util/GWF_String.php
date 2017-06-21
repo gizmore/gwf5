@@ -6,7 +6,7 @@ final class GWF_String
 	######################
 	public static function startsWith(string $s, string $with)
 	{
-		return mb_strstr($s, $with) === 0;
+		return mb_strpos($s, $with) === 0;
 	}
 	
 	#########################

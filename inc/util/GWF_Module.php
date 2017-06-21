@@ -42,14 +42,21 @@ class GWF_Module extends GDO
 	##############
 	### Config ###
 	##############
+	/**
+	 * @var GDOType[]
+	 */
+	private $configCache;
 	public function getConfigCache()
 	{
-		static $config;
-		if (!$config)
+		if (!$this->configCache)
 		{
-			$config = $this->getConfig();
+			$this->configCache = $this->getConfig();
+			foreach ($this->configCache as $gdoType)
+			{
+				$gdoType->value($this->getConfigVar($gdoType->name));
+			}
 		}
-		return $config;
+		return $this->configCache;
 	}
 	
 	public function getConfigColumn(string $key)
@@ -99,6 +106,8 @@ class GWF_Module extends GDO
 	###########
 	public function gdoColumnsCache() { return GDODB::columnsS('GWF_Module'); } # Polymorph fix
 	public function gdoTableName() { return "gwf_module"; } # Polymorph fix
+	public function gdoClassName() { return 'GWF_Module'; } # Polymorph fix
+	public static function gdoClassNameS() { return 'GWF_Module'; } # Polymorph fix
 	public function gdoColumns()
 	{
 		return array(
