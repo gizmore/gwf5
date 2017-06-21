@@ -77,9 +77,9 @@ final class GWF_ModuleLoader
 		$this->activeModules = $cache;
 		foreach ($this->modules as $module)
 		{
-			$this->initModuleVars();
 			$module->initModule();
 		}
+		$this->initModuleVars();
 	}
 	
 	public function loadModules($loadDBOnly = true)
