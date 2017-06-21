@@ -52,10 +52,10 @@ final class GWF_HTTP
 //			return false; /* the URL was seriously wrong */
 //		}
 		
-		if (!GWF_Validator::isValidURL($url))
-		{
-			return false;
-		}
+// 		if (!GWF_Validator::isValidURL($url))
+// 		{
+// 			return false;
+// 		}
 
 		if (!($ch = curl_init($url)))
 		{

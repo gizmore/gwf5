@@ -24,7 +24,7 @@ final class GWF_Navbar
 	 * @param string $position
 	 * @return GWF_Navbar
 	 */
-	public static function create(int $position, string $direction) { return new self($position, $direction); }
+	public static function create(int $position=10, string $direction=self::ROW) { return new self($position, $direction); }
 	public static function left() { return self::create(self::LEFT, self::COLUMN); }
 	public static function right() { return self::create(self::RIGHT, self::COLUMN); }
 	public static function top() { return self::create(self::TOP, self::ROW); }

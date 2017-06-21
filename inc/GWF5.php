@@ -100,9 +100,9 @@ final class GWF5
 	 * @param string $moduleName
 	 * @return GWF_Module
 	 */
-	public function getModule(string $moduleName)
+	public function getModule(string $moduleName=null)
 	{
-		return $this->moduleLoader->getModule($moduleName);
+		return $moduleName ? $this->moduleLoader->getModule($moduleName) : null;
 	}
 	
 	public function defaultMethod()

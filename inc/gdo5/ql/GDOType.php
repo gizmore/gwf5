@@ -118,9 +118,15 @@ abstract class GDOType
 	
 	public function label(string $key, array $args=null)
 	{
-		$this->label = t($key, $args);
+		return $this->rawlabel(t($key, $args));
+	}
+	
+	public function rawlabel(string $label)
+	{
+		$this->label = $label;
 		return $this;
 	}
+	
 	
 	public function displayLabel()
 	{

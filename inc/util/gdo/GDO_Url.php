@@ -16,7 +16,7 @@ final class GDO_Url extends GDO_String
 	
 	public $min = 0;
 	public $mxa = 255;
-	public $pattern = "#^(?:https?|/)://#i";
+	public $pattern = "#(?:https?://|/).*#i";
 	
 	public function allowLocal(bool $allowLocal=true)
 	{

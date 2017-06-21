@@ -28,7 +28,7 @@ class GDO_String extends GDOType
 	
 	public function pattern(string $pattern) { $this->pattern = $pattern; return $this; }
 	public function htmlPattern() { return $this->pattern ? " pattern=\"{$this->htmlPatternValue()}\"" : ''; }
-	public function htmlPatternValue() { return trim($this->pattern, '/'); }
+	public function htmlPatternValue() { return str_replace('/', '/', trim(rtrim($this->pattern, 'i'), $this->pattern[0].'^$')); }
 	public function caseI(bool $caseInsensitive=true) { return $this->caseS(!$caseInsensitive); }
 	public function caseS(bool $caseSensitive=true) { $this->caseSensitive = $caseSensitive; return $this; }
 	

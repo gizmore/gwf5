@@ -208,7 +208,7 @@ class GWF_Module extends GDO
 	}
 	
 	/**
-	 * @return GWF_UserSetting[]
+	 * @return GDOType[]
 	 */
 	public function getUserSettings(){}
 	public function registerSettings()

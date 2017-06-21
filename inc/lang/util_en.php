@@ -53,6 +53,7 @@ return array(
 'err_file' => 'File not found: %s',
 'err_already_authenticated' => 'You are already authenticated.',
 'err_gdo_not_found' => 'Could not find %s with ID %s.',
+'err_string_pattern' => 'Your input did not pass the pattern validation test for this field.',
 		
 # Permissions
 'perm_admin' => 'Administrator',

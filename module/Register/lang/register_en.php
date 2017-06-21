@@ -11,6 +11,7 @@ return array(
 'err_email_taken' => 'This email is already resgistered here.',
 'err_register' => 'The sign up process failed.',
 'err_no_activation' => 'Activating your account failed.',
+'err_ip_signup_max_reached' => 'There are already %s accounts with your IP registered lately.',
 		
 'mail_activate_title'=> '%s: Activate your account',
 'mail_activate_body' =>

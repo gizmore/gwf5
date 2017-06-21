@@ -84,19 +84,21 @@ final class GWF_ModuleLoader
 	
 	public function loadModules($loadDBOnly = true)
 	{
+		$loaded = false;
 		if (count($this->activeModules) === 0)
 		{
 			$this->loadModulesDB();
+			$loaded = true;
 		}
-		elseif (!$loadDBOnly)
+		if (!$loadDBOnly)
 		{
 			$this->loadModulesFS();
+			$loaded = true;
 		}
-		else
+		if ($loaded)
 		{
-			return $this->modules;
+			$this->initModuleVars();
 		}
-		$this->initModuleVars();
 		return $this->modules;
 	}
 	

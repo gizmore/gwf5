@@ -29,4 +29,6 @@ return array(
 'msg_modulevar_changed' => '%s changed from <i>%s</i> to <i>%s</i>.',
 		
 'ft_admin_loginas' => '[%s] Login As',
+		
+'ft_admin_useredit' => '[%s] %s UserEdit',
 );

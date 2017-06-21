@@ -30,7 +30,7 @@ class Register_Form extends GWF_MethodForm
 		$cut = time() - Module_Register::instance()->cfgMaxUsersPerIPTimeout();
 		$count = GWF_User::table()->countWhere("user_register_ip={$ip} AND user_register_time>{$cut}");
 		$max = Module_Register::instance()->cfgMaxUsersPerIP();
-		return $count < $max ? true :  $field->error('err_email_signup_max_reached', [$max]);
+		return $count < $max ? true :  $field->error('err_ip_signup_max_reached', [$max]);
 	}
 	
 	public function validateUniqueUsername(GWF_Form $form, GDO_Username $username)

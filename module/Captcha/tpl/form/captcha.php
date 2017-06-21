@@ -1,5 +1,5 @@
 <?php $field instanceof GDO_Captcha; ?>
-<md-input-container class="md-block md-float md-icon-left" layout-fill flex>
+<md-input-container class="md-block md-float md-icon-left" flex>
   <label for="form[<?php echo $field->name; ?>]"><?php l('captcha'); ?></label>
   <img
    class="gwf-captcha-img"
