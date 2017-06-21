@@ -57,10 +57,10 @@ gwf-avatar img {
 	padding: 2px;
 	background: #aaa;
 }
-gwf-avatar.male {
+gwf-avatar.male img {
 	background: #00f;
 }
-gwf-avatar.male {
+gwf-avatar.female img {
 	background: #f00;
 }
 
