@@ -54,7 +54,8 @@ return array(
 'err_already_authenticated' => 'You are already authenticated.',
 'err_gdo_not_found' => 'Could not find %s with ID %s.',
 'err_string_pattern' => 'Your input did not pass the pattern validation test for this field.',
-		
+'err_url_not_reachable' => 'Your entered URL is not reachable by this server.',
+
 # Permissions
 'perm_admin' => 'Administrator',
 

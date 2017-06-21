@@ -45,7 +45,7 @@ final class GWF_Minify
 				else
 				{
 					$command = "ng-annotate -ar $src | uglifyjs --compress --mangle --screw-ie8 -o $dest";
-					exec($command, $output, $return);
+					exec($command);
 					if ($return != 0)
 					{
 						return $path; # On error, the original file is left. so you notice.
