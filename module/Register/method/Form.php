@@ -4,8 +4,7 @@ class Register_Form extends GWF_MethodForm
 	public function createForm(GWF_Form $form)
 	{
 		$module = Module_Register::instance();
-		$form->addField(GDO_Validator::make('validator1')->validator(array($this, 'validateUniqueIP')));
-		$form->addField(GDO_Username::make('user_name')->required()->validator(array($this, 'validateUniqueUsername')));
+		$form->addField(GDO_Username::make('user_name')->required()->validator([$this, 'validateUniqueUsername'])->validator(array($this, 'validateUniqueIP')));
 		$form->addField(GDO_Password::make('user_password')->required()->hash());
 		if ($module->cfgEmailActivation())
 		{

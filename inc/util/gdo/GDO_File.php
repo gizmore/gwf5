@@ -1,9 +1,18 @@
 <?php
+/**
+ * File input and upload backend for flow.js
+ * @author gizmore
+ * @since 4.0
+ * @version 5.0
+ */
 class GDO_File extends GDO_Object
 {
-	public $klass = 'GWF_File';
-	
 	public function defaultLabel() { return $this->label('file'); }
+
+	public function __construct()
+	{
+		$this->klass('GWF_File');
+	}
 	
 	public $mimes = [];
 	public function mime(string $mime)

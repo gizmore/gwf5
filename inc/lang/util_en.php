@@ -27,6 +27,7 @@ return array(
 'retype' => 'Retype',
 'user_allow_email' => 'Allow people to E-Mail me',
 'birthdate' => 'Birthdate',
+'url' => 'URL',
 
 # Generic Buttons
 'btn_send' => 'Send',

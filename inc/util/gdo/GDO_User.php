@@ -5,9 +5,9 @@ class GDO_User extends GDO_Object
 	
 	public function __construct()
 	{
-		$this->klass('GWF_User');
+		$this->table(GWF_User::table());
 		$this->completion(href('GWF', 'CompleteUser', '&ajax=1&fmt=json'));
-		$this->matIcon('face');
+		$this->icon('face');
 	}
 
 	private $ghost = false;

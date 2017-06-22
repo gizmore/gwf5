@@ -12,8 +12,9 @@ class GDO_Password extends GDO_String
 		$this->max = 60;
 		$this->encoding = self::ASCII;
 		$this->caseSensitive = true;
-		$this->label('password');
 	}
+
+	public function defaultLabel() { return $this->label('password'); }
 	
 	public function getGDOValue()
 	{
@@ -33,7 +34,6 @@ class GDO_Password extends GDO_String
 		$this->value = $this->hashed ? GWF_Password::create($value)->__toString() : $value;
 		$form->addValue($this->name, $this->value);
 	}
-	
 	
 	public function render()
 	{

@@ -107,7 +107,6 @@ class GWF_Module extends GDO
 	public function gdoColumnsCache() { return GDODB::columnsS('GWF_Module'); } # Polymorph fix
 	public function gdoTableName() { return "gwf_module"; } # Polymorph fix
 	public function gdoClassName() { return 'GWF_Module'; } # Polymorph fix
-	public static function gdoClassNameS() { return 'GWF_Module'; } # Polymorph fix
 	public function gdoColumns()
 	{
 		return array(

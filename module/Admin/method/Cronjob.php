@@ -18,7 +18,6 @@ class Admin_Cronjob extends GWF_MethodForm
 	
 	public function createForm(GWF_Form $form)
 	{
-		$this->title('ft_admin_cronjob');
 		$form->addField(GDO_Submit::make()->label('btn_run_cronjob'));
 		$form->addField(GDO_AntiCSRF::make());
 	}
