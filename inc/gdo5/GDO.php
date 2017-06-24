@@ -331,6 +331,11 @@ abstract class GDO
 		return $this;
 	}
 	
+	public function increase(string $key, int $by=1)
+	{
+		return $this->saveVar($key, $this->getVar($key)+$by);
+	}
+	
 	public function saveVar(string $key, $value)
 	{
 		return $this->saveVars([$key => $value]);

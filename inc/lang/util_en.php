@@ -7,6 +7,7 @@ return array(
 'id' => 'ID',
 'file' => 'File',
 'title' => 'Title',
+'description' => 'Description',
 'message' => 'Message',
 'captcha' => 'Captcha',
 'user' => 'User',

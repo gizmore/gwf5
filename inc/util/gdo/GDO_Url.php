@@ -7,7 +7,7 @@
  * @since 5.0
  * @version 5.0
  */
-final class GDO_Url extends GDO_String
+class GDO_Url extends GDO_String
 {
 	public function defaultLabel() { return $this->label('url'); }
 	
@@ -15,7 +15,7 @@ final class GDO_Url extends GDO_String
 	public $allowLocal = false;
 	
 	public $min = 0;
-	public $mxa = 255;
+	public $max = 255;
 	public $pattern = "#(?:https?://|/).*#i";
 	
 	public function allowLocal(bool $allowLocal=true)
