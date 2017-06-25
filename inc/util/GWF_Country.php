@@ -28,6 +28,9 @@ class GWF_Country extends GDO
 		return $country;
 	}
 	
+	/**
+	 * @return GWF_Country[]
+	 */
 	public static function all()
 	{
 		if (!($cache = GDOCache::get('gwf_country')))

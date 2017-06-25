@@ -23,7 +23,7 @@ final class GDO_Country extends GDO_Select
 	
 	public function renderCell()
 	{
-		return GWF_Template::mainPHP('cell/country.php', ['field'=>$this, 'country'=>$this->getGDOValue()]);
+		return GWF_Template::mainPHP('cell/country.php', ['field'=>$this, 'country'=>$this->getGDOValue()])->getHTML();
 	}
 	
 	public function render()
