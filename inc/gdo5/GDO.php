@@ -631,7 +631,7 @@ abstract class GDO
 	{
 		if ($this->gdoCached())
 		{
-			self::table()->cache->recache($this);
+			$this->table()->cache->recache($this);
 		}
 	}
 	public function __wakeup()
@@ -704,10 +704,6 @@ abstract class GDO
 		return md5(json_encode(array_values($this->gdoVars)));
 	}
 	
-	public function renderCell()
-	{
-		return GWF_Template::mainPHP('cell/lanugage.php', ['field'=>$this]);
-	}
 }
 
 function quote(string $value=null)

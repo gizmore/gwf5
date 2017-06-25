@@ -14,7 +14,7 @@ final class GWF_CompleteCountry extends GWF_MethodCompletion
 				$response[] = array(
 					'id' => $iso,
 					'text' => $country->displayName(),
-					'display' => $cell->gdo($country)->renderCell()->getHTML(),
+					'display' => $country->renderCell(),
 				);
 			}
 		}

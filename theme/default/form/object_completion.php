@@ -9,6 +9,7 @@
   <?php endif; ?>
   <?php echo $field->htmlIcon(); ?>
   <md-autocomplete
+   md-clear-button="true"
    md-floating-label="<?php echo $field->displayLabel(); ?>"
    md-search-text="searchText"
    md-items="item in query(searchText)"

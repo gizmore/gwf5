@@ -1,11 +1,13 @@
 <?php
 final class GWF_UserPermission extends GDO
 {
+	public function gdoCached() { return false; }
+	
 	public function gdoColumns()
 	{
 		return array(
-			GDO_Object::make('perm_user_id')->klass('GWF_User')->primary()->index(),
-			GDO_Object::make('perm_perm_id')->klass('GWF_Permission')->primary(),
+			GDO_Object::make('perm_user_id')->table(GWF_User::table())->primary()->index(),
+			GDO_Object::make('perm_perm_id')->table(GWF_Permission::table())->primary(),
 		);
 	}
 	

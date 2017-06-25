@@ -37,4 +37,10 @@ class GWF_Country extends GDO
 		}
 		return $cache;
 	}
+
+	public function renderCell()
+	{
+		return GWF_Template::mainPHP('cell/country.php', ['field'=>$this, 'country' => $this])->getHTML();
+	}
+
 }

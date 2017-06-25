@@ -102,15 +102,15 @@ final class GWF_User extends GDO
 	#############
 	### Perms ###
 	#############
-	private $permissions;
 	public function loadPermissions()
 	{
-		if (!$this->permissions)
+		if (null === ($cache = $this->tempGet('gwf_permission')))
 		{
-			$this->permissions = GWF_UserPermission::load($this);
+			$cache = GWF_UserPermission::load($this);
+			$this->tempSet('gwf_permission', $cache);
 			$this->recache();
 		}
-		return $this->permissions;
+		return $cache;
 	}
 	public function hasPermission(string $permission) { $this->loadPermissions(); return isset($this->permissions[$permission]); }
 	public function isAdmin() { return $this->hasPermission('admin'); }
