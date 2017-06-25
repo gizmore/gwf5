@@ -144,7 +144,7 @@ final class GWF_Debug
 		}
 
 		# Log as critical!
-		if (class_exists('GWF_Log'))
+		if (class_exists('GWF_Log', false))
 		{
 			GWF_Log::logCritical(sprintf('%s in %s line %s', $errstr, $errfile, $errline));
 			GWF_Log::flush();
@@ -167,7 +167,6 @@ final class GWF_Debug
 			default: $errnostr = 'PHP Unknown Error'; break;
 		}
 
-// 		$is_html = PHP_SAPI === 'cli' ? false : !isset($_GET['ajax']);
 		$is_html = PHP_SAPI !== 'cli';
 		
 		if ($is_html)
@@ -178,7 +177,7 @@ final class GWF_Debug
 		{
 			$message = sprintf('%s(%s) %s in %s line %s.', $errnostr, $errno, $errstr, $errfile, $errline);
 		}
-
+		
 		# Output error
 		if (PHP_SAPI === 'cli')
 		{
@@ -190,15 +189,15 @@ final class GWF_Debug
 		}
 		elseif ($is_html)
 		{
-			printf('<pre class="gwf4-fatal-error">%s</pre>', $message);
+			printf('<div class="gwf-exception">%s</div>', $message);
 		}
 		else
 		{
 			echo $message.PHP_EOL;
 		}
-
+		
 		# Send error to admin
-		if (true === self::$MAIL_ON_ERROR)
+		if (self::$MAIL_ON_ERROR)
 		{
 			self::sendDebugMail(self::backtrace($message, false));
 		}
@@ -215,6 +214,9 @@ final class GWF_Debug
 	{
 		try
 		{
+			$is_html = PHP_SAPI !== 'cli';
+			$firstLine = sprintf("%s in %s Line %s\n", $e->getMessage(), $e->getFile(), $e->getLine());
+			
 			$mail = self::$MAIL_ON_ERROR;
 			$log = true;
 
@@ -229,20 +231,19 @@ final class GWF_Debug
 			# Send error to admin?
 			if ($mail)
 			{
-				$firstLine = sprintf("%s in %s Line %s\n", $e->getMessage(), $e->getFile(), $e->getLine());
 				self::sendDebugMail($firstLine . $e->getTraceAsString());
 			}
 
 			# Log it?
 			if ($log)
 			{
-				GWF_Log::logCritical($e->getMessage());
+				GWF_Log::logCritical($firstLine);
 			}
-
+			
+			echo self::backtraceException($e, $is_html);
+			
 		}
-		catch (Exception $null) { unset($null); }
-
-		# TODO: die / return ?
+		catch (Exception $null) { }
 	}
 
 	public static function disableExceptionHandler()
@@ -315,9 +316,10 @@ final class GWF_Debug
 		return self::backtraceMessage($message, $html, debug_backtrace());
 	}
 	
-	public static function backtraceException(Exception $e, $html=true)
+	public static function backtraceException(Throwable $e, $html=true)
 	{
-		return self::backtraceMessage($e->getMessage(), $html, explode("\n", $e->getTraceAsString()));
+		$message = sprintf('PHP Exception: %s in %s line %s', $e->getMessage(), self::shortpath($e->getFile()), $e->getLine());
+		return self::backtraceMessage($message, $html, $e->getTrace()); # explode("<br>\n", $e->getTraceAsString()));
 	}
 	
 	private static function backtraceMessage($message, $html=true, array $stack)
@@ -326,9 +328,15 @@ final class GWF_Debug
 		
 		# Fix full path disclosure
 		$message = self::shortpath($message);
+		
+		if (!GWF_USER_STACKTRACE)
+		{
+			return $html ? sprintf('<div class="gwf-exception">%s</div>', $message) : $message;
+		}
+		
 
 		# Append PRE header.
-		$back = $html ? ('<pre class="gwf4-backtrace">'.PHP_EOL) : '';
+		$back = $html ? ('<div class="gwf-stacktrace">'.PHP_EOL) : '';
 
 		# Append general title message.
 		if ($message !== '')
@@ -341,6 +349,7 @@ final class GWF_Debug
 		$prefile = 'Unknown';
 		$longest = 0;
 		$i = 0;
+		
 		foreach ($stack as $row)
 		{
 			if (is_array($row))
@@ -363,13 +372,20 @@ final class GWF_Debug
 			{
 				$badformat = true;
 // 				$longest = max(array(strlen($row), $longest));
-				$copy[] = $row;
+// 				preg_match('/[^\w/', $subject)
+				$copy[] = trim(str_replace('<br>', '', $row));
 			}
+		}
+		
+		if ($badformat)
+		{
+			
 		}
 
 		if (!$badformat)
 		{
 			$copy = [];
+// 			var_dump($implode);
 			foreach ($implode as $imp)
 			{
 				list($func, $file, $line) = $imp;
@@ -379,10 +395,10 @@ final class GWF_Debug
 			}
 		}
 
-		$back .= $html === true ? '<hr/>' : PHP_EOL;
-		$back .= sprintf('Backtrace starts in %s line %s.', self::shortpath($prefile), $preline).PHP_EOL;
-		$back .= implode(PHP_EOL, array_reverse($copy));
-		$back .= $html ? "\n</pre>\n" : "\n";
+		$back .= $html ? '<hr/>' : PHP_EOL;
+		$back .= sprintf('Backtrace starts in %s line %s.<br/>', self::shortpath($prefile), $preline).PHP_EOL;
+		$back .= implode("<br/>\n", array_reverse($copy));
+		$back .= $html ? '</div>' : '';
 		return $back;
 	}
 

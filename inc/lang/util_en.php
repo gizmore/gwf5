@@ -37,7 +37,9 @@ return array(
 
 # Generic Messages
 'msg_form_saved' => 'Your data has been safed successfully.',		
-
+'msg_upgrading' => 'Upgrading Module %s to version %s.',
+'msg_redirect' => 'You will be redirected to <i>%s</i> in %s seconds.', 
+		
 # Generic Errors
 'err_db' => "Database Error: %s<br/>\n%s<br/>\n",
 'err_token' => 'Your token is invalid.',

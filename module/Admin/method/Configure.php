@@ -17,6 +17,7 @@ class Admin_Configure extends GWF_MethodForm
 		{
 			return $this->error('err_module')->add($this->execMethod('Modules'));
 		}
+		
 		return $this->renderNavBar()->add($this->renderInstall()->add(parent::execute()));
 	}
 	
@@ -41,7 +42,7 @@ class Admin_Configure extends GWF_MethodForm
 // 				$gdoType->va ($mod->getConfigValue($gdoType->name));
 				$form->addField($gdoType);
 			}
-			$form->addField(GDO_Divider::make('div2'));
+// 			$form->addField(GDO_Divider::make('div2'));
 		}
 		$form->addField(GDO_Submit::make()->label('btn_save'));
 		$form->addField(GDO_AntiCSRF::make());

@@ -69,3 +69,19 @@ md-content.gwf-box {
 	line-height: 28px;
 	font-size: 15px;
 }
+
+.gdo-num {
+	font-family: monospace;
+	text-align: right;
+}
+
+/** Debug **/
+.gwf-stacktrace {
+	font-family: monospace;
+}
+
+/** Tags **/
+.gwf-selected {
+	font-weight: bold;
+	text-decoration: underline;
+}

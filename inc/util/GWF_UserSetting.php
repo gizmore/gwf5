@@ -36,10 +36,10 @@ final class GWF_UserSetting extends GDO
 
 	public static function userGet(GWF_User $user, $key)
 	{
-		if (!($settings = $user->get('gwf_setting')))
+		if (!($settings = $user->tempGet('gwf_setting')))
 		{
 			$settings = self::load($user);
-			$user->set('gwf_setting', $settings);
+			$user->tempSet('gwf_setting', $settings);
 		}
 		return self::$settings[$key]->value(@$settings[$key]);
 	}

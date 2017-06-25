@@ -34,6 +34,17 @@ class GDOQuery
 		$this->table = $table;
 	}
 	
+	public function clone()
+	{
+		$clone = new GDOQuery($this->table);
+		$clone->where = $this->where;
+		$clone->join = $this->join;
+		$clone->group = $this->group;
+		$clone->having = $this->having;
+		$clone->from = $this->from;
+		return $clone;
+	}
+	
 	public function update(string $tableName)
 	{
 		$this->type = "UPDATE";
@@ -226,7 +237,9 @@ class GDOQuery
 		$gdoType = $this->table->gdoColumn($key);
 		$gdoType instanceof GDO_Object;
 		$table = $gdoType->foreignTable();
-		$join = "JOIN {$table->gdoTableIdentifier()} ON {$table->gdoAutoIncColumn()->identifier()}={$gdoType->identifier()}";
+		$ftbl = $table->gdoTableIdentifier();
+		$atbl = $this->table->gdoTableIdentifier();
+		$join = "JOIN {$table->gdoTableIdentifier()} ON  $ftbl.{$table->gdoAutoIncColumn()->identifier()}=$atbl.{$gdoType->identifier()}";
 		return $this->join($join);
 	}
 	
@@ -302,8 +315,9 @@ class GDOQuery
 	public function buildQuery()
 	{
 		return $this->type . $this->getSelect() . $this->getFrom() . 
-			$this->getValues() . $this->getSet() .
+			$this->getValues() .
 			$this->getJoin() .
+			$this->getSet() .
 			$this->getWhere() .
 			$this->getGroup() .
 			$this->getHaving() .

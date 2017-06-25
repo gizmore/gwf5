@@ -3,7 +3,7 @@ return array(
 'ft_login_form' => '[%s] Login',
 'bind_ip' => 'Lock Session to IP?',
 'btn_login' => 'Login',
-'btn_logout' => 'Logout',
+'btn_logout' => 'Logout (%s)',
 		
 'msg_logged_out' => 'You are now logged out.',
 'msg_authenticated' => 'Welcome back, you are now authenticated as %s.',

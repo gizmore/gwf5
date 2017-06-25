@@ -10,7 +10,7 @@
    ng-init='init(<?php echo $field->formValue(); ?>)'
    ng-change="multiValueSelected('#gwfsel_<?php echo $field->name; ?>')">
     <?php foreach ($field->choices as $value => $choice) : ?>
-      <md-option value="<?php echo htmlspecialchars($value); ?>"><?php echo htmlspecialchars($choice); ?></md-option>
+      <md-option value="<?php echo htmlspecialchars($value); ?>"><?php echo $choice instanceof GDO ? $choice->renderCell() : $choice; ?></md-option>
     <?php endforeach; ?>
   </md-select>
   <input

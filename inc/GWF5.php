@@ -47,6 +47,10 @@ final class GWF5
 			{
 				$filename = "module/$modulename/$name.php";
 			}
+			else
+			{
+				throw new Exception('File not found: ' . htmlspecialchars($name));
+			}
 			include $filename;
 		});
 		

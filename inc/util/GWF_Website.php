@@ -21,22 +21,34 @@ final class GWF_Website
 
 // 	public static function plaintext() { header('Content-Type: text/plain; charset=UTF-8'); }
 
-	public static function redirect($url)
+	public static function redirectMessage($url)
+	{
+		return self::redirect($url, 3);
+	}
+	
+	public static function redirect($url, $time=0)
 	{
 		switch (GWF5::instance()->getFormat())
 		{
 			case 'html':
 				if (GWF5::instance()->isAjax())
 				{
-					$response = new GWF_Response(self::ajaxRedirect($url));
+					return new GWF_Response(self::ajaxRedirect($url));
 				}
 				else
 				{
-					header('Location: ' . $url);
-					$anchor = GWF_HTML::anchor($url, t('msg_redirect_target'));
-					$response = GWF_Message::message('msg_redirected', $anchor);
+					if ($time > 0)
+					{
+						header("Refresh:$time;url=$url");
+					}
+					else
+					{
+						header('Location: ' . $url);
+					}
+					
+					return GWF_Message::message('msg_redirect', [GWF_HTML::anchor($url), $time]);
 				}
-			case 'json': return array('redirect' => $url);
+			case 'json': return array('redirect' => $url, 'redirectWait' => $time);
 		}
 	}
 	private static function ajaxRedirect($url)

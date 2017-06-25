@@ -69,8 +69,8 @@ class GDO_Enum extends GDOType
 		$filter = $this->filterValue();
 		if (!empty($filter))
 		{
+			$condition = sprintf('%s IN ("%s")', $this->identifier(), implode('","', $filter));
 			$this->filterQueryCondition($query, $condition);
-			$query->where(sprintf('%s IN ("%s")', $this->identifier(), implode('","', $filter)));
 		}
 	}
 	

@@ -30,10 +30,12 @@ class Module_GWF extends GWF_Module
 	{
 		return array(
 			GDO_Int::make('ipp')->initial('20')->max(1000)->unsigned(),
+			GDO_Int::make('spr')->initial('10')->max(1000)->unsigned(),
 			GDO_Enum::make('minify_js')->enumValues('no', 'yes', 'concat')->initial('no'),
 		);
 	}
 	public function cfgItemsPerPage() { return $this->getConfigValue('ipp'); }
+	public function cfgMaxSuggestions() { return $this->getConfigValue('spr'); }
 	public function cfgMinifyJS() { return $this->getConfigVar('minify_js'); }
 
 	public function onIncludeScripts()
@@ -75,6 +77,9 @@ class Module_GWF extends GWF_Module
 		# CKEditor
 // 		GWF_Javascript::addBowerJavascript("ckeditor/ckeditor.js");
 // 		GWF_Javascript::addBowerJavascript("angular-ckeditor/angular-ckeditor$min.js");
+		# Voting
+		GWF_Javascript::addBowerJavascript("angular-jk-rating-stars/dist/jk-rating-stars$min.js");
+		GWF_Website::addBowerCSS("angular-jk-rating-stars/dist/jk-rating-stars$min.css");
 		
 		# GWF
 		$this->onIncludeGWFScripts();

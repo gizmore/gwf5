@@ -6,7 +6,7 @@ class GDO_User extends GDO_Object
 	public function __construct()
 	{
 		$this->table(GWF_User::table());
-		$this->completion(href('GWF', 'CompleteUser', '&ajax=1&fmt=json'));
+		$this->completion(href('GWF', 'CompleteUser'));
 		$this->icon('face');
 	}
 

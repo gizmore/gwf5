@@ -6,80 +6,39 @@
  * @version 5.0
  * @since 3.0
  */
-abstract class GWF_MethodQueryTable extends GWF_MethodTable
+abstract class GWF_MethodQueryTable extends GWF_Method
 {
+	public function ipp() { return Module_GWF::instance()->cfgItemsPerPage(); }
+	public function isFiltered() { return true; }
+	public function isPaginated() { return true; }
+	
 	################
 	### Abstract ###
 	################
 	/**
-	 * @return GDO
-	 */
-	public abstract function getGDO();
-	
-	/**
-	 * @var GDO
-	 */
-	protected $gdo;
-	
-	/**
-	 * @var GDOQuery
-	 */
-	protected $query;
-	
-	public function filterQuery(GDOQuery $query)
-	{
-		foreach ($this->table->getFields() as $gdoType)
-		{
-			$gdoType->filterQuery($query);
-		}
-		return $query;
-	}
-	
-	###############
-	### Execute ###
-	###############
-	public function getResultCount()
-	{
-		return (int)$this->getQuery()->select('COUNT(*)')->exec()->fetchValue();
-	}
-	
-	/**
-	 * 
-	 * {@inheritDoc}
-	 * @see GWF_MethodTable::getResult()
-	 */
-	public function getResult()
-	{
-		return $this->getQueryPaginated()->select('*')->exec();
-	}
-	
-	/**
 	 * @return GDOQuery
 	 */
-	public function getQuery()
-	{
-		return $this->filterQuery($this->gdo->query()->fromSelf());
-	}
+	public abstract function getQuery();
 	
 	/**
-	 * @return GDOQuery
+	 * @return GDOType[]
 	 */
-	public function getQueryPaginated()
-	{
-		if ($this->table->pagemenu)
-		{
-			$start = $this->table->pagemenu->getFrom();
-			return $this->getQuery()->limit($this->getItemsPerPage(), $start);
-		}
-		else
-		{
-			return $this->getQuery();
-		}
-	}
+	public abstract function getHeaders();
 	
+	public function onDecorateTable(GDO_Table $table) {}
+	
+	############
+	### Exec ###
+	############
 	public function execute()
 	{
-		$this->gdo = $this->getGDO();
-		return parent::execute();
+		$table = GDO_Table::make();
+		$table->addFields($this->getHeaders());
+		$table->href($this->href());
+		$table->query($this->getQuery());
+		$table->paginate($this->isPaginated(), $this->ipp());
+		$table->filtered($this->isFiltered());
+		$this->onDecorateTable($table);
+		return $table->render();
 	}
 }

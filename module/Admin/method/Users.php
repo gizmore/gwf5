@@ -33,9 +33,9 @@ class Admin_Users extends GWF_MethodQueryTable
 	}
 	
 	
-	public function getResult()
+	public function getQuery()
 	{
-		return $this->getQueryPaginated()->select(implode(', ', $this->fields))->exec();
+		return $this->getGDO()->select(implode(', ', $this->fields));
 	}
 	
 }

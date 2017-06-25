@@ -66,6 +66,17 @@ abstract class GDO
 	public function isPersisted() { return $this->persisted; }
 	public function setPersisted(bool $persisted = true) { $this->persisted = $persisted; return $this; }
 	
+	########################
+	### Custom temp vars ###
+	########################
+	/**
+	 * @var mixed[string]
+	 */
+	private $temp;
+	public function tempGet(string $key) { return @$this->temp[$key]; }
+	public function tempSet(string $key, $value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = $value; }
+	public function tempUnset(string $key) { unset($this->temp[$key]); }
+	
 	############
 	### Vars ###
 	############
@@ -197,7 +208,7 @@ abstract class GDO
 	{
 		if ($this->dirty === true)
 		{
-			return $this->gdoVars;
+			return $this->getVars(array_keys($this->gdoColumnsCache()));
 		}
 		elseif ($this->dirty === false)
 		{
@@ -691,6 +702,11 @@ abstract class GDO
 	public function gdoHashcode()
 	{
 		return md5(json_encode(array_values($this->gdoVars)));
+	}
+	
+	public function renderCell()
+	{
+		return GWF_Template::mainPHP('cell/lanugage.php', ['field'=>$this]);
 	}
 }
 

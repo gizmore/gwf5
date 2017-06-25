@@ -9,7 +9,10 @@ class GWF_Error extends GWF_Response
 		{
 			GWF_Log::logError(GWF_Trans::tiso('en', $key, $args));
 		}
-		$this->html = GWF_Template::mainPHP('error.php', ['response'=>$this]);
+		if (GWF5::instance()->getFormat() !== 'json')
+		{
+			$this->html = GWF_Template::mainPHP('error.php', ['response'=>$this]);
+		}
 	}
 	
 	public static function make($html)

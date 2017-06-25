@@ -147,10 +147,11 @@ class GDOResult
 		return $array2d;
 	}
 	
-	public function fetchAllArray2dObject()
+	public function fetchAllArray2dObject(GDO $table=null)
 	{
+		$table = $table ? $table : $this->table;
 		$array2d = [];
-		while ($object = $this->fetchObject())
+		while ($object = $this->fetchAs($table))
 		{
 			$array2d[$object->getID()] = $object;
 		}

@@ -13,17 +13,6 @@ final class GWF_User extends GDO
 	const GUEST = 'guest';
 	const MEMBER = 'member';
 	
-	########################
-	### Custom temp vars ###
-	########################
-	/**
-	 * @var mixed[string]
-	 */
-	private $temp;
-	public function get(string $key) { return @$this->temp[$key]; }
-	public function set(string $key, $value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = $value; }
-	public function unset(string $key) { unset($this->temp[$key]); }
-	
 	###########
 	### GDO ###
 	###########

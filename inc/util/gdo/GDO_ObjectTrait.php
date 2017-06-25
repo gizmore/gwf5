@@ -1,6 +1,29 @@
 <?php
 trait GDO_ObjectTrait
 {
+	#########################
+	### Object Completion ###
+	#########################
+	private $completionURL;
+	public function completion(string $completionURL)
+	{
+		$this->completionURL = $completionURL . '&ajax=1&fmt=json';
+		return $this;
+	}
+	
+	public function initCompletionJSON()
+	{
+		$gdo = $this->getGDOValue();
+		return json_encode([
+				'url' => $this->completionURL,
+				'id' => $this->value,
+				'value' => $gdo ? $gdo->displayName() : '',
+		]);
+	}
+	
+	###############
+	### Cascade ###
+	###############
 	private $cascade = 'CASCADE';
 	public function cascadeNull()
 	{
@@ -15,7 +38,7 @@ trait GDO_ObjectTrait
 	 */
 	public function getGDOValue()
 	{
-		return $this->foreignTable()->find($this->value, false);
+		return $this->foreignTable()->find($this->formValue(), false);
 	}
 	
 	/**

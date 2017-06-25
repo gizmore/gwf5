@@ -15,12 +15,9 @@ class GDO_AutoInc extends GDO_Int
 	### GDOType ###
 	###############
 	public $unsigned = true;
+	public $writable = false;
 	
-	public function name(string $name)
-	{
-		$this->name = $name;
-		return $this->label('id');
-	}
+	public function defaultLabel() { return $this->label('id'); }
 	
 	##############
 	### Column ###

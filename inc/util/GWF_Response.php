@@ -41,7 +41,7 @@ class GWF_Response
 			}
 			elseif (is_array($this->html))
 			{
-				$this->html['data'] = $response->html;
+				$this->html['data'] = array_merge($this->html, $response->html);
 			}
 			else
 			{
@@ -56,7 +56,7 @@ class GWF_Response
 		switch (GWF5::instance()->getFormat())
 		{
 			default:
-			case 'html': return $this->html ? $this->html : '';
+			case 'html': return $this->html ? (string)$this->html : '';
 			case 'json': return $this->toJSON();
 			case 'ws': return $this->replyWS();
 		}

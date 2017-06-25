@@ -34,13 +34,14 @@ final class Module_Login extends GWF_Module
 	{
 		if ($navbar->isRight())
 		{
-			if (GWF_Session::user()->isGhost())
+			$user = GWF_User::current();
+			if ($user->isGhost())
 			{
 				$navbar->addField(GDO_Link::make('signin')->label('btn_login')->href($this->getMethodHREF('Form')));
 			}
 			else
 			{
-				$navbar->addField(GDO_Link::make('signout')->label('btn_logout')->href($this->getMethodHREF('Logout')));
+				$navbar->addField(GDO_Link::make('signout')->label('btn_logout', [$user->displayName()])->href($this->getMethodHREF('Logout')));
 			}
 		}
 	}

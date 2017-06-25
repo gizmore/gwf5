@@ -12,6 +12,11 @@ class GWF_Language extends GDO
 	
 	public function getISO() { return $this->getVar('lang_iso'); }
 	public function displayName() { return t('lang_'.$this->getISO()); }
+	public function displayNameISO($iso) { return tiso($iso, 'lang_'.$this->getISO()); }
+	public function renderCell()
+	{
+		return GWF_Template::mainPHP('cell/language.php', ['language'=>$this]);
+	}
 	
 	/**
 	 * Get a language by ISO or return a stub object with name "Unknown".
@@ -26,5 +31,20 @@ class GWF_Language extends GDO
 		}
 		return $language;
 	}
+	
+	/**
+	 * @return GWF_Language[]
+	 */
+	public static function all()
+	{
+		if (!($cache = GDOCache::get('gwf_language')))
+		{
+			$isos = implode(',', array_map('quote', array('en','de','fr')));
+			$cache = self::table()->select('*')->where("lang_iso IN ($isos) ")->exec()->fetchAllArray2dObject();
+			GDOCache::set('gwf_language', $cache);
+		}
+		return $cache;
+	}
+	
 	
 }

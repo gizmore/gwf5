@@ -66,7 +66,12 @@ final class GWF_ModuleLoader
 			$cache = $this->loadModules();
 			GDOCache::set('gwf_modules', $cache);
 		}
-		$this->initFromCache($cache);
+		else
+		{
+			$this->initFromCache($cache);
+		}
+		
+		
 		return $cache;
 	}
 	
@@ -100,7 +105,7 @@ final class GWF_ModuleLoader
 		}
 		if ($loaded)
 		{
-// 			uasort($this->modules, function($a, $b){return $b->module_priority - $a->module_priority; });
+			uasort($this->modules, function($a, $b){return $a->module_priority - $b->module_priority; });
 			$this->initModuleVars();
 			foreach ($this->modules as $module)
 			{

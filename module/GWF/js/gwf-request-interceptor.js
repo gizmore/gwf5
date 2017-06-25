@@ -7,7 +7,7 @@ factory('RequestInterceptor', function($q, $injector) {
 			  return config;
 		},
 		'requestError': function(rejection) {
-	        if (!ErrorSrvc) { ErrorSrvc = $injector.get('ErrorSrvc'); }
+	        if (!ErrorSrvc) { ErrorSrvc = $injector.get('GWFErrorSrvc'); }
 			ErrorSrvc.showNetworkError(rejection);
 			return $q.reject(rejection);
 		},
@@ -15,7 +15,7 @@ factory('RequestInterceptor', function($q, $injector) {
 			return response;
 		},
 		'responseError': function(rejection) {
-	        if (!ErrorSrvc) { ErrorSrvc = $injector.get('ErrorSrvc'); }
+	        if (!ErrorSrvc) { ErrorSrvc = $injector.get('GWFErrorSrvc'); }
 			var code = rejection.status;
 			if ((code == 403) || (code == 405)) {
 			}

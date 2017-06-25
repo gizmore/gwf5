@@ -9,7 +9,7 @@ class GWF_ModuleVar extends GDO
 	public function gdoColumns()
 	{
 		return array(
-			GDO_Object::make('mv_module_id')->klass('GWF_Module')->notNull()->primary()->index(),
+			GDO_Object::make('mv_module_id')->klass('GWF_Module')->notNull()->primary(),
 			GDO_Name::make('mv_name')->primary()->notNull(),
 			GDO_String::make('mv_value')->notNull(),
 		);

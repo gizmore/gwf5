@@ -13,15 +13,15 @@ class Admin_Install extends GWF_MethodForm
 		GWF5::instance()->loadModules(false);
 		if ($this->configModule = GWF5::instance()->getModule(Common::getRequestString('module')))
 		{
-			$buttons = ['install', 'wipe', 'enable', 'disable'];
+			$buttons = ['install', 'uninstall', 'wipe', 'enable', 'disable'];
 			foreach ($buttons as $button)
 			{
 				if (isset($_POST[$button]))
 				{
-					return $this->executeButton($button);
+					return $this->executeButton($button)->add($this->renderPage());
 				}
 			}
-			return parent::execute();
+			return $this->renderPage();
 		}
 	}
 	
@@ -30,6 +30,7 @@ class Admin_Install extends GWF_MethodForm
 		$this->title('ft_admin_install', [$this->getSiteName(), $this->configModule->getName()]);
 		$form->addField(GDO_Submit::make('install')->label('btn_install'));
 		$form->addField(GDO_Submit::make('wipe')->label('btn_module_wipe'));
+		$form->addField(GDO_Submit::make('uninstall')->label('btn_module_uninstall'));
 		$form->addField(GDO_Submit::make('enable')->label('btn_enable'));
 		$form->addField(GDO_Submit::make('disable')->label('btn_disable'));
 		$form->addField(GDO_AntiCSRF::make());
@@ -52,9 +53,16 @@ class Admin_Install extends GWF_MethodForm
 		return GWF_Message::message('msg_module_installed', [$this->configModule->getName()]);
 	}
 	
+	public function execute_uninstall()
+	{
+		GWF_ModuleInstall::dropModule($this->configModule);
+		return GWF_Message::message('msg_module_uninstalled', [$this->configModule->getName()]);
+	}
+	
 	public function execute_wipe()
 	{
 		GWF_ModuleInstall::dropModule($this->configModule);
+		GWF_ModuleInstall::installModule($this->configModule);
 		return GWF_Message::message('msg_module_wiped', [$this->configModule->getName()]);
 	}
 	

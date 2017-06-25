@@ -157,7 +157,7 @@ abstract class GWF_Method
 			$db->transactionEnd();
 			return $result;
 		}
-		catch (Exception $e)
+		catch (Throwable $e)
 		{
 			$db->transactionRollback();
 			throw $e;

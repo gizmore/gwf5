@@ -23,11 +23,7 @@
     <?php endif; ?>
     <?php foreach ($field->choices as $iso => $language) : $language instanceof GWF_Language; ?>
       <md-option value="<?php echo $iso; ?>">
-        <img
-         class="gwf-language n"
-         alt="<?php echo $language->displayName(); ?>"
-         src="/theme/default/img/language/<?php echo $language->getID(); ?>.png" />
-        <?php echo $language->displayName(); ?>
+       <?php echo $language->renderCell(); ?>
       </md-option>
     <?php endforeach; ?>
   </md-select>

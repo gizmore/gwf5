@@ -34,6 +34,8 @@ abstract class GWF_MethodForm extends GWF_Method
 	
 	public function renderForm()
 	{
+		$response = false;
+		
 		$this->form = $this->getForm();
 		
 		if ($flowField = Common::getRequestString('flowField'))
@@ -41,18 +43,26 @@ abstract class GWF_MethodForm extends GWF_Method
 			return $this->form->flowUpload($flowField);
 		}
 		
-		if (isset($_REQUEST['submit']))
+		foreach ($this->form->getFields() as $gdoType)
 		{
-			if ($this->form->validate())
+			if ($gdoType instanceof GDO_Submit)
 			{
-				$response = $this->formValidated($this->form);
-			}
-			else
-			{
-				$response = $this->formInvalid($this->form);
+				$name = $gdoType->name;
+				if (isset($_REQUEST[$name]))
+				{
+					if ($this->form->validate())
+					{
+						$response = call_user_func([$this, "onSubmit_$name"], $this->form);
+					}
+					else
+					{
+						$response = $this->formInvalid($this->form);
+					}
+				}
 			}
 		}
-		else
+
+		if (!$response)
 		{
 			$response = $this->renderPage();
 		}
@@ -62,11 +72,17 @@ abstract class GWF_MethodForm extends GWF_Method
 		return $response;
 	}
 	
+	public function onSubmit_submit(GWF_Form $form)
+	{
+		return $this->formValidated($form);
+	}
+	
 	/**
 	 * @return GWF_Response
 	 */
 	public function renderPage()
 	{
+		$this->form = $this->getForm();
 		return $this->form->render();
 	}
 	
@@ -110,9 +126,4 @@ abstract class GWF_MethodForm extends GWF_Method
 		return $this->error('err_form_invalid')->add($this->renderPage());
 	}
 	
-	
-	public function executeWebsocket(GWS_Message $msg)
-	{
-		$this->getForm()->withWSValuesFrom($msg);
-	}
 }

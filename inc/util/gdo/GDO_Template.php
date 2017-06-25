@@ -1,5 +1,5 @@
 <?php
-final class GDO_Template extends GDO_Blank
+class GDO_Template extends GDO_Blank
 {
 	public $module;
 	public function module(GWF_Module $module)

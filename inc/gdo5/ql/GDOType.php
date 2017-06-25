@@ -18,7 +18,7 @@ abstract class GDOType
 	public $name;
 	public $label;
 	public $tooltip;
-	public $placeholder;
+// 	public $placeholder;
 	
 	public $value = null;
 	public $oldValue = null;
@@ -165,29 +165,29 @@ abstract class GDOType
 	###################
 	### Placeholder ###
 	###################
-	public function placeholder(string $placeholder, array $args=null)
-	{
-		$this->placeholder = t($placeholder, $args);
-		return $this;
-	}
+// 	public function placeholder(string $placeholder, array $args=null)
+// 	{
+// 		$this->placeholder = t($placeholder, $args);
+// 		return $this;
+// 	}
 	
-	public function displayPlaceholder()
-	{
-		return $this->placeholder ? GWF_HTML::escape($this->placeholder) : '';
-	}
+// 	public function displayPlaceholder()
+// 	{
+// 		return $this->placeholder ? GWF_HTML::escape($this->placeholder) : '';
+// 	}
 	
 	###############
 	### Tooltip ###
 	###############
-	public function tooltip(string $key)
+	public function tooltip(string $key, array $args=null)
 	{
-		$this->tooltip = $key;
+		$this->tooltip = t($key, $args);
 		return $this;
 	}
 	
-	public function displayTooltip(array $args=null)
+	public function displayTooltip()
 	{
-		return $this->tooltip ? t($this->tooltip, $args) : '';
+		return $this->tooltip ? $this->tooltip : '';
 	}
 	
 	############
@@ -198,7 +198,11 @@ abstract class GDOType
 // 	public static function aweIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
 	
 	private $icon;
-	public function htmlIcon() { return $this->icon ? $this->icon : ''; }
+	public function htmlIcon()
+	{
+		return $this->icon ? $this->icon : '';
+	}
+	
 	public function rawIcon(string $icon) { $this->icon = $icon; return $this; }
 	public function matIcon(string $icon) { return $this->rawIcon(self::matIconS($icon)); }
 	public function icon($icon) { return $this->rawIcon(self::iconS($icon)); }
@@ -428,6 +432,10 @@ abstract class GDOType
 // 		return $this->renderCell();
 // 	}
 	
+	/**
+	 * 
+	 * @return string
+	 */
 	public function renderCell()
 	{
 		$value = $this->gdo ? $this->gdo->getVar($this->name) : $this->getValue();
@@ -490,7 +498,7 @@ abstract class GDOType
 	}
 	
 	
-	public function onValidated() { unset($_REQUEST[$this->name]); unset($_POST[$this->name]); } 
+	public function onValidated() {} # unset($_REQUEST['form'][$this->name]); unset($_POST['form'][$this->name]); unset($this->value); } 
 
 	###################
 	### Flow upload ###

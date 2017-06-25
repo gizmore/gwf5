@@ -1,5 +1,6 @@
 <section layout="row" layout-fill flex layout-align="center">
 <?php echo GDO_Link::make()->label('btn_phpinfo')->href(href('GWF', 'PHPInfo'))->render(); ?>
+<?php echo GDO_Link::make()->label('btn_clearcache')->href(href('Admin', 'ClearCache'))->render(); ?>
 <?php echo GDO_Link::make()->label('btn_modules')->href(Module_Admin::instance()->getMethodHREF('Modules'))->render(); ?>
 <?php echo GDO_Link::make()->label('btn_users')->href(Module_Admin::instance()->getMethodHREF('Users'))->render(); ?>
 <?php echo GDO_Link::make()->label('btn_permissions')->href(Module_Admin::instance()->getMethodHREF('Permissions'))->render(); ?>

@@ -14,6 +14,11 @@ final class GDO_Language extends GDO_Select
 		$this->min = $this->max = 2;
 	}
 	
+	public function withCompletion()
+	{
+		return $this->completion(href('GWF', 'CompleteLanguage'));
+	}
+	
 	public function defaultLabel() { return $this->label('language'); }
 	
 	public function validate($value)
@@ -24,23 +29,25 @@ final class GDO_Language extends GDO_Select
 	
 	public function render()
 	{
-		$this->choices = $this->languageChoices();
-		return GWF_Template::mainPHP('form/language.php', ['field'=>$this]);
+		if ($this->completionURL)
+		{
+			return GWF_Template::mainPHP('form/object_completion.php', ['field'=>$this]);
+		}
+		else
+		{
+			$this->choices = $this->languageChoices();
+			return GWF_Template::mainPHP('form/language.php', ['field'=>$this]);
+		}
 	}
 	
 	public function renderCell()
 	{
-		return GWF_Template::mainPHP('cell/language.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('cell/language.php', ['language'=>$this->gdo]);
 	}
 	
 	private function languageChoices()
 	{
-		static $CHOICES;
-		if (!isset($CHOICES))
-		{
-			$CHOICES = GWF_Language::table()->select('*')->exec()->fetchAllArray2dObject();
-		}
-		return $CHOICES;
+		return GWF_Language::all();
 	}
 	
 }

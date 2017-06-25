@@ -28,6 +28,8 @@ class GWF_ModuleInstall
 		self::installMethods($module);
 
 		$module->onInstall();
+		
+		GDOCache::unset('gwf_modules');
 	}
 	
 	public static function installModuleClasses(GWF_Module $module)
@@ -54,8 +56,9 @@ class GWF_ModuleInstall
 		$module->onWipe();
 		self::dropModuleClasses($module);
 		$module->delete();
+		GDOCache::unset('gwf_modules');
 	}
-	
+
 	public static function dropModuleClasses(GWF_Module $module)
 	{
 		if ($classes = $module->getClasses())

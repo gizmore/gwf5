@@ -14,10 +14,9 @@ GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, G
 GWF_Debug::init();
 GWF_Debug::enableErrorHandler();
 GWF_Debug::enableExceptionHandler();
-GWF_Debug::setDieOnError(true);
-GWF_Debug::setMailOnError(true);
+GWF_Debug::setDieOnError(false);
+GWF_Debug::setMailOnError(false);
 GDOCache::init();
-// GDOCache::flush();
 
 # Load modules
 $modules = $gwf5->loadModulesCache();
@@ -54,7 +53,7 @@ try
 }
 catch (Exception $e)
 {
-	$response = new GWF_Response(GDO_Box::make()->content(ob_get_clean().GWF_Debug::backtraceException($e)));
+	$response = new GWF_Response(ob_get_clean().GWF_Debug::backtraceException($e));
 }
 
 # Render

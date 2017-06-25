@@ -1,0 +1,108 @@
+<?php
+class GDO_PageMenu extends GDO_Blank
+{
+	use GDO_HREFTrait;
+	
+	private $numItems = 0;
+	public function items(int $numItems)
+	{
+		$this->numItems = $numItems;
+		return $this;
+	}
+	
+	private $ipp = 10;
+	public function ipp(int $ipp)
+	{
+		$this->ipp = $ipp;
+		return $this;
+	}
+	
+	public function getPages()
+	{
+		return max(array(intval((($this->numItems-1) / $this->ipp)+1), 1));
+	}
+	
+	public $shown = 4;
+	public function shown(int $shown)
+	{
+		$this->shown = $shown;
+		return $this;
+	}
+	
+	
+	public function filterQuery(GDOQuery $query)
+	{
+		$query->limit($this->ipp, $this->getFrom());
+	}
+	
+	public function getPage()
+	{
+		return GWF_Math::clamp($this->filterValue(), 1, $this->getPages());
+	}
+
+	public function getFrom()
+	{
+		return ($this->getPage() - 1) * $this->ipp;
+	}
+
+	##############
+	### Render ###
+	##############
+	public function render()
+	{
+		switch (GWF5::instance()->getFormat())
+		{
+			case 'json': return $this->renderJSON();
+			case 'html': default: return $this->renderHTML();
+		}
+	}
+	
+	public function renderJSON()
+	{
+		return array(
+			'items' => $this->numItems,
+			'ipp' => $this->ipp,
+			'page' => $this->getPage(),
+			'pages' => $this->getPages(),
+		);
+	}
+	
+	public function renderHTML()
+	{
+		if ($this->getPages() > 1)
+		{
+			$tVars = array(
+				'pagemenu' => $this,
+				'pages' => $this->pagesObject(),
+			);
+			return GWF_Template::mainPHP('pagemenu.php', $tVars);
+		}
+	}
+	
+	private function replaceHREF($page)
+	{
+		return $this->href . '&f[' . $this->name . ']='. $page;
+	}
+	
+	private function pagesObject()
+	{
+		$curr = $this->getPage();
+		$nPages = $this->getPages();
+		$pages = [];
+		$pages[] = new GWF_PageMenuItem($curr, $this->replaceHREF($curr), true);
+		for ($i = 1; $i <= 4; $i++)
+		{
+			$page = $curr- $i;
+			if ($page > 0)
+			{
+				array_unshift($pages, new GWF_PageMenuItem($page, $this->replaceHREF($page)));
+			}
+			$page = $curr+ $i;
+			if ($page <= $nPages)
+			{
+				$pages[] = new GWF_PageMenuItem($page, $this->replaceHREF($page));
+			}
+		}
+		return $pages;
+	}
+}

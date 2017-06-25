@@ -27,4 +27,14 @@ class GWF_Country extends GDO
 		}
 		return $country;
 	}
+	
+	public static function all()
+	{
+		if (!($cache = GDOCache::get('gwf_country')))
+		{
+			$cache = self::table()->select('*')->exec()->fetchAllArray2dObject();
+			GDOCache::set('gwf_country', $cache);
+		}
+		return $cache;
+	}
 }
