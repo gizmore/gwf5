@@ -16,9 +16,9 @@ GWF_Debug::setMailOnError(GWF_ERROR_MAIL);
 $db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME, (GWF_DB_DEBUG && !isset($_REQUEST['ajax'])));
 GDOCache::init();
 if ( (GWF_SALT === @$_GET['xcache']) || (!GWF_MEMCACHE) ) GDOCache::flush();
-GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);
 $modules = $gwf5->loadModulesCache();
-GWF_Log::init(GWF_User::current()->getUserName(), GWF_ERROR_LEVEL, GWF_PATH.'protected/logs');
+GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);
+GWF_Log::init(GWF_User::current()->getUserName(), GWF_ERROR_LEVEL, 'protected/logs');
 
 # Include JS
 if ($gwf5->isFullPageRequest())
@@ -50,9 +50,10 @@ try
 	}
 	$response = GWF_Response::make(ob_get_clean())->add($response);
 }
-catch (Throwable $e)
+catch (Exception $e)
 {
-	$response = new GWF_Response(ob_get_clean().GWF_Debug::backtraceException($e));
+	GWF_Log::logException($e);
+	$response = GWF_Response::make(ob_get_clean())->add(GWF_Error::make(GWF_Debug::backtraceException($e)));
 }
 
 # Render

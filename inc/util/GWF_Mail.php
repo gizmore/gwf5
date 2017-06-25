@@ -149,6 +149,9 @@ final class GWF_Mail
 	 */
 	public function sendToUser(GWF_User $user)
 	{
+		$this->setReceiver($user->getMail());
+		$this->setReceiverName($user->displayName());
+		
 		$this->setupGPG($user);
 
 		if ($user->wantsTextMail())
