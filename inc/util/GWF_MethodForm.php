@@ -21,6 +21,12 @@ abstract class GWF_MethodForm extends GWF_Method
 	 */
 	protected $form;
 	
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see GWF_Method::execute()
+	 * @return GWF_Response
+	 */
 	public function execute()
 	{
 		return $this->renderForm();

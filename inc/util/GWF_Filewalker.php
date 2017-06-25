@@ -50,7 +50,7 @@ final class GWF_Filewalker
 			
 			if ($recursive)
 			{
-				self::filewalker($d[1], $callback_file, $callback_dir, $recursive, $args);
+				self::traverse($d[1], $callback_file, $callback_dir, $recursive, $args);
 			}
 		}
 	}

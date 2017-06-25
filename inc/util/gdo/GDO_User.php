@@ -6,10 +6,15 @@ class GDO_User extends GDO_Object
 	public function __construct()
 	{
 		$this->table(GWF_User::table());
-		$this->completion(href('GWF', 'CompleteUser'));
 		$this->icon('face');
+		$this->withCompletion();
 	}
-
+	
+	public function withCompletion()
+	{
+		return $this->completion(href('GWF', 'CompleteUser'));
+	}
+	
 	private $ghost = false;
 	public function ghost(bool $ghost=true)
 	{
