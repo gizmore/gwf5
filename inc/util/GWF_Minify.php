@@ -2,58 +2,145 @@
 /**
  * Very basic on-the-fly javascript mangler.
  * Changes are detected by md5 only.
+ * You can configure this feature in Module_GWF.
+ * 
  * @author gizmore
  * @since 4.1
+ * @version 5.0
+ * @see Module_GWF
  */
 final class GWF_Minify
 {
-	public static function tempDir()
-	{
-		return GWF_PATH.'temp/minify/';
-	}
+	# Binary pathes
+	private $uglify;
+	private $annotate;
 	
-	public static function init()
-	{
-		GWF_File::createDir(self::tempDir());
-	}
+	private $input;
+	private $processedSize = 0;
+
+	private $external = array();
+	private $concatenate = array();
 	
+	public static function tempDirS(string $path='') { return GWF_PATH . 'temp/minify/' . $path; }
+
 	public static function minified(array $javascripts)
 	{
-		self::init();
-		return array_map(array(GWF_Minify::class, 'minifiedJavascriptPath'), $javascripts);
+		$minify = new GWF_Minify($javascripts);
+		return $minify->execute();
 	}
 	
-	public static function minifiedJavascriptPath($path)
+	public function __construct(array $javascripts)
 	{
-		return GWF_String::startsWith($path, '/') ? self::minifiedJavascript(substr($path, 1)) : $path; 
+		$this->input = $javascripts;
+		$module = Module_GWF::instance();
+		$this->uglify= $module->cfgUglifyPath();
+		$this->annotate = $module->cfgAnnotatePath();
+		GWF_File::createDir($this->tempDir());
 	}
 	
-	public static function minifiedJavascript($path)
+	public function tempDir(string $path='') { return self::tempDirS($path); }
+	
+	public function finalHash() { return md5(implode('|', array_keys($this->concatenate))); }
+	
+	public function earlyHash() { return md5(implode('|', $this->input)); }
+	
+	public function execute()
+	{
+		# Pass 1 - Early hash
+		$earlyhash = $this->earlyhash();
+		$earlypath = $this->tempDir("$earlyhash.js");
+		if (GWF_File::isFile($earlypath))
+		{
+			foreach ($this->input as $path)
+			{
+				if ($path[0] === 'h')
+				{
+					$this->external[] = $path;
+				}
+			}
+			$this->external[] = "/temp/minify/$earlyhash.js";
+			return $this->external;
+		}
+		
+		# Pass 2 - Rebuild
+		
+		# Minify single files and sort them in concatenate and external
+		$minified = array_map(array($this, 'minifiedJavascriptPath'), $this->input);
+		
+		# Build final file
+		$finalhash = $this->finalHash();
+		$finalpath = $this->tempDir("$finalhash.js");
+		if (!GWF_File::isFile($finalpath))
+		{
+			$concat = implode(' ', $this->concatenate);
+			exec("cat $concat > $finalpath");
+			if (!(GWF_File::isFile($finalpath)))
+			{
+				return $minified; # Fail, inbetween version should be ok though.
+			}
+		}
+		
+		# Copy to eary access
+		copy($finalpath, $earlypath);
+		
+		# Abuse external as small JS.
+		$this->external[] = "/temp/minify/$finalhash.js";
+		return $this->external;
+	}
+	
+	public function minifiedJavascriptPath($path)
+	{
+		if ($path[0] === '/')
+		{
+			return $this->minifiedJavascript($path);
+		}
+		else
+		{
+			$this->external[] = $path;
+			return $path;
+		}
+	}
+	
+	public function minifiedJavascript($path)
 	{
 		$src = GWF_PATH . GWF_String::substrTo($path, '?', $path);
 		
 		if (GWF_File::isFile($src))
 		{
+			$this->processedSize += filesize($src);
 			$md5 = md5(file_get_contents($src));
-			$dest = self::tempDir() . $md5 . '.js'; 
+			$dest = $this->tempDir("$md5.js");
 			if (!GWF_File::isFile($dest))
 			{
 				if (strpos($src, '.min.js'))
 				{
-					copy($src, $dest); # Skip minified ones
+					if (!@copy($src, $dest)) # Skip minified ones
+					{
+						$this->external[] = $path;
+						return $path;
+					}
 				}
 				else
 				{
-					$command = "ng-annotate -ar $src | uglifyjs --compress --mangle --screw-ie8 -o $dest";
-					exec($command);
+					# Build command
+					$annotate = $this->annotate;
+					$uglifyjs = $this->uglify;
+					$command = "$annotate -ar $src | $uglifyjs --compress --mangle -o $dest";
+					$return = 0;
+					$output = array();
+					exec($command, $output, $return);
 					if ($return != 0)
 					{
+						$this->external[] = $path;
+						GWF_Log::logCritical(print_r($output, true));
 						return $path; # On error, the original file is left. so you notice.
 					}
 				}
 			}
-			return "/temp/minify/$md5.js";
+			$this->concatenate[$md5] = $dest;
+			return $dest;
 		}
+		$this->external[] = $path;
 		return $path;
 	}
 }
