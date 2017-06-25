@@ -13,13 +13,10 @@ class GDODB
 	 */
 	public static function instance() { return self::$INSTANCE; }
 	
-	private $link;
+	# Connection
+	private $link, $host, $user, $pass, $db, $debug;
 	
-	/**
-	 * @var bool
-	 */
-	private $debug;
-	
+	# Timing
 	public $reads = 0;
 	public $writes = 0;
 	public $commits = 0;
@@ -46,8 +43,23 @@ class GDODB
 	{
 		self::$INSTANCE = $this;
 		$this->debug = $debug;
-		$this->link = mysqli_connect($host, $user, $pass, $db);
-		$this->query("SET NAMES UTF8");
+		$this->host = $host;
+		$this->user = $user;
+		$this->pass = $pass;
+		$this->db = $db;
+	}
+	
+	public function getLink()
+	{
+		if (!$this->link)
+		{
+			$t1 = microtime(true);
+			$this->link = mysqli_connect($this->host, $this->user, $this->pass, $this->db);
+			$timeTaken = microtime(true) - $t1;
+			$this->queryTime += $timeTaken; self::$QUERY_TIME += $timeTaken;
+			$this->query("SET NAMES UTF8");
+		}
+		return $this->link;
 	}
 
 	#############
@@ -69,7 +81,7 @@ class GDODB
 	{
 		$this->queries++; self::$QUERIES++;
 		$t1 = microtime(true);
-		if (!($result = mysqli_query($this->link, $query)))
+		if (!($result = mysqli_query($this->getLink(), $query)))
 		{
 			throw new GWF_Exception("err_db", [mysqli_error($this->link), htmlspecialchars($query)]);
 		}
@@ -87,12 +99,12 @@ class GDODB
 	
 	public function insertId()
 	{
-		return mysqli_insert_id($this->link);
+		return mysqli_insert_id($this->getLink());
 	}
 	
 	public function affectedRows()
 	{
-		return mysqli_affected_rows($this->link);
+		return mysqli_affected_rows($this->getLink());
 	}
 	
 	###################
@@ -199,14 +211,14 @@ class GDODB
 	###################
 	public function transactionBegin()
 	{
-		return mysqli_begin_transaction($this->link);
+		return mysqli_begin_transaction($this->getLink());
 	}
 	
 	public function transactionEnd()
 	{
 		$this->commits++; self::$COMMITS++;
 		$t1 = microtime(true);
-		$result = mysqli_commit($this->link);
+		$result = mysqli_commit($this->getLink());
 		$t2 = microtime(true);
 		$tt = $t2 - $t1;
 		$this->queryTime += $tt; self::$QUERY_TIME += $tt;
@@ -215,6 +227,6 @@ class GDODB
 	
 	public function transactionRollback()
 	{
-		return mysqli_rollback($this->link);
+		return mysqli_rollback($this->getLink());
 	}
 }

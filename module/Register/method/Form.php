@@ -23,7 +23,7 @@ class Register_Form extends GWF_MethodForm
 		$form->addField(GDO_Button::make('btn_recovery')->href(href('Recovery', 'Form')));
 	}
 	
-	function validateUniqueIP(GWF_Form $form, GDO_Validator $field)
+	function validateUniqueIP(GWF_Form $form, GDOType $field)
 	{
 		$ip = GDO::quoteS(GDO_IP::current());
 		$cut = time() - Module_Register::instance()->cfgMaxUsersPerIPTimeout();

@@ -1,8 +1,4 @@
 <?php
-if (!defined('GWF_DEBUG_EMAIL'))
-{
-	define('GWF_DEBUG_EMAIL', 31);
-}
 /**
  * Will send very simple html and plaintext mails.
  * Supports GPG signing and encryption.
@@ -16,6 +12,8 @@ if (!defined('GWF_DEBUG_EMAIL'))
  * */
 final class GWF_Mail
 {
+	public static $DEBUG = GWF_DEBUG_EMAIL;
+	
 	public static $RESEND_PATH = 'dbimg/_GWF4_MAIL_RESEND_.txt';
 	public static $RESEND_THRESHOLD = 1800;
 	
@@ -202,7 +200,7 @@ final class GWF_Mail
         	.'Reply-To: '.$this->getUTF8Reply().self::HEADER_NEWLINE
         	.'Return-Path: '.$this->getUTF8Return();
 		$encrypted = $this->encrypt($message);
-		if (GWF_DEBUG_EMAIL & 16)
+		if (self::$DEBUG)
 		{
 			$printmail = sprintf('<h1>Local EMail:</h1><pre>%s<br/>%s</pre>', htmlspecialchars($this->subject), $message);
 			echo $printmail;
@@ -277,7 +275,7 @@ final class GWF_Mail
 		
 // 		$encrypted = $this->encrypt($message);
 		
-		if (GWF_DEBUG_EMAIL & 16)
+		if (self::$DEBUG)
 		{
 			GWF_Website::addDefaultOutput(sprintf('<h1>Local EMail:</h1><pre>%s<br/>%s</pre>', htmlspecialchars($this->subject), $message));
 			return true;

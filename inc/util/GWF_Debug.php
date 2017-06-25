@@ -4,7 +4,6 @@
  * Can send email on PHP errors.
  * Also has a method to get debug timings.
  * @example GWF_Debug::enableErrorHandler(); fatal_ooops();
- * @see GWF_DEBUG_EMAIL in protected/config.php
  * @todo it displays and sends two errors for each error
  * @author gizmore
  * @version 3.02
@@ -18,26 +17,8 @@ final class GWF_Debug
 
 	public static function init()
 	{
-		
 	}
 	
-	public static function initNoGWF()
-	{
-		# Autoconfigure constants in case not defined
-		$path = getcwd();
-		$wwwpath = (PHP_SAPI === 'cli') ? $path : $_SERVER['REQUEST_URI']; # FIXME: vuln
-		Common::defineConst('GWF_PATH', $path);
-		Common::defineConst('GWF_WWW_PATH', $wwwpath);
-
-		# Check if Mail class exists
-//		if( false === class_exists('GWF_Mail') )
-//		{
-//			self::setMailOnError(false);
-//		}
-
-		# TODO: GWF_IP6, GWF_Log
-	}
-
 	################
 	### Settings ###
 	################
@@ -108,24 +89,12 @@ final class GWF_Debug
 			if ($error['type'] != 0)
 			{
 				chdir(GWF_PATH);
-				if (!class_exists('GWF_Log')) include 'inc/util/GWF_Log.php';
-				if (!class_exists('GWF_IP')) include 'inc/util/GWF_IP.php';
-				if (!class_exists('GWF_Mail')) include 'inc/util/GWF_Mail.php';
+// 				if (!class_exists('GWF_Log', false)) include 'inc/util/GWF_Log.php';
+// 				if (!class_exists('GWF_Mail', fa)) include 'inc/util/GWF_Mail.php';
 				self::error_handler(1, $error['message'], self::shortpath($error['file']), $error['line'], NULL);
 			}
 		}
 	}
-
-	/**
-	 * Throw a custom error.
-	 * @param string $message
-	 * @param string $file
-	 * @param string $line
-	 */
-// 	public static function throwError($message, $file='unknown', $line='???')
-// 	{
-// 		self::error_handler(-1, $message, $file, $line, NULL);
-// 	}
 
 	/**
 	 * Error handler creates some html backtrace and can die on _every_ warning etc.
@@ -183,7 +152,7 @@ final class GWF_Debug
 		{
 			file_put_contents('php://stderr', self::backtrace($message, false).PHP_EOL);
 		}
-		elseif (GWF_USER_STACKTRACE)
+		elseif (GWF_ERROR_STACKTRACE)
 		{
 			echo self::backtrace($message, $is_html).PHP_EOL;
 		}
@@ -329,7 +298,7 @@ final class GWF_Debug
 		# Fix full path disclosure
 		$message = self::shortpath($message);
 		
-		if (!GWF_USER_STACKTRACE)
+		if (!GWF_ERROR_STACKTRACE)
 		{
 			return $html ? sprintf('<div class="gwf-exception">%s</div>', $message) : $message;
 		}
@@ -385,7 +354,6 @@ final class GWF_Debug
 		if (!$badformat)
 		{
 			$copy = [];
-// 			var_dump($implode);
 			foreach ($implode as $imp)
 			{
 				list($func, $file, $line) = $imp;

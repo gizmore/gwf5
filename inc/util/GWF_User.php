@@ -48,7 +48,9 @@ final class GWF_User extends GDO
 	public function getID() { return $this->getVar('user_id'); }
 	public function getType() { return $this->getVar('user_type'); }
 	
+	
 	public function getName() { return $this->getVar('user_name'); }
+	public function getUserName() { return ($name = $this->getGuestName()) ? $name : $this->getName(); }
 	public function getRealName() { return $this->getVar('user_real_name'); }
 	public function getGuestName() { return $this->getVar('user_guest_name'); }
 	

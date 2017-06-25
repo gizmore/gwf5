@@ -76,16 +76,18 @@ class GWF_Session extends GDO
 	public static function get(string $key, $initial=null)
 	{
 		$session = self::instance();
-		$data = $session->getData();
+		$data = $session ? $session->getData() : [];
 		return isset($data[$key]) ? $data[$key] : $initial;
 	}
 	
 	public static function set(string $key, $value)
 	{
-		$session = self::instance();
-		$data = $session->getData();
-		$data[$key] = $value;
-		$session->setValue('sess_data', $data);
+		if ($session = self::instance())
+		{
+			$data = $session->getData();
+			$data[$key] = $value;
+			$session->setValue('sess_data', $data);
+		}
 	}
 	
 	public static function remove(string $key)
