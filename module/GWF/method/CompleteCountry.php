@@ -8,7 +8,7 @@ final class GWF_CompleteCountry extends GWF_MethodCompletion
 		$cell = GDO_Country::make('lang_iso');
 		foreach (GWF_Country::all() as $iso => $country)
 		{
-			if ( ($q === '') || ($language->getISO() === $q) ||
+			if ( ($q === '') || ($country->getISO() === $q) ||
 				(mb_stripos($country->displayName(), $q)!==false) )
 			{
 				$response[] = array(

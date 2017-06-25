@@ -15,7 +15,7 @@ class GDO_Path extends GDO_String
 		return $this;
 	}
 	
-	public function existingDir(bool $existing)
+	public function existingDir()
 	{
 		$this->existing = 'is_dir';
 		return $this;
