@@ -12,11 +12,13 @@
 final class GWF_Minify
 {
 	# Binary pathes
+	private $nodejs;
 	private $uglify;
 	private $annotate;
 	
 	private $input;
 	private $processedSize = 0;
+	private $error = false;
 
 	private $external = array();
 	private $concatenate = array();
@@ -33,6 +35,7 @@ final class GWF_Minify
 	{
 		$this->input = $javascripts;
 		$module = Module_GWF::instance();
+		$this->nodejs = $module->cfgNodeJSPath();
 		$this->uglify= $module->cfgUglifyPath();
 		$this->annotate = $module->cfgAnnotatePath();
 		GWF_File::createDir($this->tempDir());
@@ -66,6 +69,11 @@ final class GWF_Minify
 		
 		# Minify single files and sort them in concatenate and external
 		$minified = array_map(array($this, 'minifiedJavascriptPath'), $this->input);
+		
+		if ($this->error)
+		{
+			return $this->input;
+		}
 		
 		# Build final file
 		$finalhash = $this->finalHash();
@@ -116,6 +124,7 @@ final class GWF_Minify
 				{
 					if (!@copy($src, $dest)) # Skip minified ones
 					{
+						$this->error = true;
 						$this->external[] = $path;
 						return $path;
 					}
@@ -125,14 +134,15 @@ final class GWF_Minify
 					# Build command
 					$annotate = $this->annotate;
 					$uglifyjs = $this->uglify;
-					$command = "$annotate -ar $src | $uglifyjs --compress --mangle -o $dest";
+					$nodejs = $this->nodejs;
+					$command = "$nodejs $annotate -ar $src | $nodejs $uglifyjs --compress --mangle -o $dest";
 					$return = 0;
 					$output = array();
 					exec($command, $output, $return);
 					if ($return != 0)
 					{
+						$this->error = true;
 						$this->external[] = $path;
-						GWF_Log::logCritical(print_r($output, true));
 						return $path; # On error, the original file is left. so you notice.
 					}
 				}

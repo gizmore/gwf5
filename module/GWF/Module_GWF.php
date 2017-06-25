@@ -32,13 +32,15 @@ class Module_GWF extends GWF_Module
 			GDO_Int::make('ipp')->initial('20')->max(1000)->unsigned(),
 			GDO_Int::make('spr')->initial('10')->max(1000)->unsigned(),
 			GDO_Enum::make('minify_js')->enumValues('no', 'yes', 'concat')->initial('no'),
-			GDO_Path::make('uglifyjs_path')->initial('uglifyjs'),
-			GDO_Path::make('ng_annotate_path')->initial('ng-annotate'),
+			GDO_Path::make('nodejs_path')->initial('/usr/bin/nodejs')->label('nodejs_path'),
+			GDO_Path::make('uglifyjs_path')->initial('uglifyjs')->label('uglifyjs_path'),
+			GDO_Path::make('ng_annotate_path')->initial('ng-annotate')->label('ng_annotate_path'),
 		);
 	}
 	public function cfgItemsPerPage() { return $this->getConfigValue('ipp'); }
 	public function cfgMaxSuggestions() { return $this->getConfigValue('spr'); }
 	public function cfgMinifyJS() { return $this->getConfigVar('minify_js'); }
+	public function cfgNodeJSPath() { return $this->getConfigVar('nodejs_path'); }
 	public function cfgUglifyPath() { return $this->getConfigVar('uglifyjs_path'); }
 	public function cfgAnnotatePath() { return $this->getConfigVar('ng_annotate_path'); }
 	

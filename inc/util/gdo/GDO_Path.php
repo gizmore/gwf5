@@ -1,7 +1,7 @@
 <?php
 class GDO_Path extends GDO_String
 {
-	public $pattern = "#^[^\\?/:]+$#";
+	public $pattern = "#^[^?:]+$#";
 	
 	public function htmlClass()
 	{
