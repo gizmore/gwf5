@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><?php echo $method->title; ?></title>
+    <title><?php #echo $method->title; ?></title>
     <link href="/theme/default/css/gwf5.css" rel="stylesheet" />
     <?php echo GWF_Website::displayLink(); ?>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -62,7 +62,6 @@
       <?php echo GWF_Navbar::bottom()->render(); ?>
     </footer>
     <!-- END FOOTER -->
-
 
   </body>
 </html>

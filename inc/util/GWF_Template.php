@@ -72,10 +72,17 @@ final class GWF_Template
 				$$__key = $__value; # make tVars locals for the template
 			}
 		}
-		ob_start();
-		include $path2;
-		$back = ob_get_clean();
-		return new GWF_Response($back);
+		try
+		{
+			ob_start();
+			include $path2;
+			return new GWF_Response(ob_get_clean());
+		}
+		catch (Exception $e)
+		{
+			ob_get_clean();
+			throw $e;
+		}
 	}
 	
 	########################

@@ -48,13 +48,13 @@ try
 	{
 		$response = new GWF_Error('err_blank_response');
 	}
-	$response = GWF_Response::make(ob_get_clean())->add($response);
+	$unwanted = ob_get_clean();
+	$response = GWF_Response::make($unwanted)->add($response);
+	echo $gwf5->render($response);
 }
 catch (Exception $e)
 {
+	ob_get_clean(); # An error happenend. The ob is half written only.
 	GWF_Log::logException($e);
-	$response = GWF_Response::make(ob_get_clean())->add(GWF_Error::make(GWF_Debug::backtraceException($e)));
+	echo $gwf5->render(GWF_Error::make(GWF_Debug::backtraceException($e)));
 }
-
-# Render
-echo $gwf5->render($method, $response);

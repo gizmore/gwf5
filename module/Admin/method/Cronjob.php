@@ -24,10 +24,10 @@ class Admin_Cronjob extends GWF_MethodForm
 	
 	public function formValidated(GWF_Form $form)
 	{
-		ob_start();
 		echo "<pre>";
 		GWF_Cronjob::run();
 		echo "</pre>\n<br/>";
-		return GWF_Response::make(ob_get_clean())->add($this->renderPage());
+		$response = ob_get_clean(); ob_start();
+		return GWF_Response::make($response)->add($this->renderPage());
 	}
 }

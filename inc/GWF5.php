@@ -74,7 +74,6 @@ final class GWF5
 			$finished = true;
 			GWF_Session::commit();
 			GWF_Log::flush();
-			echo @ob_get_clean();
 		}
 	}
 	
@@ -130,7 +129,7 @@ final class GWF5
 	}
 	
 	
-	public function render(GWF_Method $method, GWF_Response $response)
+	public function render(GWF_Response $response)
 	{
 		switch ($this->getFormat())
 		{
@@ -141,13 +140,12 @@ final class GWF5
 			case 'html':
 				if ($this->isAjax())
 				{
-					echo $response->__toString();
+					return $response->__toString();
 				}
 				else
 				{
 					$tVars = array(
 						'response' => $this->response($response),
-						'method' => $method,
 					);
 					return GWF_Template::mainPHP('index.php', $tVars);
 				}
