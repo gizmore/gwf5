@@ -116,7 +116,7 @@ abstract class GWF_Method
 		
 		if ( ($this->getUserType()) && ($this->getUserType() !== $user->getType()) )
 		{
-			return new GWF_Error('err_already_authenticated');
+			return new GWF_Error('err_user_type', [$this->getUserType()]);
 		}
 		
 		if ( ($permission = $this->getPermission()) && (!$user->hasPermission($permission)) )

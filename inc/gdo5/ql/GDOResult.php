@@ -158,6 +158,20 @@ class GDOResult
 		return $array2d;
 	}
 	
+	/**
+	 * Fetch all, but only a single column as simple array.
+	 * @return string[]
+	 */
+	public function fetchAllValues()
+	{
+		$values = [];
+		while ($value = $this->fetchValue())
+		{
+			$values[] = $value;
+		}
+		return $values;
+	}
+	
 	############
 	### JSON ###
 	############
