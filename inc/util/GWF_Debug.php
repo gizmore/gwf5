@@ -181,38 +181,32 @@ final class GWF_Debug
 
 	public static function exception_handler($e)
 	{
-		try
+		$is_html = PHP_SAPI !== 'cli';
+		$firstLine = sprintf("%s in %s Line %s\n", $e->getMessage(), $e->getFile(), $e->getLine());
+		
+		$mail = self::$MAIL_ON_ERROR;
+		$log = true;
+
+		if ($e instanceof GWF_Exception)
 		{
-			$is_html = PHP_SAPI !== 'cli';
-			$firstLine = sprintf("%s in %s Line %s\n", $e->getMessage(), $e->getFile(), $e->getLine());
-			
-			$mail = self::$MAIL_ON_ERROR;
-			$log = true;
-
-			if ($e instanceof GWF_Exception)
-			{
-				$mail = true; //$mail && (GWF_Exception::MAIL !== $e->getCode());
-				$log = true; //$log && (GWF_Exception::LOG !== $e->getCode());
-			}
-
-			# TODO: formatting for log, email, html
-
-			# Send error to admin?
-			if ($mail)
-			{
-				self::sendDebugMail($firstLine . $e->getTraceAsString());
-			}
-
-			# Log it?
-			if ($log)
-			{
-				GWF_Log::logCritical($firstLine);
-			}
-			
-			echo self::backtraceException($e, $is_html);
-			
+			$mail = true; //$mail && (GWF_Exception::MAIL !== $e->getCode());
+			$log = true; //$log && (GWF_Exception::LOG !== $e->getCode());
 		}
-		catch (Exception $null) { }
+
+		# TODO: formatting for log, email, html
+
+		# Send error to admin?
+		if ($mail)
+		{
+			self::sendDebugMail($firstLine . $e->getTraceAsString());
+		}
+
+		# Log it?
+		if ($log)
+		{
+			GWF_Log::logCritical($firstLine);
+		}
+		echo GWF5::instance()->render(GWF_Response::make(self::backtraceException($e, $is_html)));
 	}
 
 	public static function disableExceptionHandler()
