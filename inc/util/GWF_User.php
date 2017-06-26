@@ -124,7 +124,7 @@ final class GWF_User extends GDO
 	 * Get guest ghost user.
 	 * @return GWF_User
 	 */
-	public static function ghost() { return self::table()->blank(['user_type' => 'ghost']); }
+	public static function ghost() { return self::table()->blank(['user_id' => '0', 'user_type' => 'ghost']); }
 
 	/**
 	 * Get current user.
