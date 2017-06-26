@@ -59,7 +59,8 @@ return array(
 'err_gdo_not_found' => 'Could not find %s with ID %s.',
 'err_string_pattern' => 'Your input did not pass the pattern validation test for this field.',
 'err_url_not_reachable' => 'Your entered URL is not reachable by this server.',
-
+'err_method_disabled' => 'This function is currently disabled.',
+		
 # Permissions
 'perm_admin' => 'Administrator',
 

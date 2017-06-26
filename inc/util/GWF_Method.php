@@ -160,7 +160,7 @@ abstract class GWF_Method
 		catch (Exception $e)
 		{
 			$db->transactionRollback();
-			return GWF_Error::make(GWF_Debug::backtraceException($e, true));
+			throw $e;
 		}
 	}
 	

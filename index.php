@@ -54,6 +54,7 @@ try
 }
 catch (Exception $e)
 {
+	echo 'Y';
 	ob_get_clean(); # An error happenend. The ob is half written only.
 	GWF_Log::logException($e);
 	echo $gwf5->render(GWF_Error::make(GWF_Debug::backtraceException($e)));
