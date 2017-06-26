@@ -89,8 +89,8 @@ final class GWF_Debug
 			if ($error['type'] != 0)
 			{
 				chdir(GWF_PATH);
-// 				if (!class_exists('GWF_Log', false)) include 'inc/util/GWF_Log.php';
-// 				if (!class_exists('GWF_Mail', fa)) include 'inc/util/GWF_Mail.php';
+				if (!class_exists('GWF_Log', false)) include 'inc/util/GWF_Log.php';
+				if (!class_exists('GWF_Mail', false)) include 'inc/util/GWF_Mail.php';
 				self::error_handler(1, $error['message'], self::shortpath($error['file']), $error['line'], NULL);
 			}
 		}
@@ -140,11 +140,11 @@ final class GWF_Debug
 		
 		if ($is_html)
 		{
-			$message = sprintf('<p>%s(%s):&nbsp;%s&nbsp;in&nbsp;<b style=\"font-size:16px;\">%s</b>&nbsp;line&nbsp;<b style=\"font-size:16px;\">%s</b></p>', $errnostr, $errno, $errstr, $errfile, $errline).PHP_EOL;
+			$message = sprintf('<p>%s(EH %s):&nbsp;%s&nbsp;in&nbsp;<b style=\"font-size:16px;\">%s</b>&nbsp;line&nbsp;<b style=\"font-size:16px;\">%s</b></p>', $errnostr, $errno, $errstr, $errfile, $errline).PHP_EOL;
 		}
 		else
 		{
-			$message = sprintf('%s(%s) %s in %s line %s.', $errnostr, $errno, $errstr, $errfile, $errline);
+			$message = sprintf('%s(EH %s) %s in %s line %s.', $errnostr, $errno, $errstr, $errfile, $errline);
 		}
 		
 		# Output error
@@ -171,7 +171,7 @@ final class GWF_Debug
 			self::sendDebugMail(self::backtrace($message, false));
 		}
 
-		if (true === self::$die)
+		if (self::$die)
 		{
 			die(1); # oops :)
 		}
@@ -182,7 +182,7 @@ final class GWF_Debug
 	public static function exception_handler($e)
 	{
 		$is_html = PHP_SAPI !== 'cli';
-		$firstLine = sprintf("%s in %s Line %s\n", $e->getMessage(), $e->getFile(), $e->getLine());
+		$firstLine = sprintf("%s in %s Line %s", $e->getMessage(), $e->getFile(), $e->getLine());
 		
 		$mail = self::$MAIL_ON_ERROR;
 		$log = true;
@@ -205,8 +205,10 @@ final class GWF_Debug
 		if ($log)
 		{
 			GWF_Log::logCritical($firstLine);
+			GWF_Log::flush();
 		}
-		echo GWF5::instance()->render(GWF_Response::make(self::backtraceException($e, $is_html)));
+		echo GWF5::instance()->render(GWF_Response::make(self::backtraceException($e, $is_html, ' (XH)')));
+		return true;
 	}
 
 	public static function disableExceptionHandler()
@@ -279,9 +281,9 @@ final class GWF_Debug
 		return self::backtraceMessage($message, $html, debug_backtrace());
 	}
 	
-	public static function backtraceException(Throwable $e, $html=true)
+	public static function backtraceException(Throwable $e, $html=true, $message='')
 	{
-		$message = sprintf('PHP Exception: %s in %s line %s', $e->getMessage(), self::shortpath($e->getFile()), $e->getLine());
+		$message = sprintf("PHP Exception$message: %s in %s line %s", $e->getMessage(), self::shortpath($e->getFile()), $e->getLine());
 		return self::backtraceMessage($message, $html, $e->getTrace()); # explode("<br>\n", $e->getTraceAsString()));
 	}
 	

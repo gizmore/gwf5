@@ -10,25 +10,30 @@ class GWF_Tree extends GDO
 	###########
 	### GDO ###
 	###########
-	public function gdoAbstract() { return true; }
+	public function gdoAbstract() { return $this->gdoClassName() === 'GWF_Tree'; }
 	public function gdoColumns()
 	{
 		$pre = $this->gdoTreePrefix();
 		return array(
-				GDO_Int::make($pre.'_parent')->unsigned(),
-				GDO_Int::make($pre.'_left')->unsigned(),
-				GDO_Int::make($pre.'_right')->unsigned(),
+			GDO_Object::make($pre.'_parent')->klass(self::gdoClassNameS()),
+			GDO_Int::make($pre.'_depth')->unsigned()->bytes(1),
+			GDO_Int::make($pre.'_left')->unsigned(),
+			GDO_Int::make($pre.'_right')->unsigned(),
 		);
 	}
 	public function getIDColumn() { return $this->gdoPrimaryKeyColumn()->identifier(); }
-// 	public function getKeyColumn() { return $this->getColumnPrefix().'tree_key'; }
-// 	public function getKey() { return $this->getVar($this->getKeyColumn()); }
-	public function getLeftColumn() { return $this->gdoTreePrefix().'_left'; }
-	public function getLeft() { return $this->getVar($this->getLeftColumn()); }
-	public function getRightColumn() { return $this->gdoTreePrefix().'_right'; }
-	public function getRight() { return $this->getVar($this->getRightColumn()); }
 	public function getParentColumn() { return $this->gdoTreePrefix().'_parent'; }
 	public function getParentID() { return $this->getVar($this->getParentColumn()); }
+	public function getParent() { return $this->getValue($this->getParentID()); }
+	
+	public function getDepthColumn() { return $this->gdoTreePrefix().'_depth'; }
+	public function getDepth() { return $this->getVar($this->getDepthColumn()); }
+	
+	public function getLeftColumn() { return $this->gdoTreePrefix().'_left'; }
+	public function getLeft() { return $this->getVar($this->getLeftColumn()); }
+
+	public function getRightColumn() { return $this->gdoTreePrefix().'_right'; }
+	public function getRight() { return $this->getVar($this->getRightColumn()); }
 
 	public function getTree()
 	{
@@ -41,10 +46,10 @@ class GWF_Tree extends GDO
 
 	public function rebuildFullTree()
 	{
-		return $this->rebuildTree(0, 0);
+		return $this->rebuildTree(1, 1, 1);
 	}
 
-	private function rebuildTree($parent, $left)
+	private function rebuildTree($parent, $left, $depth)
 	{
 // 		$parent = (int)$parent;
 // 		$left = (int)$left;
@@ -56,12 +61,13 @@ class GWF_Tree extends GDO
 		$result = $this->table()->select($idc)->where("$p=$parent")->exec()->fetchAllValues();
 		foreach ($result as $id)
 		{
-			$right = $this->rebuildTree($id, $right);
+			$right = $this->rebuildTree($id, $right, $depth+1);
 		}
 
 		$l = $this->getLeftColumn();
 		$r = $this->getRightColumn();
-		$this->table()->update()->set("$l=$left, $r=$right")->where()->exec("$idc=$parent");
+		$d = $this->getDepthColumn();
+		$this->table()->update()->set("$l=$left, $r=$right, $d=$depth")->where("$idc=$parent")->debug()->exec();
 		
 		return $right+1;  
 	}

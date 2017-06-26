@@ -27,7 +27,7 @@ class Admin_Cronjob extends GWF_MethodForm
 		echo "<pre>";
 		GWF_Cronjob::run();
 		echo "</pre>\n<br/>";
-		$response = ob_get_clean(); ob_start();
+// 		$response = ob_get_clean(); ob_start();
 		return GWF_Response::make($response)->add($this->renderPage());
 	}
 }

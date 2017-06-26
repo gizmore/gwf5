@@ -16,11 +16,15 @@ GWF_Debug::setDieOnError(GWF_ERROR_DIE);
 GWF_Debug::setMailOnError(GWF_ERROR_MAIL);
 $db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME, (GWF_DB_DEBUG && !isset($_REQUEST['ajax'])));
 GDOCache::init();
-if ( (GWF_SALT === @$_GET['xcache']) || (!GWF_MEMCACHE) ) GDOCache::flush();
+if (!GWF_MEMCACHE) GDOCache::flush();
 
 # Exec
 try
 {
+	# Turn off Output buffering
+	while (ob_get_level()>0) { ob_end_clean(); }
+	ob_start(); # Level 1
+	
 	$modules = $gwf5->loadModulesCache();
 	GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);
 	GWF_Log::init(GWF_User::current()->getUserName(), GWF_ERROR_LEVEL, 'protected/logs');
@@ -36,20 +40,25 @@ try
 		$method = $gwf5->defaultMethod();
 	}
 	
-	
-	
-	ob_start();
 	if (!($response = $method->exec()))
 	{
 		$response = new GWF_Error('err_blank_response');
 	}
-	$unwanted = ob_get_clean();
+
+	$unwanted = ob_get_contents();
+	while (ob_get_level() > 0) { ob_end_clean(); }
+	
 	$response = GWF_Response::make($unwanted)->add($response);
 	echo $gwf5->render($response);
 }
 catch (Exception $e)
 {
-	ob_get_clean(); # An error happenend. The ob is half written only.
+	while (ob_get_level() > 0) { ob_end_clean(); }
 	GWF_Log::logException($e);
-	echo $gwf5->render(GWF_Error::make(GWF_Debug::backtraceException($e)));
+	echo $gwf5->render(GWF_Error::make(GWF_Debug::backtraceException($e, $gwf5->isHTML(), ' (maintrace)')));
 }
+finally
+{
+	while (ob_get_level() > 0) { ob_end_clean(); }
+}
+echo "<!-- END OF INDEX.PHP -->\n";

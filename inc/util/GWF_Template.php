@@ -76,12 +76,15 @@ final class GWF_Template
 		{
 			ob_start();
 			include $path2;
-			return new GWF_Response(ob_get_clean());
+			return GWF_Response::make(ob_get_contents());
 		}
 		catch (Exception $e)
 		{
-			ob_get_clean();
 			throw $e;
+		}
+		finally
+		{
+			ob_end_clean();
 		}
 	}
 	

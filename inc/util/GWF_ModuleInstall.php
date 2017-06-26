@@ -11,6 +11,8 @@ class GWF_ModuleInstall
 	
 	public static function installModule(GWF_Module $module)
 	{
+// 		echo "INSTALL {$module->getName()} {$module->getVersion()} {$module->module_version}\n";
+		
 		self::installModuleClasses($module);
 		
 		if (!$module->isPersisted())
@@ -20,7 +22,7 @@ class GWF_ModuleInstall
 			self::upgradeTo($module, '5.00');
 		}
 		
-		while ($module->getVersion() !== $module->module_version)
+		while ($module->getVersion() != $module->module_version)
 		{
 			self::upgrade($module);
 		}
@@ -139,4 +141,61 @@ class GWF_ModuleInstall
 			GWF_Permission::create($permission);
 		}
 	}
+	
+	#####################
+	### GWF core util ###
+	#####################
+	public static function coreInclude($entry, $path, $tables)
+	{
+		$class = GWF_String::substrTo($entry, '.');
+		if (class_exists($class))
+		{
+			if (is_subclass_of($class, 'GDO'))
+			{
+				if ($table = GDO::tableFor($class))
+				{
+					if (!$table->gdoAbstract())
+					{
+						$tables[$class] = $table;
+					}
+				}
+			}
+		}
+	}
+	
+	public static function installCoreTables(bool $dropTables=false)
+	{
+		$tables = [];
+		GWF_Filewalker::traverse(GWF_PATH . 'inc/util', [__CLASS__, 'coreInclude'], false, false, $tables);
+		while (count($tables))
+		{
+			$changed = false;
+			foreach ($tables as $classname => $table)
+			{
+				if ($deps = $table->gdoDependencies())
+				{
+					foreach ($deps as $dep)
+					{
+						if (isset($tables[$dep]))
+						{
+							continue;
+						}
+					}
+				}
+				if ($dropTables)
+				{
+					$table->dropTable();
+				}
+				$table->createTable();
+				$changed = true;
+				unset($tables[$classname]);
+				break;
+			}
+			if (!$changed)
+			{
+				throw new GWF_Exception("err_gdo_dependency not met", [implode(', ', array_keys($tables))]);
+			}
+		}
+	}
+	
 }

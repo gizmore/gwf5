@@ -203,7 +203,7 @@ class GDODB
 	
 	public function truncateTable(GDO $gdo)
 	{
-		return $this->queryWrite("TRUNCATE TABLE IF EXISTS {$gdo->gdoTableIdentifier()}");
+		return $this->queryWrite("TRUNCATE TABLE {$gdo->gdoTableIdentifier()}");
 	}
 	
 	###################

@@ -51,7 +51,12 @@ final class GWF5
 			{
 				throw new Exception('File not found: ' . htmlspecialchars($name));
 			}
-			include $filename;
+			
+			if (!@include($filename))
+			{
+				throw new Exception('File not found: ' . htmlspecialchars($name));
+			}
+			
 		});
 		
 		GWF_Trans::addPath(GWF_PATH . 'inc/lang/util');

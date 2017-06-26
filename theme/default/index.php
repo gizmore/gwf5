@@ -55,7 +55,14 @@
     </section>
     
 	<!-- JS -->
- 	<?php echo GWF_Javascript::displayJavascripts(Module_GWF::instance()->cfgMinifyJS() === 'concat'); ?>
+<?php
+$minify = false;
+if ($module = Module_GWF::instance())
+{
+	$minify = $module->cfgMinifyJS() === 'concat';
+}
+echo GWF_Javascript::displayJavascripts($minify);
+?>
 
     <!-- BEGIN FOOTER -->
     <footer class="md-whiteframe-4dp" layout="row" layout-align="center center">
