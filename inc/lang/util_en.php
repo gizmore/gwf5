@@ -60,7 +60,8 @@ return array(
 'err_string_pattern' => 'Your input did not pass the pattern validation test for this field.',
 'err_url_not_reachable' => 'Your entered URL is not reachable by this server.',
 'err_method_disabled' => 'This function is currently disabled.',
-		
+'err_is_null' => 'This field may not be empty.',
+
 # Permissions
 'perm_admin' => 'Administrator',
 
