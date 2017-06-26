@@ -2,6 +2,10 @@
 ############
 ### Init ###
 ############
+while (ob_get_level()>0) { ob_end_clean(); }
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include 'protected/config.php';
 include'inc/GWF5.php';
 
@@ -17,12 +21,10 @@ GWF_Debug::setMailOnError(GWF_ERROR_MAIL);
 $db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME, (GWF_DB_DEBUG && !isset($_REQUEST['ajax'])));
 GDOCache::init();
 if (!GWF_MEMCACHE) GDOCache::flush();
-
 # Exec
 try
 {
 	# Turn off Output buffering
-	while (ob_get_level()>0) { ob_end_clean(); }
 	ob_start(); # Level 1
 	
 	$modules = $gwf5->loadModulesCache();
@@ -55,7 +57,7 @@ catch (Exception $e)
 {
 	while (ob_get_level() > 0) { ob_end_clean(); }
 	GWF_Log::logException($e);
-	echo $gwf5->render(GWF_Error::make(GWF_Debug::backtraceException($e, $gwf5->isHTML(), ' (maintrace)')));
+	echo GWF_Error::make(GWF_Debug::backtraceException($e, $gwf5->isHTML(), ' (maintrace)'));
 }
 finally
 {

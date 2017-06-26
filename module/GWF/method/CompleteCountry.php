@@ -6,7 +6,7 @@ final class GWF_CompleteCountry extends GWF_MethodCompletion
 		$response = [];
 		$q = $this->getSearchTerm();
 		$cell = GDO_Country::make('c_iso');
-		foreach (GWF_Country::all() as $iso => $country)
+		foreach (GWF_Country::table()->all() as $iso => $country)
 		{
 			if ( (!$q) || ($country->getISO() === $q) ||
 				(mb_stripos($country->displayName(), $q)!==false) )

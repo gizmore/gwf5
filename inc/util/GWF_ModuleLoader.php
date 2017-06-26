@@ -71,7 +71,6 @@ final class GWF_ModuleLoader
 			$this->initFromCache($cache);
 		}
 		
-		
 		return $cache;
 	}
 	
@@ -158,19 +157,12 @@ final class GWF_ModuleLoader
 	
 	public static function instanciate(array $moduleData, $dirty = null)
 	{
-		try
-		{
-			$klass = 'Module_' . $moduleData['module_name'];
-			$instance = new $klass();
-			$instance instanceof GWF_Module;
-			$instance->setGDOVars($moduleData, $dirty);
-	// 		$instance->initModule();
-			return $instance;
-		}
-		catch (Exception $e)
-		{
-			return null;
-		}
+		$klass = 'Module_' . $moduleData['module_name'];
+		$instance = new $klass();
+		$instance instanceof GWF_Module;
+		$instance->setGDOVars($moduleData, $dirty);
+// 		$instance->initModule();
+		return $instance;
 	}
 
 	############

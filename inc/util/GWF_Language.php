@@ -35,7 +35,7 @@ class GWF_Language extends GDO
 	/**
 	 * @return GWF_Language[]
 	 */
-	public static function all()
+	public function all()
 	{
 		if (!($cache = GDOCache::get('gwf_language')))
 		{

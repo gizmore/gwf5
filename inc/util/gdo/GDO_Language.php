@@ -47,7 +47,7 @@ final class GDO_Language extends GDO_Select
 	
 	private function languageChoices()
 	{
-		return GWF_Language::all();
+		return GWF_Language::table()->all();
 	}
 	
 }

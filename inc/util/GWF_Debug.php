@@ -111,7 +111,7 @@ final class GWF_Debug
 		{
 			return;
 		}
-
+		
 		# Log as critical!
 		if (class_exists('GWF_Log', false))
 		{
@@ -154,11 +154,13 @@ final class GWF_Debug
 		}
 		elseif (GWF_ERROR_STACKTRACE)
 		{
-			echo self::backtrace($message, $is_html).PHP_EOL;
+			$message = self::backtrace($message, $is_html).PHP_EOL;
+			echo GWF5::instance()->render(GWF_Response::make($message));
 		}
 		elseif ($is_html)
 		{
-			printf('<div class="gwf-exception">%s</div>', $message);
+			$message = sprintf('<div class="gwf-exception">%s</div>', $message);
+			echo GWF5::instance()->render(GWF_Error::make($message));
 		}
 		else
 		{
@@ -187,14 +189,6 @@ final class GWF_Debug
 		$mail = self::$MAIL_ON_ERROR;
 		$log = true;
 
-		if ($e instanceof GWF_Exception)
-		{
-			$mail = true; //$mail && (GWF_Exception::MAIL !== $e->getCode());
-			$log = true; //$log && (GWF_Exception::LOG !== $e->getCode());
-		}
-
-		# TODO: formatting for log, email, html
-
 		# Send error to admin?
 		if ($mail)
 		{
@@ -207,7 +201,8 @@ final class GWF_Debug
 			GWF_Log::logCritical($firstLine);
 			GWF_Log::flush();
 		}
-		echo GWF5::instance()->render(GWF_Response::make(self::backtraceException($e, $is_html, ' (XH)')));
+		$message = self::backtraceException($e, $is_html, ' (XH)');
+		GWF5::instance()->render(GWF_Response::make($message));
 		return true;
 	}
 
@@ -284,7 +279,7 @@ final class GWF_Debug
 	public static function backtraceException(Throwable $e, $html=true, $message='')
 	{
 		$message = sprintf("PHP Exception$message: %s in %s line %s", $e->getMessage(), self::shortpath($e->getFile()), $e->getLine());
-		return self::backtraceMessage($message, $html, $e->getTrace()); # explode("<br>\n", $e->getTraceAsString()));
+		return self::backtraceMessage($message, $html, $e->getTrace());
 	}
 	
 	private static function backtraceMessage($message, $html=true, array $stack)
@@ -317,46 +312,28 @@ final class GWF_Debug
 		
 		foreach ($stack as $row)
 		{
-			if (is_array($row))
+			if ($i++ > 0)
 			{
-				if ($i++ > 0)
-				{
-					$function = sprintf('%s%s()', isset($row['class']) ? $row['class'].$row['type'] : '', $row['function']);
-					$implode[] = array(
-						$function,
-						$prefile,
-						$preline,
-					);
-					$len = strlen($function);
-					$longest = max(array($len, $longest));
-				}
-				$preline = isset($row['line']) ? $row['line'] : '?';
-				$prefile = isset($row['file']) ? $row['file'] : '[unknown file]';
+				$function = sprintf('%s%s()', isset($row['class']) ? $row['class'].$row['type'] : '', $row['function']);
+				$implode[] = array(
+					$function,
+					$prefile,
+					$preline,
+				);
+				$len = strlen($function);
+				$longest = max(array($len, $longest));
 			}
-			else
-			{
-				$badformat = true;
-// 				$longest = max(array(strlen($row), $longest));
-// 				preg_match('/[^\w/', $subject)
-				$copy[] = trim(str_replace('<br>', '', $row));
-			}
+			$preline = isset($row['line']) ? $row['line'] : '?';
+			$prefile = isset($row['file']) ? $row['file'] : '[unknown file]';
 		}
 		
-		if ($badformat)
+		$copy = [];
+		foreach ($implode as $imp)
 		{
-			
-		}
-
-		if (!$badformat)
-		{
-			$copy = [];
-			foreach ($implode as $imp)
-			{
-				list($func, $file, $line) = $imp;
-				$len = strlen($func);
-				$func .= str_repeat('.', $longest-$len);
-				$copy[] = sprintf('%s %s line %s.', $func, self::shortpath($file), $line);
-			}
+			list($func, $file, $line) = $imp;
+			$len = strlen($func);
+			$func .= str_repeat('.', $longest-$len);
+			$copy[] = sprintf('%s %s line %s.', $func, self::shortpath($file), $line);
 		}
 
 		$back .= $html ? '<hr/>' : PHP_EOL;

@@ -31,7 +31,7 @@ class GWF_Country extends GDO
 	/**
 	 * @return GWF_Country[]
 	 */
-	public static function all()
+	public function all()
 	{
 		if (!($cache = GDOCache::get('gwf_country')))
 		{

@@ -1,2 +1,6 @@
 <?php $field instanceof GDO_Tree; ?>
-<?php ?>
+<?php
+$tree = $field->gdo->full();
+foreach ($tree as $)
+
+?>

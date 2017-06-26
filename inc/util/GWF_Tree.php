@@ -35,6 +35,9 @@ class GWF_Tree extends GDO
 	public function getRightColumn() { return $this->gdoTreePrefix().'_right'; }
 	public function getRight() { return $this->getVar($this->getRightColumn()); }
 
+	################
+	### Get Tree ###
+	################
 	public function getTree()
 	{
 		$pre = $this->getColumnPrefix();
@@ -43,10 +46,44 @@ class GWF_Tree extends GDO
 		$r = $this->getRight();
 		return $this->select('*')->where("$left BETWEEN $l AND $r")->order($left)->exec()->fetchAllObjects();
 	}
-
+	
+	###############
+	### Connect ###
+	###############
+	/**
+	 * @return GWF_Tree[]
+	 */
+	public function all()
+	{
+		return $this->table()->select()->order($this->getLeftColumn())->exec()->fetchAllArray2dObject();
+	}
+	
+	public function full()
+	{
+		$tree = $this->table()->all();
+		
+		foreach ($tree as $leaf)
+		{
+			$leaf->tempSet('gwf_tree_children', []);
+		}
+		foreach ($tree as $leaf)
+		{
+			$leaf instanceof GWF_Tree;
+			$children = $leaf->getParent()->treeChildren();
+			$children[] = $leaf;
+		}
+		return true;
+	}
+	
+	public function treeChildren() { return $this->tempGet('gwf_tree_children'); }
+	
+	
+	###############
+	### Rebuild ###
+	###############
 	public function rebuildFullTree()
 	{
-		return $this->rebuildTree(1, 1, 1);
+		return $this->rebuildTree(null, 1, 1);
 	}
 
 	private function rebuildTree($parent, $left, $depth)
@@ -58,7 +95,8 @@ class GWF_Tree extends GDO
 		$p = $this->getParentColumn();
 		$idc = $this->getIDColumn();
 
-		$result = $this->table()->select($idc)->where("$p=$parent")->exec()->fetchAllValues();
+		$where = $parent ? "$p=$parent" : "$p IS NULL";
+		$result = $this->table()->select($idc)->where($where)->exec()->fetchAllValues();
 		foreach ($result as $id)
 		{
 			$right = $this->rebuildTree($id, $right, $depth+1);
@@ -67,7 +105,10 @@ class GWF_Tree extends GDO
 		$l = $this->getLeftColumn();
 		$r = $this->getRightColumn();
 		$d = $this->getDepthColumn();
-		$this->table()->update()->set("$l=$left, $r=$right, $d=$depth")->where("$idc=$parent")->debug()->exec();
+		if ($parent)
+		{
+			$this->table()->update()->set("$l=$left, $r=$right, $d=$depth")->where("$idc=$parent")->debug()->exec();
+		}
 		
 		return $right+1;  
 	}

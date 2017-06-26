@@ -80,6 +80,7 @@ final class GWF_Template
 		}
 		catch (Exception $e)
 		{
+// 			return GWF_Response::make(ob_get_contents());
 			throw $e;
 		}
 		finally

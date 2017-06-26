@@ -6,7 +6,7 @@ final class GWF_CompleteLanguage extends GWF_MethodCompletion
 		$response = [];
 		$q = $this->getSearchTerm();
 		$cell = GDO_Language::make('lang_iso');
-		foreach (GWF_Language::all() as $iso => $language)
+		foreach (GWF_Language::table()->all() as $iso => $language)
 		{
 			if ( ($q === '') || ($language->getISO() === $q) ||
 				 (mb_stripos($language->displayName(), $q)!==false) ||

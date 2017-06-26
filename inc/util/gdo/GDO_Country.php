@@ -18,7 +18,7 @@ final class GDO_Country extends GDO_Select
 	
 	private function countryChoices()
 	{
-		return GWF_Country::all();
+		return GWF_Country::table()->all();
 	}
 	
 	public function renderCell()

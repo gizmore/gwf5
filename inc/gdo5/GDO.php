@@ -638,6 +638,15 @@ abstract class GDO
 	{
 		self::table();
 	}
+	
+	/**
+	 * @return GDO[]
+	 */
+	public function all()
+	{
+		return self::table()->select()->exec()->fetchAllArray2dObject();
+	}
+	
 	###########################
 	###  Table manipulation ###
 	###########################
