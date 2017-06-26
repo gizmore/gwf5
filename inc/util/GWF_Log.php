@@ -36,7 +36,7 @@ final class GWF_Log
 	private static $POST_DELIMITER = '.::.';
 
 	private static $username = false;
-	private static $basedir = 'protected/logs';
+	private static $basedir = GWF_PATH . 'protected/logs';
 	private static $logbits = self::_DEFAULT;
 	private static $logformat = "%s [%s%s] - %s\n";
 	private static $cache = 0;
@@ -48,7 +48,7 @@ final class GWF_Log
 	 * @param int $logbits bitmask for logging-modes
 	 * @param string $basedir The path to the logfiles. Should be relative.
 	 */
-	public static function init($username=false, $logbits=self::_DEFAULT, $basedir='protected/logs')
+	public static function init(string $username=null, int $logbits=self::_DEFAULT, $basedir='protected/logs')
 	{
 		self::$username = $username;
 		self::$logbits = $logbits;

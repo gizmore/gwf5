@@ -124,8 +124,10 @@ final class GWF_ModuleLoader
 			if (!isset($this->modules[$moduleName]))
 			{
 				include(GWF_PATH . 'module/'. $moduleName .'/Module_' . $moduleName. '.php');
-				$this->activeModules[$moduleName] = $this->modules[$moduleName] = $module = self::instanciate($moduleData);
-				$module->setPersisted(true);
+				if ($module = self::instanciate($moduleData))
+				{
+					$this->activeModules[$moduleName] = $this->modules[$moduleName] = $module->setPersisted(true);
+				}
 			}
 		}
 		return $this->modules;
@@ -146,19 +148,29 @@ final class GWF_ModuleLoader
 				require $path;
 				$moduleData = GWF_Module::table()->blankData();
 				$moduleData['module_name'] = $entry;
-				$this->modules[$entry] = self::instanciate($moduleData, true);
+				if ($module = self::instanciate($moduleData, true))
+				{
+					$this->modules[$entry] = $module;
+				}
 			}
 		}
 	}
 	
 	public static function instanciate(array $moduleData, $dirty = null)
 	{
-		$klass = 'Module_' . $moduleData['module_name'];
-		$instance = new $klass();
-		$instance instanceof GWF_Module;
-		$instance->setGDOVars($moduleData, $dirty);
-// 		$instance->initModule();
-		return $instance;
+		try
+		{
+			$klass = 'Module_' . $moduleData['module_name'];
+			$instance = new $klass();
+			$instance instanceof GWF_Module;
+			$instance->setGDOVars($moduleData, $dirty);
+	// 		$instance->initModule();
+			return $instance;
+		}
+		catch (Exception $e)
+		{
+			return null;
+		}
 	}
 
 	############

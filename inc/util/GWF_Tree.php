@@ -11,7 +11,7 @@ class GWF_Tree extends GDO
 	### GDO ###
 	###########
 	public function gdoAbstract() { return true; }
-	public function gdoTreeColumns()
+	public function gdoColumns()
 	{
 		$pre = $this->gdoTreePrefix();
 		return array(

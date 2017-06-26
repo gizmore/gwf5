@@ -79,7 +79,18 @@ final class GWF5
 	
 	public function loadModulesCache()
 	{
-		return $this->moduleLoader->loadModulesCache();
+		$modules = $this->moduleLoader->loadModulesCache();
+		
+		# Include JS
+		if ($this->isFullPageRequest())
+		{
+			foreach ($modules as $module)
+			{
+				$module->onIncludeScripts();
+			}
+		}
+		
+		return $modules;
 	}
 	
 	/**

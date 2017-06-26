@@ -1,6 +1,8 @@
 <?php
 return array(
 'btn_admin' => 'Admin',
+'btn_phpinfo' => 'PHPInfo',
+'btn_clearcache' => 'Clear-Cache',
 'btn_modules' => 'Modules',
 'btn_users' => 'Users',
 'btn_permissions' => 'Permissions',
@@ -35,4 +37,6 @@ return array(
 		
 'ft_admin_cronjob' => '[%s] Cronjob Test',
 'btn_run_cronjob' => 'Run',
+		
+'msg_cache_flushed' => 'Caches have been flushed. E.g; rm -rf temp/minify, GDOCache::flush().',
 );
