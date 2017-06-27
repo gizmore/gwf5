@@ -78,14 +78,19 @@ class GWF_Tree extends GDO
 				$roots[] = $leaf;
 			}
 		}
-		return $roots;
+		return [$tree, $roots];
 	}
 	
 	public function toJSON()
 	{
 		return array(
-			'id' => $this->getID(),
-			'label' => $this->getName(),
+			'id' => (int)$this->getID(),
+			'selected' => false,
+			'colapsed' => false,
+			'name' => $this->getName(),
+			'label' => $this->displayName(),
+			'depth' => (int)$this->getDepth(),
+			'parent' => (int)$this->getParentID(),
 			'children' => $this->getChildrenJSON(),
 		);
 	}

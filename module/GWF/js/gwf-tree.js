@@ -1,41 +1,93 @@
 "use strict";
 angular.module('gwf5').
-config(function(ivhTreeviewOptionsProvider) {
-	ivhTreeviewOptionsProvider.set({
-		defaultSelectedState: false,
-		validate: true,
-		expandToDepth: -1,
-		twistieCollapsedTpl: '<i class="material-icons">chevron_right</i>',
-		twistieExpandedTpl: '<i class="material-icons">expand_more</i>',
-		twistieLeafTpl: '<span style="cursor: default;">&#8192;&#8192;</span>'
-	});
-}).
-directive('mdBox', function(ivhTreeviewMgr) {
-	return {
-		restrict: 'AE',
-		template: [
-			'<span class="ascii-box">',
-			'<span ng-show="node.selected" class="x"><md-checkbox style="min-height: 100%; line-height: 0" aria-label="checked" ng-checked="true"></md-checkbox></span>',
-			'<span ng-show="node.__ivhTreeviewIndeterminate" class="y"><md-checkbox style="min-height: 100%; line-height: 0" aria-label="checked" ng-checked="false"></md-checkbox></span>',
-			'<span ng-hide="node.selected || node.__ivhTreeviewIndeterminate"><md-checkbox style="min-height: 100%; line-height: 0" aria-label="checked" ng-checked="false"></md-checkbox></span>',
-			'</span>',  
-			].join(''),
-		link: function(scope, element, attrs) {
-			element.on('click', function() {
-				var parent = scope, tree;
-				while(parent = parent.$parent) {
-					if (tree = parent.tree) {
-						break;
-					}
-				}
-				ivhTreeviewMgr.select(tree, scope.node, scope.node.selected);
-				scope.$apply();
-			});
+controller('GWFTreeCtrl', function($scope) {
+	$scope.init = function(options, tree) {
+		console.log('GWFTreeCtrl.init()', options, tree);
+		$scope.hiddenId = options.id;
+		$scope.multiple = !!options.multiple;
+		$scope.tree = tree;
+		$scope.all = {};
+		for (var i in tree) {
+			$scope.initNode(tree[i]);
 		}
 	};
-}).
-controller('GWFTreeCtrl', function($scope) {
-	$scope.init = function(tree) {
-		$scope.tree = tree;
+	$scope.initNode = function(node) {
+		$scope.all[node.id] = node;
+		node.sel = node.selected = !!node.selected;
+		for (var i in node.children) {
+			$scope.initNode(node.children[i]);
+		}
 	};
+	
+	$scope.onToggled = function($event, id) {
+		var root = $scope.all[id];
+		root.sel = !root.sel;
+		console.log('GWFTreeCtrl.onToggled()', root.label, root.sel);
+		$scope.toggleChilds(root, root.sel);
+		$scope.onBubble($scope.all[root.parent]);
+//		$event.preventDefault();
+//		$event.stopPropagation();
+		for (var i in $scope.all) {
+			var node = $scope.all[i];
+			node.selected = node.sel; 
+		}
+		setTimeout(function(){
+			root.selected = root.sel;
+			$scope.$apply();
+		},1);
+		return true;
+	}
+	
+	$scope.onBubble = function(node) {
+		if (node) {
+			var selected = $scope.getSumToggle(node.id);
+			console.log('Parent bubbled', node.label, selected);
+			node.sel = node.selected = selected;
+			var parent = $scope.all[node.parent];
+			if (parent) {
+				$scope.onBubble(parent);
+			}
+		}
+	};
+	
+	$scope.toggleChilds = function(node, selected) {
+//		console.log('GWFTreeCtrl.toggleChilds()', node, selected);
+		for (var i in node.children) {
+			var child = node.children[i];
+			child.sel = selected;
+			console.log('Child drowned', child.label, selected);
+			$scope.toggleChilds(child, selected);
+//			setTimeout($scope.toggleChilds.bind($scope, child, selected), 1);
+		}
+//		$scope.$apply();
+	};
+	
+	$scope.getSumToggle = function(id) {
+		var node = $scope.all[id];
+		var sum = undefined;
+		for (var i in node.children) {
+			var child = node.children[i];
+			if (sum === undefined) {
+				sum = child.sel;
+			}
+			else if (sum !== child.sel) {
+				sum = null;
+				break;
+			}
+		}
+		
+		if (sum === undefined) {
+			sum = node.sel;
+		}
+		
+		console.log('GWFTreeCtrl.getSumToggle()', node.label, sum);
+		return sum;
+	};
+	
+	$scope.isIndeterminate = function(id) {
+		var i = $scope.getSumToggle(id) === null;
+//		console.log('GWF_TreeCtrl.isIndeterminate()', $scope.all[id].label, i);
+		return i;
+	};
+
 });

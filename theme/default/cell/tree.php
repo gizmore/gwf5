@@ -1,31 +1,39 @@
 <?php $field instanceof GDO_Tree; ?>
 <?php
-$gdo = $field->gdo; $gdo instanceof GWF_Tree;
+$id = 'gwftreecbx_'.$field->name;
+$gdo = $field->gdo;
+$gdo instanceof GWF_Tree;
+# Build  Tree JSON
 $json = [];
-$roots = $gdo->full();
+list($tree, $roots) = $gdo->full();
 foreach ($roots as $root)
 {
 	$json[] = $root->toJSON();
 }
-
-
+// foreach ($tree as $leaf)
+// {
+// 	$json[$leaf->getID()] = $leaf->toJSON();
+// }
 ?>
-<div
->
-<div
- ng-init='tree=(<?php echo json_encode($json); ?>)'
- ivh-treeview="tree"
- ivh-treeview-id-attribute="'id'"
- ivh-treeview-label-attribute="'label'"
- ivh-treeview-children-attribute="'children'"
- ivh-treeview-selected-attribute="'selected'">
-<script type="text/ng-template">
-  <span ivh-treeview-toggle>
-    <span ivh-treeview-twistie></span>
-  </span>
-  <md-box></md-box>
-  <span class="ivh-treeview-node-label" ivh-treeview-toggle>{{trvw.label(node)}}</span>
-  <div ivh-treeview-children></div>
-</script>
+<div class="gwf-tree"
+ ng-controller="GWFTreeCtrl"
+ ng-init='init("#<?php echo $id; ?>" , <?php echo json_encode($json); ?>)'>
+<?php
+foreach ($roots as $root)
+{
+	_gwfTreeRecurse($root);
+}
+?>
 </div>
-</div>
+
+<?php
+function _gwfTreeRecurse(GWF_Tree $leaf)
+{
+	$r = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $leaf->getDepth());
+	printf($r.'<md-checkbox ng-model="all[%1$s].selected" ng-click="onToggled($event, %1$s);" md-indeterminate="all[%1$s].selected === null" >%2$s</md-checkbox><br/>', $leaf->getID(), $leaf->displayName());
+	foreach ($leaf->children as $child)
+	{
+		_gwfTreeRecurse($child);
+	}
+}
+?>

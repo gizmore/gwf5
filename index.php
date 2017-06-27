@@ -27,8 +27,8 @@ try
 	# Turn off Output buffering
 	ob_start(); # Level 1
 	
-	$modules = $gwf5->loadModulesCache();
 	GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);
+	$modules = $gwf5->loadModulesCache();
 	GWF_Log::init(GWF_User::current()->getUserName(), GWF_ERROR_LEVEL, 'protected/logs');
 	
 	# Get module and method
@@ -63,4 +63,3 @@ finally
 {
 	while (ob_get_level() > 0) { ob_end_clean(); }
 }
-echo "<!-- END OF INDEX.PHP -->\n";

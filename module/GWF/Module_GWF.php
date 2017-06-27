@@ -87,9 +87,9 @@ class Module_GWF extends GWF_Module
 		GWF_Javascript::addBowerJavascript("angular-jk-rating-stars/dist/jk-rating-stars$min.js");
 		GWF_Website::addBowerCSS("angular-jk-rating-stars/dist/jk-rating-stars$min.css");
 		# Treeview
-		GWF_Javascript::addBowerJavascript("angular-ivh-treeview/dist/ivh-treeview$min.js");
-		GWF_Website::addBowerCSS("angular-ivh-treeview/dist/ivh-treeview-theme-basic.css");
-		GWF_Website::addBowerCSS("angular-ivh-treeview/dist/ivh-treeview.css");
+// 		GWF_Javascript::addBowerJavascript("angular-ivh-treeview/dist/ivh-treeview$min.js");
+// 		GWF_Website::addBowerCSS("angular-ivh-treeview/dist/ivh-treeview-theme-basic.css");
+// 		GWF_Website::addBowerCSS("angular-ivh-treeview/dist/ivh-treeview.css");
 		# GWF
 		$this->onIncludeGWFScripts();
 	}
