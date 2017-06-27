@@ -15,7 +15,7 @@ class GWF_Tree extends GDO
 	{
 		$pre = $this->gdoTreePrefix();
 		return array(
-			GDO_Object::make($pre.'_parent')->klass(self::gdoClassNameS()),
+			GDO_Object::make($pre.'_parent')->klass($this->gdoClassName()),
 			GDO_Int::make($pre.'_depth')->unsigned()->bytes(1),
 			GDO_Int::make($pre.'_left')->unsigned(),
 			GDO_Int::make($pre.'_right')->unsigned(),
@@ -24,7 +24,7 @@ class GWF_Tree extends GDO
 	public function getIDColumn() { return $this->gdoPrimaryKeyColumn()->identifier(); }
 	public function getParentColumn() { return $this->gdoTreePrefix().'_parent'; }
 	public function getParentID() { return $this->getVar($this->getParentColumn()); }
-	public function getParent() { return $this->getValue($this->getParentID()); }
+	public function getParent() { return $this->getValue($this->getParentColumn()); }
 	
 	public function getDepthColumn() { return $this->gdoTreePrefix().'_depth'; }
 	public function getDepth() { return $this->getVar($this->getDepthColumn()); }
@@ -58,24 +58,47 @@ class GWF_Tree extends GDO
 		return $this->table()->select()->order($this->getLeftColumn())->exec()->fetchAllArray2dObject();
 	}
 	
+	public $children = array();
+	
 	public function full()
 	{
 		$tree = $this->table()->all();
+		$roots = [];
 		
 		foreach ($tree as $leaf)
 		{
-			$leaf->tempSet('gwf_tree_children', []);
-		}
-		foreach ($tree as $leaf)
-		{
 			$leaf instanceof GWF_Tree;
-			$children = $leaf->getParent()->treeChildren();
-			$children[] = $leaf;
+			if (isset($tree[$leaf->getParentID()]))
+			{
+				$parent = $tree[$leaf->getParentID()];
+				$parent->children[] = $leaf;
+			}
+			else
+			{
+				$roots[] = $leaf;
+			}
 		}
-		return true;
+		return $roots;
 	}
 	
-	public function treeChildren() { return $this->tempGet('gwf_tree_children'); }
+	public function toJSON()
+	{
+		return array(
+			'id' => $this->getID(),
+			'label' => $this->getName(),
+			'children' => $this->getChildrenJSON(),
+		);
+	}
+	
+	public function getChildrenJSON()
+	{
+		$json = [];
+		foreach ($this->children as $child)
+		{
+			$json[] = $child->toJSON();
+		}
+		return empty($json) ? null : $json;
+	}
 	
 	
 	###############

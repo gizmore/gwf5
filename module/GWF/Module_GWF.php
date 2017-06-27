@@ -88,8 +88,8 @@ class Module_GWF extends GWF_Module
 		GWF_Website::addBowerCSS("angular-jk-rating-stars/dist/jk-rating-stars$min.css");
 		# Treeview
 		GWF_Javascript::addBowerJavascript("angular-ivh-treeview/dist/ivh-treeview$min.js");
-// 		GWF_Website::addBowerCSS("angular-ivh-treeview/dist/ivh-treeview.css");
 		GWF_Website::addBowerCSS("angular-ivh-treeview/dist/ivh-treeview-theme-basic.css");
+		GWF_Website::addBowerCSS("angular-ivh-treeview/dist/ivh-treeview.css");
 		# GWF
 		$this->onIncludeGWFScripts();
 	}
@@ -106,6 +106,7 @@ class Module_GWF extends GWF_Module
 		$this->addJavascript('js/gwf-request-interceptor.js');
 		$this->addJavascript('js/gwf-request-srvc.js');
 		$this->addJavascript('js/gwf-string-util.js');
+		$this->addJavascript('js/gwf-tree.js');
 		$this->addJavascript('js/gwf-upload-ctrl.js');
 		$this->addJavascript('js/gwf-user.js');
 		$this->addJavascript('js/ng-crsrup.js');

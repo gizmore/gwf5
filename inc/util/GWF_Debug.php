@@ -155,12 +155,14 @@ final class GWF_Debug
 		elseif (GWF_ERROR_STACKTRACE)
 		{
 			$message = self::backtrace($message, $is_html).PHP_EOL;
-			echo GWF5::instance()->render(GWF_Response::make($message));
+			echo $message.PHP_EOL;
+// 			echo GWF5::instance()->render(GWF_Response::make($message));
 		}
 		elseif ($is_html)
 		{
 			$message = sprintf('<div class="gwf-exception">%s</div>', $message);
-			echo GWF5::instance()->render(GWF_Error::make($message));
+			echo $message.PHP_EOL;
+// 			echo GWF5::instance()->render(GWF_Error::make($message));
 		}
 		else
 		{
@@ -202,7 +204,8 @@ final class GWF_Debug
 			GWF_Log::flush();
 		}
 		$message = self::backtraceException($e, $is_html, ' (XH)');
-		GWF5::instance()->render(GWF_Response::make($message));
+		echo $message.PHP_EOL;
+// 		GWF5::instance()->render(GWF_Response::make($message));
 		return true;
 	}
 

@@ -74,7 +74,7 @@ abstract class GDO
 	 */
 	private $temp;
 	public function tempGet(string $key) { return @$this->temp[$key]; }
-	public function tempSet(string $key, $value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = $value; }
+	public function tempSet(string $key, &$value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = &$value; }
 	public function tempUnset(string $key) { unset($this->temp[$key]); }
 	
 	############
