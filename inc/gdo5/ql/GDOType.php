@@ -442,6 +442,12 @@ abstract class GDOType
 		return GWF_HTML::escape($value);
 	}
 	
+	public function renderChoice()
+	{
+		return $this->renderCell();
+	}
+	
+	
 	##################
 	### Validation ###
 	##################

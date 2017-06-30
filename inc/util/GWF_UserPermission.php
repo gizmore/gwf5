@@ -3,6 +3,8 @@ final class GWF_UserPermission extends GDO
 {
 	public function gdoCached() { return false; }
 	
+	public function gdoDependencies() { return ['GWF_User', 'GWF_Permission']; }
+	
 	public function gdoColumns()
 	{
 		return array(

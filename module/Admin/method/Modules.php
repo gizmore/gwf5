@@ -44,7 +44,7 @@ class Admin_Modules extends GWF_MethodTable
 		return array(
 // 			GDO_DeleteButton::make(),
 			GDO_Id::make('module_id')->label('id'),
-			GDO_Sort::make('module_priority')->label('sort'),
+			GDO_Sort::make('module_sort')->label('sort'),
 			GDO_Checkbox::make('module_enabled')->label('enabled'),
 			GDO_Name::make('module_name')->label('name'),
 			GDO_Decimal::make('module_version')->label('version_db'),
@@ -54,4 +54,10 @@ class Admin_Modules extends GWF_MethodTable
 			GDO_Button::make('administrate_module')->label('btn_admin'),
 		);
 	}
+	
+	public function createTable(GDO_Table $table)
+	{
+		$table->sortable(href('Admin', 'ModuleSort'));
+	}
+	
 }

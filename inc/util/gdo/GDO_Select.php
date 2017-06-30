@@ -90,5 +90,8 @@ class GDO_Select extends GDO_Combobox
 	{
 		return GWF_Template::mainPHP('form/select.php', ['field' => $this]);
 	}
-
+	public function renderChoice()
+	{
+		
+	}
 }

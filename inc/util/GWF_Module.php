@@ -112,7 +112,8 @@ class GWF_Module extends GDO
 		return array(
 			GDO_AutoInc::make('module_id'),
 			GDO_Name::make('module_name')->notNull()->unique(),
-			GDO_Sort::make('module_priority')->notNull()->initial('50'),
+			GDO_Int::make('module_priority')->notNull()->unsigned()->initial('50'),
+			GDO_Sort::make('module_sort'),
 			GDO_Char::make('module_version')->notNull()->initial('0.00')->size(4),
 			GDO_Bool::make('module_enabled')->notNull()->initial('0'),
 		);

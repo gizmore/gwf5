@@ -24,6 +24,8 @@ abstract class GWF_MethodTable extends GWF_Method
 	 * @return GDOResult
 	 */
 	public abstract function getResult();
+	
+	public function createTable(GDO_Table $table) {}
 
 	###############
 	### Execute ###
@@ -36,7 +38,9 @@ abstract class GWF_MethodTable extends GWF_Method
 	public function renderTable()
 	{
 		$table = GDO_Table::make();
+		$table->gdo = GWF_Module::table();
 		$table->addFields($this->getHeaders());
+		$this->createTable($table);
 		$table->paginate($this->isPaginated(), $this->ipp());
 		$table->filtered($this->isFiltered());
 		$table->result($this->getResult());

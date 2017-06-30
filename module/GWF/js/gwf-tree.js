@@ -13,6 +13,7 @@ controller('GWFTreeCtrl', function($scope) {
 	};
 	$scope.initNode = function(node) {
 		$scope.all[node.id] = node;
+		node.expanded = false;
 		node.sel = node.selected = !!node.selected;
 		for (var i in node.children) {
 			$scope.initNode(node.children[i]);
@@ -35,8 +36,19 @@ controller('GWFTreeCtrl', function($scope) {
 			root.selected = root.sel;
 			$scope.$apply();
 		},1);
+		$($scope.hiddenId).val($scope.selection());
 		return true;
 	}
+	$scope.selection = function() {
+		var sel = []
+		for (var i in $scope.all) {
+			var cbx = $scope.all[i];
+			if (cbx.sel) {
+				sel.push(cbx.id);
+			}
+		}
+		return JSON.stringify(sel);
+	};
 	
 	$scope.onBubble = function(node) {
 		if (node) {
@@ -83,7 +95,27 @@ controller('GWFTreeCtrl', function($scope) {
 		console.log('GWFTreeCtrl.getSumToggle()', node.label, sum);
 		return sum;
 	};
-	
+	$scope.isShown = function(id) {
+		var node = $scope.all[id];
+		var parent = $scope.all[node.parent];
+		return parent ? parent.expanded : true;
+	};
+	$scope.isCollapsed = function(id) {
+		var node = $scope.all[id];
+		return !node.expanded;
+	};
+	$scope.shrink = function(id, expand) {
+		var node = $scope.all[id];
+		node.expanded = !!expand;
+		for (var i in node.children) {
+			var child = node.children[i];
+			$scope.shrink(child.id, expand);
+		}
+	};
+	$scope.expand = function(id) {
+		return $scope.shrink(id, true);
+	};
+
 	$scope.isIndeterminate = function(id) {
 		var i = $scope.getSumToggle(id) === null;
 //		console.log('GWF_TreeCtrl.isIndeterminate()', $scope.all[id].label, i);

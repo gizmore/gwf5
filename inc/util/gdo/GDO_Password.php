@@ -18,7 +18,7 @@ class GDO_Password extends GDO_String
 	
 	public function getGDOValue()
 	{
-		return new GWF_Password($this->gdo->getVar('user_password'));
+		return new GWF_Password($this->gdo->getVar($this->name));
 	}
 	
 	public $hashed = false;

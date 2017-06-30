@@ -52,6 +52,8 @@ class Module_GWF extends GWF_Module
 		GWF_Javascript::addBowerJavascript("jquery/dist/jquery$min.js");
 		GWF_Javascript::addBowerJavascript("bootstrap/dist/js/bootstrap$min.js");
 		GWF_Website::addBowerCSS("bootstrap/dist/css/bootstrap$min.css");
+		# jQuery UI
+		GWF_Javascript::addBowerJavascript("jquery-ui/jquery-ui$min.js");
 // 		# jQuery Datatables
 // 		GWF_Javascript::addBowerJavascript("datatables.net/js/jquery.dataTables$min.js");
 // 		GWF_Javascript::addBowerJavascript("datatables.net-bs/js/dataTables.bootstrap$min.js");
@@ -90,6 +92,8 @@ class Module_GWF extends GWF_Module
 // 		GWF_Javascript::addBowerJavascript("angular-ivh-treeview/dist/ivh-treeview$min.js");
 // 		GWF_Website::addBowerCSS("angular-ivh-treeview/dist/ivh-treeview-theme-basic.css");
 // 		GWF_Website::addBowerCSS("angular-ivh-treeview/dist/ivh-treeview.css");
+		# DragDrop
+		GWF_Javascript::addBowerJavascript("angular-dragdrop/src/angular-dragdrop$min.js");
 		# GWF
 		$this->onIncludeGWFScripts();
 	}
@@ -106,6 +110,7 @@ class Module_GWF extends GWF_Module
 		$this->addJavascript('js/gwf-request-interceptor.js');
 		$this->addJavascript('js/gwf-request-srvc.js');
 		$this->addJavascript('js/gwf-string-util.js');
+		$this->addJavascript('js/gwf-table-ctrl.js');
 		$this->addJavascript('js/gwf-tree.js');
 		$this->addJavascript('js/gwf-upload-ctrl.js');
 		$this->addJavascript('js/gwf-user.js');

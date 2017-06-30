@@ -13,7 +13,7 @@ $result = $field->getResult();
 
 ?>
 <form method="post" action="<?php echo $field->href; ?>" flex class="b">
-<div class="gwf-table table-responsive" layout="column" flex layout-fill>
+<div class="gwf-table table-responsive" layout="column" flex layout-fill ng-controller="GWFTableCtrl" ng-init='init(<?php echo $field->initJSON(); ?>)'>
   <input type="hidden" name="mo" value="<?php echo htmlspecialchars(Common::getRequestString('mo','')); ?>" />
   <input type="hidden" name="me" value="<?php echo htmlspecialchars(Common::getRequestString('me','')); ?>" />
   <h3><?php echo $field->displayLabel(); ?></h3>
@@ -32,7 +32,7 @@ $result = $field->getResult();
     </thead>
     <tbody>
     <?php while ($gdo = $result->fetchObject()) : ?>
-    <tr>
+    <tr gdo-id="<?php echo $gdo->getID()?>">
       <?php foreach($headers as $gdoType) : $gdoType instanceof GDOType; ?>
         <td<?php echo $gdoType->htmlClass(); ?>><?php echo $gdoType->gdo($gdo)->renderCell(); ?></td>
       <?php endforeach; ?>

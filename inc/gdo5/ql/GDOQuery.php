@@ -14,7 +14,7 @@ class GDOQuery
 	 * The table to manipulate
 	 * @var GDO
 	 */
-	private $table;
+	public $table;
 	
 	# query parts
 	private $columns;

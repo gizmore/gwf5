@@ -9,4 +9,10 @@ class GDO_Sort extends GDO_Int
 		$this->unsigned();
 		$this->label('sorting');
 	}
+	
+	public function gdoAfterCreate()
+	{
+		$this->gdo->saveVar($this->name, $this->gdo->getID());
+	}
+
 }

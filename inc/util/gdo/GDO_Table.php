@@ -4,6 +4,15 @@ class GDO_Table extends GDO_Blank
 	use GWF_Fields;
 	use GDO_HREFTrait;
 	
+	private $sortable;
+	private $sortableURL;
+	public function sortable(string $sortableURL=null)
+	{
+		$this->sortable = $sortableURL !== null;
+		$this->sortableURL = $sortableURL;
+		return $this;
+	}
+	
 	public $filtered;
 	public function filtered(bool $filtered=true)
 	{
@@ -125,4 +134,12 @@ class GDO_Table extends GDO_Blank
 		return GWF_Template::mainPHP('cell/table.php', ['field'=>$this]);
 	}
 	
+	public function initJSON()
+	{
+		return json_encode(array(
+			'tableName' => $this->gdo->gdoClassName(),
+			'sortable' => $this->sortable,
+			'sortableURL' => $this->sortableURL,
+		));
+	}
 }

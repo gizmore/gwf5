@@ -145,7 +145,8 @@ class GWF_ModuleInstall
 	#####################
 	### GWF core util ###
 	#####################
-	public static function coreInclude($entry, $path, $tables)
+	private static $coreTables;
+	public static function coreInclude($entry, $path, $args)
 	{
 		$class = GWF_String::substrTo($entry, '.');
 		if (class_exists($class))
@@ -156,7 +157,7 @@ class GWF_ModuleInstall
 				{
 					if (!$table->gdoAbstract())
 					{
-						$tables[$class] = $table;
+						self::$coreTables[$class] = $table;
 					}
 				}
 			}
@@ -165,22 +166,29 @@ class GWF_ModuleInstall
 	
 	public static function installCoreTables(bool $dropTables=false)
 	{
-		$tables = [];
-		GWF_Filewalker::traverse(GWF_PATH . 'inc/util', [__CLASS__, 'coreInclude'], false, false, $tables);
+		self::$coreTables = [];
+		GWF_Filewalker::traverse(GWF_PATH . 'inc/util', [__CLASS__, 'coreInclude'], false, false);
+		$tables = self::$coreTables;
 		while (count($tables))
 		{
 			$changed = false;
 			foreach ($tables as $classname => $table)
 			{
+				$skip = false; 
 				if ($deps = $table->gdoDependencies())
 				{
 					foreach ($deps as $dep)
 					{
 						if (isset($tables[$dep]))
 						{
-							continue;
+							$skip = true;
+							break;
 						}
 					}
+				}
+				if ($skip)
+				{
+					continue;
 				}
 				if ($dropTables)
 				{

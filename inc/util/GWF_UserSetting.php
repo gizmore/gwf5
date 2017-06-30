@@ -14,6 +14,7 @@ final class GWF_UserSetting extends GDO
 	### GDO ###
 	###########
 	public function gdoCached() { return false; }
+	public function gdoDependencies() { return ['GWF_User', 'GWF_Module']; }
 	public function gdoColumns()
 	{
 		return array(

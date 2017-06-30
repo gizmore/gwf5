@@ -36,6 +36,7 @@ abstract class GWF_MethodQueryTable extends GWF_Method
 		$table->addFields($this->getHeaders());
 		$table->href($this->href());
 		$table->query($this->getQuery());
+		$table->gdo($table->query->table);
 		$table->paginate($this->isPaginated(), $this->ipp());
 		$table->filtered($this->isFiltered());
 		$this->onDecorateTable($table);
