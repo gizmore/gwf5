@@ -3,6 +3,7 @@
 ### Init ###
 ############
 chdir('../');
+define('GWF_INSTALL', true);
 
 require 'protected/config.php';
 require 'inc/GWF5.php';
@@ -44,14 +45,21 @@ GWF_ModuleInstall::installModules($modules);
 ### Admins ###
 ##############
 $user = GWF_User::blank(array(
+'user_name'=>'system',
+'user_email' => GWF_BOT_EMAIL,
+'user_type' => 'bot',
+'user_password' => GWF_Password::create('system')->__toString(),
+))->insert();
+$user = GWF_User::blank(array(
 'user_name'=>'gizmore',
 'user_email' => 'gizmore@gizmore.org',
 'user_type' => 'member',
 'user_password' => GWF_Password::create('11111111')->__toString(),
 ))->insert();
 GWF_UserPermission::grant($user, 'admin');
+GWF_UserPermission::grant($user, 'staff');
 
-
+GDOCache::flush();
 
 echo $gwf5->renderBlank();
 

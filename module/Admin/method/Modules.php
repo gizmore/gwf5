@@ -31,7 +31,7 @@ class Admin_Modules extends GWF_MethodTable
 	
 	public function getResult()
 	{
-		return new GDOArrayResult($this->modules);
+		return new GDOArrayResult($this->modules, GWF_Module::table());
 	}
 	
 	public function getResultCount()

@@ -61,6 +61,7 @@ return array(
 'err_url_not_reachable' => 'Your entered URL is not reachable by this server.',
 'err_method_disabled' => 'This function is currently disabled.',
 'err_is_null' => 'This field may not be empty.',
+'err_user_type' => 'Your account is not of membership type %s.',
 
 # Permissions
 'perm_admin' => 'Administrator',

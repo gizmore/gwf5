@@ -46,6 +46,10 @@ class GDO_Table extends GDO_Blank
 	public $result;
 	public function result(GDOResult $result)
 	{
+		if (!$this->fetchAs)
+		{
+			$this->fetchAs = $result->table;
+		}
 		$this->result = $result;
 		return $this;
 	}
@@ -65,6 +69,10 @@ class GDO_Table extends GDO_Blank
 	public $query;
 	public function query(GDOQuery $query)
 	{
+		if (!$this->fetchAs)
+		{
+			$this->fetchAs = $query->table;
+		}
 		$this->query = $query;
 		return $this;
 	}
@@ -108,6 +116,13 @@ class GDO_Table extends GDO_Blank
 		return $this->pagemenu;
 	}
 	
+	public $fetchAs;
+	public function fetchAs(GDO $fetchAs=null)
+	{
+		$this->fetchAs = $fetchAs;
+		return $this;
+	}
+	
 	###############
 	### Actions ###
 	###############
@@ -137,7 +152,7 @@ class GDO_Table extends GDO_Blank
 	public function initJSON()
 	{
 		return json_encode(array(
-			'tableName' => $this->gdo->gdoClassName(),
+			'tableName' => $this->result->table->gdoClassName(),
 			'sortable' => $this->sortable,
 			'sortableURL' => $this->sortableURL,
 		));

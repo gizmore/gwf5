@@ -81,25 +81,26 @@ class GDO_String extends GDOType
 	################
 	public function validate($value)
 	{
-		if ( ($value === null) && ($this->null) )
+		if (parent::validate($value)) 
 		{
+			if ($value !== null)
+			{
+				$len = mb_strlen($value);
+				if ( ($this->min !== null) && ($len < $this->min) )
+				{
+					return $this->strlenError();
+				}
+				if ( ($this->max !== null) && ($len > $this->max) )
+				{
+					return $this->strlenError();
+				}
+				if ( ($this->pattern !== null) && (!preg_match($this->pattern, $value)) )
+				{
+					return $this->patternError();
+				}
+			}
 			return true;
 		}
-		
-		$len = mb_strlen($value);
-		if ( ($this->min !== null) && ($len < $this->min) )
-		{
-			return $this->strlenError();
-		}
-		if ( ($this->max !== null) && ($len > $this->max) )
-		{
-			return $this->strlenError();
-		}
-		if ( ($this->pattern !== null) && (!preg_match($this->pattern, $value)) )
-		{
-			return $this->patternError();
-		}
-		return true;
 	}
 
 	private function patternError()

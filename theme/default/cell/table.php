@@ -31,7 +31,7 @@ $result = $field->getResult();
       </tr>
     </thead>
     <tbody>
-    <?php while ($gdo = $result->fetchObject()) : ?>
+    <?php while ($gdo = $result->fetchAs($field->fetchAs)) : ?>
     <tr gdo-id="<?php echo $gdo->getID()?>">
       <?php foreach($headers as $gdoType) : $gdoType instanceof GDOType; ?>
         <td<?php echo $gdoType->htmlClass(); ?>><?php echo $gdoType->gdo($gdo)->renderCell(); ?></td>

@@ -61,6 +61,12 @@ class GWF_Session extends GDO
 		return self::$INSTANCE;
 	}
 	
+	public static function reset()
+	{
+		self::$INSTANCE = null;
+		self::$STARTED = false;
+	}
+	
 	public static function init(string $cookieName='GWF5', string $domain='localhost', int $seconds=-1, bool $httpOnly=true, bool $https = false)
 	{
 		self::$COOKIE_NAME = $cookieName;
@@ -182,7 +188,10 @@ class GWF_Session extends GDO
 	
 	private function setCookie()
 	{
-		setcookie(self::$COOKIE_NAME, $this->cookieContent(), time() + self::$COOKIE_SECONDS, '/', self::$COOKIE_DOMAIN, self::cookieSecure(), !self::$COOKIE_JS);
+		if (!GWF5::instance()->isCLI())
+		{
+			setcookie(self::$COOKIE_NAME, $this->cookieContent(), time() + self::$COOKIE_SECONDS, '/', self::$COOKIE_DOMAIN, self::cookieSecure(), !self::$COOKIE_JS);
+		}
 	}
 	
 	public function cookieContent()
@@ -197,7 +206,10 @@ class GWF_Session extends GDO
 	
 	private static function setDummyCookie()
 	{
-		setcookie(self::$COOKIE_NAME, self::DUMMY_COOKIE_CONTENT, time()+300, '/', self::$COOKIE_DOMAIN, self::cookieSecure(), !self::$COOKIE_JS);
+		if (!GWF5::instance()->isCLI())
+		{
+			setcookie(self::$COOKIE_NAME, self::DUMMY_COOKIE_CONTENT, time()+300, '/', self::$COOKIE_DOMAIN, self::cookieSecure(), !self::$COOKIE_JS);
+		}
 	}
 	
 	private static function createSession($cookieIP=true)

@@ -21,11 +21,13 @@ final class GWF5
 	public function getTheme() { return GWF_THEME; }
 	public function getSiteName() { return t('site_name'); }
 	
-	public function getFormat() { return Common::getRequestString('fmt', 'html'); }
+	public function getFormat() { return Common::getGetString('fmt', 'html'); }
 	public function isHTML() { return $this->getFormat() === 'html'; }
 	public function isJSON() { return $this->getFormat() === 'json'; }
-	public function isAjax() { return isset($_REQUEST['ajax']); }
+	public function isAjax() { return isset($_GET['ajax']); }
+	public function isInstall() { return defined('GWF_INSTALL'); }
 	
+	public function isCLI() { return php_sapi_name() === 'cli'; }
 	public function isFullPageRequest() { return (!$this->isAjax()) && $this->isHTML(); }
 	/**
 	 * @var GWF_ModuleLoader

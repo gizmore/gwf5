@@ -6,7 +6,7 @@
  */
 class GDOResult
 {
-	private $table;
+	public $table;
 	private $result;
 	
 	public function __construct(GDO $table, $result)

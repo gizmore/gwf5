@@ -32,7 +32,7 @@ class Admin_Permissions extends GWF_MethodQueryTable
 	
 	public function execute()
 	{
-		return $this->renderNavBar()->add(parent::execute());
+		return $this->renderPermTabs()->add(parent::execute());
 	}
 	
 }

@@ -100,6 +100,7 @@ final class GWF_User extends GDO
 	### HREFs ###
 	#############
 	public function href_edit_admin() { return href('Admin', 'UserEdit', "&id={$this->getID()}"); }
+	public function href_perm_revoke() { return href('Admin', 'PermissionRevoke', "&user={$this->getID()}&perm=".$this->getVar('perm_perm_id')); }
 	
 	#############
 	### Perms ###
@@ -116,6 +117,7 @@ final class GWF_User extends GDO
 	}
 	public function hasPermission(string $permission) { return array_key_exists($permission, $this->loadPermissions()); }
 	public function isAdmin() { return $this->hasPermission('admin'); }
+	public function changedPermissions() { $this->tempUnset('gwf_permission'); return $this->recache(); }
 	
 	##############
 	### Static ###
@@ -131,7 +133,8 @@ final class GWF_User extends GDO
 	 * Not necisarilly via session!
 	 * @return GWF_User
 	 */
-	public static function current() { return GWF_Session::user(); }
+	public static function current() { return isset(self::$CURRENT) ? self::$CURRENT : GWF_Session::user(); }
+	public static $CURRENT;
 
 	/**
 	 * @param string $name

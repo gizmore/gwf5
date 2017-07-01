@@ -11,11 +11,11 @@
   <md-autocomplete
    md-clear-button="true"
    md-floating-label="<?php echo $field->displayLabel(); ?>"
-   md-search-text="searchText"
-   md-items="item in query(searchText)"
+   md-search-text="data.searchText"
+   md-items="item in query(data.searchText)"
    md-item-text="item.text"
-   md-selected-item="selectedItem"
-   md-selected-item-change="objectSelected(selectedItem)"
+   md-selected-item="data.selectedItem"
+   md-selected-item-change="objectSelected(data.selectedItem)"
    md-min-length="0"
    <?php echo $field->htmlRequired(); ?>
    <?php echo $field->htmlDisabled(); ?>>

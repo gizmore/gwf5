@@ -245,6 +245,11 @@ abstract class GDOType
 		return $this->gdo->getVar($this->name);
 	}
 	
+	public function getGDOData()
+	{
+		return [$this->name => $this->getGDOVar()];
+	}
+	
 	public function value($value)
 	{
 		$this->value = $value;
@@ -404,7 +409,7 @@ abstract class GDOType
 	
 	public function render()
 	{
-		return '';
+		return new GWF_Response('');
 	}
 
 	public function renderJSON()
@@ -500,7 +505,11 @@ abstract class GDOType
 	
 	public function validate($value)
 	{
-		return $value === null ? ($this->null ? true : $this->error('err_is_null', [$this->name])) : true;
+		if ( ($value === null) && (!$this->null) )
+		{
+			return $this->error('err_is_null', [$this->name]);
+		}
+		return true;
 	}
 	
 	

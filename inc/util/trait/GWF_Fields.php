@@ -54,4 +54,14 @@ trait GWF_Fields
 		return $this->fields;
 	}
 	
+	/**
+	 * @param GDOType $field
+	 * @return self
+	 */
+	public function removeField(string $name)
+	{
+		unset($this->fields[$name]);
+		return $this;
+	}
+	
 }

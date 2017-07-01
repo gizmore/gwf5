@@ -8,8 +8,10 @@ final class GWF_UserPermission extends GDO
 	public function gdoColumns()
 	{
 		return array(
-			GDO_Object::make('perm_user_id')->table(GWF_User::table())->primary()->index(),
-			GDO_Object::make('perm_perm_id')->table(GWF_Permission::table())->primary(),
+			GDO_User::make('perm_user_id')->primary()->index(),
+			GDO_Permission::make('perm_perm_id')->primary(),
+			GDO_CreatedAt::make('perm_created_at'),
+			GDO_CreatedBy::make('perm_created_by'),
 		);
 	}
 	

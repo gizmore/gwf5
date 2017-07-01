@@ -16,9 +16,10 @@ class GDOArrayResult extends GDOResult
 	
 	private $index;
 	
-	public function __construct(array $data)
+	public function __construct(array $data, GDO $gdo)
 	{
 		$this->data = array_values($data);
+		$this->table = $gdo;
 		$this->reset();
 	}
 	
@@ -41,6 +42,11 @@ class GDOArrayResult extends GDOResult
 	public function fetchAssoc()
 	{
 		return $this->fetchObject()->getGDOVars();
+	}
+	
+	public function fetchAs(GDO $table)
+	{
+		return $this->fetchObject();
 	}
 	
 	public function fetchObject()

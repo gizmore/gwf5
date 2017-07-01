@@ -25,6 +25,11 @@ class GWF_Response
 		$this->error = $error;
 	}
 	
+	public function isError()
+	{
+		return $this->error;
+	}
+	
 	public function getHTML()
 	{
 		return $this->html;
@@ -41,7 +46,7 @@ class GWF_Response
 			}
 			elseif (is_array($this->html))
 			{
-				$this->html['data'] = array_merge($this->html, $response->html);
+				$this->html = array_merge($this->html, $response->html);
 			}
 			else
 			{

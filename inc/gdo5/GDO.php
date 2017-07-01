@@ -6,6 +6,16 @@ require "ql/GDOArrayResult.php";
 require "ql/GDOCache.php";
 require "ql/GDOType.php";
 
+/**
+ * This is not GDOType (yet?) and reflects a Database table.
+ * Specify columns in your gdoColumns() and return GDOType[].
+ * 
+ * @WARNING If your primary key is a combined key, it is advised to disable memCached() by return false there
+ * 
+ * @author gizmore
+ * @since 1.0
+ * @version 5.0
+ */
 abstract class GDO
 {
 	const MYISAM = 'myisam';
@@ -74,7 +84,7 @@ abstract class GDO
 	 */
 	private $temp;
 	public function tempGet(string $key) { return @$this->temp[$key]; }
-	public function tempSet(string $key, &$value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = &$value; }
+	public function tempSet(string $key, $value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = $value; }
 	public function tempUnset(string $key) { unset($this->temp[$key]); }
 	
 	############
@@ -92,6 +102,16 @@ abstract class GDO
 	{
 		$columns = $this->gdoColumnsCache();
 		return $columns[$key];
+	}
+	
+	public function gdoColumnsExcept(string ...$except)
+	{
+		$columns = $this->gdoColumnsCache();
+		foreach ($except as $ex)
+		{
+			unset($columns[$ex]);
+		}
+		return $columns;
 	}
 	
 	/**
@@ -185,7 +205,7 @@ abstract class GDO
 		$back = [];
 		foreach ($keys as $key)
 		{
-			$back[$key] = $this->getVar($key);
+			$back = array_merge($back, $this->gdoColumn($key)->gdo($this)->getGDOData());
 		}
 		return $back;
 	}
@@ -644,7 +664,15 @@ abstract class GDO
 	 */
 	public function all()
 	{
-		return self::table()->select()->exec()->fetchAllArray2dObject();
+		return self::allWhere();
+	}
+	
+	/**
+	 * @return GDO[]
+	 */
+	public function allWhere(string $condition='true')
+	{
+		return self::table()->select()->where($condition)->exec()->fetchAllArray2dObject();
 	}
 	
 	###########################
@@ -713,6 +741,12 @@ abstract class GDO
 		return md5(json_encode(array_values($this->gdoVars)));
 	}
 	
+	##############
+	### Render ###
+	##############
+	public function render() { return GWF_Template::mainPHP('card/' . $this->gdoTableName() . '.php'); }
+	public function renderCell() { return $this->renderChoice(); }
+	public function renderChoice() { return sprintf('%s-%s', $this->getID(), $this->displayName()); }
 }
 
 function quote(string $value=null)

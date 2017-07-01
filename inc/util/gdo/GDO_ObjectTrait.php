@@ -51,6 +51,11 @@ trait GDO_ObjectTrait
 		$this->gdo->setVar($this->name, $value ? $value->getID() : null);
 	}
 	
+	public function getGDOData()
+	{
+		return array($this->name => $this->gdo->getVar($this->name));
+	}
+	
 	#####################
 	### Class to join ###
 	#####################
@@ -117,6 +122,7 @@ trait GDO_ObjectTrait
 		$define = str_replace(' NOT NULL', '', $define);
 		$define = str_replace(' PRIMARY KEY', '', $define);
 		$define = str_replace(' AUTO_INCREMENT', '', $define);
+		$define = preg_replace('#,FOREIGN KEY .* ON UPDATE CASCADE#', '', $define);
 		$on = $this->fkOn ? $this->fkOn : ($primaryKey->identifier());
 		return "$define{$this->gdoNullDefine()}".
 				",FOREIGN KEY ({$this->identifier()}) REFERENCES $tableName($on) ON DELETE {$this->cascade} ON UPDATE CASCADE";

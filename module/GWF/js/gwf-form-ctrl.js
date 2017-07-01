@@ -56,6 +56,7 @@ controller('GWFFormCtrl', function($scope) {
 	};
 	$scope.objectSelected = function(item) {
 		console.log('GWFAutoCompleteCtrl.objectSelected()', item);
+		$scope.data.searchText = item.text;
 		$($scope.formid).val(item.id);
 	};
 	$scope.query = function(searchText) {

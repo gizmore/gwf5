@@ -37,8 +37,13 @@ final class GWF_HTTP
 	 * @param string $url
 	 * @return true|false
 	 */
-	public static function pageExists(string $url)
+	public static function pageExists(string $url=null)
 	{
+		if ($url === null)
+		{
+			return false;
+		}
+		
 		if (@$url[0] === '/')
 		{
 			$url = GWF_PROTOCOL . '://' . GWF_DOMAIN . $url;

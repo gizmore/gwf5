@@ -12,6 +12,6 @@ class GDO_CreatedBy extends GDO_User
 	
 	public function blankData()
 	{
-		return [$this->name => GWF_User::current()->getID()];
+		return [$this->name => GWF5::instance()->isInstall() ? '1' : GWF_User::current()->getID()];
 	}
 }

@@ -24,22 +24,22 @@ final class Login_Form extends GWF_MethodForm
 	
 	public function formValidated(GWF_Form $form)
 	{
-		return $this->onLogin($form);
+		return $this->onLogin($form->getVar('login'), $form->getVar('password'), $form->getVar('bind_ip'));
 	}
 	
-	public function onLogin(GWF_Form $form)
+	public function onLogin(string $login, string $password, bool $bindIP=false)
 	{
 		if ($response = $this->banCheck())
 		{
 			return $response->add($this->renderPage());
 		}
 		
-		if ( (!($user = GWF_User::getByLogin($form->getVar('login')))) ||
-		     (!($user->getValue('user_password')->validate($form->getVar('password')))) )
+		if ( (!($user = GWF_User::getByLogin($login))) ||
+		     (!($user->getValue('user_password')->validate($password))) )
 		{
 			return $this->loginFailed($user)->add($form->render());
 		}
-		return $this->loginSuccess($user, $form->getVar('bind_ip'));
+		return $this->loginSuccess($user, $bindIP);
 	}
 	
 	/**

@@ -1,13 +1,13 @@
 <?php
+/**
+ * Simple row number counter++
+ * @author gizmore
+ */
 class GDO_Count extends GDO_Blank
 {
-	private $num;
+	public $virtual = true;
 	
-	public function __construct()
-	{
-		$this->num = 1;
-	}
-	
+	private $num = 1;
 	public function renderCell()
 	{
 		return $this->num++;

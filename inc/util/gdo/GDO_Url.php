@@ -37,13 +37,16 @@ class GDO_Url extends GDO_String
 	
 	public function validateUrl($value)
 	{
-		if ( (!$this->allowLocal) && ($value[0] === '/') )
+		if ($value !== null)
 		{
-			return $this->error('err_local_url_not_allowed', [htmlspecialchars($value)]);
-		}
-		if ( ($this->reachable) && (!GWF_HTTP::pageExists($value)) )
-		{
-			return $this->error('err_url_not_reachable', [htmlspecialchars($value)]);
+			if ( (!$this->allowLocal) && ($value[0] === '/') )
+			{
+				return $this->error('err_local_url_not_allowed', [htmlspecialchars($value)]);
+			}
+			if ( ($this->reachable) && (!GWF_HTTP::pageExists($value)) )
+			{
+				return $this->error('err_url_not_reachable', [htmlspecialchars($value)]);
+			}
 		}
 		return true;
 	}

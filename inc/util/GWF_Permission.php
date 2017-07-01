@@ -28,7 +28,7 @@ final class GWF_Permission extends GDO
 	###############
 	### Display ###
 	###############
-	public function displayName() { return l('perm_'.$this->getName()); }
+	public function displayName() { return t('perm_'.$this->getName()); }
 	public function display_perm_edit() { return GDO_EditButton::make()->href($this->hrefEdit()); }
 	public function display_user_count() { return $this->getVar('user_count'); }
 	
