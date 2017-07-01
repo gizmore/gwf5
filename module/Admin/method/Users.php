@@ -10,6 +10,8 @@ class Admin_Users extends GWF_MethodQueryTable
 {
 	use GWF_MethodAdmin;
 	
+	public function getPermission() { return 'staff'; }
+	
 	private $fields = array('user_id', 'user_country', 'user_type', 'user_level', 'user_name', 'user_credits', 'user_gender', 'user_email');
 	
 	public function execute()

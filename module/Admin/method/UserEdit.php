@@ -9,6 +9,8 @@ class Admin_UserEdit extends GWF_MethodForm
 {
 	use GWF_MethodAdmin;
 	
+	public function getPermission() { return 'admin'; }
+	
 	private $user;
 	
 	public function execute()

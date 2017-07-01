@@ -3,6 +3,8 @@ class Admin_Install extends GWF_MethodForm
 {
 	use GWF_MethodAdmin;
 	
+	public function getPermission() { return 'admin'; }
+	
 	/**
 	 * @var GWF_Module
 	 */

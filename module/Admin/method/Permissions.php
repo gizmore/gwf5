@@ -9,7 +9,7 @@ class Admin_Permissions extends GWF_MethodQueryTable
 {
 	use GWF_MethodAdmin;
 	
-	public function getPermission() { return 'admin'; }
+	public function getPermission() { return 'staff'; }
 	
 	public function getGDO() { return GWF_Permission::table(); }
 	

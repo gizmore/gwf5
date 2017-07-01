@@ -11,7 +11,7 @@ class Admin_Modules extends GWF_MethodTable
 	
 	public function isPaginated() { return false; }
 	
-	public function getPermission() { return 'admin'; }
+	public function getPermission() { return 'staff'; }
 	
 	/**
 	 * @var GWF_Module[]

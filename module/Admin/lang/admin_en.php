@@ -38,5 +38,7 @@ return array(
 'ft_admin_cronjob' => '[%s] Cronjob Test',
 'btn_run_cronjob' => 'Run',
 		
+'ft_admin_permissionrevoke' => '[%s] Revoke Permission',
+		
 'msg_cache_flushed' => 'Caches have been flushed. E.g; rm -rf temp/minify, GDOCache::flush().',
 );

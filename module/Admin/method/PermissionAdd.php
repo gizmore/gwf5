@@ -3,6 +3,8 @@ class Admin_PermissionAdd extends GWF_MethodForm
 {
 	use GWF_MethodAdmin;
 	
+	public function getPermission() { return 'staff'; }
+	
 	public function execute()
 	{
 		return $this->renderPermTabs()->add(parent::execute());

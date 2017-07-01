@@ -1,6 +1,8 @@
 <?php
 abstract class GWF_MethodSort extends GWF_Method
 {
+	public function getPermission() { return 'staff'; }
+
 	/**
 	 * @return GDO
 	 */

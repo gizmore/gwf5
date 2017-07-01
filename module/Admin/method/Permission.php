@@ -3,6 +3,8 @@ class Admin_Permission extends GWF_MethodQueryTable
 {
 	private $permission;
 	
+	public function getPermission() { return 'staff'; }
+	
 	public function init()
 	{
 		$this->permission = GWF_Permission::table()->find(Common::getRequestString('permission'));

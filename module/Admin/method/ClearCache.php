@@ -3,6 +3,8 @@ final class Admin_ClearCache extends GWF_Method
 {
 	use GWF_MethodAdmin;
 	
+	public function getPermission() { return 'staff'; }
+	
 	public function execute()
 	{
 		GDOCache::flush();
