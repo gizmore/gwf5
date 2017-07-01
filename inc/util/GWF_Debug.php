@@ -91,7 +91,7 @@ final class GWF_Debug
 				chdir(GWF_PATH);
 				if (!class_exists('GWF_Log', false)) include 'inc/util/GWF_Log.php';
 				if (!class_exists('GWF_Mail', false)) include 'inc/util/GWF_Mail.php';
-				self::error_handler(1, $error['message'], self::shortpath($error['file']), $error['line'], NULL);
+// 				self::error_handler(1, $error['message'], self::shortpath($error['file']), $error['line'], NULL);
 			}
 		}
 	}
@@ -159,12 +159,13 @@ final class GWF_Debug
 		elseif (GWF_ERROR_STACKTRACE)
 		{
 			$message = self::backtrace($message, $is_html).PHP_EOL;
-			self::renderError($message);
+			echo self::$die ? self::renderError($message) : $message;
 		}
 		elseif ($is_html)
 		{
-			$message = sprintf('<div class="gwf-exception">%s</div>', $message);
-			self::renderError($message);
+			$message = sprintf('<div class="gwf-exception">%s</div>', $message).PHP_EOL;
+			echo self::$die ? self::renderError($message) : $message;
+			echo 'XXX';
 		}
 		else
 		{
@@ -207,14 +208,14 @@ final class GWF_Debug
 		}
 		while (ob_get_level() > 0) ob_end_flush();
 		$message = self::backtraceException($e, $is_html, ' (XH)');
-		self::renderError($message);
+		echo self::renderError($message);
 		return true;
 	}
 	
 	private static function renderError(string $message)
 	{
-		echo defined('GWF_CORE_STABLE') ? 
-			GWF5::instance()->render(new GWF_Response($message, true)) :
+		return defined('GWF_CORE_STABLE') ? 
+			GWF5::instance()->render(GWF_Error::make($message)) :
 			($message.PHP_EOL);
 	}
 	

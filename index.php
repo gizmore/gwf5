@@ -18,7 +18,7 @@ GWF_Debug::enableErrorHandler();
 GWF_Debug::enableExceptionHandler();
 GWF_Debug::setDieOnError(GWF_ERROR_DIE);
 GWF_Debug::setMailOnError(GWF_ERROR_MAIL);
-$db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME, (GWF_DB_DEBUG && !isset($_REQUEST['ajax'])));
+$db = new GDODB(GWF_DB_HOST, GWF_DB_USER, GWF_DB_PASS, GWF_DB_NAME, (GWF_DB_DEBUG && !isset($_GET['ajax'])));
 GDOCache::init();
 if (!GWF_MEMCACHE) GDOCache::flush();
 # Exec
@@ -48,8 +48,7 @@ try
 		$response = new GWF_Error('err_blank_response');
 	}
 
-	$unwanted = ob_get_contents();
-	ob_end_clean();
+	$unwanted = ob_get_clean();
 	while (ob_get_level() > 0) { ob_end_clean(); }
 	
 	$response = GWF_Response::make($unwanted)->add($response);
@@ -57,11 +56,13 @@ try
 }
 catch (Exception $e)
 {
-	$content = ob_get_clean();
-	ob_end_clean();
-	while (ob_get_level() > 0) { $content .= ob_get_contents(); ob_end_clean(); }
-	GWF_Log::logException($e);
-	echo GWF_Error::make(GWF_Debug::backtraceException($e, $gwf5->isHTML(), ' (maintrace)'));
+// 	$content = ob_get_clean();
+// 	while (ob_get_level() > 0) { ob_end_clean(); }
+// 	GWF_Log::logException($e);
+// 	$message = GWF_Debug::backtraceException($e, $gwf5->isHTML(), ' (maintrace)');
+// 	echo defined('GWF_CORE_STABLE') ?
+// 		$gwf5->render(GWF_Error::make($message)) :
+// 		($message.PHP_EOL);
 }
 finally
 {

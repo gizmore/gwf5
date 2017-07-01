@@ -67,7 +67,7 @@ final class GWF_UserSetting extends GDO
 	
 	public static function moduleUserInc(string $moduleId=null, GWF_User $user=null, string $key, int $by=1)
 	{
-		return self::moduleUserSet($moduleId, $user, $key, self::get($key) + $by);
+		return self::moduleUserSet($moduleId, $user, $key, self::get($key)->getGDOValue() + $by);
 	}
 	
 	public static function moduleUserSet(string $moduleId=null, GWF_User $user=null, string $key, $value)
