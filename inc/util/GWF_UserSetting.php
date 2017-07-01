@@ -49,10 +49,25 @@ final class GWF_UserSetting extends GDO
 	{
 		return self::userSet(GWF_User::current(), $key, $value);
 	}
-
+	
+	public static function inc(string $key, $value, int $by=1)
+	{
+		return self::userSet(GWF_User::current(), $key, $value);
+	}
+	
 	public static function userSet(GWF_User $user=null, string $key, $value)
 	{
 		return self::moduleUserSet(null, $user, $key, $value);
+	}
+	
+	public static function userInc(GWF_User $user=null, string $key, int $by=1)
+	{
+		return self::moduleUserInc(null, $user, $key, $by);
+	}
+	
+	public static function moduleUserInc(string $moduleId=null, GWF_User $user=null, string $key, int $by=1)
+	{
+		return self::moduleUserSet($moduleId, $user, $key, self::get($key) + $by);
 	}
 	
 	public static function moduleUserSet(string $moduleId=null, GWF_User $user=null, string $key, $value)

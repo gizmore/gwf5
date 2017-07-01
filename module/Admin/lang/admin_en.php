@@ -16,13 +16,13 @@ return array(
 'version_fs' => 'V.FS.',
 'btn_install' => 'Install',
 'btn_configure' => 'Configure',
-'btn_module_wipe' => 'Wipe',
+'btn_uninstall' => 'Wipe',
 'btn_enable' => 'Enable',
 'btn_disable' => 'Disable',
 		
 'ft_admin_install' => '[%s] Install %s',
 'msg_module_installed' => 'The %s module has been successfully installed.',
-'msg_module_wiped' => 'The %s has been wiped from disk. All database records should have been destroyed.',
+'msg_module_uninstalled' => 'The %s has been wiped from disk. All database records should have been destroyed.',
 		
 'ft_admin_configure' => '[%s] Configure %s',
 'version_available' => 'Version available',

@@ -70,7 +70,11 @@ final class GWF_Trans
 		$trans = [];
 		foreach (self::$PATHS as $path)
 		{
-			if (!($trans2 = @include("{$path}_{$iso}.php")))
+			if (GWF_File::isFile("{$path}_{$iso}.php"))
+			{
+				$trans2 = include("{$path}_{$iso}.php");
+			}
+			else
 			{
 				$trans2 = require("{$path}_en.php");
 			}
@@ -86,4 +90,5 @@ function ten(string $key, array $args=null) { return GWF_Trans::tiso('en', $key,
 function tiso(string $iso, string $key, array $args=null) { return GWF_Trans::tiso($iso, $key, $args); }
 function tusr(GWF_User $user, string $key, array $args=null) { return GWF_Trans::tiso($user->getLangISO(), $key, $args); }
 function l(string $key, array $args=null) { echo t($key, $args); }
-function lt(string $date=null, string $format='short', string $default='---') { echo GWF_Time::displayDate($date, $format, $default); }
+function tt(string $date=null, string $format='short', string $default='---') { return GWF_Time::displayDate($date, $format, $default); }
+function lt(string $date=null, string $format='short', string $default='---') { echo tt($date, $format, $default); }

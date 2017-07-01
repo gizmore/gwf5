@@ -54,7 +54,7 @@ final class GWF5
 				throw new Exception('File not found: ' . htmlspecialchars($name));
 			}
 			
-			if (!@include($filename))
+			if (!include($filename))
 			{
 				throw new Exception('File not found: ' . htmlspecialchars($name));
 			}
