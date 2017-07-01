@@ -86,3 +86,4 @@ function ten(string $key, array $args=null) { return GWF_Trans::tiso('en', $key,
 function tiso(string $iso, string $key, array $args=null) { return GWF_Trans::tiso($iso, $key, $args); }
 function tusr(GWF_User $user, string $key, array $args=null) { return GWF_Trans::tiso($user->getLangISO(), $key, $args); }
 function l(string $key, array $args=null) { echo t($key, $args); }
+function lt(string $date=null, string $format='short', string $default='---') { echo GWF_Time::displayDate($date, $format, $default); }
