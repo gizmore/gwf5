@@ -10,5 +10,7 @@
  class="gwf-country"
  alt="<?php l('unknown_country'); ?>"
  src="/theme/default/img/country/zz.png" />
+<?php if ($choice) { ?>
 <?php l('unknown_country'); ?>
+<?php }?>
 <?php endif;?>

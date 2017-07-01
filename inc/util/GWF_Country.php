@@ -43,7 +43,11 @@ class GWF_Country extends GDO
 
 	public function renderCell()
 	{
-		return GWF_Template::mainPHP('cell/country.php', ['field'=>$this, 'country' => $this])->getHTML();
+		return GWF_Template::mainPHP('cell/country.php', ['field'=>$this, 'country' => $this, $choice => false])->getHTML();
 	}
 
+	public function renderChoice()
+	{
+		return GWF_Template::mainPHP('choice/country.php', ['field'=>$this, 'country' => $this, $choice => true])->getHTML();
+	}
 }
