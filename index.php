@@ -42,12 +42,14 @@ try
 		$method = $gwf5->defaultMethod();
 	}
 	
+	define('GWF_CORE_STABLE', microtime(true));
 	if (!($response = $method->exec()))
 	{
 		$response = new GWF_Error('err_blank_response');
 	}
 
 	$unwanted = ob_get_contents();
+	ob_end_clean();
 	while (ob_get_level() > 0) { ob_end_clean(); }
 	
 	$response = GWF_Response::make($unwanted)->add($response);
@@ -55,7 +57,9 @@ try
 }
 catch (Exception $e)
 {
-	while (ob_get_level() > 0) { ob_end_flush(); }
+	$content = ob_get_clean();
+	ob_end_clean();
+	while (ob_get_level() > 0) { $content .= ob_get_contents(); ob_end_clean(); }
 	GWF_Log::logException($e);
 	echo GWF_Error::make(GWF_Debug::backtraceException($e, $gwf5->isHTML(), ' (maintrace)'));
 }

@@ -107,8 +107,12 @@ final class GWF_Debug
 	 */
 	public static function error_handler($errno, $errstr, $errfile, $errline, $errcontext)
 	{
-		if (error_reporting() === 0)
+		if (error_reporting() === 0) # Is set by PHP when you supress with @
 		{
+// 			if (class_exists('GWF_Log', false))
+// 			{
+// 				GWF_Log::logDebug(sprintf('%s in %s line %s', $errstr, $errfile, $errline));
+// 			}
 			return;
 		}
 		
@@ -155,14 +159,12 @@ final class GWF_Debug
 		elseif (GWF_ERROR_STACKTRACE)
 		{
 			$message = self::backtrace($message, $is_html).PHP_EOL;
-			echo $message.PHP_EOL;
-// 			echo GWF5::instance()->render(GWF_Response::make($message));
+			self::renderError($message);
 		}
 		elseif ($is_html)
 		{
 			$message = sprintf('<div class="gwf-exception">%s</div>', $message);
-			echo $message.PHP_EOL;
-// 			echo GWF5::instance()->render(GWF_Error::make($message));
+			self::renderError($message);
 		}
 		else
 		{
@@ -205,11 +207,17 @@ final class GWF_Debug
 		}
 		while (ob_get_level() > 0) ob_end_flush();
 		$message = self::backtraceException($e, $is_html, ' (XH)');
-		echo $message.PHP_EOL;
-// 		GWF5::instance()->render(GWF_Response::make($message));
+		self::renderError($message);
 		return true;
 	}
-
+	
+	private static function renderError(string $message)
+	{
+		echo defined('GWF_CORE_STABLE') ? 
+			GWF5::instance()->render(new GWF_Response($message, true)) :
+			($message.PHP_EOL);
+	}
+	
 	public static function disableExceptionHandler()
 	{
 		if (self::$exception === true)
