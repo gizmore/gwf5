@@ -53,12 +53,14 @@ abstract class GWF_Method
 	################
 	### Override ###
 	################
+	public function isAjax() { return false; }
 	public function isEnabled() { return true; }
 	public function isUserRequired() { return false; }
 	public function isGuestAllowed() { return true; }
 	public function isCookieRequired() { return false; }
 	public function isSessionRequired() { return false; }
 	public function isTransactional() { return false; }
+	public function isAlwaysTransactional() { return false; }
 	public function getPermission() {}
 	public function getUserType() {}
 	public function init() {}
@@ -98,6 +100,12 @@ abstract class GWF_Method
 	public function exec()
 	{
 		$user = GWF_User::current();
+		
+		if ($this->isAjax())
+		{
+			$_GET['fmt'] = 'json';
+			$_GET['ajax'] = '1';
+		}
 		
 		if (!($this->isEnabled()))
 		{
@@ -139,9 +147,16 @@ abstract class GWF_Method
 	
 	public function execWrap()
 	{
-		$this->module->initModule();
+// 		$this->module->initModule();
 		$this->init();
-		return $this->isTransactional() && (count($_POST) > 0) ? $this->execTransactional() : $this->execute();
+		return $this->transactional() ? $this->execTransactional() : $this->execute();
+	}
+	
+	public function transactional()
+	{
+		return
+			($this->isAlwaysTransactional()) || 
+			($this->isTransactional() && (count($_POST)>0) );
 	}
 
 	#####################

@@ -62,6 +62,7 @@ return array(
 'err_method_disabled' => 'This function is currently disabled.',
 'err_is_null' => 'This field may not be empty.',
 'err_user_type' => 'Your account is not of membership type %s.',
+'err_table_not_sortable' => 'The %s table cannot be sorted without a GDO_Sort field.',
 
 # Permissions
 'perm_admin' => 'Administrator',

@@ -86,6 +86,7 @@ final class GWF5
 	
 	public function loadModulesCache()
 	{
+		# Load by priortiy
 		$modules = $this->moduleLoader->loadModulesCache();
 		
 		# Include JS
@@ -97,7 +98,8 @@ final class GWF5
 			}
 		}
 		
-		return $modules;
+		# But sort by sorting column afterwards
+		return $this->moduleLoader->sortModules('module_sort');
 	}
 	
 	/**

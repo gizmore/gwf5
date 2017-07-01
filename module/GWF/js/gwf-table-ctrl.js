@@ -11,10 +11,18 @@ controller('GWFTableCtrl', function($scope, GWFRequestSrvc) {
 		console.log('GWFTableCtrl.onDrop()', a, b);
 		if ($scope.config.sortable) {
 			var url = $scope.config.sortableURL;
-			var data = {a:a,b:b};
-			GWFRequestSrvc.send(url, data);
+			var data = {a:a.attr('gdo-id'),b:b.attr('gdo-id')};
+			GWFRequestSrvc.send(url, data).then(function(result) {
+				// Successfully swapped positions.
+				// Do alike in JS
+				var a1 = a.prev(); var a2 = a.next(); // Prev and 
+				var b1 = b.prev(); var b2 = b.next(); // Next row
+				a.remove(); b.remove(); // Remove swappers
+				// Put in new places
+				if (a1.length) { b.after(a1); } else { b.before(a2); }
+				if (b1.length) { a.after(b1); } else { a.before(b2); }
+			});
 		}
-		
 	};
 	
 	setTimeout(function(){
@@ -23,8 +31,9 @@ controller('GWFTableCtrl', function($scope, GWFRequestSrvc) {
 		});
 		$('.gwf-table tr').droppable({
 			drop: function(event, ui) {
-//				console.log(event, ui);
-				$scope.onDrop($(ui.draggable).attr('gdo-id'), $(event.target).attr('gdo-id'));
+				var a = $(ui.draggable);
+				var b = $(event.target);
+				$scope.onDrop(a, b);
 			}
 		});
 	})

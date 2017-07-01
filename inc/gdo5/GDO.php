@@ -747,6 +747,36 @@ abstract class GDO
 	public function render() { return GWF_Template::mainPHP('card/' . $this->gdoTableName() . '.php'); }
 	public function renderCell() { return $this->renderChoice(); }
 	public function renderChoice() { return sprintf('%s-%s', $this->getID(), $this->displayName()); }
+	
+	###############
+	### Sorting ###
+	###############
+	/**
+	 * Sort GDO[] by a field.
+	 * @param GDO[] $array
+	 * @param string $columnName
+	 * @param bool $ascending
+	 */
+	private static $SORT_COLUMN;
+	public static function sort(array &$array, string $columnName, bool $ascending=true)
+	{
+		self::$SORT_COLUMN = $columnName;
+		if ($ascending)
+		{
+			uasort($array, function(GDO $a, GDO $b) {
+				$name = self::$SORT_COLUMN;
+				return $a->getVar($name) - $b->getVar($name);
+			});
+		}
+		else
+		{
+			uasort($array, function(GDO $a, GDO $b) {
+				$name = self::$SORT_COLUMN;
+				return $b->getVar($name) - $a->getVar($name);
+			});
+		}
+		return $array;
+	}
 }
 function quote(string $value=null)
 {
