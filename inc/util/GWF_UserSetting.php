@@ -71,7 +71,7 @@ final class GWF_UserSetting extends GDO
 				'uset_value' => $value
 			))->replace();
 		}
-		$user->unset('gwf_setting');
+		$user->tempUnset('gwf_setting');
 	}
 	
 }

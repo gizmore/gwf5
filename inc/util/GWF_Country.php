@@ -8,6 +8,7 @@ class GWF_Country extends GDO
 		return array(
 			GDO_Char::make('c_iso')->label('id')->size(2)->ascii()->caseS()->primary(),
 			GDO_Int::make('c_population')->initial('0')->unsigned(),
+			GDO_Char::make('c_phonecode')->ascii()->size(2),
 		);
 	}
 	
