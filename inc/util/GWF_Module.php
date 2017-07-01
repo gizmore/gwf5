@@ -211,9 +211,17 @@ class GWF_Module extends GDO
 	/**
 	 * @return GDOType[]
 	 */
+	public function getUserConfig(){}
 	public function getUserSettings(){}
 	public function registerSettings()
 	{
+		if ($settings = $this->getUserConfig())
+		{
+			foreach ($settings as $setting)
+			{
+				GWF_UserSetting::register($setting);
+			}
+		}
 		if ($settings = $this->getUserSettings())
 		{
 			foreach ($settings as $setting)
@@ -223,21 +231,21 @@ class GWF_Module extends GDO
 		}
 	}
 	
-	public function getWritableUserSettings()
-	{
-		$back = [];
-		if ($settings = $this->getUserSettings())
-		{
-			foreach ($settings as $name => $gdoType)
-			{
-				if ($gdoType->writable)
-				{
-					$back[$name] = $gdoType;
-				}
-			}
-		}
-		return empty($back) ? null : $back;
-	}
+// 	public function getWritableUserSettings()
+// 	{
+// 		$back = [];
+// 		if ($settings = $this->getUserSettings())
+// 		{
+// 			foreach ($settings as $name => $gdoType)
+// 			{
+// 				if ($gdoType->writable)
+// 				{
+// 					$back[$name] = $gdoType;
+// 				}
+// 			}
+// 		}
+// 		return empty($back) ? null : $back;
+// 	}
 	
 	
 	##############

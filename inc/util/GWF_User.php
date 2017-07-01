@@ -74,6 +74,7 @@ final class GWF_User extends GDO
 	public function getBirthdate() { return $this->getVar('user_birthdate'); }
 	public function getAge() { return GWF_Time::getAge($this->getBirthdate()); }
 
+	public function getRegisterDate() { return $this->getVar('user_register_time'); }
 	public function getRegisterIP() { return $this->getVar('user_register_ip'); }
 	public function isDeleted() { return $this->getVar('user_deleted_at') !== null; }
 	
