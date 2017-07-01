@@ -34,6 +34,10 @@ class GDOQuery
 		$this->table = $table;
 	}
 	
+	private $cached = true;
+	public function uncached() { return $this->cached(false); }
+	public function cached(bool $cached=true) { $this->cached = $cached; return $this; }
+	
 	public function clone()
 	{
 		$clone = new GDOQuery($this->table);
@@ -302,7 +306,7 @@ class GDOQuery
 		}
 		else
 		{
-			return new GDOResult($this->table, $db->queryRead($query));
+			return new GDOResult($this->table, $db->queryRead($query), $this->cached);
 		}
 	}
 	

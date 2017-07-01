@@ -100,6 +100,13 @@ class GDO_Table extends GDO_Blank
 		{
 			$this->pagemenu->filterQuery($this->query);
 		}
+		if ($this->filtered)
+		{
+			foreach ($this->getFields() as $gdoType)
+			{
+				$gdoType->filterQuery($this->query);
+			}
+		}
 		return $this->query->exec();
 	}
 	

@@ -52,7 +52,7 @@ controller('GWFFormCtrl', function($scope) {
 		console.log('GWFAutoCompleteCtrl.init()', gwfConfig, formId);
 		$scope.config = gwfConfig;
 		$scope.formid = formId;
-		$scope.selectedItem = gwfConfig.value;
+		$scope.data.selectedItem = gwfConfig.value;
 	};
 	$scope.objectSelected = function(item) {
 		console.log('GWFAutoCompleteCtrl.objectSelected()', item);

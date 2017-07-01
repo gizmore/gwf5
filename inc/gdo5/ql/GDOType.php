@@ -18,7 +18,6 @@ abstract class GDOType
 	public $name;
 	public $label;
 	public $tooltip;
-// 	public $placeholder;
 	
 	public $value = null;
 	public $oldValue = null;
@@ -161,20 +160,6 @@ abstract class GDOType
 	{
 		return $this->virtual ? $query->having($condition) : $query->where($condition);
 	}
-	
-	###################
-	### Placeholder ###
-	###################
-// 	public function placeholder(string $placeholder, array $args=null)
-// 	{
-// 		$this->placeholder = t($placeholder, $args);
-// 		return $this;
-// 	}
-	
-// 	public function displayPlaceholder()
-// 	{
-// 		return $this->placeholder ? GWF_HTML::escape($this->placeholder) : '';
-// 	}
 	
 	###############
 	### Tooltip ###

@@ -8,11 +8,13 @@ class GDOResult
 {
 	public $table;
 	private $result;
+	private $useCache;
 	
-	public function __construct(GDO $table, $result)
+	public function __construct(GDO $table, $result, bool $useCache)
 	{
 		$this->table = $table;
 		$this->result = $result;
+		$this->useCache = $useCache;
 	}
 	
 	public function __destruct()
@@ -95,12 +97,8 @@ class GDOResult
 	{
 		if ($gdoData = $this->fetchAssoc())
 		{
-			if ($table->gdoCached())
+			if ($this->useCache && $table->gdoCached())
 			{
-				if ($table->memCached())
-				{
-					
-				}
 				return $table->initCached($gdoData);
 			}
 			else

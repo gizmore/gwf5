@@ -14,9 +14,9 @@ class Admin_Permission extends GWF_MethodQueryTable
 		$perms = GWF_UserPermission::table();
 		return array(
 			GDO_Count::make('count'),
-			GDO_User::make('user_name'),
+			GDO_User::make('perm_user_id'),
 			GDO_CreatedAt::make('perm_created_at'),
-			GDO_User::make('perm_created_by'),
+			GDO_CreatedBy::make('perm_created_by'),
 			GDO_Button::make('perm_revoke'),
 		);
 	}
@@ -28,7 +28,7 @@ class Admin_Permission extends GWF_MethodQueryTable
 	
 	public function getQuery()
 	{
-		return GWF_UserPermission::table()->select('gwf_user.*, gwf_userpermission.*')->joinObject('perm_user_id')->where('perm_perm_id='.$this->permission->getID());
+		return GWF_UserPermission::table()->select('gwf_user.*, gwf_userpermission.*')->joinObject('perm_user_id')->where('perm_perm_id='.$this->permission->getID())->uncached();
 	}
 	
 	

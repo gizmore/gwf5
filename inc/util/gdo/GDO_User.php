@@ -39,7 +39,10 @@ class GDO_User extends GDO_Object
 	
 	public function renderCell()
 	{
-		return $this->gdo->displayName();
+		if ($user = $this->getUser())
+		{
+			return $user->displayName();
+		}
+		return t('unknown');
 	}
-	
 }

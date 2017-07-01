@@ -55,11 +55,11 @@ try
 }
 catch (Exception $e)
 {
-	while (ob_get_level() > 0) { ob_end_clean(); }
+	while (ob_get_level() > 0) { ob_end_flush(); }
 	GWF_Log::logException($e);
 	echo GWF_Error::make(GWF_Debug::backtraceException($e, $gwf5->isHTML(), ' (maintrace)'));
 }
 finally
 {
-	while (ob_get_level() > 0) { ob_end_clean(); }
+	while (ob_get_level() > 0) { ob_end_flush(); }
 }

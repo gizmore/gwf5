@@ -26,7 +26,7 @@ class Admin_Permissions extends GWF_MethodQueryTable
 	public function getQuery()
 	{
 		$query = $this->getGDO()->select('perm_id, perm_name');
-		$query->select('COUNT(perm_user_id) user_count')->join('LEFT JOIN gwf_userpermission ON perm_id = perm_perm_id');
+		$query->select('COUNT(perm_user_id) user_count')->join('LEFT JOIN gwf_userpermission ON perm_id = perm_perm_id')->uncached();
 		return $query->group('perm_id,perm_name');
 	}
 	

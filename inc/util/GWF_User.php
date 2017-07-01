@@ -31,7 +31,7 @@ final class GWF_User extends GDO
 			GDO_Int::make('user_credits')->unsigned()->notNull()->initial('0')->label('credits'),
 			GDO_EmailFormat::make('user_email_fmt'),
 			GDO_Gender::make('user_gender'),
-			GDO_DateTime::make('user_birthdate')->label('birtdate'),
+			GDO_Date::make('user_birthdate')->label('birtdate'),
 			GDO_Country::make('user_country')->emptyChoice('no_country'),
 			GDO_Language::make('user_language')->initial('en')->notNull(),
 			GDO_Password::make('user_password'),

@@ -69,6 +69,7 @@ class GDO_Enum extends GDOType
 		$filter = $this->filterValue();
 		if (!empty($filter))
 		{
+			$filter = array_map(['GDO', 'escapeS'], $filter);
 			$condition = sprintf('%s IN ("%s")', $this->identifier(), implode('","', $filter));
 			$this->filterQueryCondition($query, $condition);
 		}

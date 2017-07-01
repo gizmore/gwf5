@@ -203,6 +203,7 @@ final class GWF_Debug
 			GWF_Log::logCritical($firstLine);
 			GWF_Log::flush();
 		}
+		while (ob_get_level() > 0) ob_end_flush();
 		$message = self::backtraceException($e, $is_html, ' (XH)');
 		echo $message.PHP_EOL;
 // 		GWF5::instance()->render(GWF_Response::make($message));

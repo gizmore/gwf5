@@ -73,7 +73,7 @@ class GDO_Timestamp extends GDOType
 	##############
 	public function renderCell()
 	{
-		return $this->gdo->getVar($this->name);
+		return GWF_Time::displayDate($this->gdo->getVar($this->name));
 	}
 	
 	public function render()

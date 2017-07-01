@@ -748,7 +748,6 @@ abstract class GDO
 	public function renderCell() { return $this->renderChoice(); }
 	public function renderChoice() { return sprintf('%s-%s', $this->getID(), $this->displayName()); }
 }
-
 function quote(string $value=null)
 {
 	return GDO::quoteS($value);

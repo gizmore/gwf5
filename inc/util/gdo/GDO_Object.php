@@ -22,5 +22,14 @@ class GDO_Object extends GDOType
 		}
 	}
 	
+	public function renderChoice()
+	{
+		if ($obj = $this->getGDOValue())
+		{
+			return $obj->renderChoice();
+		}
+		return $this->getValue();
+	}
+	
 	
 }
