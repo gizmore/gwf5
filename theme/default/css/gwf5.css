@@ -27,10 +27,13 @@ img.gwf-captcha-img {
 .has-error, md-content.gwf-error {
 	background: #fff4f4;
     border: 1px dotted #ccc;
+    overflow: hidden;
 }
+.has-error { overflow: auto; }
 md-content.gwf-message {
 	background: #eeffee;
     border: 1px dotted #ccc;
+    overflow: hidden;
 }
 .gwf-error p, .gwf-message p {
     margin: 4px -10px;

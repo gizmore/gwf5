@@ -55,6 +55,7 @@ class Module_GWF extends GWF_Module
 			GDO_Path::make('nodejs_path')->initial('/usr/bin/nodejs')->label('nodejs_path'),
 			GDO_Path::make('uglifyjs_path')->initial('uglifyjs')->label('uglifyjs_path'),
 			GDO_Path::make('ng_annotate_path')->initial('ng-annotate')->label('ng_annotate_path'),
+			GDO_Link::make('link_node_detect')->href(href('GWF', 'DetectNode')),
 		);
 	}
 	public function cfgItemsPerPage() { return $this->getConfigValue('ipp'); }

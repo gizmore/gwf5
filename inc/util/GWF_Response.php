@@ -19,7 +19,7 @@ class GWF_Response
 	public static function message(string $key, array $args=null) { return GWF_Message::make(t($key, $args)); }
 	public static function error(string $key, array $args=null) { return GWF_Error::make(t($key, $args), true); }
 	
-	public function __construct($html, $error=false)
+	public function __construct($html, bool $error=false)
 	{
 		$this->html = $html;
 		$this->error = $error;

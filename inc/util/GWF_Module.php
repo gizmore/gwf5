@@ -28,17 +28,6 @@ class GWF_Module extends GDO
 	 */
 	protected function getConfig() { return []; }
 	
-// 	public function getModuleConfig()
-// 	{
-// 		return array_merge($this->getDefaultConfig(), $this->getConfig());
-// 	}
-	
-// 	public function getDefaultConfig()
-// 	{
-// 		return array(
-// 		);
-// 	}
-
 	##############
 	### Config ###
 	##############
@@ -83,11 +72,13 @@ class GWF_Module extends GDO
 	public function saveConfigVar(string $key, string $value)
 	{
 		GWF_ModuleVar::createModuleVar($this, $this->getConfigColumn($key)->value($value));
+		GDOCache::unset('gwf_modules');
 	}
 	
 	public function saveConfigValue(string $key, $value)
 	{
 		GWF_ModuleVar::createModuleVar($this, $this->getConfigColumn($key)->setGDOValue($value));
+		GDOCache::unset('gwf_modules');
 	}
 	
 	##############

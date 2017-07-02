@@ -1,6 +1,20 @@
 <?php
 class GDO_Timestamp extends GDOType
 {
+	#############
+	### Value ###
+	#############
+	public function getGDOValue()
+	{
+		return GWF_Time::getTimestamp($this->gdo ? $this->getGDOVar() : $this->formValue());
+	}
+	
+	public function setGDOValue($value)
+	{
+		$this->value = GWF_Time::getDate((int)$value);
+		return $this;
+	}
+	
 	#####################
 	### Starting view ###
 	#####################
