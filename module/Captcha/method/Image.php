@@ -20,7 +20,7 @@ class Captcha_Image extends GWF_Method
 		GWF_HTTP::noCache();
 		
 		# Setup Font, Color, Size
-		$aFonts = json_decode($module->cfgCaptchaFonts());
+		$aFonts = $module->cfgCaptchaFonts();
 		$aFonts = array_map(function($font){ return GWF_PATH . 'inc/fonts/'.$font; }, $aFonts);
 		$rgbcolor = ltrim($module->cfgCaptchaBG(), '#');
 		$width = $module->cfgCaptchaWidth();
