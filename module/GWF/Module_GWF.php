@@ -13,6 +13,15 @@ class Module_GWF extends GWF_Module
 	public function isCoreModule() { return true; }
 	public function onLoadLanguage() { return $this->loadLanguage('lang/gwf'); }
 	
+	public function onInit()
+	{
+		if (!GWF5::instance()->isCLI())
+		{
+			header("Access-Control-Allow-Origin: ".$_SERVER['SERVER_NAME']);
+			header("Access-Control-Allow-Credentials: true");
+		}
+	}
+	
 	##############
 	### Config ###
 	##############
@@ -127,11 +136,24 @@ class Module_GWF extends GWF_Module
 		return "window.GWF_CONFIG = {};";
 	}
 	
-	public function gwfUserJS()
+	public function gwfUserJSON()
 	{
 		$user = GWF_User::current();
-// 		$user->loadPermissions();
-		$json = json_encode($user->getVars(['user_id', 'user_name', 'user_guest_name', 'user_type', 'user_level', 'user_credits']));
+		$json = array(
+			'user_id' => (int)$user->getID(),
+			'user_name' => $user->getName(),
+			'user_guest_name' => $user->getGuestName(),
+			'user_type' => $user->getType(),
+			'user_level' => (int)$user->getLevel(),
+			'user_credits' => (int)$user->getCredits(),
+			'permissions' => $user->loadPermissions(),
+		);
+		return $json;
+	}
+	
+	public function gwfUserJS()
+	{
+		$json = json_encode($this->gwfUserJSON());
 		return "window.GWF_USER = new GWF_User($json);";
 	}
 	

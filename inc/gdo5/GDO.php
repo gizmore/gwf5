@@ -728,6 +728,7 @@ abstract class GDO
 		{
 			$gdoType->gdo($this)->gdoAfterCreate();
 		}
+		$this->recache();
 		$this->gdoAfterCreate();
 	}
 	

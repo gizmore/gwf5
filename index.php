@@ -56,13 +56,13 @@ try
 }
 catch (Exception $e)
 {
-// 	$content = ob_get_clean();
-// 	while (ob_get_level() > 0) { ob_end_clean(); }
-// 	GWF_Log::logException($e);
-// 	$message = GWF_Debug::backtraceException($e, $gwf5->isHTML(), ' (maintrace)');
-// 	echo defined('GWF_CORE_STABLE') ?
-// 		$gwf5->render(GWF_Error::make($message)) :
-// 		($message.PHP_EOL);
+	$content = ob_get_clean();
+	while (ob_get_level() > 0) { ob_end_clean(); }
+	GWF_Log::logException($e);
+	$message = GWF_Debug::backtraceException($e, $gwf5->isHTML(), ' (maintrace)');
+	echo defined('GWF_CORE_STABLE') ?
+		$gwf5->render(GWF_Error::make($message)) :
+		($message.PHP_EOL);
 }
 finally
 {

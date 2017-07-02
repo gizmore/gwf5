@@ -164,11 +164,20 @@ class GWF_ModuleInstall
 		}
 	}
 	
-	public static function installCoreTables(bool $dropTables=false)
+	/**
+	 * Get all core tables from inc folder.
+	 * @return GDO[]
+	 */
+	public static function includeCoreTables()
 	{
 		self::$coreTables = [];
 		GWF_Filewalker::traverse(GWF_PATH . 'inc/util', [__CLASS__, 'coreInclude'], false, false);
-		$tables = self::$coreTables;
+		return self::$coreTables;
+	}
+	
+	public static function installCoreTables(bool $dropTables=false)
+	{
+		$tables = self::includeCoreTables();
 		while (count($tables))
 		{
 			$changed = false;

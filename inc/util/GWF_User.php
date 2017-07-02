@@ -60,6 +60,7 @@ final class GWF_User extends GDO
 	public function isMember() { return $this->getType() === self::MEMBER; }
 	
 	public function getLevel() { return $this->getVar('user_level'); }
+	public function getCredits() { return $this->getVar('user_level'); }
 	public function isAuthenticated() { return $this->isGuest() || $this->isMember(); }
 	
 	public function hasMail() { return !!$this->getMail(); }

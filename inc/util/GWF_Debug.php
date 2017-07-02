@@ -140,7 +140,7 @@ final class GWF_Debug
 			default: $errnostr = 'PHP Unknown Error'; break;
 		}
 
-		$is_html = PHP_SAPI !== 'cli';
+		$is_html = (PHP_SAPI !== 'cli') && (GWF5::instance()->getFormat() === 'html');
 		
 		if ($is_html)
 		{
@@ -156,20 +156,11 @@ final class GWF_Debug
 		{
 			file_put_contents('php://stderr', self::backtrace($message, false).PHP_EOL);
 		}
-		elseif (GWF_ERROR_STACKTRACE)
-		{
-			$message = self::backtrace($message, $is_html).PHP_EOL;
-			echo self::$die ? self::renderError($message) : $message;
-		}
-		elseif ($is_html)
-		{
-			$message = sprintf('<div class="gwf-exception">%s</div>', $message).PHP_EOL;
-			echo self::$die ? self::renderError($message) : $message;
-			echo 'XXX';
-		}
 		else
 		{
-			echo $message.PHP_EOL;
+			$message = $is_html ? sprintf('<div class="gwf-exception">%s</div>', $message) : $message;
+			$message = GWF_ERROR_STACKTRACE ? self::backtrace($message, $is_html) : $message;
+			echo self::$die ? self::renderError($message) : $message;
 		}
 		
 		# Send error to admin

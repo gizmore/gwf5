@@ -73,5 +73,4 @@ class Admin_Configure extends GWF_MethodForm
 		# Announce
 		return $this->message('msg_module_saved', [implode('<br/>', $info)])->add($form->render());
 	}
-	
 }

@@ -9,16 +9,19 @@
 final class GWF_ModuleLoader
 {
 	/**
+	 * @return GWF_ModuleLoader
+	 */
+	public static function instance() { return self::$instance; }
+	private static $instance;
+	/**
 	 * Base modules path, the modules folder.
 	 * @var string
 	 */
 	private $path;
-	
 	/**
 	 * @var GWF_Module[]
 	 */
 	private $modules = [];
-	
 	/**
 	 * @var GWF_Module[]
 	 */
@@ -29,6 +32,7 @@ final class GWF_ModuleLoader
 	public function __construct(string $path)
 	{
 		$this->path = $path;
+		self::$instance = $this;
 	}
 	
 	/**
@@ -67,7 +71,7 @@ final class GWF_ModuleLoader
 	{
 		if (!($cache = GDOCache::get('gwf_modules')))
 		{
-			$cache = $this->loadModules();
+			$cache = $this->loadModules(false);
 			GDOCache::set('gwf_modules', $cache);
 		}
 		else
