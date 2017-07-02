@@ -1,9 +1,12 @@
-<section layout="row" layout-fill flex layout-align="center">
-<?php echo GDO_Link::make()->label('btn_phpinfo')->href(href('GWF', 'PHPInfo'))->render(); ?>
-<?php echo GDO_Link::make()->label('btn_clearcache')->href(href('Admin', 'ClearCache'))->render(); ?>
-<?php echo GDO_Link::make()->label('btn_modules')->href(Module_Admin::instance()->getMethodHREF('Modules'))->render(); ?>
-<?php echo GDO_Link::make()->label('btn_users')->href(Module_Admin::instance()->getMethodHREF('Users'))->render(); ?>
-<?php echo GDO_Link::make()->label('btn_permissions')->href(Module_Admin::instance()->getMethodHREF('Permissions'))->render(); ?>
-<?php echo GDO_Link::make()->label('btn_cronjob')->href(href('Admin', 'Cronjob'))->render(); ?>
-<?php echo GDO_Link::make()->label('btn_login_as')->href(href('Admin', 'LoginAs'))->render(); ?>
-</section>
+<?php
+$bar = GDO_Bar::make('admintabs');
+$bar->addFields(array(
+	GDO_Link::make('btn_phpinfo')->href(href('GWF', 'PHPInfo')),
+	GDO_Link::make('btn_clearcache')->href(href('Admin', 'ClearCache')),
+	GDO_Link::make('btn_modules')->href(href('Admin', 'Modules')),
+	GDO_Link::make('btn_users')->href(href('Admin', 'Users')),
+	GDO_Link::make('btn_permissions')->href(href('Admin', 'Permissions')),
+	GDO_Link::make('btn_cronjob')->href(href('Admin', 'Cronjob')),
+	GDO_Link::make('btn_login_as')->href(href('Admin', 'LoginAs')),
+));
+echo $bar->renderCell();
