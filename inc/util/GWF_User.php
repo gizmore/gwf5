@@ -87,7 +87,15 @@ final class GWF_User extends GDO
 		{
 			return GWF_Template::mainPHP('cell/username.php', ['user' => $this])->getHTML();
 		}
-		elseif ($realName = $this->getRealName())
+		else
+		{
+			return $this->displayNameLabel();
+		}
+	}
+	
+	public function displayNameLabel()
+	{
+		if ($realName = $this->getRealName())
 		{
 			return htmlspecialchars("'$realName'");
 		}
@@ -105,9 +113,10 @@ final class GWF_User extends GDO
 	{
 		return GWF_Template::mainPHP('cell/user.php', ['user'=>$this]);
 	}
+
 	public function renderChoice()
 	{
-		return GWF_Template::mainPHP('choice/user.php', ['user'=>$this]);
+		return $this->displayNameLabel();
 	}
 	
 	#############

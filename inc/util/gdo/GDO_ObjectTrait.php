@@ -22,7 +22,7 @@ trait GDO_ObjectTrait
 		return json_encode([
 				'url' => $this->completionURL,
 				'id' => $this->value,
-				'value' => $gdo ? $gdo->displayName() : '',
+				'value' => $gdo ? $gdo->renderChoice() : '',
 		]);
 	}
 	

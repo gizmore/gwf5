@@ -356,7 +356,7 @@ abstract class GDO
 		{
 			$this->updateQuery()->set($this->getSetClause())->exec();
 			$this->dirty = false;
-// 			$this->recache();
+			$this->recache();
 			$this->gdoAfterUpdate();
 		}
 		return $this;
@@ -390,7 +390,7 @@ abstract class GDO
 			$this->beforeUpdate($query); # Can do trickery here... not needed? 
 			$query->exec();
 			$this->gdoVars = array_merge($this->gdoVars, $vars);
-// 			$this->recache();
+			$this->recache();
 			$this->gdoAfterUpdate(); # GDO_AutoInc uses this hook
 		}
 		return $this;

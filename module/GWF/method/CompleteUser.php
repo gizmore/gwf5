@@ -16,9 +16,10 @@ final class GWF_CompleteUser extends GWF_Method
 		$cell = GDO_User::make('user_id');
 		while ($user = $result->fetchObject())
 		{
+			$user instanceof GWF_User;
 			$response[] = array(
 				'id' => $user->getID(),
-				'text' => $user->displayName(),
+				'text' => $user->displayNameLabel(),
 				'display' => $cell->gdo($user)->value($user->getID())->renderChoice(),
 			);
 		}
