@@ -84,8 +84,8 @@ abstract class GDO
 	 */
 	private $temp;
 	public function tempGet(string $key) { return @$this->temp[$key]; }
-	public function tempSet(string $key, $value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = $value; $this->recache(); }
-	public function tempUnset(string $key) { unset($this->temp[$key]); $this->recache(); }
+	public function tempSet(string $key, $value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = $value; /* $this->recache(); */ }
+	public function tempUnset(string $key) { unset($this->temp[$key]); /* $this->recache(); */ }
 	
 	############
 	### Vars ###
@@ -325,7 +325,7 @@ abstract class GDO
 		$this->dirty = false;
 		$this->persisted = true;
 		$this->gdoAfterUpdate();
-		$this->recache();
+// 		$this->recache();
 		return $this;
 	}
 	
@@ -356,7 +356,7 @@ abstract class GDO
 		{
 			$this->updateQuery()->set($this->getSetClause())->exec();
 			$this->dirty = false;
-			$this->recache();
+// 			$this->recache();
 			$this->gdoAfterUpdate();
 		}
 		return $this;
@@ -390,7 +390,7 @@ abstract class GDO
 			$this->beforeUpdate($query); # Can do trickery here... not needed? 
 			$query->exec();
 			$this->gdoVars = array_merge($this->gdoVars, $vars);
-			$this->recache();
+// 			$this->recache();
 			$this->gdoAfterUpdate(); # GDO_AutoInc uses this hook
 		}
 		return $this;
@@ -728,8 +728,8 @@ abstract class GDO
 		{
 			$gdoType->gdo($this)->gdoAfterCreate();
 		}
-		$this->recache();
 		$this->gdoAfterCreate();
+// 		$this->recache();
 	}
 	
 	# Overrides

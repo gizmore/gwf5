@@ -1,10 +1,15 @@
 <?php
 trait GDO_ObjectTrait
 {
+	public $completionURL;
+	public $cascade = 'CASCADE';
+	public $fkOn;
+	public $klass;
+	public $table;
+	
 	#########################
 	### Object Completion ###
 	#########################
-	private $completionURL;
 	public function completion(string $completionURL)
 	{
 		$this->completionURL = $completionURL . '&ajax=1&fmt=json';
@@ -24,7 +29,6 @@ trait GDO_ObjectTrait
 	###############
 	### Cascade ###
 	###############
-	private $cascade = 'CASCADE';
 	public function cascadeNull()
 	{
 		$this->cascade = 'SET NULL';
@@ -60,9 +64,7 @@ trait GDO_ObjectTrait
 	#####################
 	### Class to join ###
 	#####################
-	public $klass;
-	private $table;
-	public function klass($klass, GDO $table=null)
+	public function klass(string $klass, GDO $table=null)
 	{
 		$this->klass = $klass;
 		$this->table = $table ? $table : GDO::tableFor($klass);
@@ -77,7 +79,6 @@ trait GDO_ObjectTrait
 	########################
 	### Custom ON clause ###
 	########################
-	public $fkOn;
 	public function fkOn(string $on)
 	{
 		$this->fkOn = $on;
@@ -92,7 +93,7 @@ trait GDO_ObjectTrait
 	 */
 	public function foreignTable()
 	{
-		return $this->table;
+		return $this->table ? $this->table : GDO::tableFor($this->klass); # @TODO: WTF. $this->table gets emptied for unknown reason!
 	}
 	
 	/**
@@ -124,7 +125,7 @@ trait GDO_ObjectTrait
 		$define = str_replace(' PRIMARY KEY', '', $define);
 		$define = str_replace(' AUTO_INCREMENT', '', $define);
 		$define = preg_replace('#,FOREIGN KEY .* ON UPDATE CASCADE#', '', $define);
-		$on = $this->fkOn ? $this->fkOn : ($primaryKey->identifier());
+		$on = $this->fkOn ? $this->fkOn : $primaryKey->identifier();
 		return "$define{$this->gdoNullDefine()}".
 				",FOREIGN KEY ({$this->identifier()}) REFERENCES $tableName($on) ON DELETE {$this->cascade} ON UPDATE CASCADE";
 	}

@@ -80,4 +80,13 @@ class GDO_Timestamp extends GDOType
 	{
 		return GWF_Template::mainPHP('form/time.php', ['field'=>$this]);
 	}
+	
+	public function einitJSON() { echo json_encode($this->initJSON()); }
+	public function initJSON()
+	{
+		return array(
+			'writable' => $this->writable,
+			'id' => '#date_'.$this->name,
+		);
+	}
 }

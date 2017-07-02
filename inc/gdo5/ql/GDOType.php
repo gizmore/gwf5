@@ -32,6 +32,8 @@ abstract class GDOType
 	public $primary = false;
 	public $null = true;
 	
+	private $icon;
+	
 	################
 	### Abstract ###
 	################
@@ -181,13 +183,7 @@ abstract class GDOType
 	public static function iconS(string $icon) { return self::matIconS($icon); }
 	public static function matIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
 // 	public static function aweIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
-	
-	private $icon;
-	public function htmlIcon()
-	{
-		return $this->icon ? $this->icon : '';
-	}
-	
+	public function htmlIcon() { return $this->icon ? $this->icon : ''; }
 	public function rawIcon(string $icon) { $this->icon = $icon; return $this; }
 	public function matIcon(string $icon) { return $this->rawIcon(self::matIconS($icon)); }
 	public function icon($icon) { return $this->rawIcon(self::iconS($icon)); }
@@ -266,14 +262,44 @@ abstract class GDOType
 	 */
 	public function formValue()
 	{
-		$vars = Common::getRequestArray('form', []);
-		return isset($vars[$this->name]) ? $vars[$this->name] : $this->getValue();
+		if (null === ($value = $this->recursiveValue('form')))
+		{
+			$value = $this->getValue();
+		}
+		return $value;
 	}
 	
 	public function filterValue()
 	{
-		$vars = Common::getRequestArray('f', []);
-		return @$vars[$this->name];
+		return $this->recursiveValue('f');
+	}
+	
+	public function parameterValue()
+	{
+		if (null === ($value = $this->recursiveValue()))
+		{
+			$value = $this->initial;
+		}
+		return $value;
+	}
+	
+	private function recursiveValue($firstLevel=null)
+	{
+		if ( $firstLevel && (!isset($_REQUEST[$firstLevel])) )
+		{
+			return null;
+		}
+		$arr = $_REQUEST;
+		$path = $firstLevel === null ? $this->name : $firstLevel.']['.$this->name;
+		$path = preg_split('/[\\[\\]]{1,2}/', $path);
+		foreach ($path as $child)
+		{
+			if (!($arr = @$arr[trim($child, '[]')]))
+			{
+				return null;
+			}
+		}
+		return $arr;
 	}
 	
 	public function displayFilterValue()
@@ -324,9 +350,9 @@ abstract class GDOType
 	############
 	### NULL ###
 	############
-	public function notNull()
+	public function notNull(bool $notNull=true)
 	{
-		$this->null = false;
+		$this->null = !$notNull;
 		return $this;
 	}
 	

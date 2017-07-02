@@ -13,12 +13,20 @@ class Module_GWF extends GWF_Module
 	public function isCoreModule() { return true; }
 	public function onLoadLanguage() { return $this->loadLanguage('lang/gwf'); }
 	
+	/**
+	 * Add CORS headers on non cli requests.
+	 * {@inheritDoc}
+	 * @see GWF_Module::onInit()
+	 */
 	public function onInit()
 	{
 		if (!GWF5::instance()->isCLI())
 		{
-			header("Access-Control-Allow-Origin: ".$_SERVER['SERVER_NAME']);
-			header("Access-Control-Allow-Credentials: true");
+			if ($this->cfgCORS())
+			{
+				header("Access-Control-Allow-Origin: ".$_SERVER['SERVER_NAME']);
+				header("Access-Control-Allow-Credentials: true");
+			}
 		}
 	}
 	
@@ -38,8 +46,11 @@ class Module_GWF extends GWF_Module
 	public function getConfig()
 	{
 		return array(
+			GDO_Divider::make('div_page')->label('div_pagination'),
 			GDO_Int::make('ipp')->initial('20')->max(1000)->unsigned(),
 			GDO_Int::make('spr')->initial('10')->max(1000)->unsigned(),
+			GDO_Divider::make('div_javascript')->label('div_javascript'),
+			GDO_Checkbox::make('cors_header')->initial('1'),
 			GDO_Enum::make('minify_js')->enumValues('no', 'yes', 'concat')->initial('no'),
 			GDO_Path::make('nodejs_path')->initial('/usr/bin/nodejs')->label('nodejs_path'),
 			GDO_Path::make('uglifyjs_path')->initial('uglifyjs')->label('uglifyjs_path'),
@@ -48,6 +59,7 @@ class Module_GWF extends GWF_Module
 	}
 	public function cfgItemsPerPage() { return $this->getConfigValue('ipp'); }
 	public function cfgMaxSuggestions() { return $this->getConfigValue('spr'); }
+	public function cfgCORS() { return $this->getConfigValue('cors_header'); }
 	public function cfgMinifyJS() { return $this->getConfigVar('minify_js'); }
 	public function cfgNodeJSPath() { return $this->getConfigVar('nodejs_path'); }
 	public function cfgUglifyPath() { return $this->getConfigVar('uglifyjs_path'); }
@@ -115,6 +127,7 @@ class Module_GWF extends GWF_Module
 		$this->addJavascript('js/gwf-error-srvc.js');
 		$this->addJavascript('js/gwf-exception-srvc.js');
 		$this->addJavascript('js/gwf-form-ctrl.js');
+		$this->addJavascript('js/gwf-list-ctrl.js');
 		$this->addJavascript('js/gwf-loading-srvc.js');
 		$this->addJavascript('js/gwf-request-interceptor.js');
 		$this->addJavascript('js/gwf-request-srvc.js');

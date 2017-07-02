@@ -3,11 +3,6 @@ class GDO_ObjectSelect extends GDO_Select
 {
 	use GDO_ObjectTrait;
 
-	public function initChoices()
-	{
-		return $this->choices ? $this : $this->choices($this->table->all());
-	}
-	
 	public function render()
 	{
 		$this->initChoices();
@@ -18,6 +13,39 @@ class GDO_ObjectSelect extends GDO_Select
 	{
 		$this->initChoices();
 		return parent::validate($value);
+	}
+	
+	public function initChoices()
+	{
+		return $this->choices ? $this : $this->choices($this->table->all());
+	}
+	
+	#################
+	### Get Value ###
+	#################
+	public function getGDOValue()
+	{
+		return $this->multiple ? $this->getGDOValueMulti() : $this->getGDOValueSingle();
+	}
+
+	public function getGDOValueSingle()
+	{
+		$id = $this->gdo ? $this->gdo->getVar($this->name) : $this->formValue();
+		return $this->foreignTable()->find($id, false);
+	}
+
+	public function getGDOValueMulti()
+	{
+		$back = [];
+		$fkTable = $this->foreignTable();
+		foreach (json_decode($this->getValue()) as $id)
+		{
+			if ($object = $fkTable->find($id, false))
+			{
+				$back[$id] = $object;
+			}
+		}
+		return $back;
 	}
 	
 }

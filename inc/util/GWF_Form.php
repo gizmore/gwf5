@@ -124,6 +124,8 @@ class GWF_Form
 		{
 			$this->values = [];
 		}
+		#@TODO: Not needed yet, but nested fields do not end up here.
+		#       Though usually you don't want them.
 		$this->values[$key] = $value;
 		return $this;
 	}

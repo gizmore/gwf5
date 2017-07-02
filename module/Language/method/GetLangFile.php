@@ -1,5 +1,10 @@
 <?php
-final class GWF_GetLangFile extends GWF_Method
+/**
+ * Get I18n data for js app.
+ * @author gizmore
+ * @since 3.0
+ */
+final class Language_Translations extends GWF_Method
 {
 	public function execute()
 	{
@@ -7,9 +12,8 @@ final class GWF_GetLangFile extends GWF_Method
 		$cache = GWF_Trans::getCache($iso);
 		switch ($this->getFormat())
 		{
-			case 'json': return new GWF_Response([$iso => $cache]);
+			case 'json': die(json_encode([$iso => $cache]));
 			case 'html': default: return new GWF_Response(print_r($cache, true));
 		}
 	}
-	
 }

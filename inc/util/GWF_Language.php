@@ -35,13 +35,21 @@ class GWF_Language extends GDO
 	/**
 	 * @return GWF_Language[]
 	 */
+	public function allSupported()
+	{
+		return Module_Language::instance()->cfgSupported();
+	}
+	
+	/**
+	 * @return GWF_Language[]
+	 */
 	public function all()
 	{
-		if (!($cache = GDOCache::get('gwf_language')))
+		if (!($cache = GDOCache::get('gwf_languages')))
 		{
-			$isos = implode(',', array_map('quote', array('en','de','fr')));
-			$cache = self::table()->select('*')->where("lang_iso IN ($isos) ")->exec()->fetchAllArray2dObject();
-			GDOCache::set('gwf_language', $cache);
+// 			$isos = implode(',', array_map('quote', array('en','de','fr')));
+			$cache = self::table()->select('*')->exec()->fetchAllArray2dObject();
+			GDOCache::set('gwf_languages', $cache);
 		}
 		return $cache;
 	}

@@ -23,7 +23,10 @@ abstract class GWF_MethodQueryTable extends GWF_Method
 	/**
 	 * @return GDOType[]
 	 */
-	public abstract function getHeaders();
+	public function getHeaders()
+	{
+		return $this->getQuery()->table->gdoColumns();
+	}
 	
 	public function onDecorateTable(GDO_Table $table) {}
 	

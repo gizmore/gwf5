@@ -108,7 +108,7 @@ class GDOCache
 	
 	public function recache(GDO $object)
 	{
-// 		$this->cache[$object->getID()] = $object;
+		$this->cache[$object->getID()] = $object;
 		if ($object->memCached())
 		{
 			self::$MEMCACHED->set($object->gkey(), $object, GWF_MEMCACHE_TTL);

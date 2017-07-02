@@ -6,7 +6,7 @@
    ng-model="selection"
    <?php if ($field->multiple) { ?>
    multiple
-   ng-init='init(<?php echo $field->formValue(); ?>)'
+   ng-init='init(<?php echo $field->formValue(); ?>, <?php echo $field->multiple?'true':'false'; ?>)'
    ng-change="multiValueSelected('#gwfsel_<?php echo $field->name; ?>')">
    <?php } else { ?>
    ng-init="selection='<?php echo $field->formValue(); ?>'"

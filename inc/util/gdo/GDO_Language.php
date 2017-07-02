@@ -4,9 +4,9 @@
  * @author gizmore
  * @see GWF_Language
  */
-final class GDO_Language extends GDO_Select
+final class GDO_Language extends GDO_ObjectSelect
 {
-	use GDO_ObjectTrait;
+	public function defaultLabel() { return $this->label('language'); }
 	
 	public function __construct()
 	{
@@ -14,12 +14,17 @@ final class GDO_Language extends GDO_Select
 		$this->min = $this->max = 2;
 	}
 	
+	private $all = false;
+	public function all(bool $all=true)
+	{
+		$this->all = $all;
+		return $this;
+	}
+	
 	public function withCompletion()
 	{
 		return $this->completion(href('GWF', 'CompleteLanguage'));
 	}
-	
-	public function defaultLabel() { return $this->label('language'); }
 	
 	public function validate($value)
 	{
@@ -45,9 +50,15 @@ final class GDO_Language extends GDO_Select
 		return GWF_Template::mainPHP('cell/language.php', ['language'=>$this->gdo]);
 	}
 	
+	public function initChoices()
+	{
+		return $this->choices ? $this : $this->choices($this->languageChoices());
+	}
+	
 	private function languageChoices()
 	{
-		return GWF_Language::table()->all();
+		$languages = GWF_Language::table();
+		return $this->all ? $languages->all() : $languages->allSupported();
 	}
 	
 }

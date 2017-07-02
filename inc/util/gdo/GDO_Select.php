@@ -10,6 +10,11 @@ class GDO_Select extends GDO_Combobox
 		return $value;
 	}
 	
+	public function getGDOValue()
+	{
+		return json_decode($this->getValue());
+	}
+	
 	public function addFormValue(GWF_Form $form, $value)
 	{
 		$value = $value === $this->emptyValue ? null : $value;
@@ -92,6 +97,5 @@ class GDO_Select extends GDO_Combobox
 	}
 	public function renderChoice()
 	{
-		
 	}
 }

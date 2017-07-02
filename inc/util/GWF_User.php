@@ -48,7 +48,6 @@ final class GWF_User extends GDO
 	public function getID() { return $this->getVar('user_id'); }
 	public function getType() { return $this->getVar('user_type'); }
 	
-	
 	public function getName() { return $this->getVar('user_name'); }
 	public function getUserName() { return ($name = $this->getGuestName()) ? $name : $this->getName(); }
 	public function getRealName() { return $this->getVar('user_real_name'); }
@@ -84,18 +83,31 @@ final class GWF_User extends GDO
 	###############
 	public function displayName()
 	{
-		if ($realName = $this->getRealName())
+		if (GWF5::instance()->isHTML())
 		{
-			return GWF_HTML::escape($realName);
+			return GWF_Template::mainPHP('cell/username.php', ['user' => $this])->getHTML();
+		}
+		elseif ($realName = $this->getRealName())
+		{
+			return htmlspecialchars("'$realName'");
 		}
 		elseif ($guestName = $this->getGuestName())
 		{
-			return $guestName;
+			return "~$guestName~";
 		}
 		else
 		{
 			return $this->getName();
 		}
+	}
+	
+	public function renderCell()
+	{
+		return GWF_Template::mainPHP('cell/user.php', ['user'=>$this]);
+	}
+	public function renderChoice()
+	{
+		return GWF_Template::mainPHP('choice/user.php', ['user'=>$this]);
 	}
 	
 	#############
