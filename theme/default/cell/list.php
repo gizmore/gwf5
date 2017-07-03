@@ -6,4 +6,11 @@
     </div>
   </md-toolbar>
   
+<?php
+$result = $field->getResult();
+while ($gdo = $result->fetchObject())
+{
+	echo $gdo->renderCard()->getHTML();
+}
+?>
 </section>

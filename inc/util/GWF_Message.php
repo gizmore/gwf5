@@ -5,7 +5,7 @@ class GWF_Message extends GWF_Response
 	{
 		if (GWF5::instance()->getFormat() !== 'json')
 		{
-			$this->html = GWF_Template::mainPHP('message.php', ['response'=>$this, 'message' => t($key, $args)]);
+			$this->html = GWF_Template::mainPHP('message.php', ['response'=>$this, 'message' => t($key, $args)])->getHTML();
 		}
 		else
 		{
@@ -16,11 +16,6 @@ class GWF_Message extends GWF_Response
 		{
 			GWF_Log::logMessage(GWF_Trans::tiso('en', $key, $args));
 		}
-	}
-	
-	public static function make($html)
-	{
-		return new self($html);
 	}
 	
 }

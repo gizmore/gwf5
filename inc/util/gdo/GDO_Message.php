@@ -16,6 +16,6 @@ class GDO_Message extends GDO_Text
 	
 	public function renderCell()
 	{
-		return GWF_Template::mainPHP('cell/message.php', ['field'=>$this]);
+		return GWF_Template::mainPHP('cell/message.php', ['field'=>$this])->getHTML();
 	}
 }

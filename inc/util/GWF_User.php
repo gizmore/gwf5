@@ -111,7 +111,7 @@ final class GWF_User extends GDO
 	
 	public function renderCell()
 	{
-		return GWF_Template::mainPHP('cell/user.php', ['user'=>$this]);
+		return GWF_Template::mainPHP('cell/user.php', ['user'=>$this])->getHTML();
 	}
 
 	public function renderChoice()

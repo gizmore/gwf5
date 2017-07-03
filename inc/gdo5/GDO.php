@@ -321,6 +321,10 @@ abstract class GDO
 	
 	public function replace()
 	{
+		if ($this->getID() == 0)
+		{
+			return $this->insert();
+		}
 		$this->query()->replace($this->gdoTableIdentifier())->values($this->gdoVars)->exec();
 		$this->dirty = false;
 		$this->persisted = true;
@@ -745,7 +749,7 @@ abstract class GDO
 	##############
 	### Render ###
 	##############
-	public function render() { return GWF_Template::mainPHP('card/' . $this->gdoTableName() . '.php'); }
+	public function renderCard() { return GWF_Template::mainPHP("card/{$this->gdoTableName()}.php", ['gdo'=>$this]); }
 	public function renderCell() { return $this->renderChoice(); }
 	public function renderChoice() { return sprintf('%s-%s', $this->getID(), $this->displayName()); }
 	

@@ -48,7 +48,7 @@ final class GWF_Trans
 				if (!($text = @vsprintf($text, $args)))
 				{
 					$text = @self::$CACHE[$iso][$key] . ': ';
-					$text .= json_encode($args);
+					$text .= print_r($args, true);
 				}
 			}
 		}
@@ -58,7 +58,7 @@ final class GWF_Trans
 			if ($args)
 			{
 				$text .= ": ";
-				$text .= json_encode($args);
+				$text .= print_r($args, true);
 			}
 		}
 		
@@ -92,3 +92,5 @@ function tusr(GWF_User $user, string $key, array $args=null) { return GWF_Trans:
 function l(string $key, array $args=null) { echo t($key, $args); }
 function tt(string $date=null, string $format='short', string $default='---') { return GWF_Time::displayDate($date, $format, $default); }
 function lt(string $date=null, string $format='short', string $default='---') { echo tt($date, $format, $default); }
+function htmle($s) { return htmlspecialchars($s); }
+function html($s) { echo htmle($s); }

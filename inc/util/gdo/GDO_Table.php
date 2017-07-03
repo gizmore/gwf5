@@ -54,6 +54,9 @@ class GDO_Table extends GDO_Blank
 		return $this;
 	}
 	
+	/**
+	 * @return GDOResult
+	 */
 	public function getResult()
 	{
 		if (!($this->result))

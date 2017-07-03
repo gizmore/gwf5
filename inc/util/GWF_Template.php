@@ -80,8 +80,8 @@ final class GWF_Template
 		}
 		catch (Exception $e)
 		{
-			return GWF_Response::make(ob_get_contents());
-// 			throw $e;
+			$message = GWF_Debug::backtraceException($e, GWF5::instance()->isHTML(), ob_get_contents());
+			return GWF_Response::make($message);
 		}
 		finally
 		{

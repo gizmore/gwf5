@@ -16,13 +16,21 @@ class GWF_Response
 	 * @return self
 	 */
 	public static function make($html) { return new self($html); }
-	public static function message(string $key, array $args=null) { return GWF_Message::make(t($key, $args)); }
-	public static function error(string $key, array $args=null) { return GWF_Error::make(t($key, $args), true); }
+	public static function message(string $key, array $args=null) { return new GWF_Message($key, $args); }
+	public static function error(string $key, array $args=null) { return new GWF_Error($key, $args); }
 	
 	public function __construct($html, bool $error=false)
 	{
-		$this->html = $html;
-		$this->error = $error;
+// 		if ($html instanceof GWF_Response)
+// 		{
+// 			$this->html = $html->getHTML();
+// 			$this->error = $html->isError();
+// 		}
+// 		else
+		{
+			$this->html = $html;
+			$this->error = $error;
+		}
 	}
 	
 	public function isError()
@@ -61,7 +69,7 @@ class GWF_Response
 		switch (GWF5::instance()->getFormat())
 		{
 			default:
-			case 'html': return $this->html ? (string)$this->html : '';
+			case 'html': return $this->html ? $this->html : '';
 			case 'json': return $this->toJSON();
 			case 'ws': return $this->replyWS();
 		}
