@@ -19,10 +19,11 @@ trait GDO_ObjectTrait
 	public function initCompletionJSON()
 	{
 		$gdo = $this->getGDOValue();
+		$gdo instanceof GDO;
 		return json_encode([
 				'url' => $this->completionURL,
 				'id' => $this->value,
-				'value' => $gdo ? $gdo->displayName() : '',
+				'value' => $gdo ? $gdo->renderChoice() : '',
 		]);
 	}
 	

@@ -15,6 +15,7 @@ class GDOQuery
 	 * @var GDO
 	 */
 	public $table;
+	public $fetchTable;
 	
 	# query parts
 	private $columns;
@@ -32,6 +33,7 @@ class GDOQuery
 	public function __construct(GDO $table)
 	{
 		$this->table = $table;
+		$this->fetchTable = $table;
 	}
 	
 	private $cached = true;
@@ -47,6 +49,12 @@ class GDOQuery
 		$clone->having = $this->having;
 		$clone->from = $this->from;
 		return $clone;
+	}
+	
+	public function fetchTable(GDO $fetchTable)
+	{
+		$this->fetchTable = $fetchTable;
+		return $this;
 	}
 	
 	public function update(string $tableName)
@@ -306,7 +314,7 @@ class GDOQuery
 		}
 		else
 		{
-			return new GDOResult($this->table, $db->queryRead($query), $this->cached);
+			return new GDOResult($this->fetchTable, $db->queryRead($query), $this->cached);
 		}
 	}
 	

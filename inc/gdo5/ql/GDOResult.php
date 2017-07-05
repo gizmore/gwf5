@@ -151,7 +151,8 @@ class GDOResult
 		$array2d = [];
 		while ($object = $this->fetchAs($table))
 		{
-			$array2d[$object->getID()] = $object;
+			$key = array_keys($object->getGDOVars())[0];
+			$array2d[$object->getVar($key)] = $object;
 		}
 		return $array2d;
 	}

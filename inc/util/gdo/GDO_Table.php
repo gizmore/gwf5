@@ -163,6 +163,7 @@ class GDO_Table extends GDO_Blank
 	{
 		return json_encode(array(
 			'tableName' => $this->result->table->gdoClassName(),
+			'pagemenu' => $this->pagemenu ? $this->getPageMenu()->initJSON() : null,
 			'sortable' => $this->sortable,
 			'sortableURL' => $this->sortableURL,
 		));

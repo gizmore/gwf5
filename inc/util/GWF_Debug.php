@@ -160,7 +160,7 @@ final class GWF_Debug
 		{
 			$message = $is_html ? sprintf('<div class="gwf-exception">%s</div>', $message) : $message;
 			$message = GWF_ERROR_STACKTRACE ? self::backtrace($message, $is_html) : $message;
-			echo self::$die ? self::renderError($message) : $message;
+			echo $is_html? self::renderError($message) : $message;
 		}
 		
 		# Send error to admin

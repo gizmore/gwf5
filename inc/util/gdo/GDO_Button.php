@@ -17,7 +17,7 @@ class GDO_Button extends GDO_Label
 	
 	public function gdoHREF()
 	{
-		return call_user_func(array($this->gdo, 'href_'.$this->name));
+		return $this->href ? $this->href : call_user_func(array($this->gdo, 'href_'.$this->name));
 	}
 	
 	public function gdoLabel()

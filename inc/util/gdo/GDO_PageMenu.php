@@ -48,6 +48,11 @@ class GDO_PageMenu extends GDO_Blank
 	##############
 	### Render ###
 	##############
+	public function initJSON()
+	{
+		return $this->renderJSON();
+	}
+	
 	public function render()
 	{
 		switch (GWF5::instance()->getFormat())
@@ -60,6 +65,7 @@ class GDO_PageMenu extends GDO_Blank
 	public function renderJSON()
 	{
 		return array(
+			'href' => $this->href,
 			'items' => $this->numItems,
 			'ipp' => $this->ipp,
 			'page' => $this->getPage(),

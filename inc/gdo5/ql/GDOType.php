@@ -291,10 +291,15 @@ abstract class GDOType
 		}
 		$arr = $_REQUEST;
 		$path = $firstLevel === null ? $this->name : $firstLevel.']['.$this->name;
-		$path = preg_split('/[\\[\\]]{1,2}/', $path);
+		$path = preg_split('/[\\[\\]]{2}/', $path);
 		foreach ($path as $child)
 		{
-			if (!($arr = @$arr[trim($child, '[]')]))
+			$child = trim($child, '[]');
+			if (isset($arr[$child]))
+			{
+				$arr = $arr[$child];
+			}
+			else
 			{
 				return null;
 			}

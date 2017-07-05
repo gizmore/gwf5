@@ -68,10 +68,10 @@ gwf-avatar img {
 	background: #aaa;
 }
 gwf-avatar.male img {
-	background: #00f;
+	background: #369;
 }
 gwf-avatar.female img {
-	background: #f00;
+	background: #f08;
 }
 
 /** Box **/
@@ -79,6 +79,18 @@ md-content.gwf-box {
 	line-height: 28px;
 	font-size: 15px;
 }
+
+gwf-div {
+	height: 1px;
+	width: 100%;
+	background: #bbb;
+}
+
+/** Card **/
+.gwf-card-date {
+	font-size: 12px;
+}
+
 
 /** Debug **/
 .gwf-stacktrace {

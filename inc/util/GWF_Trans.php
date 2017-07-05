@@ -48,7 +48,7 @@ final class GWF_Trans
 				if (!($text = @vsprintf($text, $args)))
 				{
 					$text = @self::$CACHE[$iso][$key] . ': ';
-					$text .= print_r($args, true);
+					$text .= json_encode($args);
 				}
 			}
 		}
@@ -58,7 +58,7 @@ final class GWF_Trans
 			if ($args)
 			{
 				$text .= ": ";
-				$text .= print_r($args, true);
+				$text .= json_encode($args);
 			}
 		}
 		

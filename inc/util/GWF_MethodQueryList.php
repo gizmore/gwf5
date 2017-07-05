@@ -47,6 +47,7 @@ abstract class GWF_MethodQueryList extends GWF_MethodQuery
 		$list->label('list_'.strtolower(get_called_class()), [$this->getSiteName()]);
 		$list->addFields($this->gdoParameters());
 		$list->query($this->gdoFilteredQuery());
+		$list->paginate();
 		$list->href($this->href());
 		$this->gdoDecorateList($list);
 		return GWF_Response::make($list->renderCell());

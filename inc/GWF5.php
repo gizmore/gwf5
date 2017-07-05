@@ -151,6 +151,8 @@ final class GWF5
 	
 	public function render(GWF_Response $response)
 	{
+		$content = '';
+		while (ob_get_level()) { $content .= ob_get_contents(); ob_end_clean(); };
 		switch ($this->getFormat())
 		{
 			case 'json':
@@ -166,6 +168,7 @@ final class GWF5
 				{
 					$tVars = array(
 						'response' => $this->response($response),
+						'unwanted' => $content,
 					);
 					return GWF_Template::mainPHP('index.php', $tVars);
 				}

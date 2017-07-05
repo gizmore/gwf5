@@ -23,11 +23,12 @@ class GDO_List extends GDO_Table
 	
 	public function initJSON()
 	{
-		return json_encode(array(
-			'tableName' => $this->result->table->gdoClassName(),
-			'sortable' => $this->sortable,
-			'sortableURL' => $this->sortableURL,
-		));
+		return array(
+			'tableName' => $this->getResult()->table->gdoClassName(),
+			'pagemenu' => $this->getPageMenu()->initJSON(),
+// 			'sortable' => $this->sortable,
+// 			'sortableURL' => $this->sortableURL,
+		);
 	}
 	
 }
