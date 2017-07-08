@@ -68,10 +68,7 @@ abstract class GWF_MethodForm extends GWF_Method
 			}
 		}
 
-		if (!$response)
-		{
-			$response = $this->renderPage();
-		}
+		$response = $response ? $response->add($this->renderPage()) : $this->renderPage();
 		
 		$this->form->cleanup();
 		
@@ -120,7 +117,7 @@ abstract class GWF_MethodForm extends GWF_Method
 	 */
 	public function formValidated(GWF_Form $form)
 	{
-		return $this->message('msg_form_saved')->add($this->renderPage());
+		return $this->message('msg_form_saved');
 	}
 	
 	/**
@@ -129,7 +126,7 @@ abstract class GWF_MethodForm extends GWF_Method
 	 */
 	public function formInvalid(GWF_Form $form)
 	{
-		return $this->error('err_form_invalid')->add($this->renderPage());
+		return $this->error('err_form_invalid');
 	}
 	
 }

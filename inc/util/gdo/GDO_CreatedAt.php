@@ -9,7 +9,9 @@
 class GDO_CreatedAt extends GDO_Timestamp
 {
 	public $null = false;
-
+	public $writable = false;
+	public $editable = false;
+	
 	public function defaultLabel() { return $this->label('created_at'); }
 	
 	public function gdoColumnDefine()

@@ -32,6 +32,7 @@ trait GDO_ObjectTrait
 	###############
 	public function cascadeNull()
 	{
+		$this->null = true;
 		$this->cascade = 'SET NULL';
 		return $this;
 	}

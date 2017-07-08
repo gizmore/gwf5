@@ -1,6 +1,9 @@
 <?php
 final class GDO_EditedBy extends GDO_User
 {
+	public $writable = false;
+	public $editable = false;
+	
 	public function defaultLabel() { return $this->label('edited_by'); }
 	
 	public function gdoBeforeUpdate(GDOQuery $query)

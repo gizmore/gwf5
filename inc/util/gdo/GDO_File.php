@@ -175,9 +175,10 @@ class GDO_File extends GDO_Object
 	public function validate($value)
 	{
 		$valid = true;
-		if (count($value) < $this->minfiles)
+		if  ( ((count($value) === 0)&&(!$this->null)) ||
+			  (count($value) < $this->minfiles) )
 		{
-			$valid = $this->error('err_upload_min_files', [$this->minfiles]);
+			$valid = $this->error('err_upload_min_files', [max(1, $this->minfiles)]);
 		}
 		elseif (count($value) > $this->maxfiles)
 		{

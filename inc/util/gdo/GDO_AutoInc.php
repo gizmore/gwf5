@@ -16,6 +16,7 @@ class GDO_AutoInc extends GDO_Int
 	###############
 	public $unsigned = true;
 	public $writable = false;
+	public $editable = false;
 	
 	public function defaultLabel() { return $this->label('id'); }
 	

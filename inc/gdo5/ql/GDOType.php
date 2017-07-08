@@ -24,6 +24,7 @@ abstract class GDOType
 	public $initial = null;
 	public $readable = true;
 	public $writable = true;
+	public $editable = true;
 	
 	public $error;
 	public $validators;
@@ -346,6 +347,13 @@ abstract class GDOType
 	public function writable(bool $writable)
 	{
 		$this->writable = $writable;
+		return $this;
+	}
+	
+	public function editable(bool $editable)
+	{
+		$this->editable = $editable;
+		$this->writable = $editable;
 		return $this;
 	}
 	

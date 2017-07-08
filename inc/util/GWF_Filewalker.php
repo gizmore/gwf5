@@ -24,6 +24,7 @@ final class GWF_Filewalker
 		}
 		
 		$dirstack = [];
+		$filestack = [];
 		while ($entry = $dir->read())
 		{
 			$fullpath = $path.'/'.$entry;
@@ -38,12 +39,19 @@ final class GWF_Filewalker
 			}
 			elseif (is_file($fullpath))
 			{
-				call_user_func($callback_file, $entry, $fullpath, $args);
+				$filestack[] = array($entry, $fullpath);
 			}
 		}
-		
 		$dir->close();
 		
+		usort($filestack, function($a, $b){ return strcasecmp($a[0], $b[0]); });
+		foreach ($filestack as $file)
+		{
+			call_user_func($callback_file, $file[0], $file[1], $args);
+		}
+		
+		
+		usort($dirstack, function($a, $b){ return strcasecmp($a[0], $b[0]); });
 		foreach ($dirstack as $d)
 		{
 			call_user_func($callback_dir, $d[0], $d[1], $args);

@@ -6,6 +6,9 @@
  */
 final class GDO_EditedAt extends GDO_Timestamp
 {
+	public $writable = false;
+	public $editable = false;
+	
 	public function defaultLabel() { return $this->label('edited_at'); }
 	
 	public function gdoColumnDefine()

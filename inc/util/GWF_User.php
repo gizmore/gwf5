@@ -8,6 +8,8 @@
  */
 final class GWF_User extends GDO
 {
+	const SYSTEM_ID = '1'; # Is always #1
+	
 	const BOT = 'bot';
 	const GHOST = 'ghost';
 	const GUEST = 'guest';
@@ -145,6 +147,7 @@ final class GWF_User extends GDO
 	}
 	public function hasPermission(string $permission) { return array_key_exists($permission, $this->loadPermissions()); }
 	public function isAdmin() { return $this->hasPermission('admin'); }
+	public function isStaff() { return $this->hasPermission('staff'); }
 	public function changedPermissions() { $this->tempUnset('gwf_permission'); return $this->recache(); }
 	
 	##############
