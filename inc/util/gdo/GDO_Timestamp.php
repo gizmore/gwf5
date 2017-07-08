@@ -30,6 +30,16 @@ class GDO_Timestamp extends GDOType
 		return $this;
 	}
 	
+	##############
+	### Format ###
+	##############
+	public $format = GWF_Time::FMT_SHORT;
+	public function format(string $key)
+	{
+		$this->format = $key;
+		return $this;
+	}
+	
 	###############
 	### Min/Max ###
 	###############
@@ -87,7 +97,11 @@ class GDO_Timestamp extends GDOType
 	##############
 	public function renderCell()
 	{
-		return GWF_Time::displayDate($this->gdo->getVar($this->name));
+		if ($date = $this->gdo->getVar($this->name))
+		{
+			return GWF_Time::displayDate($date, $this->format);
+		}
+		return '---';
 	}
 	
 	public function render()

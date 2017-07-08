@@ -15,7 +15,8 @@ final class GWF_DetectNode extends GWF_Method
 		$response->add($this->detectAnnotate());
 		$response->add($this->detectUglify());
 		
-		return $this->renderNavBar('GWF')->add($response);
+		$url = href('Admin', 'Configure', '&module=GWF');
+		return $this->renderNavBar('GWF')->add($response)->add(GWF_Website::redirectMessage($url));
 	}
 	
 	/**

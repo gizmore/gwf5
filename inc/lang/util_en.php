@@ -76,6 +76,9 @@ return array(
 'tu_d' => 'd',
 'tu_y' => 'y',
 
+# Files
+'filesize' => array('B','KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'YB', 'ZB'),
+
 # Email formats
 'enum_html' => 'HTML',
 'enum_text' => 'Text',

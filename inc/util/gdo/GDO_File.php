@@ -12,6 +12,7 @@ class GDO_File extends GDO_Object
 	public function __construct()
 	{
 		$this->klass('GWF_File');
+		$this->gdo = $this->table;
 	}
 	
 	public $mimes = [];
@@ -70,17 +71,33 @@ class GDO_File extends GDO_Object
 		$this->action = GWF_HTML::escape($action.'&ajax=1&fmt=json&flowField='.$this->name);
 		return $this;
 	}
-	
-	public function flowJSONConfig()
+	public function getAction()
 	{
-		return json_encode(array(
+		if (!$this->action)
+		{
+			$this->action($_SERVER['REQUEST_URI']);
+		}
+		return $this->action;
+	}
+	
+	public function initJSON()
+	{
+		return array(
 			'minsize' => $this->minsize,
 			'maxsize' => $this->maxsize,
 			'minfiles' => $this->minfiles,
 			'maxfiles' => $this->maxfiles,
 			'preview' => $this->preview,
 			'mimes' => $this->mimes,
-		));
+			'selectedFiles' => $this->initJSONFile(),
+		);
+	}
+	
+	public function initJSONFile()
+	{
+		$file = $this->getGDOValue();
+		$file instanceof GWF_File;
+		return $file ? [$file->toJSON()] : null;
 	}
 	
 	public function render()
@@ -88,17 +105,71 @@ class GDO_File extends GDO_Object
 		return GWF_Template::mainPHP('form/file.php', ['field'=>$this]);
 	}
 	
+	public function renderCell()
+	{
+		return GWF_Template::mainPHP('cell/file.php', ['gdo'=>$this->getGDOValue()])->getHTML();
+	}
+	
+	
 	################
 	### Validate ###
 	################
 	public function formValue()
 	{
-		return $this->getFiles($this->name);
+		$files = [];
+		$newFiles = $this->getFiles($this->name);
+		$values = json_decode(parent::formValue());
+		foreach ($values as $value)
+		{
+			if ($value->initial)
+			{
+				$files[] = GWF_File::table()->find($value->id);
+			}
+			else
+			{
+				if (isset($newFiles[$value->name]))
+				{
+					$files[] = $newFiles[$value->name];
+				}
+			}
+		}
+		return $files;
 	}
 	
 	protected function filteredFormValue()
 	{
 		return $this->formValue();
+	}
+
+	public function addFormValue(GWF_Form $form, $value)
+	{
+		foreach ($value as $file)
+		{
+			if ($file instanceof GWF_File)
+			{
+				if (!$file->isPersisted())
+				{
+					$file->copy();
+				}
+			}
+		}
+		if (!$this->multiple)
+		{
+			$this->oldValue = $this->getValue();
+			$this->value = count($value) ? $value[0]->getID() : null;
+			$form->addValue($this->name, $this->value);
+		}
+	}
+	
+	public function formValidate(GWF_Form $form)
+	{
+		$value = $this->filteredFormValue();
+		if (($this->validate($value)) && ($this->validatorsValidate($form)))
+		{
+			# Add form value if validated.
+			$this->addFormValue($form, $value);
+			return true;
+		}
 	}
 	
 	public function validate($value)
@@ -131,7 +202,7 @@ class GDO_File extends GDO_Object
 	
 	private function getChunkDir($key)
 	{
-		$chunkFilename = preg_replace('#[\\/]#', '', $_REQUEST['flowFilename']);
+		$chunkFilename = str_replace('/', '', $_REQUEST['flowFilename']);
 		return $this->getTempDir($key).'/'.$chunkFilename;
 	}
 	
@@ -150,7 +221,7 @@ class GDO_File extends GDO_Object
 	{
 		if ($files = $this->getFiles($key))
 		{
-			return $files[0];
+			return array_shift($files);
 		}
 	}
 	
@@ -164,9 +235,9 @@ class GDO_File extends GDO_Object
 			{
 				if (($entry !== '.') && ($entry !== '..'))
 				{
-					if ($flowFile = $this->getFileFromDir($path.'/'.$entry))
+					if ($file = $this->getFileFromDir($path.'/'.$entry))
 					{
-						$files[] = $flowFile;
+						$files[$file->getName()] = $file;
 					}
 				}
 			}
@@ -174,16 +245,22 @@ class GDO_File extends GDO_Object
 		return $files;
 	}
 	
+	/**
+	 * @param string $dir
+	 * @return GWF_File
+	 */
 	private function getFileFromDir($dir)
 	{
-		return GWF_File::isFile($dir.'/0') ?
-		array(
-			'name' => @file_get_contents($dir.'/name'),
-			'mime' => @file_get_contents($dir.'/mime'),
-			'size' => filesize($dir.'/0'),
-			'dir' => $dir,
-			'path' => $dir.'/0',
-		) : false;
+		if (GWF_File::isFile($dir.'/0'))
+		{
+			return GWF_File::fromForm(array(
+				'name' => @file_get_contents($dir.'/name'),
+				'mime' => @file_get_contents($dir.'/mime'),
+				'size' => filesize($dir.'/0'),
+				'dir' => $dir,
+				'path' => $dir.'/0',
+			));
+		}
 	}
 	
 	public function cleanup()

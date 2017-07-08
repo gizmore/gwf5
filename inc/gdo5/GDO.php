@@ -321,7 +321,7 @@ abstract class GDO
 	
 	public function replace()
 	{
-		if ($this->getID() == 0)
+		if (empty($this->getID()))
 		{
 			return $this->insert();
 		}
@@ -635,6 +635,16 @@ abstract class GDO
 		}
 	}
 	
+	/**
+	 * Fetch from result set as this table.
+	 * @param GDOResult $result
+	 * @return self
+	 */
+	public function fetch(GDOResult $result)
+	{
+		return $result->fetchAs($this);
+	}
+	
 	#############
 	### Cache ###
 	#############
@@ -687,7 +697,7 @@ abstract class GDO
 	 * @return self
 	 */
 	public static function tableFor(string $className) { return GDODB::tableS($className); }
-	public static function table() { return self::tableFor(self::gdoClassNameS()); }
+	public static function table() { return self::tableFor(get_called_class()); }
 	
 	public function createTable() { return GDODB::instance()->createTable($this); }
 	public function dropTable() { return GDODB::instance()->dropTable($this); }

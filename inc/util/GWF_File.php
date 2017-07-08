@@ -4,6 +4,8 @@
  * @author gizmore
  * @version 5.0
  * @sinve 3.0
+ * 
+ * @see GDO_File
  */
 class GWF_File extends GDO
 {
@@ -24,8 +26,25 @@ class GWF_File extends GDO
 	public function getName() { return $this->getVar('file_name'); }
 	public function getSize() { return $this->getVar('file_size'); }
 	public function getType() { return $this->getVar('file_type'); }
+	public function displaySize() { return self::humanFilesize($this->getSize()); }
 	
-	public function getPath() { return self::filesDir() . $this->getID(); }
+	private $path;
+	public function tempPath(string $path=null)
+	{
+		$this->path = $path;
+		return $this;
+	}
+	
+	public function getPath() { return $this->path ? $this->path : $this->getDestPath(); }
+	public function getDestPath() { return self::filesDir() . $this->getID(); }
+	
+	public function renderCell() { return GWF_Template::mainPHP('cell/file.php', ['gdo'=>$this]); }
+	
+	public function delete()
+	{
+		@unlink($this->getDestPath());
+		return parent::delete();
+	}
 	
 	###############
 	### Factory ###
@@ -35,34 +54,25 @@ class GWF_File extends GDO
 		return GWF_PATH . 'dbimg/files/';
 	}
 	
-	public static function singleFromForm(array $filesValues)
-	{
-		return self::fromForm($filesValues[0]);
-	}
-	
-	public static function multipleFromForm(array $filesValues)
-	{
-		$files = [];
-		foreach ($filesValues as $values)
-		{
-			if ($file = self::fromForm($values))
-			{
-				$files[] = $file;
-			}
-		}
-		return $files;
-	}
-	
 	/**
 	 * @param array $values
 	 * @return GWF_File
 	 */
 	public static function fromForm(array $values)
 	{
-		GWF_File::createDir(self::filesDir());
-		$file = self::blank(['file_name'=>$values['name'], 'file_size' => $values['size'], 'file_type' => $values['mime']])->insert();
-		copy($values['path'], $file->getPath());
-		return $file;
+		return self::blank(array(
+			'file_name' => $values['name'],
+			'file_size' => $values['size'],
+			'file_type' => $values['mime']
+		))->tempPath($values['path']);
+	}
+	
+	public function copy()
+	{
+		$this->insert();
+		copy($this->path, $this->getDestPath());
+		$this->path = null;
+		return $this;
 	}
 
 	############
@@ -115,4 +125,19 @@ class GWF_File extends GDO
 		}
 	}
 	
+	public static function humanFilesize($bytes, $factor='1024', $digits='2')
+	{
+		$txt = t('filesize');
+		$i = 0;
+		$rem = '0';
+		while (bccomp($bytes, $factor) >= 0)
+		{
+			$rem = bcmod($bytes, $factor);
+			$bytes = bcdiv($bytes, $factor);
+			$i++;
+		}
+		return $i === 0
+		? sprintf("%s%s", $bytes, $txt[$i])
+		: sprintf("%.0{$digits}f%s", ($bytes+$rem/$factor), $txt[$i]);
+	}
 }

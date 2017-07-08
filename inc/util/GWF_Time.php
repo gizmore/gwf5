@@ -16,6 +16,10 @@ final class GWF_Time
 	const ONE_WEEK = 604800;
 	const ONE_MONTH = 2592000;
 	const ONE_YEAR = 31536000;
+	
+	const FMT_SHORT = 'short';
+	const FMT_LONG = 'long';
+	const FMT_DAY = 'day';
 
 	###############
 	### Convert ###

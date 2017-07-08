@@ -8,7 +8,7 @@
  */
 class GDO_CreatedBy extends GDO_User 
 {
-	public $null = false;
+// 	public $null = false;
 	
 	public function defaultLabel() { return $this->label('created_by'); }
 	

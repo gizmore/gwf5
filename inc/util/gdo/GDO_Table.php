@@ -4,6 +4,11 @@ class GDO_Table extends GDO_Blank
 	use GWF_Fields;
 	use GDO_HREFTrait;
 	
+	public function __construct()
+	{
+		$this->href = $_SERVER['REQUEST_URI'];
+	}
+	
 	private $sortable;
 	private $sortableURL;
 	public function sortable(string $sortableURL=null)

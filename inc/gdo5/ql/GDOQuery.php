@@ -307,6 +307,8 @@ class GDOQuery
 	public function exec()
 	{
 		$db = GDODB::instance();
+
+// 		$this->debug();
 		$query = $this->buildQuery();
 		if ($this->write)
 		{

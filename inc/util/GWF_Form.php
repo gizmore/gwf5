@@ -101,7 +101,7 @@ class GWF_Form
 			{
 				if (isset($vars[$field->name]))
 				{
-					$field->value($vars[$field->name]);
+					$field->value($vars[$field->name])->gdo($gdo);
 				}
 			}
 		}

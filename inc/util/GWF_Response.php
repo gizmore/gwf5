@@ -43,6 +43,19 @@ class GWF_Response
 		return $this->html;
 	}
 	
+	public function pre(GWF_Response $response=null)
+	{
+		if (!$response)
+		{
+			$response = $this;
+		}
+		else
+		{
+			$response->add($this);
+		}
+		return $response;
+	}
+	
 	public function add(GWF_Response $response=null)
 	{
 		if ($response)
