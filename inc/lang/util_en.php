@@ -6,6 +6,7 @@ return array(
 'created_at' => 'Created at',
 'id' => 'ID',
 'file' => 'File',
+'folder' => 'Folder',
 'title' => 'Title',
 'description' => 'Description',
 'message' => 'Message',
@@ -29,7 +30,8 @@ return array(
 'user_allow_email' => 'Allow people to E-Mail me',
 'birthdate' => 'Birthdate',
 'url' => 'URL',
-
+'guest' => '~~Guest~~',
+		
 # Generic Buttons
 'btn_send' => 'Send',
 'btn_save' => 'Save',

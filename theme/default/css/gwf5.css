@@ -17,6 +17,7 @@ img.gwf-country, img.gwf-language { width: 42px; }
 .gwf-table table tbody tr td { text-align: center; vertical-align: middle; font-size: 16px; }
 .gwf-table table tbody tr td.gdo-num { font-family: monospace; text-align: right; padding-right: 18px; }
 .gwf-table table tbody tr td.gdo-rownum div { position: relative; padding: 0; left: 12px; top: 12px; }
+/* .gwf-table table .gdo-num, .gwf-table table .gdo-rownum { max-width: 80px; } */
 
 /** GWF_Form **/
 img.gwf-captcha-img {
@@ -93,8 +94,11 @@ gwf-div {
 }
 
 /** Card **/
-.gwf-card-date {
+md-card .gwf-card-date {
 	font-size: 12px;
+}
+.gwf-list md-card {
+	margin-bottom: 16px;
 }
 
 

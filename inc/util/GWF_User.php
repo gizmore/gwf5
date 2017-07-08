@@ -104,9 +104,13 @@ final class GWF_User extends GDO
 		{
 			return "~$guestName~";
 		}
+		elseif ($userName = $this->getName())
+		{
+			return $userName;
+		}
 		else
 		{
-			return $this->getName();
+			return t('guest');
 		}
 	}
 	
