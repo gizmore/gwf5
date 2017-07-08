@@ -3,9 +3,11 @@
  class="md-block md-float md-icon-left<?php echo $field->classError(); ?>" flex
  ng-controller="GWFDatepickerCtrl">
   <?php echo $field->htmlIcon(); ?>
+  <label><?php echo $field->displayLabel(); ?></label>
   <md-datepicker
    ng-disabled="<?php echo $field->writable?0:1; ?>"
    autocomplete="off"
+   md-hide-icons="calendar"
    ng-init="pickDate='<?php echo $field->displayFormValue(); ?>'"
    md-placeholder="<?php echo $field->displayLabel(); ?>"
    ng-model="pickDate"

@@ -122,6 +122,11 @@ abstract class GDO
 		return $this->gdoVars;
 	}
 	
+	public function hasVar(string $key=null)
+	{
+		return $key === null ? false : isset($this->gdoVars[$key]);
+	}
+	
 	public function getVar(string $key)
 	{
 		return @$this->gdoVars[$key];
@@ -129,7 +134,7 @@ abstract class GDO
 	
 	public function display(string $key)
 	{
-		return GWF_HTML::escape(@$this->gdoVars[$key]);
+		return htmlspecialchars(@$this->gdoVars[$key]);
 	}
 	
 	public function edisplay(string $key)
@@ -538,7 +543,7 @@ abstract class GDO
 	 * @param array $gdoVars
 	 * @return self
 	 */
-	private static function entity(array $gdoVars)
+	public static function entity(array $gdoVars)
 	{
 		$class = self::gdoClassNameS();
 		$instance = new $class;
@@ -609,7 +614,7 @@ abstract class GDO
 	 * @param string $value
 	 * @return self
 	 */
-	public static function getBy(string $key, string $value)
+	public static function getBy(string $key, string $value=null)
 	{
 		return self::table()->findWhere(self::quoteIdentifierS($key) . '=' . self::quoteS($value));
 	}
@@ -753,7 +758,12 @@ abstract class GDO
 	
 	public function gdoHashcode()
 	{
-		return md5(json_encode(array_values($this->gdoVars)));
+		return self::gdoHashcodeS($this->gdoVars);
+	}
+	
+	public static function gdoHashcodeS(array $gdoVars)
+	{
+		return substr(md5(md5(md5(GWF_SALT).json_encode(array_values($gdoVars)))), 0, 16);
 	}
 	
 	##############

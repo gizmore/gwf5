@@ -50,6 +50,11 @@ final class GDO_Language extends GDO_ObjectSelect
 		return GWF_Template::mainPHP('cell/language.php', ['language'=>$this->gdo]);
 	}
 	
+	public function renderChoice()
+	{
+		return GWF_Template::mainPHP('choice/language.php', ['language'=>$this->gdo]);
+	}
+	
 	public function initChoices()
 	{
 		return $this->choices ? $this : $this->choices($this->languageChoices());

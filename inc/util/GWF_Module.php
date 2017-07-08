@@ -106,6 +106,7 @@ class GWF_Module extends GDO
 			GDO_Int::make('module_priority')->notNull()->unsigned()->initial('50'),
 			GDO_Sort::make('module_sort'),
 			GDO_Char::make('module_version')->notNull()->initial('0.00')->size(4),
+// 			GDO_Char::make('module_version_fs')->notNull()->initial($this->module_version)->size(4)->virtual(),
 			GDO_Bool::make('module_enabled')->notNull()->initial('0'),
 		);
 	}

@@ -37,7 +37,7 @@ final class Login_Form extends GWF_MethodForm
 		if ( (!($user = GWF_User::getByLogin($login))) ||
 		     (!($user->getValue('user_password')->validate($password))) )
 		{
-			return $this->loginFailed($user)->add($form->render());
+			return $this->loginFailed($user)->add($this->getForm()->render());
 		}
 		return $this->loginSuccess($user, $bindIP);
 	}

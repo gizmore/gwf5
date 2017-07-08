@@ -167,7 +167,7 @@ class GDODB
 		$columns = [];
 		$primary = [];
 		
-		foreach ($gdo->gdoColumnsCache() as $colNr => $column)
+		foreach ($gdo->gdoColumnsCache() as $key => $column)
 		{
 			if ($define = $column->gdoColumnDefine())
 			{
@@ -184,6 +184,15 @@ class GDODB
 			$primary = implode(',', $primary);
 			$columns[] = "PRIMARY KEY ($primary)";
 		}
+
+		foreach ($gdo->gdoColumnsCache() as $key => $column)
+		{
+			if ($column->unique)
+			{
+				$columns[] = "UNIQUE({$column->identifier()})";
+			}
+		}
+		
 		
 		$columns = implode(",\n", $columns);
 		

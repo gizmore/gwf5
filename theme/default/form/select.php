@@ -8,7 +8,8 @@
    ng-controller="GWFSelectCtrl"
    ng-model="selection"
    ng-init='init(<?php echo $field->formValue(); ?>, <?php echo $field->multiple?'true':'false'; ?>)'
-   ng-change="multiValueSelected('#gwfsel_<?php echo $field->name; ?>')">
+   ng-change="multiValueSelected('#gwfsel_<?php echo $field->name; ?>')"
+   <?php echo $field->htmlDisabled(); ?>>
    <md-option value="<?php echo htmlspecialchars($field->emptyChoiceValue()); ?>"><?php echo $field->emptyChoiceLabel(); ?></md-option>
     <?php foreach ($field->choices as $value => $choice) : ?>
       <md-option value="<?php echo htmlspecialchars($value); ?>"><?php echo $choice instanceof GDO ? $choice->renderChoice() : $choice; ?></md-option>

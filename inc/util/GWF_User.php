@@ -29,7 +29,7 @@ final class GWF_User extends GDO
 			GDO_Email::make('user_email'),
 			GDO_Int::make('user_level')->unsigned()->notNull()->initial('0')->label('level'),
 			GDO_Int::make('user_credits')->unsigned()->notNull()->initial('0')->label('credits'),
-			GDO_EmailFormat::make('user_email_fmt'),
+			GDO_EmailFormat::make('user_email_fmt')->notNull()->initial(GDO_EmailFormat::HTML),
 			GDO_Gender::make('user_gender'),
 			GDO_Date::make('user_birthdate')->label('birtdate'),
 			GDO_Country::make('user_country')->emptyChoice('no_country'),
@@ -64,6 +64,7 @@ final class GWF_User extends GDO
 	
 	public function hasMail() { return !!$this->getMail(); }
 	public function getMail() { return $this->getVar('user_email'); }
+	public function getMailFormat() { return $this->getVar('user_mail_fmt'); }
 	public function wantsTextMail() { return $this->getVar('user_mail_fmt') === GDO_EmailFormat::TEXT; }
 
 	public function getGender() { return $this->getVar('user_gender'); }
@@ -159,6 +160,17 @@ final class GWF_User extends GDO
 	public static function current() { return isset(self::$CURRENT) ? self::$CURRENT : GWF_Session::user(); }
 	public static $CURRENT;
 
+	
+	public function persistent()
+	{
+		if ($this->isGhost())
+		{
+			$this->setVar('user_type', self::GUEST);
+			$this->insert();
+		}
+		return $this;
+	}
+	
 	/**
 	 * @param string $name
 	 * @return GWF_User

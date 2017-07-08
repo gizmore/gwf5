@@ -42,6 +42,7 @@ class Admin_Modules extends GWF_MethodTable
 	
 	public function getHeaders()
 	{
+		$this->module->includeClass('GDO_ModuleVersionFS');
 		return array(
 // 			GDO_DeleteButton::make(),
 			GDO_Id::make('module_id')->label('id'),
@@ -49,7 +50,7 @@ class Admin_Modules extends GWF_MethodTable
 			GDO_Checkbox::make('module_enabled')->label('enabled'),
 			GDO_Name::make('module_name')->label('name'),
 			GDO_Decimal::make('module_version')->label('version_db'),
-			GDO_Decimal::make('fs_version')->label('version_fs'),
+			GDO_ModuleVersionFS::make('module_version_fs')->label('version_fs'),
 // 			GDO_Button::make('install_module')->label('btn_install'),
 			GDO_Button::make('configure_module')->label('btn_configure'),
 			GDO_Button::make('administrate_module')->label('btn_admin'),

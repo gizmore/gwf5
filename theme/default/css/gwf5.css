@@ -55,6 +55,12 @@ md-input-container .gwf-form-error {
 .gwf-divider-label {
 	font-size: 20px;
 }
+md-select > md-select-value.md-select-value > span > div.md-text {
+	display: inline-block!important;
+}
+div.gwf-label {
+	padding: 8px 4px 16px;
+}
 
 /** Avatar **/
 gwf-avatar, gwf-avatar img {

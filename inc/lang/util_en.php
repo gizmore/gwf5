@@ -63,7 +63,7 @@ return array(
 'err_is_null' => 'This field may not be empty.',
 'err_user_type' => 'Your account is not of membership type %s.',
 'err_table_not_sortable' => 'The %s table cannot be sorted without a GDO_Sort field.',
-
+'err_pass_too_short' => 'Your password has to be at least %s characters long.',
 # Permissions
 'perm_admin' => 'Administrator',
 

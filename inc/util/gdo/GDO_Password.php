@@ -42,7 +42,21 @@ class GDO_Password extends GDO_String
 	
 	public function validate($value)
 	{
-		return mb_strlen($value) < 4 ? $this->error('err_pass_too_short', [4]) : true;
+		if ($value === null)
+		{
+			if (!$this->null)
+			{
+				return $this->error('err_is_null');
+			}
+		}
+		else
+		{
+			if (mb_strlen($value) < 4)
+			{
+				return $this->error('err_pass_too_short', [4]);
+			}
+		}
+		return true;
 	}
 	
 }

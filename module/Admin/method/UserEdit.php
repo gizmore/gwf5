@@ -24,7 +24,7 @@ class Admin_UserEdit extends GWF_MethodForm
 	
 	public function createForm(GWF_Form $form)
 	{
-		$this->title('ft_admin_useredit', [$this->getSiteName(), $this->user->displayName()]);
+		$this->title('ft_admin_useredit', [$this->getSiteName(), $this->user->displayNameLabel()]);
 		foreach ($this->user->gdoColumnsCache() as $gdoType)
 		{
 			$form->addField($gdoType);
@@ -37,8 +37,16 @@ class Admin_UserEdit extends GWF_MethodForm
 	
 	public function formValidated(GWF_Form $form)
 	{
+		$values = $form->values();
+		$password = $values['user_password'];
+		unset($values['user_password']);
 		$this->user->saveVars($form->values());
 		$form->withGDOValuesFrom($this->user);
+		if (!empty($password))
+		{
+			$this->user->saveVar('user_password', GWF_Password::create($password)->__toString());
+			return $this->message('msg_user_password_is_now', [$password])->add(parent::formValidated($form));
+		}
 		return parent::formValidated($form);
 	}
 }

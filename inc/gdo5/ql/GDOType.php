@@ -29,6 +29,7 @@ abstract class GDOType
 	public $validators;
 
 	public $index = false;
+	public $unique = false;
 	public $primary = false;
 	public $null = true;
 	
@@ -138,6 +139,7 @@ abstract class GDOType
 	{
 		return $this->displayLabel();
 	}
+	
 	####################
 	### Table Filter ###
 	####################
@@ -180,13 +182,13 @@ abstract class GDOType
 	############
 	### Icon ###
 	############
-	public static function iconS(string $icon) { return self::matIconS($icon); }
-	public static function matIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
+	public static function iconS(string $icon=null) { return self::matIconS($icon); }
+	public static function matIconS(string $icon=null) { return $icon === null ? '' : "<md-icon class=\"material-icons\">$icon</md-icon>"; }
 // 	public static function aweIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
 	public function htmlIcon() { return $this->icon ? $this->icon : ''; }
-	public function rawIcon(string $icon) { $this->icon = $icon; return $this; }
-	public function matIcon(string $icon) { return $this->rawIcon(self::matIconS($icon)); }
-	public function icon($icon) { return $this->rawIcon(self::iconS($icon)); }
+	public function rawIcon(string $icon=null) { $this->icon = $icon; return $this; }
+	public function matIcon(string $icon=null) { return $this->rawIcon(self::matIconS($icon)); }
+	public function icon(string $icon=null) { return $this->rawIcon(self::iconS($icon)); }
 	
 	###############
 	### Default ###
@@ -214,7 +216,7 @@ abstract class GDOType
 	public function gdo(GDO $gdo)
 	{
 		$this->gdo = $gdo;
-		if ($this->name)
+		if ($gdo->hasVar($this->name))
 		{
 			$this->value = $gdo->getVar($this->name);
 		}

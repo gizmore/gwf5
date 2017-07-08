@@ -5,7 +5,8 @@
    ng-controller="GWFSelectCtrl"
    ng-model="selection"
    ng-init="selection = '<?php echo $field->displayFormValue(); ?>'"
-   ng-change="valueSelected('#gwfsel_<?php echo $field->name; ?>')">
+   ng-change="valueSelected('#gwfsel_<?php echo $field->name; ?>')"
+   <?php echo $field->htmlDisabled(); ?>>
     <?php foreach ($field->enumValues as $enumValue) : ?>
       <md-option value="<?php echo $enumValue; ?>"><?php l('enum_'.$enumValue); ?></md-option>
     <?php endforeach; ?>

@@ -17,6 +17,10 @@ class GWF_Language extends GDO
 	{
 		return GWF_Template::mainPHP('cell/language.php', ['language'=>$this]);
 	}
+	public function renderChoice()
+	{
+		return GWF_Template::mainPHP('choice/language.php', ['language'=>$this]);
+	}
 	
 	/**
 	 * Get a language by ISO or return a stub object with name "Unknown".

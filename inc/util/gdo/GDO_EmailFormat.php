@@ -11,7 +11,7 @@ final class GDO_EmailFormat extends GDO_Enum
 	
 	public function __construct()
 	{
-		$this->enumValues(self::TEXT, self::HTML)->notNull()->initial(self::HTML);
+		$this->enumValues(self::TEXT, self::HTML);
 	}
 
 	public function defaultLabel() { return $this->label('email_fmt'); }

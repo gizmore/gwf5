@@ -10,7 +10,8 @@
    ng-change="multiValueSelected('#gwfsel_<?php echo $field->name; ?>')">
    <?php } else { ?>
    ng-init="selection='<?php echo $field->formValue(); ?>'"
-   ng-change="valueSelected('#gwfsel_<?php echo $field->name; ?>')">
+   ng-change="valueSelected('#gwfsel_<?php echo $field->name; ?>')"
+   <?php echo $field->htmlDisabled(); ?>>
    <?php } ?>
     <?php if ($field->emptyChoice) : ?>
       <md-option value="<?php echo GWF_HTML::escape($field->emptyValue); ?>">
@@ -23,7 +24,7 @@
     <?php endif; ?>
     <?php foreach ($field->choices as $iso => $language) : $language instanceof GWF_Language; ?>
       <md-option value="<?php echo $iso; ?>">
-       <?php echo $language->renderCell(); ?>
+       <?php echo $language->renderChoice(); ?>
       </md-option>
     <?php endforeach; ?>
   </md-select>

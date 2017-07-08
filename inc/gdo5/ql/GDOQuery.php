@@ -244,14 +244,14 @@ class GDOQuery
 		return $this;
 	}
 	
-	public function joinObject(string $key)
+	public function joinObject(string $key, string $join='JOIN')
 	{
 		$gdoType = $this->table->gdoColumn($key);
 		$gdoType instanceof GDO_Object;
 		$table = $gdoType->foreignTable();
 		$ftbl = $table->gdoTableIdentifier();
 		$atbl = $this->table->gdoTableIdentifier();
-		$join = "JOIN {$table->gdoTableIdentifier()} ON  $ftbl.{$table->gdoAutoIncColumn()->identifier()}=$atbl.{$gdoType->identifier()}";
+		$join = "{$join} {$table->gdoTableIdentifier()} ON  $ftbl.{$table->gdoAutoIncColumn()->identifier()}=$atbl.{$gdoType->identifier()}";
 		return $this->join($join);
 	}
 	

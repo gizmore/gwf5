@@ -39,10 +39,8 @@ class Admin_Configure extends GWF_MethodForm
 			$form->addField(GDO_Divider::make('div1')->label('form_div_config_vars'));
 			foreach ($config as $gdoType)
 			{
-// 				$gdoType->va ($mod->getConfigValue($gdoType->name));
 				$form->addField($gdoType);
 			}
-// 			$form->addField(GDO_Divider::make('div2'));
 		}
 		$form->addField(GDO_Submit::make()->label('btn_save'));
 		$form->addField(GDO_AntiCSRF::make());
