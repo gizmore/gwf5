@@ -20,6 +20,8 @@
 /module/Account/
 /module/Currency/
 /module/Payment/
+/module/PaymentPaypal/
+/module/PaymentCredits/
 /module/Broker/
 /module/PM/
 #/module/Perf/
