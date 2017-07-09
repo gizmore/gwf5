@@ -11,6 +11,7 @@ class GDO_File extends GDO_Object
 
 	public function __construct()
 	{
+// 		$this->initial = "[]";
 		$this->klass('GWF_File');
 		$this->gdo = $this->table;
 	}
@@ -114,22 +115,39 @@ class GDO_File extends GDO_Object
 	################
 	### Validate ###
 	################
+	public function getGDOValue()
+	{
+		if ($this->gdo)
+		{
+			$id = $this->gdo->getVar($this->name);
+			return $this->foreignTable()->find($id, false);
+		}
+		$files = $this->formValue();
+		if (count($files))
+		{
+			return $this->multiple ? $files : $files[0];
+		}
+		return null;
+	}
+	
 	public function formValue()
 	{
 		$files = [];
 		$newFiles = $this->getFiles($this->name);
-		$values = json_decode(parent::formValue());
-		foreach ($values as $value)
+		if ($values = json_decode(parent::formValue()))
 		{
-			if ($value->initial)
+			foreach ($values as $value)
 			{
-				$files[] = GWF_File::table()->find($value->id);
-			}
-			else
-			{
-				if (isset($newFiles[$value->name]))
+				if ($value->initial)
 				{
-					$files[] = $newFiles[$value->name];
+					$files[] = GWF_File::table()->find($value->id);
+				}
+				else
+				{
+					if (isset($newFiles[$value->name]))
+					{
+						$files[] = $newFiles[$value->name];
+					}
 				}
 			}
 		}

@@ -214,12 +214,19 @@ abstract class GDOType
 	### Value ###
 	#############
 	public $gdo;
-	public function gdo(GDO $gdo)
+	public function gdo(GDO $gdo=null)
 	{
 		$this->gdo = $gdo;
-		if ($gdo->hasVar($this->name))
+		if ($gdo)
 		{
-			$this->value = $gdo->getVar($this->name);
+			if ($gdo->hasVar($this->name))
+			{
+				$this->value = $gdo->getVar($this->name);
+			}
+		}
+		else
+		{
+			$this->value = null;
 		}
 		return $this;
 	}

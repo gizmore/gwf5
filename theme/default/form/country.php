@@ -25,7 +25,7 @@
         <img
          class="gwf-country"
          src="/theme/default/img/country/<?php echo $country->getID(); ?>.png" />
-        <?php echo $country->displayName(); ?>
+        <?php echo $country->renderChoice(); ?>
       </md-option>
     <?php endforeach; ?>
   </md-select>

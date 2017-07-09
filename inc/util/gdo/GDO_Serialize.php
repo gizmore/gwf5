@@ -9,6 +9,9 @@
  */
 class GDO_Serialize extends GDO_Text
 {
+	public $editable = false;
+	public $writable = false;
+	
 	public function getGDOValue()
 	{
 		$value = $this->gdo->getVar($this->name);

@@ -38,9 +38,9 @@ abstract class GDO
 	public function gdoTableIdentifier() { return self::quoteIdentifierS($this->gdoTableName()); }
 	
 	public function gdoAbstract() { return false; }
-	public function gdoClassName() { return self::gdoClassNameS(); } # get_class($this); }
+	public function gdoHumanName() { return t(strtolower(get_class($this))); }
+	public function gdoClassName() { return self::gdoClassNameS(); } # }
 	public static function gdoClassNameS() { return get_called_class(); }
-
 	################
 	### Escaping ###
 	################
@@ -100,8 +100,7 @@ abstract class GDO
 	 */
 	public function gdoColumn(string $key)
 	{
-		$columns = $this->gdoColumnsCache();
-		return $columns[$key];
+		return $this->gdoColumnsCache()[$key]->gdo($this);
 	}
 	
 	public function gdoColumnsExcept(string ...$except)

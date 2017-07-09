@@ -56,12 +56,13 @@ controller('GWFFormCtrl', function($scope) {
 		console.log('GWFAutoCompleteCtrl.init()', gwfConfig, formId);
 		$scope.config = gwfConfig;
 		$scope.formid = formId;
-		$scope.data.selectedItem = gwfConfig.value;
+		$scope.selectedItem = { display: gwfConfig.value };
 	};
 	$scope.objectSelected = function(item) {
 		console.log('GWFAutoCompleteCtrl.objectSelected()', item);
-		$scope.data.searchText = item.text;
-		$($scope.formid).val(item.id);
+//		$scope.selectedItem = item ? item.text : null;
+//		$scope.data.searchText = item ? item.text : '';
+		$($scope.formid).val(item ? item.id : '0');
 	};
 	$scope.query = function(searchText) {
 		console.log('GWFAutoCompleteCtrl.query()', searchText);

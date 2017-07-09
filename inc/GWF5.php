@@ -128,6 +128,21 @@ final class GWF5
 		return $moduleName ? $this->moduleLoader->getModule($moduleName) : null;
 	}
 	
+	/**
+	 * @param string $moduleId
+	 * @return GWF_Module
+	 */
+	public function getModuleByID(string $moduleId)
+	{
+		foreach ($this->moduleLoader->getModules() as $module)
+		{
+			if ($module->getID() === $moduleId)
+			{
+				return $module;
+			}
+		}
+	}
+	
 	public function defaultMethod()
 	{
 		return method(GWF_MODULE, GWF_METHOD);

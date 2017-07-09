@@ -14,11 +14,12 @@
    md-search-text="data.searchText"
    md-items="item in query(data.searchText)"
    md-item-text="item.text"
-   md-selected-item="data.selectedItem"
-   md-selected-item-change="objectSelected(data.selectedItem)"
+   md-selected-item="selectedItem"
+   md-selected-item-change="objectSelected(selectedItem)"
    md-min-length="0"
    <?php echo $field->htmlRequired(); ?>
    <?php echo $field->htmlDisabled(); ?>>
+    <div ng-bind-html="selectedItem.display"></div>
     <md-item-template>
       <div ng-bind-html="item.display"></div>
     </md-item-template>

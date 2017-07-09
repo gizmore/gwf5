@@ -9,7 +9,8 @@ class GDO_Decimal extends GDO_Int
 	{
 		$this->digitsBefore = $before;
 		$this->digitsAfter = $after;
-		return $this;
+		$step = $after < 1 ? 1 : floatval('0.'.str_repeat('0', $after-1).'1');
+		return $this->step($step);
 	}
 	
 	public function gdoColumnDefine()
