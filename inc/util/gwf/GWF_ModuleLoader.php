@@ -195,6 +195,7 @@ final class GWF_ModuleLoader
 	
 	public function sortModules(string $columnName, bool $ascending=true)
 	{
+		GWF_Module::table();
 		return GDO::sort($this->modules, $columnName, $ascending);
 	}
 	

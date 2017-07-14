@@ -12,7 +12,7 @@ class GDOArrayResult extends GDOResult
 	/**
 	 * @var GDO[]
 	 */
-	private $data;
+	public $data;
 	
 	private $index;
 	

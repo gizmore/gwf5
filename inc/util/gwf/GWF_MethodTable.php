@@ -9,6 +9,7 @@
 abstract class GWF_MethodTable extends GWF_Method
 {
 	public function ipp() { return Module_GWF::instance()->cfgItemsPerPage(); }
+	public function isOrdered() { return true; }
 	public function isFiltered() { return true; }
 	public function isPaginated() { return true; }
 	
@@ -21,7 +22,7 @@ abstract class GWF_MethodTable extends GWF_Method
 	public abstract function getHeaders();
 	
 	/**
-	 * @return GDOResult
+	 * @return GDOArrayResult
 	 */
 	public abstract function getResult();
 	
@@ -40,9 +41,21 @@ abstract class GWF_MethodTable extends GWF_Method
 		$table = GDO_Table::make();
 		$table->addFields($this->getHeaders());
 		$this->createTable($table);
-		$table->paginate($this->isPaginated(), $this->ipp());
+		$table->ordered($this->isOrdered());
 		$table->filtered($this->isFiltered());
-		$table->result($this->getResult());
+		$table->paginate($this->isPaginated(), $this->ipp());
+		
+		$result = $this->getResult();
+		foreach (array_reverse(Common::getRequestArray('o'), true) as $name => $asc)
+		{
+			if ($table->getField($name))
+			{
+				$result->data = GDO::sort($result->data, $name, !!$asc);
+			}
+		}
+		$result->data = array_values($result->data);
+		$table->result($result);
+		
 // 		$table->fetchAs($table->result->table);
 		return $table->render();
 	}

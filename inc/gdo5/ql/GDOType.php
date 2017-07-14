@@ -401,6 +401,14 @@ abstract class GDOType
 		return GDO::quoteS($this->formValue());
 	}
 	
+	###############
+	### Compare ###
+	###############
+	public function gdoCompare(string $varA, string $varB)
+	{
+		return strcasecmp($varB, $varA);
+	}
+	
 	##############
 	### Events ###
 	##############

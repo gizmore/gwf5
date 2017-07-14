@@ -123,6 +123,11 @@ class GDO_Int extends GDOType
 		}
 	}
 	
+	public function gdoCompare(string $varA, string $varB)
+	{
+		return $varA - $varB;
+	}
+	
 	public function htmlClass()
 	{
 		return sprintf(' class="gdo-num %s"', str_replace('_', '-', strtolower($this->gdoClassName())));
