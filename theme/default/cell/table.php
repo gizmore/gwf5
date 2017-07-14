@@ -12,14 +12,14 @@ if ($pagemenu = $field->getPageMenu())
 $result = $field->getResult();
 
 ?>
-<form method="post" action="<?= $field->href; ?>" flex class="b">
+<form method="get" action="<?= $field->href; ?>" flex class="b">
 <div
  class="gwf-table table-responsive"
  layout="column" flex layout-fill
  ng-controller="GWFTableCtrl"
  ng-init='init(<?= $field->initJSON(); ?>)'>
-  <input type="hidden" name="mo" value="<?= htmle(Common::getPostString('mo','')); ?>" />
-  <input type="hidden" name="me" value="<?= htmle(Common::getPostString('me','')); ?>" />
+  <input type="hidden" name="mo" value="<?= htmle(Common::getGetString('mo','')); ?>" />
+  <input type="hidden" name="me" value="<?= htmle(Common::getGetString('me','')); ?>" />
   <h3><?= $field->displayLabel(); ?></h3>
   <table id="gwfdt-<?= $field->name; ?>" class="table">
     <thead>

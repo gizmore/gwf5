@@ -43,6 +43,9 @@ class GDOQuery
 	public function clone()
 	{
 		$clone = new GDOQuery($this->table);
+// 		$clone->columns = $this->columns;
+// 		$clone->type = $this->type;
+// 		$clone->from = $this->from;
 		$clone->where = $this->where;
 		$clone->join = $this->join;
 		$clone->group = $this->group;

@@ -99,13 +99,26 @@ class GDO_Table extends GDO_Blank
 		return $this->query->clone();
 	}
 	
+	public function getFilteredQuery()
+	{
+		$query = $this->getQuery();
+		if ($this->filtered)
+		{
+			foreach ($this->getFields() as $gdoType)
+			{
+				$gdoType->filterQuery($query);
+			}
+		}
+		return $query;
+	}
+	
 	private $countItems;
 	public function countItems()
 	{
 		if (!isset($this->countItems))
 		{
 			$this->countItems = $this->query ? 
-				$this->getQuery()->select('COUNT(*)')->exec()->fetchValue() :
+			$this->getFilteredQuery()->select('COUNT(*)')->exec()->fetchValue() :
 				$this->getResult()->numRows();
 		}
 		return $this->countItems;
@@ -113,15 +126,12 @@ class GDO_Table extends GDO_Blank
 	
 	public function queryResult()
 	{
-		if ($this->pagemenu)
-		{
-			$this->pagemenu->filterQuery($this->query);
-		}
+		$query = $this->query;
 		if ($this->filtered)
 		{
 			foreach ($this->getFields() as $gdoType)
 			{
-				$gdoType->filterQuery($this->query);
+				$gdoType->filterQuery($query);
 			}
 		}
 		if ($this->ordered)
@@ -132,13 +142,16 @@ class GDO_Table extends GDO_Blank
 				{
 					if ($field->orderable)
 					{
-						$this->query->order($name, !!$asc);
+						$query->order($name, !!$asc);
 					}
 				}
 			}
 		}
-		
-		return $this->query->exec();
+		if ($this->pagemenu)
+		{
+			$this->pagemenu->filterQuery($query);
+		}
+		return $query->exec();
 	}
 	
 	/**
