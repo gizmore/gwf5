@@ -44,8 +44,8 @@ trait GDO_ObjectTrait
 	 */
 	public function getGDOValue()
 	{
-		$id = $this->gdo ? $this->gdo->getVar($this->name) : $this->formValue();
-		return $this->foreignTable()->find($id, false);
+// 		$id = $this->gdo ? $this->gdo->getVar($this->name) : $this->getValue();
+		return $this->foreignTable()->find($this->formValue(), false);
 	}
 	
 	/**

@@ -26,7 +26,7 @@ class Admin_PermissionGrant extends GWF_MethodForm
 		$user = GWF_User::current();
 		$permission = GWF_UserPermission::blank($form->values())->replace();
 		$user->changedPermissions();
-		return $this->message('msg_perm_granted', [$permission->displayName(), $user->displayName()]);
+		return $this->message('msg_perm_granted', [$permission->displayName(), $user->displayNameLabel()]);
 	}
 	
 }

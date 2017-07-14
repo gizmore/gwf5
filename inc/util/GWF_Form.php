@@ -1,7 +1,8 @@
 <?php
 /**
- * New implementation of GWF_Form based on GDOType5
+ * New implementation of GWF_Form based on GDOType
  * 
+ * @see GDOType
  * @author gizmore
  * @version 5.0
  */
