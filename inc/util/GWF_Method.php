@@ -64,6 +64,8 @@ abstract class GWF_Method
 	public function getPermission() {}
 	public function getUserType() {}
 	public function init() {}
+	public function beforeExecute() {}
+	public function afterExecute() {}
 	
 	
 	/**
@@ -146,39 +148,31 @@ abstract class GWF_Method
 		return $this->module->getMethod($methodName)->execWrap();
 	}
 	
-	public function execWrap()
-	{
-// 		$this->module->initModule();
-		$this->init();
-		return $this->transactional() ? $this->execTransactional() : $this->execute();
-	}
-	
 	public function transactional()
 	{
 		return
-			($this->isAlwaysTransactional()) || 
-			($this->isTransactional() && (count($_POST)>0) );
+		($this->isAlwaysTransactional()) ||
+		($this->isTransactional() && (count($_POST)>0) );
 	}
-
-	#####################
-	### Transactional ###
-	#####################
-	public function execTransactional()
+	
+	public function execWrap()
 	{
 		$db = GDODB::instance();
+		$transactional = $this->transactional();
 		try
 		{
-			$db->transactionBegin();
-			$result = $this->execute();
-			$db->transactionEnd();
-			return $result;
+			$this->init();
+			$this->beforeExecute();
+			if ($transactional) $db->transactionBegin();
+			$response = $this->execute();
+			if ($transactional) $db->transactionEnd();
+			$this->afterExecute();
+			return $response;
 		}
 		catch (Exception $e)
 		{
-			$db->transactionRollback();
+			if ($transactional) $db->transactionRollback();
 			throw $e;
 		}
 	}
-	
-	
 }

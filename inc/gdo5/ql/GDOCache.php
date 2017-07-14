@@ -112,8 +112,18 @@ class GDOCache
 		$this->cache[$object->getID()] = $object;
 		if ($object->memCached())
 		{
-			self::$MEMCACHED->set($object->gkey(), $object, GWF_MEMCACHE_TTL);
+			self::$MEMCACHED->replace($object->gkey(), $object, GWF_MEMCACHE_TTL);
 		}
+	}
+	
+	public function uncache(GDO $object)
+	{
+		$this->uncacheID($object->getID());
+	}
+
+	public function uncacheID(string $id)
+	{
+		unset($this->cache[$id]);
 	}
 	
 	/**
@@ -134,7 +144,15 @@ class GDOCache
 				self::$MEMCACHED->set($gkey, $mcached, GWF_MEMCACHE_TTL);
 				$this->newDummy();
 			}
+			elseif (GWF5::instance()->isCLI())
+			{
+				echo "MEMCache hit {$this->table->gdoHumanName()}";
+			}
 			$this->cache[$key] = $mcached;
+		}
+		elseif (GWF5::instance()->isCLI())
+		{
+			echo "Cache hit {$this->table->gdoHumanName()}";
 		}
 		return $this->cache[$key];
 	}

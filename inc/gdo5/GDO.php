@@ -679,7 +679,7 @@ abstract class GDO
 	/**
 	 * @var GDOCache
 	 */
-	private $cache;
+	public $cache;
 	public function initCache() { $this->cache = new GDOCache($this); }
 	public function initCached(array $row)
 	{
@@ -696,6 +696,16 @@ abstract class GDO
 			$this->table()->cache->recache($this);
 		}
 	}
+	
+	public function uncache()
+	{
+		if ($this->gdoCached())
+		{
+			$this->table()->cache->uncache($this);
+		}
+		
+	}
+	
 	public function __wakeup()
 	{
 		self::table();

@@ -26,6 +26,8 @@ class GWF_Form
 	private $action;
 	private $method;
 	private $enctype;
+	
+	public $validated = false;
 
 	################
 	### Creation ###
@@ -88,6 +90,7 @@ class GWF_Form
 // 		$_POST = [];
 // 		$_FILES = [];
 // 		$_REQUEST = $_GET;
+		$this->validated = true;
 	}
 	
 	##############
