@@ -3,7 +3,7 @@ define('GWF_CORE_VERSION', '5.00');
 # Core
 require 'inc/gdo5/GDO.php';
 require 'inc/util/Common.php';
-require 'inc/util/GWF_String.php';
+require 'inc/util/gwf/GWF_String.php';
 # Traits
 require 'inc/util/trait/GWF_Fields.php';
 
@@ -43,7 +43,7 @@ final class GWF5
 		spl_autoload_register(function($name) {
 			if ($name[0] === 'G')
 			{
-				$filename = $name[1] === 'D' ? "inc/util/gdo/$name.php" : "inc/util/$name.php";
+				$filename = $name[1] === 'D' ? "inc/util/gdo/$name.php" : "inc/util/gwf/$name.php";
 			}
 			elseif ($modulename = GWF_String::substrFrom($name, 'Module_', null))
 			{
