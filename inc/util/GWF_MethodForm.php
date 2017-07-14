@@ -62,13 +62,15 @@ abstract class GWF_MethodForm extends GWF_Method
 					}
 					else
 					{
-						$response = $this->formInvalid($this->form);
+						$response = $this->formInvalid($this->form)->add($this->renderPage());
 					}
+					break;
 				}
 			}
 		}
 
-		$response = $response ? $response->add($this->renderPage()) : $this->renderPage();
+		$response = $response ? $response : $this->renderPage();
+// 		$response = $response ? $response->add($this->renderPage()) : $this->renderPage();
 		
 		$this->form->cleanup();
 		

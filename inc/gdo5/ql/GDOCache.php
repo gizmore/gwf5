@@ -77,8 +77,9 @@ class GDOCache
 	 * @param string $id
 	 * @return GDO
 	 */
-	public function findCached(string $id)
+	public function findCached(string ...$ids)
 	{
+		$id = implode(':', $ids);
 		if (!isset($this->cache[$id]))
 		{
 			if ($mcached = self::get($this->klass . $id))

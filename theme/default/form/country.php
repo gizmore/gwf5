@@ -22,9 +22,6 @@
     <?php endif; ?>
     <?php foreach ($field->choices as $value => $country) : $country instanceof GWF_Country; ?>
       <md-option value="<?php echo htmlspecialchars($value); ?>">
-        <img
-         class="gwf-country"
-         src="/theme/default/img/country/<?php echo $country->getID(); ?>.png" />
         <?php echo $country->renderChoice(); ?>
       </md-option>
     <?php endforeach; ?>

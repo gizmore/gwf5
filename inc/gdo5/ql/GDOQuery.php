@@ -9,7 +9,7 @@
 class GDOQuery
 {
 	private $write = false; # Is it a write query?
-	
+	private $debug = false;
 	/**
 	 * The table to manipulate
 	 * @var GDO
@@ -308,8 +308,13 @@ class GDOQuery
 	{
 		$db = GDODB::instance();
 
-// 		$this->debug();
 		$query = $this->buildQuery();
+
+		if ($this->debug)
+		{
+			echo "{$query}/>\n";
+		}
+		
 		if ($this->write)
 		{
 			return $db->queryWrite($query);
@@ -322,7 +327,7 @@ class GDOQuery
 	
 	public function debug()
 	{
-		echo "{$this->buildQuery()}<br/>\n";
+		$this->debug = true;
 		return $this;
 	}
 	

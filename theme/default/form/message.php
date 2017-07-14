@@ -4,6 +4,8 @@
   <?php echo $field->htmlIcon(); ?>
   <textarea
    name="form[<?php echo $field->name; ?>]"
+   rows="6"
+   maxRows="6"
    <?php echo $field->htmlRequired(); ?>
    <?php echo $field->htmlDisabled(); ?>><?php echo $field->displayFormValue(); ?></textarea>
   <div class="gwf-form-error"><?php echo $field->displayError(); ?></div>

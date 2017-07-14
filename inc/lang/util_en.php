@@ -51,7 +51,7 @@ return array(
 'err_checkbox_required' => 'You have to checkmark this field in order to proceed.',
 'err_strlen_between' => 'This string has to be between %s and %s characters in length.',
 'err_form_invalid' => 'Your sent form is incomplete as it contains errors.',
-'err_user_required' => 'You need to be authenticated before using this function.',
+'err_user_required' => 'You need to be authenticated before using this function. It is also possible to <a href="%s" title="Choose nickname">continue as guest</a>.',
 'err_upload_min_files' => 'You have to upload at least %s file(s).',
 'err_upload_max_files' => 'You may not upload more than %s files(s).',
 'err_permission_required' => 'You need <i>%s</i> permissions to access this function.',
@@ -66,6 +66,8 @@ return array(
 'err_user_type' => 'Your account is not of membership type %s.',
 'err_table_not_sortable' => 'The %s table cannot be sorted without a GDO_Sort field.',
 'err_pass_too_short' => 'Your password has to be at least %s characters long.',
+'err_module_method' => 'The module and method could not been not found.',
+
 # Permissions
 'perm_admin' => 'Administrator',
 

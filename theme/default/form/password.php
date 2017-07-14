@@ -3,6 +3,7 @@
   <label for="form[<?php echo $field->name; ?>]"><?php echo $field->displayLabel(); ?></label>
   <?php echo GDO_Button::matIconS('lock'); ?>
   <input
+   <?php echo $field->htmlAutocomplete(); ?>
    type="password"
    name="form[<?php echo $field->name; ?>]"
    value="<?php echo $field->displayFormValue(); ?>"

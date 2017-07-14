@@ -221,7 +221,7 @@ abstract class GDO
 	 */
 	public function getValue(string $key)
 	{
-		return $this->gdoColumn($key)->gdo($this)->getGDOValue();
+		return $this->gdoColumn($key)->getGDOValue();
 	}
 	
 	/**
@@ -264,14 +264,17 @@ abstract class GDO
 	 */
 	public function find(string $id=null, bool $exception=true)
 	{
-		if (!($gdo = $this->getById($id)))
+		if ($id !== null)
 		{
-			if ($exception)
+			if (!($gdo = $this->getById($id)))
 			{
-				throw new GWF_Exception('err_gdo_not_found', [get_called_class(), htmlspecialchars($id)]);
+				if ($exception)
+				{
+					throw new GWF_Exception('err_gdo_not_found', [$this->gdoHumanName(), htmlspecialchars($id)]);
+				}
 			}
+			return $gdo;
 		}
-		return $gdo;
 	}
 	
 	/**
@@ -315,8 +318,7 @@ abstract class GDO
 	{
 		if ($this->persisted)
 		{
-			$query = $this->query();
-			$query->delete($this->gdoTableIdentifier())->where($this->getPKWhere())->exec();
+			$this->deleteWhere($this->getPKWhere())->exec();
 			$this->persisted = false;
 			$this->dirty = false;
 		}
@@ -497,7 +499,7 @@ abstract class GDO
 		{
 			if ($column->isPrimary())
 			{
-				$columns[] = $column;
+				$columns[$column->name] = $column;
 			}
 			else
 			{
@@ -593,10 +595,13 @@ abstract class GDO
 	##############
 	public function getID()
 	{
-		if ($column = $this->gdoPrimaryKeyColumn())
+		$id = '';
+		foreach ($this->gdoPrimaryKeyColumns() as $name => $column)
 		{
-			return $this->getVar($column->name);
+			$id = $id === '' ? $id : "$id:";
+			$id .= $this->getVar($name);
 		}
+		return $id;
 	}
 	
 	public function displayName()
@@ -618,25 +623,44 @@ abstract class GDO
 		return self::table()->findWhere(self::quoteIdentifierS($key) . '=' . self::quoteS($value));
 	}
 	
+	public static function getByVars(array $vars)
+	{
+		$query = self::table()->select();
+		foreach ($vars as $key => $value)
+		{
+			$query->where(self::quoteIdentifierS($key) . '=' . self::quoteS($value));
+		}
+		return $query->first()->exec()->fetchObject();
+	}
+	
 	/**
 	 * Get a row by auto inc column. 
 	 * @param string $id
 	 * @return self
 	 */
-	public static function getById(string $id=null)
+	public static function getById(string ...$id)
 	{
-		if ($id)
+		$table = self::table();
+		if ( (!$table->cache) || (!($object = $table->cache->findCached(...$id))) )
 		{
-			$table = self::table();
-			if ($column = $table->gdoPrimaryKeyColumn())
+			$i = 0;
+			$query = $table->select();
+			foreach ($table->gdoPrimaryKeyColumns() as $column)
 			{
-				if ( (!$table->cache) || (!($object = $table->cache->findCached($id))) )
-				{
-					$object = self::getBy($column->name, $id);
-				}
-				return $object;
+				$query->where($column->identifier() . '=' . self::quoteS($id[$i++]));
 			}
+			$object = $query->first()->exec()->fetchObject();
 		}
+		return $object;
+	}
+	
+	public static function findById(string ...$id)
+	{
+		if ($object = self::getById(...$id))
+		{
+			return $object;
+		}
+		throw new GWF_Exception('err_gdo_not_found', [self::table()->gdoHumanName(), implode(':', $id)]);
 	}
 	
 	/**
@@ -762,12 +786,13 @@ abstract class GDO
 	
 	public static function gdoHashcodeS(array $gdoVars)
 	{
-		return substr(md5(md5(md5(GWF_SALT).json_encode(array_values($gdoVars)))), 0, 16);
+		return substr(md5(md5(md5(str_repeat(GWF_SALT, 4)).json_encode(array_values($gdoVars)))), 0, 16);
 	}
 	
 	##############
 	### Render ###
 	##############
+	public function renderList() { return GWF_Template::mainPHP("listitem/gdo.php", ['gdo'=>$this]); }
 	public function renderCard() { return GWF_Template::mainPHP("card/{$this->gdoTableName()}.php", ['gdo'=>$this]); }
 	public function renderCell() { return $this->renderChoice(); }
 	public function renderChoice() { return sprintf('%s-%s', $this->getID(), $this->displayName()); }

@@ -59,7 +59,13 @@ abstract class GDOType
 	{
 		$type = get_called_class();
 		$obj = new $type();
-		return $name ? $obj->name($name) : $obj;
+		return $obj->name($name);
+	}
+	
+	private static $nameNr = 1;
+	private static function nextName()
+	{
+		return 'gtf'.(self::$nameNr++);
 	}
 	
 	#############
@@ -84,15 +90,20 @@ abstract class GDOType
 	############
 	### Name ###
 	############
-	public function name(string $name)
+	public function name(string $name=null)
 	{
-		$this->name = $name;
+		if ($name === null)
+		{
+			if ($this->name === null)
+			{
+				$this->name = self::nextName();
+			}
+		}
+		else
+		{
+			$this->name = $name;
+		}				
 		return $this->defaultLabel();
-	}
-	
-	public function defaultLabel()
-	{
-		return $this->label($this->name);
 	}
 	
 	public function identifier()
@@ -100,6 +111,15 @@ abstract class GDOType
 		return GDO::quoteIdentifierS($this->name);
 	}
 
+	################
+	### Complete ###
+	################
+	private $htmlAutocomplete = false;
+	public function htmlAutocomplete()
+	{
+		return $this->htmlAutocomplete ? '' : ' autocomplete="off"';
+	}
+	
 	#################
 	### Validator ###
 	#################
@@ -113,6 +133,11 @@ abstract class GDOType
 	#############
 	### Label ###
 	#############
+	public function defaultLabel()
+	{
+		return $this->label($this->name);
+	}
+	
 	public function noLabel()
 	{
 		$this->label = null;

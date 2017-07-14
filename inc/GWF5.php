@@ -143,11 +143,6 @@ final class GWF5
 		}
 	}
 	
-	public function defaultMethod()
-	{
-		return method(GWF_MODULE, GWF_METHOD);
-	}
-	
 	/**
 	 * @param string $moduleName
 	 * @param string $methodName

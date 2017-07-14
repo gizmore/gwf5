@@ -8,6 +8,26 @@
  */
 class GDO_List extends GDO_Table
 {
+	const MODE_CARD = 1;
+	const MODE_LIST = 2;
+	private $listMode= self::MODE_CARD;
+	public function listMode(int $mode)
+	{
+		$this->listMode = $mode;
+	}
+	
+	public $itemTemplate;
+	public function itemTemplate(GDOType $gdoType)
+	{
+		$this->itemTemplate = $gdoType;
+		return $this;
+	}
+	
+	public function getItemTemplate()
+	{
+		return $this->itemTemplate ? $this->itemTemplate : GDO_GWF::make();
+	}
+	
 	##############
 	### Render ###
 	##############
@@ -18,7 +38,8 @@ class GDO_List extends GDO_Table
 	
 	public function render()
 	{
-		return GWF_Template::mainPHP('cell/list.php', ['field'=>$this]);
+		$template = $this->listMode === self::MODE_CARD ? 'cell/list_card.php' : 'cell/list.php';
+		return GWF_Template::mainPHP($template, ['field'=>$this]);
 	}
 	
 	public function initJSON()

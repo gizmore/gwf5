@@ -10,16 +10,12 @@ class GDO_Token extends GDO_Char
 {
 	public static $LENGTH = 16;
 	
+	public function defaultLabel() { return $this->label('token'); }
+	
 	public function __construct()
 	{
 		$this->size(self::$LENGTH);
 		$this->notNull();
-	}
-	
-	public function name(string $name)
-	{
-		$this->name = $name;
-		return $this->label('token');
 	}
 	
 	public function size(int $size)

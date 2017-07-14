@@ -114,7 +114,8 @@ abstract class GWF_Method
 		
 		if ( ($this->isUserRequired()) && (!$user->isAuthenticated()) )
 		{
-			return new GWF_Error('err_user_required');
+			$hrefGuest = href('Register', 'Guest');
+			return new GWF_Error('err_user_required', [$hrefGuest]);
 		}
 		
 		if ( (!$this->isGuestAllowed()) && (!$user->isMember()) )

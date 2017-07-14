@@ -31,5 +31,17 @@ class GDO_Object extends GDOType
 		return $this->getValue();
 	}
 	
+	public function validate($value)
+	{
+		if (parent::validate($value))
+		{
+			if ( ($value !== null) && (!$this->getGDOValue()) )
+			{
+				return $this->error('err_gdo_not_found', [$this->table->gdoHumanName(), htmle($value)]);
+			}
+			return true;
+		}
+	}
+	
 	
 }

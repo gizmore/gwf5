@@ -25,25 +25,25 @@ if (!GWF_MEMCACHE) GDOCache::flush();
 try
 {
 	# Turn off Output buffering
+	ob_implicit_flush(false);
 	ob_start(); # Level 1
-	
 	GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);
 	$modules = $gwf5->loadModulesCache();
 	GWF_Log::init(GWF_User::current()->getUserName(), GWF_ERROR_LEVEL, 'protected/logs');
 	
+	define('GWF_CORE_STABLE', microtime(true));
+	
 	# Get module and method
 	$module = $method = null;
-	if ($module = $gwf5->getModule(Common::getGetString('mo', GWF_MODULE)))
+	if (!($module = $gwf5->getModule(Common::getGetString('mo', GWF_MODULE))))
 	{
-		$method = $module->getMethod(Common::getGetString('me', GWF_METHOD));
+		$response = new GWF_Error('err_module_method', null, 404);
 	}
-	if (!$method)
+	elseif (!($method = $module->getMethod(Common::getGetString('me', GWF_METHOD))))
 	{
-		$method = $gwf5->defaultMethod();
+		$response = new GWF_Error('err_module_method', null, 404);
 	}
-	
-	define('GWF_CORE_STABLE', microtime(true));
-	if (!($response = $method->exec()))
+	elseif (!($response = $method->exec()))
 	{
 		$response = new GWF_Error('err_blank_response');
 	}

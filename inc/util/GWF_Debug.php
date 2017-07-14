@@ -82,18 +82,18 @@ final class GWF_Debug
 	 */
 	public static function shutdown_function()
 	{
-		if (self::$enabled)
-		{
-			$error = error_get_last();
+// 		if (self::$enabled)
+// 		{
+// // 			$error = error_get_last();
 
-			if ($error['type'] != 0)
-			{
-				chdir(GWF_PATH);
-				if (!class_exists('GWF_Log', false)) include 'inc/util/GWF_Log.php';
-				if (!class_exists('GWF_Mail', false)) include 'inc/util/GWF_Mail.php';
-// 				self::error_handler(1, $error['message'], self::shortpath($error['file']), $error['line'], NULL);
-			}
-		}
+// // 			if ($error['type'] != 0)
+// // 			{
+// // 				chdir(GWF_PATH);
+// // 				if (!class_exists('GWF_Log', false)) include 'inc/util/GWF_Log.php';
+// // 				if (!class_exists('GWF_Mail', false)) include 'inc/util/GWF_Mail.php';
+// // // 				self::error_handler(1, $error['message'], self::shortpath($error['file']), $error['line'], NULL);
+// // 			}
+// 		}
 	}
 
 	/**
@@ -197,7 +197,7 @@ final class GWF_Debug
 			GWF_Log::logCritical($firstLine);
 			GWF_Log::flush();
 		}
-		while (ob_get_level() > 0) ob_end_flush();
+		while (ob_get_level() > 0) ob_end_clean();
 		$message = self::backtraceException($e, $is_html, ' (XH)');
 		echo self::renderError($message);
 		return true;

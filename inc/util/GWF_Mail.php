@@ -58,6 +58,14 @@ final class GWF_Mail
 	
 	private function escapeHeader($h) { return str_replace("\r", '', str_replace("\n", '', $h)); }
 	
+	public static function botMail()
+	{
+		$mail = new self();
+		$mail->setSender(GWF_BOT_EMAIL);
+		$mail->setSenderName(GWF_BOT_NAME);
+		return $mail;
+	}
+	
 	private function getUTF8Reply()
 	{
 		if ($this->reply === '')
@@ -149,18 +157,21 @@ final class GWF_Mail
 	 */
 	public function sendToUser(GWF_User $user)
 	{
-		$this->setReceiver($user->getMail());
-		$this->setReceiverName($user->displayName());
-		
-		$this->setupGPG($user);
-
-		if ($user->wantsTextMail())
+		if ($mail = $user->getMail())
 		{
-			return $this->sendAsText();
-		}
-		else
-		{
-			return $this->sendAsHTML();
+			$this->setReceiver($user->getMail());
+			$this->setReceiverName($user->displayName());
+			
+			$this->setupGPG($user);
+	
+			if ($user->wantsTextMail())
+			{
+				return $this->sendAsText();
+			}
+			else
+			{
+				return $this->sendAsHTML();
+			}
 		}
 	}
 

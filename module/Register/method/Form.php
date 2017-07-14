@@ -46,7 +46,7 @@ class Register_Form extends GWF_MethodForm
 	
 	public function formInvalid(GWF_Form $form)
 	{
-		return $this->error('err_register')->add($form->render());
+		return $this->error('err_register');
 	}
 	
 	public function formValidated(GWF_Form $form)

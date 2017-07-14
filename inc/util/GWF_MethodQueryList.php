@@ -13,6 +13,8 @@ abstract class GWF_MethodQueryList extends GWF_MethodQuery
 	 */
 	public abstract function gdoTable();
 	
+	public function gdoListMode() { return GDO_List::MODE_LIST; }
+	
 	public function gdoDecorateList(GDO_List $list) {}
 	
 	/**
@@ -43,10 +45,11 @@ abstract class GWF_MethodQueryList extends GWF_MethodQuery
 	 */
 	public function renderPage()
 	{
-		$list = GDO_List::make('list');
+		$list = GDO_List::make();
 		$list->label('list_'.strtolower(get_called_class()), [$this->getSiteName()]);
 		$list->addFields($this->gdoParameters());
 		$list->query($this->gdoFilteredQuery());
+		$list->listMode($this->gdoListMode());
 		$list->paginate();
 		$list->href($this->href());
 		$this->gdoDecorateList($list);

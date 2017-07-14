@@ -1,9 +1,11 @@
 <?php
 class GWF_Error extends GWF_Response
 {
-	public function __construct(string $key, array $args=null, bool $log=true)
+	public function __construct(string $key, array $args=null, int $code=200, bool $log=true)
 	{
 		$this->error = true;
+		
+		http_response_code($code);
 
 		if (GWF5::instance()->getFormat() !== 'json')
 		{
