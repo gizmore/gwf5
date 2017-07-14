@@ -12,7 +12,9 @@ class GDO_Email extends GDO_String
 	
 	public function renderCell()
 	{
-		$email = $this->getGDOVar();
-		return GWF_HTML::anchor("mailto:$email", $email);
+		if ($email = $this->getGDOVar())
+		{
+			return GWF_HTML::anchor("mailto:$email", $email);
+		}
 	}
 }
