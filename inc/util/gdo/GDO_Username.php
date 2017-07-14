@@ -45,6 +45,11 @@ class GDO_Username extends GDO_String
 		return GWF_Template::mainPHP('form/username.php', $tVars);
 	}
 	
+	public function renderCell()
+	{
+		return $this->gdo->displayNameLabel();
+	}
+	
 	################
 	### Validate ###
 	################

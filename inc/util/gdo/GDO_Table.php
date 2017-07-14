@@ -4,11 +4,7 @@ class GDO_Table extends GDO_Blank
 	use GWF_Fields;
 	use GDO_HREFTrait;
 	
-	public function defaultLabel()
-	{
-		return $this;
-	}
-	
+	public function defaultLabel() { return $this; } # No label
 	
 	public function __construct()
 	{
@@ -28,6 +24,13 @@ class GDO_Table extends GDO_Blank
 	public function filtered(bool $filtered=true)
 	{
 		$this->filtered = $filtered;
+		return $this;
+	}
+	
+	public $ordered;
+	public function ordered(bool $ordered=true)
+	{
+		$this->ordered = $ordered;
 		return $this;
 	}
 	
@@ -96,16 +99,16 @@ class GDO_Table extends GDO_Blank
 		return $this->query->clone();
 	}
 	
+	private $countItems;
 	public function countItems()
 	{
-		if ($this->query)
+		if (!isset($this->countItems))
 		{
-			return $this->getQuery()->select('COUNT(*)')->exec()->fetchValue();
+			$this->countItems = $this->query ? 
+				$this->getQuery()->select('COUNT(*)')->exec()->fetchValue() :
+				$this->getResult()->numRows();
 		}
-		else
-		{
-			return $this->getResult()->numRows();
-		}
+		return $this->countItems;
 	}
 	
 	public function queryResult()
@@ -121,6 +124,20 @@ class GDO_Table extends GDO_Blank
 				$gdoType->filterQuery($this->query);
 			}
 		}
+		if ($this->ordered)
+		{
+			foreach (Common::getRequestArray('o') as $name => $asc)
+			{
+				if ($field = $this->getField($name))
+				{
+					if ($field->orderable)
+					{
+						$this->query->order($name, !!$asc);
+					}
+				}
+			}
+		}
+		
 		return $this->query->exec();
 	}
 	

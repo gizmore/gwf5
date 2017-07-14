@@ -87,6 +87,7 @@ class GDO_PageMenu extends GDO_Blank
 	
 	private function replaceHREF($page)
 	{
+		$this->href = preg_replace("#&f\\[{$this->name}\\]=\\d+#", '', $this->href);
 		return $this->href . '&f[' . $this->name . ']='. $page;
 	}
 	

@@ -9,6 +9,7 @@
 abstract class GWF_MethodQueryTable extends GWF_Method
 {
 	public function ipp() { return Module_GWF::instance()->cfgItemsPerPage(); }
+	public function isOrdered() { return true; }
 	public function isFiltered() { return true; }
 	public function isPaginated() { return true; }
 	
@@ -37,11 +38,12 @@ abstract class GWF_MethodQueryTable extends GWF_Method
 	{
 		$table = GDO_Table::make();
 		$table->addFields($this->getHeaders());
-		$table->href($this->href());
+// 		$table->href($this->href());
 		$table->query($this->getQuery());
 		$table->gdo($table->query->table);
-		$table->paginate($this->isPaginated(), $this->ipp());
+		$table->ordered($this->isOrdered());
 		$table->filtered($this->isFiltered());
+		$table->paginate($this->isPaginated(), $this->ipp());
 		$this->onDecorateTable($table);
 		return $table->render();
 	}

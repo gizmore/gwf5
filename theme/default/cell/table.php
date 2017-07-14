@@ -12,19 +12,28 @@ if ($pagemenu = $field->getPageMenu())
 $result = $field->getResult();
 
 ?>
-<form method="post" action="<?php echo $field->href; ?>" flex class="b">
-<div class="gwf-table table-responsive" layout="column" flex layout-fill ng-controller="GWFTableCtrl" ng-init='init(<?php echo $field->initJSON(); ?>)'>
-  <input type="hidden" name="mo" value="<?php echo htmlspecialchars(Common::getRequestString('mo','')); ?>" />
-  <input type="hidden" name="me" value="<?php echo htmlspecialchars(Common::getRequestString('me','')); ?>" />
-  <h3><?php echo $field->displayLabel(); ?></h3>
-  <table id="gwfdt-<?php echo $field->name; ?>" class="table">
+<form method="post" action="<?= $field->href; ?>" flex class="b">
+<div
+ class="gwf-table table-responsive"
+ layout="column" flex layout-fill
+ ng-controller="GWFTableCtrl"
+ ng-init='init(<?= $field->initJSON(); ?>)'>
+  <input type="hidden" name="mo" value="<?= htmle(Common::getPostString('mo','')); ?>" />
+  <input type="hidden" name="me" value="<?= htmle(Common::getPostString('me','')); ?>" />
+  <h3><?= $field->displayLabel(); ?></h3>
+  <table id="gwfdt-<?= $field->name; ?>" class="table">
     <thead>
       <tr>
       <?php foreach($headers as $gdoType) : ?>
-        <th<?php echo $gdoType->htmlClass(); ?>>
-          <label><?php echo $gdoType->displayHeaderLabel(); ?></label>
+        <th<?= $gdoType->htmlClass(); ?>>
+          <label>
+            <?= $gdoType->displayHeaderLabel(); ?>
+            <?php if ($field->ordered) : ?>
+            <?= $gdoType->displayTableOrder($field); ?>
+            <?php endif; ?>
+          </label>
           <?php if ($field->filtered) : ?>
-          <br/><?php echo $gdoType->renderFilter(); ?>
+          <br/><?= $gdoType->renderFilter(); ?>
           <?php endif; ?>
         </th>
       <?php endforeach; ?>
@@ -32,9 +41,9 @@ $result = $field->getResult();
     </thead>
     <tbody>
     <?php while ($gdo = $result->fetchAs($field->fetchAs)) : ?>
-    <tr gdo-id="<?php echo $gdo->getID()?>">
+    <tr gdo-id="<?= $gdo->getID()?>">
       <?php foreach($headers as $gdoType) : $gdoType instanceof GDOType; ?>
-        <td<?php echo $gdoType->htmlClass(); ?>><?php echo $gdoType->gdo($gdo)->renderCell(); ?></td>
+        <td<?= $gdoType->htmlClass(); ?>><?= $gdoType->gdo($gdo)->renderCell(); ?></td>
       <?php endforeach; ?>
     </tr>
     <?php endwhile; ?>
@@ -43,6 +52,6 @@ $result = $field->getResult();
   </table>
   <input type="submit" class="n" />
 </div>
-<?php echo $field->actions()->render(); ?>
+<?= $field->actions()->render(); ?>
 </form>
 <!-- END of GWF_Table -->

@@ -8,6 +8,8 @@
  */
 final class GDO_RowNum extends GDO_Checkbox
 {
+	public $orderable = false;
+	
 	public $name = 'rbx';
 	
 	public $num = 0;

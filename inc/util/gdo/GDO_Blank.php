@@ -9,6 +9,8 @@
  */
 class GDO_Blank extends GDOType
 {
+	public $orderable = false;
+
 	public function blankData() {}
 	public function render() { return ''; }
 	public function renderCell() { return $this->render(); }
