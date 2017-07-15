@@ -297,6 +297,9 @@ abstract class GDOType
 		{
 			$this->value = null;
 		}
+
+		
+		
 		return $this;
 	}
 	
@@ -599,7 +602,11 @@ abstract class GDOType
 		return $this->renderCell();
 	}
 	
-	
+	public function renderCard()
+	{
+		return $this->renderCell();
+	}
+
 	##################
 	### Validation ###
 	##################

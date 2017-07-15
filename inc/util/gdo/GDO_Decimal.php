@@ -4,7 +4,6 @@ class GDO_Decimal extends GDO_Int
 	public $digitsBefore = 5;
 	public $digitsAfter = 5;
 	
-	
 	public function digits(int $before, int $after)
 	{
 		$this->digitsBefore = $before;

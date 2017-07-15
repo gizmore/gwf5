@@ -123,7 +123,7 @@ abstract class GDO
 	
 	public function hasVar(string $key=null)
 	{
-		return $key === null ? false : isset($this->gdoVars[$key]);
+		return ($key === null) || ($this->gdoVars === null) ? false : array_key_exists($key, $this->gdoVars);
 	}
 	
 	public function getVar(string $key)

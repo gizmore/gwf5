@@ -135,7 +135,7 @@ class GWF_Tree extends GDO
 		$d = $this->getDepthColumn();
 		if ($parent)
 		{
-			$this->table()->update()->set("$l=$left, $r=$right, $d=$depth")->where("$idc=$parent")->debug()->exec();
+			$this->table()->update()->set("$l=$left, $r=$right, $d=$depth")->where("$idc=$parent")->exec();
 		}
 		
 		return $right+1;  

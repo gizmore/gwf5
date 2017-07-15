@@ -315,7 +315,7 @@ class GDOQuery
 
 		if ($this->debug)
 		{
-			echo "{$query}/>\n";
+			echo "{$query}\n";
 		}
 		
 		if ($this->write)

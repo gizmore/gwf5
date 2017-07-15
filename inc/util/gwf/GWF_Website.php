@@ -21,7 +21,7 @@ final class GWF_Website
 
 // 	public static function plaintext() { header('Content-Type: text/plain; charset=UTF-8'); }
 
-	public static function redirectMessage($url, $time=3333)
+	public static function redirectMessage($url, $time=12)
 	{
 		return self::redirect($url, $time);
 	}

@@ -24,7 +24,7 @@ $result = $field->getResult();
 $template = $field->getItemTemplate();
 while ($gdo = $result->fetchObject())
 {
-	echo $template->gdo($gdo)->render()->getHTML();
+	echo $template->gdo($gdo)->renderCard()->getHTML();
 }
 ?>
   
