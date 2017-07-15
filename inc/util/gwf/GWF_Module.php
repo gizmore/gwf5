@@ -149,7 +149,7 @@ class GWF_Module extends GDO
 	public function canInstall() { return !$this->isPersisted(); }
 	public function filePath(string $path='') { return GWF_PATH . 'module/' . $this->getName() . '/' . $path; }
 	public function wwwPath(string $path='') { return '/module/' . $this->getName() . '/' . $path; }
-	public function includeClass(string $class) { include $this->filePath("$class.php"); }
+	public function includeClass(string $class) { require_once $this->filePath("$class.php"); }
 	
 	#################
 	### Templates ###

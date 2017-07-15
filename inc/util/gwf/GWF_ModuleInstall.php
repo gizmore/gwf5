@@ -171,7 +171,7 @@ class GWF_ModuleInstall
 	public static function includeCoreTables()
 	{
 		self::$coreTables = [];
-		GWF_Filewalker::traverse(GWF_PATH . 'inc/util', [__CLASS__, 'coreInclude'], false, false);
+		GWF_Filewalker::traverse(GWF_PATH . 'inc/util/gwf', [__CLASS__, 'coreInclude'], false, false);
 		return self::$coreTables;
 	}
 	

@@ -17,7 +17,7 @@
         <md-button class="md-icon-button" aria-label="<?php l('btn_left_menu'); ?>" ng-disabled="data.leftMenu.disabled" ng-click="openLeft()">
           <?php echo GDO_Button::matIconS('menu'); ?>
         </md-button>
-        <h2 flex md-truncate>{{data.topMenu.title}}</h2>
+        <?= GWF_Navbar::top()->render(); ?>
         <md-button class="md-icon-button" aria-label="<?php l('btn_right_menu'); ?>" ng-disabled="data.rightMenu.disabled" ng-click="openRight()">
           <?php echo GDO_Button::matIconS('menu'); ?>
         </md-button>

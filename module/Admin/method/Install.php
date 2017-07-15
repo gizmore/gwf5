@@ -51,6 +51,7 @@ class Admin_Install extends GWF_MethodForm
 	
 	public function execute_install()
 	{
+		GWF_ModuleInstall::includeCoreTables();
 		GWF_ModuleInstall::installModule($this->configModule);
 		return GWF_Message::message('msg_module_installed', [$this->configModule->getName()]);
 	}

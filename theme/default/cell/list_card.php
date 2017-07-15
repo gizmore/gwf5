@@ -1,4 +1,8 @@
 <?php $field instanceof GDO_List; ?>
+<?php
+$result = $field->getResult();
+// $filters = GDO_FilterButton::make()->addFields($field->getF)
+?>
 <section
  class="gwf-list"
  layout="column"
@@ -19,8 +23,7 @@
       {{item.id}}
     </div>
   </md-virtual-repeat-container>
-  <?php
-$result = $field->getResult();
+<?php
 $template = $field->getItemTemplate();
 while ($gdo = $result->fetchObject())
 {

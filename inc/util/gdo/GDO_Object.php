@@ -10,6 +10,15 @@ class GDO_Object extends GDOType
 {
 	use GDO_ObjectTrait;
 	
+	public function toJSON()
+	{
+		if ($gdo = $this->getGDOValue())
+		{
+			return array($this->name => $gdo->toJSON());
+		}
+		return array($this->name => null);
+	}
+	
 	public function render()
 	{
 		if ($this->completionURL)

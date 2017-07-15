@@ -115,6 +115,9 @@ class GDO_File extends GDO_Object
 	################
 	### Validate ###
 	################
+	/**
+	 * @return GWF_File
+	 */
 	public function getGDOValue()
 	{
 		if ($this->gdo)

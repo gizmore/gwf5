@@ -38,7 +38,7 @@ final class GWF_Hook
 		# Call IPC hooks
 		if ($ipc = self::ipc())
 		{
-			self::callIPC($ipc);
+			self::callIPC($ipc, $event, $args);
 		}
 	}
 
@@ -55,15 +55,18 @@ final class GWF_Hook
 		return self::$ipc;
 	}
 	
-	private static function callIPC($ipc)
+	private static function callIPC($ipc, string $event, array $args=null)
 	{
 		# Map GDO Objects to IDs.
 		# The IPC Service will refetch the Objects on their end.
-		foreach ($args as $k => $arg)
+		if ($args)
 		{
-			if ($arg instanceof GDO)
+			foreach ($args as $k => $arg)
 			{
-				$args[$k] = $arg->getID();
+				if ($arg instanceof GDO)
+				{
+					$args[$k] = $arg->getID();
+				}
 			}
 		}
 		

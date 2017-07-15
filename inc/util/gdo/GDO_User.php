@@ -10,6 +10,12 @@ class GDO_User extends GDO_Object
 		$this->withCompletion();
 	}
 	
+	public function toJSON()
+	{
+		$value = $this->getValue();
+		return array($this->name => $value === null ? null : (int)$value);
+	}
+	
 	public function withCompletion()
 	{
 		return $this->completion(href('GWF', 'CompleteUser'));

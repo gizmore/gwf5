@@ -428,7 +428,7 @@ abstract class GDO
 		$values = [];
 		foreach ($this->gdoColumnsCache() as $key => $gdoType)
 		{
-			$values = array_merge($values, $gdoType->value(@$this->gdoVars[$key])->gdo($this)->toJSON());
+			$values = array_merge($values, $gdoType->gdo($this)->toJSON());
 		}
 		return $values;
 	}
@@ -654,6 +654,10 @@ abstract class GDO
 		return $object;
 	}
 	
+	/**
+	 * @param string ...$id
+	 * @return self
+	 */
 	public static function findById(string ...$id)
 	{
 		if ($object = self::getById(...$id))
