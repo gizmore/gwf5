@@ -75,11 +75,11 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 		
 		if ($this->gdo)
 		{
-			$this->title('ft_crud_update', [$this->getSiteName(), $this->gdoTable()->gdoClassName()]);
+			$this->title('ft_crud_update', [$this->getSiteName(), $this->gdoTable()->gdoHumanName()]);
 		}
 		else
 		{
-			$this->title('ft_crud_create', [$this->getSiteName(), $this->gdoTable()->gdoClassName()]);
+			$this->title('ft_crud_create', [$this->getSiteName(), $this->gdoTable()->gdoHumanName()]);
 		}
 	}
 	

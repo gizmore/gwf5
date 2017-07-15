@@ -31,6 +31,9 @@ return array(
 'birthdate' => 'Birthdate',
 'url' => 'URL',
 'guest' => '~~Guest~~',
+'size' => 'Size',
+'type' => 'Type',
+'level' => 'Level',
 		
 # Generic Buttons
 'btn_send' => 'Send',

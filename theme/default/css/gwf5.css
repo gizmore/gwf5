@@ -95,7 +95,7 @@ md-content.gwf-box {
 	font-size: 15px;
 }
 
-gwf-div {
+gwf-div, div.gwf-div {
 	height: 1px;
 	width: 100%;
 	background: #bbb;

@@ -9,7 +9,12 @@ final class GWF_GetFile extends GWF_Method
 	
 	public function execute()
 	{
-		if (!($file = GWF_File::getById(Common::getRequestInt('file'))))
+		return $this->executeWithId(Common::getRequestString('file'));
+	}
+	
+	public function executeWithId(string $id)
+	{
+		if (!($file = GWF_File::getById($id)))
 		{
 			return $this->error('err_unknown_file', null, 404);
 		}

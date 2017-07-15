@@ -1,4 +1,18 @@
 <?php
+/**
+ * Hooks do not render any output.
+ * Hooks add messages to the IPC queue 1.
+ * 
+ * Hooks follow this convetions.
+ * 1) The hook name is camel-case, e.g: 'UserAuthenticated'.
+ * 2) The hook name shalle include the module name, e.g. LoginSuccess
+ * 
+ * @see Module_Websocket
+ * 
+ * @author gizmore
+ * @since 3.0
+ * @version 5.0
+ */
 final class GWF_Hook
 {
 	private static $ipc;
@@ -24,7 +38,19 @@ final class GWF_Hook
 		
 		if ($ipc = self::ipc())
 		{
-			msg_send($ipc, 1, [$event, $args]);
+			self::callIPC($ipc);
 		}
+	}
+	
+	private static function callIPC($ipc)
+	{
+		foreach ($args as $k => $arg)
+		{
+			if ($arg instanceof GDO)
+			{
+				$args[$k] = $arg->getID();
+			}
+		}
+		msg_send($ipc, 1, [$event, $args]);
 	}
 }

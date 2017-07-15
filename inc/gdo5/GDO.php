@@ -270,7 +270,7 @@ abstract class GDO
 			{
 				if ($exception)
 				{
-					throw new GWF_Exception('err_gdo_not_found', [$this->gdoHumanName(), htmlspecialchars($id)]);
+					self::notFoundException(htmle($id));
 				}
 			}
 			return $gdo;
@@ -382,7 +382,7 @@ abstract class GDO
 		return $this->saveVars([$key => $value]);
 	}
 	
-	public function saveVars(array $vars)
+	public function saveVars(array $vars, $withHooks=true)
 	{
 		$worthy = false; # Anything changed?
 		$query = $this->updateQuery();
@@ -397,11 +397,11 @@ abstract class GDO
 		}
 		if ($worthy)
 		{
-			$this->beforeUpdate($query); # Can do trickery here... not needed? 
+			if ($withHooks) $this->beforeUpdate($query); # Can do trickery here... not needed? 
 			$query->exec();
 			$this->gdoVars = array_merge($this->gdoVars, $vars);
 			$this->recache();
-			$this->gdoAfterUpdate(); # GDO_AutoInc uses this hook
+			if ($withHooks) $this->gdoAfterUpdate();
 		}
 		return $this;
 	}
@@ -660,7 +660,12 @@ abstract class GDO
 		{
 			return $object;
 		}
-		throw new GWF_Exception('err_gdo_not_found', [self::table()->gdoHumanName(), implode(':', $id)]);
+		self::notFoundException(implode(':', $id));
+	}
+	
+	public static function notFoundException($id)
+	{
+		throw new GWF_Exception('err_gdo_not_found', [self::table()->gdoHumanName(), $id]);
 	}
 	
 	/**
