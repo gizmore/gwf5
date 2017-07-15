@@ -67,7 +67,10 @@ class GWF_Response
 			}
 			elseif (is_array($this->html))
 			{
-				$this->html = array_merge($this->html, $response->html);
+				if (!empty($response->html))
+				{
+					$this->html = array_merge($this->html, $response->html);
+				}
 			}
 			else
 			{

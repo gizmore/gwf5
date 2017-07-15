@@ -204,6 +204,10 @@ function href(string $moduleName, string $methodName, string $append='')
 {
 	return GWF5::instance()->getMethodHREF($moduleName, $methodName, $append);
 }
+function jxhref(string $moduleName, string $methodName, string $append='')
+{
+	return href($moduleName, $methodName, $append.'&fmt=json&ajax=1');
+}
 
 function url(string $moduleName, string $methodName, string $append='')
 {

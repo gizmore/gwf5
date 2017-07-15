@@ -13,6 +13,8 @@ abstract class GWF_MethodSort extends GWF_Method
 	 */
 	public abstract function gdoSortObjects();
 	
+	public function canSort(GDO $gdo) { return true; }
+	
 	############
 	### Exec ###
 	############
@@ -40,10 +42,14 @@ abstract class GWF_MethodSort extends GWF_Method
 		$table = $this->gdoSortObjects();
 		if (!($name = $this->getSortingColumnName($table)))
 		{
-			return $this->error('err_table_not_sortable', [$table->gdoClassName()]);
+			return $this->error('err_table_not_sortable', [$table->gdoHumanName()]);
 		}
 		$a = $table->find(Common::getRequestString('a'));
 		$b = $table->find(Common::getRequestString('b'));
+		if ( (!$this->canSort($a)) || (!$this->canSort($b)) )
+		{
+			return $this->error('err_table_not_sortable', [$table->gdoHumanName()]);
+		}
 		$sortA = $a->getVar($name);
 		$sortB = $b->getVar($name);
 		$a->saveVar($name, $sortB);

@@ -1,18 +1,18 @@
 "use strict";
 angular.module('gwf5').
-controller('GWFTableCtrl', function($scope, GWFRequestSrvc) {
+controller('GWFSortCtrl', function($scope, GWFRequestSrvc) {
 	
-	$scope.init = function(config) {
-		console.log('GWFTableCtrl.init()', config);
+	$scope.initJSON = function(config) {
+		console.log('GWFSortCtrl.init()', config);
 		$scope.config = config;
-		if ($scope.config.sortable) {
-			$scope.setupDragDrop($('.gwf-table tr'));
-		}
+		setTimeout(function(){
+			$scope.setupDragDrop($(config.selector));
+		});
 	};
 	
 	$scope.onDrop = function(a, b) {
-		console.log('GWFTableCtrl.onDrop()', a, b);
-		var url = $scope.config.sortableURL;
+		console.log('GWFSortCtrl.onDrop()', a, b);
+		var url = $scope.config.url;
 		var data = {a:a.attr('gdo-id'),b:b.attr('gdo-id')};
 		GWFRequestSrvc.send(url, data).then(function(result) {
 			// Successfully swapped positions.
@@ -35,6 +35,7 @@ controller('GWFTableCtrl', function($scope, GWFRequestSrvc) {
 	};
 	
 	$scope.setupDragDrop = function($elements) {
+		console.log('GWFSortCtrl.init()', $elements);
 		setTimeout(function(){
 			$elements.draggable({
 				helper: 'clone',

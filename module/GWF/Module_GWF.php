@@ -132,6 +132,7 @@ class Module_GWF extends GWF_Module
 		$this->addJavascript('js/gwf-loading-srvc.js');
 		$this->addJavascript('js/gwf-request-interceptor.js');
 		$this->addJavascript('js/gwf-request-srvc.js');
+		$this->addJavascript('js/gwf-sort-ctrl.js');
 		$this->addJavascript('js/gwf-string-util.js');
 		$this->addJavascript('js/gwf-table-ctrl.js');
 		$this->addJavascript('js/gwf-tree.js');
