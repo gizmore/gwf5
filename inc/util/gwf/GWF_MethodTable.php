@@ -48,9 +48,9 @@ abstract class GWF_MethodTable extends GWF_Method
 		$result = $this->getResult();
 		foreach (array_reverse(Common::getRequestArray('o'), true) as $name => $asc)
 		{
-			if ($table->getField($name))
+			if ($gdoType = $table->getField($name))
 			{
-				$result->data = GDO::sort($result->data, $name, !!$asc);
+				$result->data = $gdoType->sort($result->data, !!$asc);
 			}
 		}
 		$result->data = array_values($result->data);

@@ -21,7 +21,7 @@ class Admin_Modules extends GWF_MethodTable
 	public function execute()
 	{
 		$this->modules = GWF5::instance()->loadModules(false);
-		$this->modules = GDO::sort($this->modules, 'module_sort');
+		$this->modules = GWF_Module::table()->sort($this->modules, 'module_sort');
 		$response = parent::execute();
 		$navbar = $this->renderNavBar();
 		$info = $this->renderInfoBox();

@@ -401,13 +401,50 @@ abstract class GDOType
 		return GDO::quoteS($this->formValue());
 	}
 	
-	###############
-	### Compare ###
-	###############
-	public function gdoCompare(string $varA, string $varB)
+	############
+	### Sort ###
+	############
+	public function gdoCompare(GDO $a, GDO $b)
 	{
-		return strcasecmp($varB, $varA);
+		return strcasecmp($a->getVar($this->name), $b->getVar($this->name));
 	}
+
+	private static $SORT_COLUMN;
+	public function sort(array &$array, bool $ascending=true)
+	{
+		self::$SORT_COLUMN = $this;
+		uasort($array, function(GDO $a, GDO $b) {
+			return self::$SORT_COLUMN->gdoCompare($a, $b);
+		});
+		if (!$ascending)
+		{
+			$array = array_reverse($array, true);
+		}
+		return $array;
+	}
+	
+	
+// 	private static $SORT_COLUMN;
+// 	public function sortGDOs(array &$array)
+// 	{
+// 		self::$SORT_COLUMN = $this;
+// 		uasort($array, function(GDO $a, GDO $b) {
+// 			$name = self::$SORT_COLUMN->name;
+// 			return $a->gdoColumn($name)->gdoCompare($a, $b);
+// 		});
+			
+// 	}
+	
+// 	uasort($array, function(GDO $a, GDO $b) {
+// 		$name = self::$SORT_COLUMN;
+// 		return $a->gdoColumn($name)->gdoCompare($a, $b);
+// 	});
+// 		if (!$ascending)
+// 		{
+// 			$array = array_reverse($array, true);
+// 		}
+// 		return $array;
+		
 	
 	##############
 	### Events ###

@@ -113,7 +113,7 @@ final class GWF_ModuleLoader
 		if ($loaded)
 		{
 			uasort($this->modules, function($a, $b){ return $a->module_priority - $b->module_priority; });
-			GDO::sort($this->activeModules, 'module_sort');
+			GWF_Module::table()->sort($this->activeModules, 'module_sort');
 			$this->initModuleVars();
 			foreach ($this->modules as $module)
 			{
@@ -195,9 +195,7 @@ final class GWF_ModuleLoader
 	
 	public function sortModules(string $columnName, bool $ascending=true)
 	{
-		GWF_Module::table();
-		return GDO::sort($this->modules, $columnName, $ascending);
+		return GWF_Module::table()->sort($this->modules, $columnName, $ascending);
 	}
-	
 	
 }

@@ -816,19 +816,9 @@ abstract class GDO
 	 * @param string $columnName
 	 * @param bool $ascending
 	 */
-	private static $SORT_COLUMN;
-	public static function sort(array &$array, string $columnName, bool $ascending=true)
+	public function sort(array &$array, string $columnName, bool $ascending=true)
 	{
-		self::$SORT_COLUMN = $columnName;
-		uasort($array, function(GDO $a, GDO $b) {
-			$name = self::$SORT_COLUMN;
-			return $a->gdoColumn($name)->gdoCompare($a->getVar($name), $b->getVar($name));
-		});
-		if (!$ascending)
-		{
-			$array = array_reverse($array, true);
-		}
-		return $array;
+		return $this->gdoColumn($columnName)->sort($array, $ascending);
 	}
 }
 function quote(string $value=null)

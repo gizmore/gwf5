@@ -123,9 +123,11 @@ class GDO_Int extends GDOType
 		}
 	}
 	
-	public function gdoCompare(string $varA, string $varB)
+	public function gdoCompare(GDO $a, GDO $b)
 	{
-		return $varA - $varB;
+		$va = $a->getVar($this->name);
+		$vb = $b->getVar($this->name);
+		return $va == $vb ? true : ($va < $vb ? -1 : 1);
 	}
 	
 	public function htmlClass()
