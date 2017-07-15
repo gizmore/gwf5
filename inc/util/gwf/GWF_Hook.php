@@ -24,14 +24,14 @@ final class GWF_Hook
 	 * @param string $event
 	 * @param array $args
 	 */
-	public static function call(string $event, array $args=null)
+	public static function call(string $event, ...$args)
 	{
 		$method_name = "hook$event";
 		foreach (GWF5::instance()->getActiveModules() as $module)
 		{
 			if (method_exists($module, $method_name))
 			{
-				call_user_func([$module, $method_name], $args);
+				call_user_func([$module, $method_name], ...$args);
 			}
 		}
 		

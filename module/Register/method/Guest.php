@@ -29,7 +29,7 @@ class Register_Guest extends GWF_MethodForm
 		));
 		$user->insert();
 		
-		GWF_Hook::call('UserActivated', [$user]);
+		GWF_Hook::call('UserActivated', $user);
 		
 		$authResponse = GWF5::instance()->getMethod('Login', 'Form')->loginSuccess($user);
 		

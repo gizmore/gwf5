@@ -15,7 +15,7 @@ final class Login_Logout extends GWF_Method
 		$sesion->setValue('sess_user', null);
 		$sesion->setValue('sess_data', null);
 		$sesion->save();
-		GWF_Hook::call('UserLoggedOut', [GWF_User::current()]);
+		GWF_Hook::call('UserLoggedOut', GWF_User::current());
 		return $this->message('msg_logged_out');
 	}
 }

@@ -56,7 +56,7 @@ final class Login_Form extends GWF_MethodForm
 		$session->setValue('sess_ip', $ip);
 		$session->save();
 		$user->tempReset();
-		GWF_Hook::call('UserAuthenticated', [$user]);
+		GWF_Hook::call('UserAuthenticated', $user);
 		return new GWF_Message('msg_authenticated', [$user->displayName()]);
 	}
 

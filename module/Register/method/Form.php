@@ -23,8 +23,7 @@ class Register_Form extends GWF_MethodForm
 		$form->addField(GDO_Submit::make()->label('btn_register'));
 		$form->addField(GDO_AntiCSRF::make());
 		
-		$args = array($form);
-		GWF_Hook::call('RegisterForm', $args);
+		GWF_Hook::call('RegisterForm', $form);
 		$form->addField(GDO_Button::make('btn_recovery')->href(href('Recovery', 'Form')));
 	}
 	

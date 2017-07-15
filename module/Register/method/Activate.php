@@ -24,7 +24,7 @@ class Register_Activate extends GWF_Method
 		
 		$response = $this->message('msg_activated', [$user->displayName()]);
 		
-		GWF_Hook::call('UserActivated', [$user]);
+		GWF_Hook::call('UserActivated', $user);
 		
 		if (Module_Register::instance()->cfgActivationLogin())
 		{
