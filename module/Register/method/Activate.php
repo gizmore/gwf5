@@ -34,4 +34,5 @@ class Register_Activate extends GWF_Method
 		
 		return $response;
 	}
+	
 }

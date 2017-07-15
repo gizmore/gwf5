@@ -34,6 +34,7 @@ return array(
 'size' => 'Size',
 'type' => 'Type',
 'level' => 'Level',
+'count' => 'Count',
 		
 # Generic Buttons
 'btn_send' => 'Send',

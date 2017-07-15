@@ -24,4 +24,9 @@ class GWF_UserActivation extends GDO
 	
 	public function getHref() { return GWF_Url::relative("/index.php?mo=Register&me=Activate&id={$this->getID()}&token={$this->getToken()}"); }
 	public function getUrl() { return GWF_Url::absolute($this->getHref()); }
+	
+	public function href_btn_activate() { return href('Register', 'AdminActivate', '&id='.$this->getID()); }
+	
+	public function displayNameLabel() { return $this->getVar('user_name'); }
+	
 }

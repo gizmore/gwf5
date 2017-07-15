@@ -14,6 +14,7 @@ class Module_Register extends GWF_Module
 	public function isCoreModule() { return true; }
 	public function getClasses() { return array('GWF_UserActivation'); }
 	public function onLoadLanguage() { $this->loadLanguage('lang/register'); }
+	public function href_administrate_module() { return href('Register', 'Admin'); }
 
 	##############
 	### Config ###
