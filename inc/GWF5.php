@@ -128,6 +128,15 @@ final class GWF5
 		return $moduleName ? $this->moduleLoader->getModule($moduleName) : null;
 	}
 	
+	public function getActiveModule(string $moduleName=null)
+	{
+		if ( ($module = $this->getModule($moduleName)) &&
+			 ($module->isEnabled()) )
+		{
+			return $module;
+		}
+	}
+	
 	/**
 	 * @param string $moduleId
 	 * @return GWF_Module

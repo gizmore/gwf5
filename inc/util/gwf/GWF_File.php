@@ -78,6 +78,28 @@ class GWF_File extends GDO
 		$this->path = null;
 		return $this;
 	}
+	
+	/**
+	 * @param string $contents
+	 * @return GWF_File
+	 */
+	public static function fromString(string $name, string $content)
+	{
+		# Create temp dir
+		$tempDir = GWF_PATH . 'temp/file';
+		GWF_File::createDir($tempDir);
+		# Copy content to temp file
+		$tempPath = $tempDir . '/' . md5(md5($name).md5($content));
+		file_put_contents($tempPath, $content);
+		# Return fresh GWF_File.
+		$values = array(
+			'name' => $name,
+			'size' => strlen($content),
+			'mime' => mime_content_type($tempPath),
+			'path' => $tempPath,
+		);
+		return self::fromForm($values);
+	}
 
 	############
 	### Util ###
