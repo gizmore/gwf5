@@ -48,7 +48,7 @@ class GDOQuery
 // 		$clone->from = $this->from;
 		$clone->where = $this->where;
 		$clone->join = $this->join;
-		$clone->group = $this->group;
+// 		$clone->group = $this->group;
 		$clone->having = $this->having;
 		$clone->from = $this->from;
 		return $clone;

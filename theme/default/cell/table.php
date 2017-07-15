@@ -8,8 +8,8 @@ if ($pagemenu = $field->getPageMenu())
 {
 	echo $pagemenu->renderCell();
 }
-
 $result = $field->getResult();
+
 
 ?>
 <form method="get" action="<?= $field->href; ?>" flex class="b">

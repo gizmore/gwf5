@@ -112,13 +112,13 @@ class GDO_Table extends GDO_Blank
 		return $query;
 	}
 	
-	private $countItems;
+	private $countItems = false;
 	public function countItems()
 	{
-		if (!isset($this->countItems))
+		if ($this->countItems === false)
 		{
 			$this->countItems = $this->query ? 
-			$this->getFilteredQuery()->select('COUNT(*)')->exec()->fetchValue() :
+				$this->getFilteredQuery()->select('COUNT(*)')->exec()->fetchValue() :
 				$this->getResult()->numRows();
 		}
 		return $this->countItems;
