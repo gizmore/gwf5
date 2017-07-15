@@ -55,6 +55,7 @@ final class Login_Form extends GWF_MethodForm
 		$ip = $bindIP ? GDO_IP::current() : null;
 		$session->setValue('sess_ip', $ip);
 		$session->save();
+		$user->tempReset();
 		GWF_Hook::call('UserAuthenticated', [$user]);
 		return new GWF_Message('msg_authenticated', [$user->displayName()]);
 	}

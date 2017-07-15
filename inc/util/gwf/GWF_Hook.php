@@ -67,6 +67,11 @@ final class GWF_Hook
 				{
 					$args[$k] = $arg->getID();
 				}
+				elseif ($arg instanceof GWF_Form)
+				{
+					return; # SKIP GWF_Form hooks, as they enrich forms only,
+					        # which is not required on websocket IPC channels.
+				}
 			}
 		}
 		

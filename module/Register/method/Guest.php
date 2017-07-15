@@ -1,6 +1,8 @@
 <?php
 class Register_Guest extends GWF_MethodForm
 {
+	public function getUserType() { return 'ghost'; }
+	
 	public function isEnabled()
 	{
 		return Module_Register::instance()->cfgGuestSignup();

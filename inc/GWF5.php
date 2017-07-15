@@ -51,7 +51,7 @@ final class GWF5
 			}
 			else
 			{
-				throw new Exception('File not found: ' . htmlspecialchars($name));
+				return;
 			}
 			
 			if (!include($filename))
