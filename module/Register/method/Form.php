@@ -24,7 +24,6 @@ class Register_Form extends GWF_MethodForm
 		$form->addField(GDO_AntiCSRF::make());
 		
 		GWF_Hook::call('RegisterForm', $form);
-		$form->addField(GDO_Button::make('btn_recovery')->href(href('Recovery', 'Form')));
 	}
 	
 	function validateUniqueIP(GWF_Form $form, GDOType $field)

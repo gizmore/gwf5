@@ -28,6 +28,15 @@ class Module_Recovery extends GWF_Module
 	public function cfgCaptcha() { return $this->getConfigValue('recovery_captcha'); }
 	public function cfgTimeout() { return $this->getConfigValue('recovery_timeout'); }
 	
+	/**
+	 * Hook register form with link to recovery.
+	 * @param GWF_Form $form
+	 */
+	public function hookRegisterForm(GWF_Form $form)
+	{
+		$form->addField(GDO_Button::make('btn_recovery')->href(href('Recovery', 'Form')));
+	}
+	
 	################
 	### Top Menu ###
 	################
