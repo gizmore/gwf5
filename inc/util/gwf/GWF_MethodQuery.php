@@ -15,11 +15,25 @@ abstract class GWF_MethodQuery extends GWF_Method
 	}
 
 	/**
+	 * @return GDOType[]
+	 */
+	public function gdoFilters()
+	{
+	}
+
+	/**
 	 * @return GDOQuery
 	 */
 	public function gdoFilteredQuery()
 	{
 		$query = $this->gdoQuery();
+		if ($filters = $this->gdoFilters())
+		{
+			foreach ($filters as $gdoType)
+			{
+				$gdoType->filterQuery($query);
+			}
+		}
 		if ($filters = $this->gdoParameters())
 		{
 			foreach ($filters as $gdoType)

@@ -1,6 +1,8 @@
 "use strict";
 angular.module('gwf5').
-controller('GWFListCtrl', function($scope, GWFRequestSrvc) {
+controller('GWFListCtrl', function($scope, $controller, GWFRequestSrvc) {
+	
+	$controller('GWFAppCtrl', { $scope: $scope });
 	
 	$scope.data = $scope.data || {};
 	$scope.data.items = [];

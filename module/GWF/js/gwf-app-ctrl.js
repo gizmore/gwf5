@@ -1,6 +1,6 @@
 "use strict";
 angular.module('gwf5').
-controller('GWFAppCtrl', function($scope, $mdSidenav) {
+controller('GWFAppCtrl', function($scope, $mdSidenav, $mdDialog) {
 	$scope.data = {}
 	$scope.init = function() {
 		$scope.data.topMenu = { title: 'GWFv5' };
@@ -13,5 +13,15 @@ controller('GWFAppCtrl', function($scope, $mdSidenav) {
 	$scope.openRight = function() { $mdSidenav('right').open(); };
 	$scope.closeRight = function() { $mdSidenav('right').close(); };
 	
+	$scope.showDialogId = function(id, ev) {
+		console.log('GWFAppCtrl.showDialogId()', id, ev);
+		$mdDialog.show({
+			contentElement: id,
+			parent: angular.element(window.document.body),
+			targetEvent: ev,
+			clickOutsideToClose: true
+		});
+	};
+
 	$scope.init();
 });

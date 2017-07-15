@@ -21,17 +21,13 @@ img.gwf-country, img.gwf-language { width: 42px; }
 .gwf-table table tbody tr td.gdo-num { font-family: monospace; text-align: right; padding-right: 18px; }
 .gwf-table table tbody tr td.gdo-rownum div { position: relative; padding: 0; left: 12px; top: 12px; }
 /* .gwf-table table .gdo-num, .gwf-table table .gdo-rownum { max-width: 80px; } */
+.gwf-tblorder a.sel { color: gold; }
 div.gdo-tooltip { display: inline-block; }
 /** GWF_Form **/
 img.gwf-captcha-img {
 	position: relative;
 	top: -12px;
 	left: 12px;
-}
-.gwf-table th .gwf-tblorder a {
-}
-.gwf-table th .gwf-tblorder a.sel {
-	color: gold;
 }
 .has-error, md-content.gwf-error {
 	background: #fff4f4;

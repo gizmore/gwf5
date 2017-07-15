@@ -19,7 +19,7 @@
    md-min-length="0"
    <?php echo $field->htmlRequired(); ?>
    <?php echo $field->htmlDisabled(); ?>>
-    <div ng-bind-html="selectedItem"></div>
+    <div ng-bind-html="selectedItem.display"></div>
     <md-item-template>
       <div ng-bind-html="item.display"></div>
     </md-item-template>
