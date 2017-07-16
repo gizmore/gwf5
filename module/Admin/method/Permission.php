@@ -1,9 +1,16 @@
 <?php
 class Admin_Permission extends GWF_MethodQueryTable
 {
+	use GWF_MethodAdmin;
+	
 	private $permission;
 	
 	public function getPermission() { return 'staff'; }
+	
+	public function execute()
+	{
+		return $this->renderPermTabs('Admin')->add(parent::execute());
+	}
 	
 	public function init()
 	{

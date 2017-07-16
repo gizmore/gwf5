@@ -14,7 +14,8 @@ $result = $field->getResult();
   <md-toolbar layout="row" class="md-hue-3">
     <div class="md-toolbar-tools">
       <span><?php echo $field->label; ?></span>
-      <a class="md-button" ng-click="showDialogId('#gwf-filter-dialog', $event)">
+      <span flex></span>
+      <a class="md-icon-button md-button" ng-click="showDialogId('#gwf-filter-dialog', $event)">
         <i class="material-icons">perm_data_setting</i>
       </a>
     </div>

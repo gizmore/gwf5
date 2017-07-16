@@ -1,6 +1,6 @@
 <?php $field instanceof GDO_Button; ?>
 <?php if ($href) : ?>
-<a href="<?php echo $href ? $href : 'javascript:;'; ?>" class="md-button md-icon-buttonXX">
+<a href="<?= $href; ?>" class="md-button md-primary md-raised">
   <?php echo $field->displayLabel(); ?>
   <?php echo $field->htmlIcon(); ?>
 </a>

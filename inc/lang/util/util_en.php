@@ -1,9 +1,10 @@
 <?php
 return array(
 'site_name' => GWF_SITENAME,
+		
+'no_selection' => 'No selection',
 
 # util/gdo and util/gwf fields
-'created_at' => 'Created at',
 'id' => 'ID',
 'file' => 'File',
 'folder' => 'Folder',
@@ -35,7 +36,11 @@ return array(
 'type' => 'Type',
 'level' => 'Level',
 'count' => 'Count',
-		
+'credits' => 'Credits',
+'permission' => 'Permission',
+'created_at' => 'Created at',
+'created_by' => 'Created by',
+
 # Generic Buttons
 'btn_send' => 'Send',
 'btn_save' => 'Save',
@@ -71,10 +76,13 @@ return array(
 'err_table_not_sortable' => 'The %s table cannot be sorted without a GDO_Sort field.',
 'err_pass_too_short' => 'Your password has to be at least %s characters long.',
 'err_module_method' => 'The module and method could not been not found.',
+'err_invalid_choice' => 'Your selection is not applicable.',
 
 # Permissions
 'perm_admin' => 'Administrator',
-
+'perm_cronjob' => 'Cronjob',
+'perm_staff' => 'Staff',
+		
 # Dateformats
 'df_day' => 'm/d/Y',
 'df_short' => 'm/d/Y H:i',

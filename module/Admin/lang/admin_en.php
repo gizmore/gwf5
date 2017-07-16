@@ -37,9 +37,16 @@ return array(
 'ft_admin_cronjob' => '[%s] Cronjob Test',
 'btn_run_cronjob' => 'Run',
 ################################################################
+'link_add_perm' => 'Add Permission',
+'link_grant_perm' => 'Grant Permission',
+'ft_admin_permissionadd' => '[%s] Add Permission',
+'user_count' => 'Members',
+'perm_revoke' => 'Revoke',
+################################################################
 'ft_admin_permissionrevoke' => '[%s] Revoke Permission',
 ################################################################
 'ft_admin_permissiongrant' => '[%s] Grant Permission',
+'msg_perm_granted' => 'You have granted %s permissions to %s.',
 ################################################################
 'msg_cache_flushed' => 'Caches have been flushed. E.g; rm -rf temp/minify, GDOCache::flush().',
 );

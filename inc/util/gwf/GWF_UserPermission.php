@@ -15,6 +15,21 @@ final class GWF_UserPermission extends GDO
 		);
 	}
 	
+	/**
+	 * @return GWF_User
+	 */
+	public function getUser() { return $this->getValue('perm_user_id'); }
+	public function getUserID() { return $this->getVar('perm_user_id'); }
+	
+	/**
+	 * @return GWF_Permission
+	 */
+	public function getPermission() { return $this->getValue('perm_perm_id'); }
+	public function getPermissionID() { return $this->getVar('perm_perm_id'); }
+
+	##############
+	### Static ###
+	##############
 	public static function load(GWF_User $user)
 	{
 		if (!$user->isPersisted())

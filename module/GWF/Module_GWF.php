@@ -179,7 +179,7 @@ class Module_GWF extends GWF_Module
 	{
 		if ($navbar->isRight())
 		{
-			$navbar->addField(GDO_Label::make()->label('gwf_sidebar_version', [GWF_CORE_VERSION]));
+// 			$navbar->addField(GDO_Label::make()->label('gwf_sidebar_version', [GWF_CORE_VERSION]));
 		}
 		
 // 		if ($navbar->isBottom() && $this->cfgCopyright())

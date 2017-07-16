@@ -1,16 +1,15 @@
 <?php $field instanceof GDO_List; ?>
-<form>
-
+<!-- List -->
 <md-list flex>
   <md-subheader class="md-no-sticky"><?= $field->displayHeaderLabel() ?></md-subheader>
 <?php
 $result = $field->getResult();
 $template = $field->getItemTemplate();
-while ($gdo = $result->fetchObject()) : ?>
-<?php echo $template->gdo($gdo)->renderList(); ?>
-<?php endwhile; ?>
+while ($gdo = $result->fetchObject()) :
+	echo $template->gdo($gdo)->renderList();
+endwhile; ?>
 </md-list>
-
+<!-- End of List -->
 
 <!-- Filter Dialog -->
 <div style="visibility: hidden">

@@ -31,8 +31,8 @@ class Admin_Users extends GWF_MethodQueryTable
 	{
 		$gdo = $this->getGDO();
 		return array(
-			GDO_RowNum::make(),
-			GDO_EditButton::make('edit_admin')->noLabel(),
+// 			GDO_RowNum::make(),
+			GDO_IconButton::make('edit_admin')->icon('edit'),
 			$gdo->gdoColumn('user_id'),
 			$gdo->gdoColumn('user_country'),
 			$gdo->gdoColumn('user_type'),

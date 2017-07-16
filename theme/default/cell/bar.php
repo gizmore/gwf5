@@ -1,9 +1,9 @@
 <?php $field instanceof GDO_Bar; ?>
 <section
- class="gdo-bar gdo-bar<?php echo $field->name; ?>"
- layout="<?php echo $field->direction; ?>"
+ class="gdo-bar gdo-bar-<?= $field->name; ?>"
+ layout="<?= $field->direction; ?>"
  layout-fill flex layout-wrap layout-align="space-around center">
   <?php foreach ($field->getFields() as $field) : ?>
-    <div><?php echo $field->render(); ?></div>
+    <div><?= $field->render(); ?></div>
   <?php endforeach; ?>
 </section>

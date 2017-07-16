@@ -104,21 +104,6 @@ class GWF_Form
 		}
 		return $this;
 	}
-// 	public function withGDOValuesFrom(GDO $gdo=null)
-// 	{
-// 		if ($gdo)
-// 		{
-// 			$vars = $gdo->getGDOVars();
-// 			foreach ($this->fields as $field)
-// 			{
-// 				if (isset($vars[$field->name]))
-// 				{
-// 					$field->value($vars[$field->name])->gdo($gdo);
-// 				}
-// 			}
-// 		}
-// 		return $this;
-// 	}
 	
 	public function values()
 	{
@@ -128,6 +113,11 @@ class GWF_Form
 	public function getVar(string $key)
 	{
 		return @$this->values[$key];
+	}
+	
+	public function getValue(string $key)
+	{
+		return $this->getField($key)->value($this->getVar($key))->getGDOValue();
 	}
 	
 	public function addValue(string $key=null, $value)

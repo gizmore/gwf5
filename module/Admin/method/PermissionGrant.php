@@ -23,8 +23,12 @@ class Admin_PermissionGrant extends GWF_MethodForm
 	
 	public function formValidated(GWF_Form $form)
 	{
-		$user = GWF_User::current();
-		$permission = GWF_UserPermission::blank($form->values())->replace();
+		$userpermission = GWF_UserPermission::blank($form->values())->replace();
+		$permission = $userpermission->getPermission(); #$form->getValue('perm_perm_id');
+		$permission = $form->getValue('perm_perm_id');
+		$permission instanceof GWF_Permission;
+		$user = $form->getValue('perm_user_id');
+		$user instanceof GWF_User;
 		$user->changedPermissions();
 		return $this->message('msg_perm_granted', [$permission->displayName(), $user->displayNameLabel()]);
 	}
