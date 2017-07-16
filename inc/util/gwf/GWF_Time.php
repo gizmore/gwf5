@@ -190,7 +190,7 @@ final class GWF_Time
 
 	public static function isValidDuration($string, $min, $max)
 	{
-		$duration = GWF_TimeConvert::humanToSeconds($string);
+		$duration = self::humanToSeconds($string);
 		return $duration >= $min && $duration <= $max;
 	}
 	
