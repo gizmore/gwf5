@@ -23,6 +23,11 @@ class Register_Form extends GWF_MethodForm
 		$form->addField(GDO_Submit::make()->label('btn_register'));
 		$form->addField(GDO_AntiCSRF::make());
 		
+		if ($module->cfgGuestSignup())
+		{
+			$form->addField(GDO_Link::make('btn_guest')->href(href('Register', 'Guest')));
+		}
+		
 		GWF_Hook::call('RegisterForm', $form);
 	}
 	

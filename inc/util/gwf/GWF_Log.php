@@ -41,6 +41,7 @@ final class GWF_Log
 	private static $logformat = "%s [%s%s] - %s\n";
 	private static $cache = 0;
 	private static $logs = [];
+	public static $WRITES = 0;
 
 	/**
 	 * Init the logger. If a username is given, the logger will log _additionally_ into a logs/username dir.
@@ -239,6 +240,7 @@ final class GWF_Log
 
 	private static function logB($filename, $message)
 	{
+		self::$WRITES++;
 		if (!self::isBuffered())
 		{
 			self::writeLog($filename, $message);

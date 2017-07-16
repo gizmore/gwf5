@@ -18,7 +18,7 @@ class GDO_Date extends GDO_Timestamp
 	
 	public function gdoColumnDefine()
 	{
-		return "{$this->identifier()} DATETIME {$this->gdoNullDefine()}{$this->gdoInitialDefine()}";
+		return "{$this->identifier()} DATE {$this->gdoNullDefine()}{$this->gdoInitialDefine()}";
 	}
 
 	public function renderCell()

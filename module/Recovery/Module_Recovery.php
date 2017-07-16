@@ -37,14 +37,14 @@ class Module_Recovery extends GWF_Module
 		$form->addField(GDO_Button::make('btn_recovery')->href(href('Recovery', 'Form')));
 	}
 	
-	################
-	### Top Menu ###
-	################
-	public function onRenderFor(GWF_Navbar $navbar)
-	{
-		if ($navbar->isRight() && GWF_Session::user()->isGhost())
-		{
-			$navbar->addField(GDO_Link::make('btn_recovery')->href($this->getMethodHREF('Form')));
-		}
-	}
+// 	################
+// 	### Top Menu ###
+// 	################
+// 	public function onRenderFor(GWF_Navbar $navbar)
+// 	{
+// 		if ($navbar->isRight() && GWF_Session::user()->isGhost())
+// 		{
+// 			$navbar->addField(GDO_Link::make('btn_recovery')->href($this->getMethodHREF('Form')));
+// 		}
+// 	}
 }

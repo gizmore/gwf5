@@ -15,7 +15,10 @@ final class GWF_DebugInfo
 	{
 		$totalTime = microtime(true) - $this->t1;
 		$phpTime = $totalTime - GDODB::$QUERY_TIME;
+		$memphp = memory_get_peak_usage(false);
+		$memreal = memory_get_peak_usage(true);
 		return array(
+			'logWrites' => GWF_Log::$WRITES,
 			'dbReads' => GDODB::$READS,
 			'dbWrites' => GDODB::$WRITES,
 			'dbCommits' => GDODB::$COMMITS,
@@ -23,8 +26,9 @@ final class GWF_DebugInfo
 			'dbTime' => round(GDODB::$QUERY_TIME, 4),
 			'phpTime' => round($phpTime, 4),
 			'totalTime' => round($totalTime, 4),
-			'memory_php' => memory_get_peak_usage(false),
-			'memory_real' => memory_get_peak_usage(true),
+			'memory_php' => $memphp,
+			'memory_real' => $memreal,
+			'memory_max' => max($memphp, $memreal), # Bug in PHP?
 		);
 	}
 	

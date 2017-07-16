@@ -49,8 +49,8 @@ class Module_Register extends GWF_Module
 	{
 		if ($navbar->isRight() && GWF_Session::user()->isGhost())
 		{
-			$navbar->addField(GDO_Link::make('signup')->label('btn_register')->href($this->getMethodHREF('Form')));
-			$navbar->addField(GDO_Link::make('signup_guest')->label('btn_guest')->href($this->getMethodHREF('Guest')));
+			$navbar->addField(GDO_Link::make('btn_register')->href($this->getMethodHREF('Form')));
+// 			$navbar->addField(GDO_Link::make('btn_guest')->href($this->getMethodHREF('Guest')));
 		}
 	}
 }
