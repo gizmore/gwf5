@@ -668,6 +668,11 @@ abstract class GDO
 		self::notFoundException(implode(':', $id));
 	}
 	
+	public static function findByGID($id)
+	{
+	    return self::findById(...explode(':', $id));
+	}
+	
 	public static function notFoundException($id)
 	{
 		throw new GWF_Exception('err_gdo_not_found', [self::table()->gdoHumanName(), $id]);

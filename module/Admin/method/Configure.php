@@ -54,14 +54,22 @@ class Admin_Configure extends GWF_MethodForm
 		
 		# Update config
 		$info = [];
+		$moduleVarsChanged = false;
 		foreach ($form->getFields() as $gdoType)
 		{
 			if ($gdoType->hasChanged() && $gdoType->writable)
 			{
 				GWF_ModuleVar::createModuleVar($mod, $gdoType);
 				$info[] = t('msg_modulevar_changed', [$gdoType->displayLabel(), htmlspecialchars($gdoType->oldValue), htmlspecialchars($gdoType->value)]);
+				$moduleVarsChanged = true;
 			}
 		}
+		
+		if ($moduleVarsChanged)
+		{
+		    GWF_Hook::call('ModuleVarsChanged', $mod);
+		}
+		
 		
 		if (count($info) > 0)
 		{
