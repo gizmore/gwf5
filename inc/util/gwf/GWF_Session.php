@@ -98,10 +98,12 @@ class GWF_Session extends GDO
 	
 	public static function remove(string $key)
 	{
-		$session = self::instance();
-		$data = $session->getData();
-		unset($data[$key]);
-		$session->setValue('sess_data', $data);
+		if ($session = self::instance())
+		{
+    		$data = $session->getData();
+    		unset($data[$key]);
+    		$session->setValue('sess_data', $data);
+		}
 	}
 	
 	public static function commit()
@@ -150,6 +152,11 @@ class GWF_Session extends GDO
 		return $session;
 	}
 	
+	public static function reloadID(string $id)
+	{
+	    self::$INSTANCE = self::getById($id);
+	}
+
 	public static function reload(string $cookieValue)
 	{
 		list($sessId, $sessToken) = @explode('-', $cookieValue, 2);
@@ -163,12 +170,6 @@ class GWF_Session extends GDO
 		{
 			return false;
 		}
-		#
-// 		$query = self::table()->select('*')->where(sprintf('sess_id=%s AND sess_token=%s', GDO::quoteS($sessId), GDO::quoteS($sessToken)));
-// 		if (!($session = $query->exec()->fetchObject()))
-// 		{
-// 			return false;
-// 		}
 		
 		# IP Check?
 		if ( ($ip = $session->getIP()) && ($ip !== GDO_IP::current()) )
@@ -177,6 +178,7 @@ class GWF_Session extends GDO
 		}
 		
 		self::$INSTANCE = $session;
+		GWF_User::$CURRENT = null;
 		
 		return $session;
 	}

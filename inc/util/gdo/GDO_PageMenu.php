@@ -19,7 +19,12 @@ class GDO_PageMenu extends GDO_Blank
 	
 	public function getPages()
 	{
-		return max(array(intval((($this->numItems-1) / $this->ipp)+1), 1));
+	    return self::getPageCountS($this->numItems, $this->ipp);
+	}
+	
+	public static function getPageCountS($numItems, $ipp)
+	{
+	    return max(array(intval((($numItems-1) / $ipp)+1), 1));
 	}
 	
 	public $shown = 4;
@@ -42,7 +47,12 @@ class GDO_PageMenu extends GDO_Blank
 
 	public function getFrom()
 	{
-		return ($this->getPage() - 1) * $this->ipp;
+	    return self::getFromS($this->getPage(), $this->ipp);
+	}
+	
+	public static function getFromS($page, $ipp)
+	{
+	    return ($page - 1) * $ipp;
 	}
 
 	##############
