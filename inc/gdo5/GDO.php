@@ -796,7 +796,10 @@ abstract class GDO
 	
 	# Overrides
 	public function gdoAfterCreate() {}
-	public function gdoAfterUpdate() {}
+	public function gdoAfterUpdate()
+	{
+	    GWF_Hook::call('CacheInvalidate', $this->gdoClassName(), $this->getID());
+	}
 	public function gdoAfterDelete() {}
 	
 	public function gdoHashcode()
