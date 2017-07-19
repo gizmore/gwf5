@@ -58,13 +58,12 @@ class GWF_Tree extends GDO
 		return $this->table()->select()->order($this->getLeftColumn())->exec()->fetchAllArray2dObject();
 	}
 	
-	public $children = array();
+	public $children = [];
 	
 	public function full()
 	{
-		$tree = $this->table()->all();
 		$roots = [];
-		
+		$tree = $this->table()->all();
 		foreach ($tree as $leaf)
 		{
 			$leaf instanceof GWF_Tree;

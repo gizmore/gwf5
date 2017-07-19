@@ -16,6 +16,8 @@ div.gwf-attachment { border: 1px dotted #ccc; margin-top: 16px; word-break: brea
 div.gwf-file { padding: 8px; }
 span.gwf-file-size, span.gwf-file-type { font-weight: bold; } 
 
+/** Footer **/
+footer { border-top: 1px solid #ccc; text-align: center; background: #eee; }
 
 /** GWF_Table **/
 td.gdo-button { padding: 0!important; }
@@ -28,8 +30,9 @@ img.gwf-country, img.gwf-language { width: 42px; }
 .gwf-table table tbody tr td.gdo-rownum div { position: relative; padding: 0; left: 12px; top: 12px; }
 /* .gwf-table table .gdo-num, .gwf-table table .gdo-rownum { max-width: 80px; } */
 .gwf-tblorder a.sel { color: gold; }
-div.gdo-tooltip { display: inline-block; }
+
 /** GWF_Form **/
+div.gdo-tooltip { display: inline-block; }
 img.gwf-captcha-img {
 	position: relative;
 	top: -12px;
@@ -73,6 +76,8 @@ div.gwf-label {
 	padding: 8px 4px 16px;
 }
 
+h2.gwf-form-title { text-align: center; }
+
 /** Avatar **/
 gwf-avatar, gwf-avatar img {
 	width: 42px;
@@ -86,42 +91,23 @@ gwf-avatar img {
 	padding: 2px;
 	background: #aaa;
 }
-gwf-avatar.male img {
-	background: #369;
-}
-gwf-avatar.female img {
-	background: #f08;
-}
+gwf-avatar.male img { background: #369; }
+gwf-avatar.female img { background: #f08; }
 
 /** Box **/
-md-content.gwf-box {
-	line-height: 28px;
-	font-size: 15px;
-}
-
-gwf-div, div.gwf-div {
-	height: 1px;
-	width: 100%;
-	background: #bbb;
-}
+md-content.gwf-box { line-height: 28px; font-size: 15px; }
+gwf-div, div.gwf-div { height: 1px; width: 100%; background: #bbb; }
 
 /** Card **/
-md-card .gwf-card-date {
-	font-size: 12px;
-}
-.gwf-list md-card {
-	margin-bottom: 16px;
-}
+md-card .gwf-card-date { font-size: 12px;}
+.gwf-list md-card { margin-bottom: 16px; }
 
+/** List **/
+md-list-item { border-top: 1px solid #ccc; }
+md-list-item:last-child { border-bottom: 1px solid #ccc; }
 
 /** Debug **/
-.gwf-stacktrace {
-	font-family: monospace;
-	word-break: break-all;
-}
+.gwf-stacktrace { font-family: monospace; word-break: break-all; }
 
 /** Tags **/
-.gwf-selected {
-	font-weight: bold;
-	text-decoration: underline;
-}
+.gwf-selected { font-weight: bold; text-decoration: underline; }

@@ -35,7 +35,7 @@
       <!-- END LEFT SIDENAV -->
 
       <!-- CONTENT -->
-      <md-content flex layout-padding>
+      <md-content flex >
         <div layout="column" layout-align="top center">
           <?php echo $response->__toString(); ?>
         </div>

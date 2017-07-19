@@ -316,6 +316,7 @@ class GDOQuery
 		if ($this->debug)
 		{
 			echo "{$query}\n";
+			GWF_Log::rawLog('query', $query);
 		}
 		
 		if ($this->write)

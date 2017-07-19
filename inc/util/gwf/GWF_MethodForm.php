@@ -69,12 +69,7 @@ abstract class GWF_MethodForm extends GWF_Method
 			}
 		}
 
-		$response = $response ? $response : $this->renderPage();
-// 		$response = $response ? $response->add($this->renderPage()) : $this->renderPage();
-		
-		$this->form->cleanup();
-		
-		return $response;
+		return $response ? $response : $this->renderPage();
 	}
 	
 	public function onSubmit_submit(GWF_Form $form)

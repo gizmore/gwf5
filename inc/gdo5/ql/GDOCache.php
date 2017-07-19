@@ -124,7 +124,6 @@ class GDOCache
 	public function uncacheID(string $id)
 	{
 	    $className = $this->table->gdoClassName();
-	    echo "uncacheID($className.$id)\n";
 		unset($this->cache[$id]);
 		self::$MEMCACHED->delete($className . $id);
 	}

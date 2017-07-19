@@ -80,6 +80,7 @@ final class GWF_Template
 		}
 		catch (Exception $e)
 		{
+		    GWF_Log::logException($e);
 			$message = GWF_Debug::backtraceException($e, GWF5::instance()->isHTML(), ' (TPL)');
 			return GWF_Response::make($message);
 		}

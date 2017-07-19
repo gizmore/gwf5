@@ -54,7 +54,7 @@ final class GWF5
 				return;
 			}
 			
-			if (!include($filename))
+			if (!include(GWF_PATH . $filename))
 			{
 				throw new Exception('File not found: ' . htmlspecialchars($name));
 			}
@@ -209,21 +209,10 @@ final class GWF5
 #####################
 ### Global helper ###
 #####################
-function href(string $moduleName, string $methodName, string $append='')
-{
-	return GWF5::instance()->getMethodHREF($moduleName, $methodName, $append);
-}
-function jxhref(string $moduleName, string $methodName, string $append='')
-{
-	return href($moduleName, $methodName, $append.'&fmt=json&ajax=1');
-}
-
-function url(string $moduleName, string $methodName, string $append='')
-{
-	return GWF_Url::absolute(href($moduleName, $methodName, $append));
-}
-
-function method(string $moduleName, string $methodName)
-{
-	return GWF5::instance()->getModule($moduleName)->getMethod($methodName);
-}
+function mo() { return Common::getGetString('mo', GWF_MODULE); }
+function me() { return Common::getGetString('me', GWF_METHOD); }
+function mome() { return mo() . me(); }
+function method(string $moduleName, string $methodName) { return GWF5::instance()->getModule($moduleName)->getMethod($methodName); }
+function url(string $moduleName, string $methodName, string $append='') { return GWF_Url::absolute(href($moduleName, $methodName, $append)); }
+function href(string $moduleName, string $methodName, string $append='') { return GWF5::instance()->getMethodHREF($moduleName, $methodName, $append); }
+function jxhref(string $moduleName, string $methodName, string $append='') { return href($moduleName, $methodName, $append.'&fmt=json&ajax=1'); }

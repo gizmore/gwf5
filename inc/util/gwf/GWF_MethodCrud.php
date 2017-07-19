@@ -6,6 +6,11 @@
  */
 abstract class GWF_MethodCrud extends GWF_MethodForm
 {
+    const ERROR = 0;
+    const CREATED = 1;
+    const EDITED = 2;
+    const DELETED = 3;
+    
 	/**
 	 * @return GDO
 	 */
@@ -29,6 +34,11 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	 * @var GDO
 	 */
 	protected $gdo;
+	
+	/**
+	 * @var int
+	 */
+	protected $crudMode = self::ERROR;
 	
 	public function execute()
 	{
@@ -110,6 +120,7 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	###############
 	public function onCreate(GWF_Form $form)
 	{
+	    $this->crudMode = self::CREATED;
 		$table = $this->gdoTable();
 		$gdo = $this->gdo = $table->blank($form->values())->insert();
 		return
@@ -120,7 +131,8 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	
 	public function onUpdate(GWF_Form $form)
 	{
-		$this->gdo->saveVars($form->values());
+	    $this->crudMode = self::EDITED;
+	    $this->gdo->saveVars($form->values());
 		return
 			$this->message('msg_crud_updated', [$this->gdo->gdoClassName()])->
 			add($this->afterUpdate($form))->
@@ -129,6 +141,7 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	
 	public function onDelete(GWF_Form $form)
 	{
+	    $this->crudMode = self::DELETED;
 		$this->gdo->delete();
 		return $this->message('msg_crud_deleted', [$this->gdo->gdoClassName()])->
 			add($this->afterDelete($form))->

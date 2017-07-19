@@ -36,9 +36,12 @@ final class GWF_Hook
 		}
 		
 		# Call IPC hooks
-		if ($ipc = self::ipc())
+		if (GWF_IPC && (!GWF5::instance()->isInstall()))
 		{
-			self::callIPC($ipc, $event, $args);
+    		if ($ipc = self::ipc())
+    		{
+    			self::callIPC($ipc, $event, $args);
+    		}
 		}
 	}
 

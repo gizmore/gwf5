@@ -1,8 +1,9 @@
 <?php $field instanceof GDO_List; ?>
 <!-- List -->
 <md-list flex layout="column" layout-fill>
+<?php if ($field->label) : ?>
   <md-subheader class="md-no-sticky"><?= $field->displayHeaderLabel() ?></md-subheader>
-<?php
+<?php endif;
 $result = $field->getResult();
 $template = $field->getItemTemplate();
 while ($gdo = $result->fetchObject()) :

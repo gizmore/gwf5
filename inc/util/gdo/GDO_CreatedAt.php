@@ -13,9 +13,14 @@ class GDO_CreatedAt extends GDO_Timestamp
 	public $editable = false;
 	
 	public function defaultLabel() { return $this->label('created_at'); }
-	
-	public function gdoColumnDefine()
+
+	public function blankData()
 	{
-		return "{$this->identifier()} TIMESTAMP{$this->gdoNullDefine()} DEFAULT CURRENT_TIMESTAMP";
+	    return [$this->name => GWF_Time::getDate()];
 	}
+	
+// 	public function gdoColumnDefine()
+// 	{
+// 		return "{$this->identifier()} TIMESTAMP{$this->gdoNullDefine()} DEFAULT CURRENT_TIMESTAMP";
+// 	}
 }

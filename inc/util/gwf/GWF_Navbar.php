@@ -49,6 +49,6 @@ final class GWF_Navbar
 		{
 			$module->onRenderFor($this);
 		}
-		return GDO_Bar::make('gwfnavbar')->addFields($this->getFields())->direction($this->direction)->renderCell();
+		return GDO_Bar::make('gwfnavbar')->addFields($this->getFields())->direction($this->direction)->render();
 	}
 }

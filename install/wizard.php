@@ -34,6 +34,18 @@ GWF_ModuleInstall::installCoreTables();
 require 'GWF_InstallData.php';
 GWF_InstallData::install();
 
+
+###################
+### System User ###
+###################
+$user = GWF_User::blank(array(
+    'user_name'=>'system',
+    'user_email' => GWF_BOT_EMAIL,
+    'user_type' => 'bot',
+    'user_password' => GWF_Password::create('system')->__toString(),
+))->insert();
+
+
 ###############
 ### Modules ###
 ###############
@@ -44,12 +56,6 @@ GWF_ModuleInstall::installModules($modules);
 ##############
 ### Admins ###
 ##############
-$user = GWF_User::blank(array(
-'user_name'=>'system',
-'user_email' => GWF_BOT_EMAIL,
-'user_type' => 'bot',
-'user_password' => GWF_Password::create('system')->__toString(),
-))->insert();
 $user = GWF_User::blank(array(
 'user_name'=>'gizmore',
 'user_email' => 'gizmore@gizmore.org',

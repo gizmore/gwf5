@@ -87,6 +87,7 @@ final class GWF_UserSetting extends GDO
 			))->replace();
 		}
 		$user->tempUnset('gwf_setting');
+		$user->recache();
 	}
 	
 }
