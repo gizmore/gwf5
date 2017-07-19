@@ -20,7 +20,6 @@ final class GWF_UserSetting extends GDO
 		return array(
 			GDO_User::make('uset_user')->primary(),
 			GDO_Name::make('uset_name')->primary(),
-			GDO_Object::make('uset_module')->klass('GWF_Module'),
 			GDO_String::make('uset_value')->notNull(),
 		);
 	}
@@ -50,44 +49,33 @@ final class GWF_UserSetting extends GDO
 		return self::userSet(GWF_User::current(), $key, $value);
 	}
 	
-	public static function inc(string $key, $value, int $by=1)
+	public static function inc(string $key, int $by=1)
 	{
-		return self::userSet(GWF_User::current(), $key, $value);
-	}
-	
-	public static function userSet(GWF_User $user=null, string $key, $value)
-	{
-		return self::moduleUserSet(null, $user, $key, $value);
+	    return self::userInc(GWF_User::current(), $key, $by);
 	}
 	
 	public static function userInc(GWF_User $user=null, string $key, int $by=1)
 	{
-		return self::moduleUserInc(null, $user, $key, $by);
+	    return self::userSet($user, $key, self::get($key)->getGDOValue() + $by);
 	}
 	
-	public static function moduleUserInc(string $moduleId=null, GWF_User $user=null, string $key, int $by=1)
+	public static function userSet(GWF_User $user, string $key, $value)
 	{
-		return self::moduleUserSet($moduleId, $user, $key, self::get($key)->getGDOValue() + $by);
-	}
-	
-	public static function moduleUserSet(string $moduleId=null, GWF_User $user=null, string $key, $value)
-	{
-		$userid = $user ? $user->getID() : null;
-		if ($value === null)
-		{
-			self::table()->deleteWhere("uset_user=$userid AND uset_name=".quote($key))->exec();
-		}
-		else 
-		{
-			self::blank(array(
-				'uset_user' => $userid,
-				'uset_name' => $key,
-				'uset_module' => $moduleId,
-				'uset_value' => $value
-			))->replace();
-		}
-		$user->tempUnset('gwf_setting');
-		$user->recache();
+	    $userid = $user->getID();
+	    if ($value === null)
+	    {
+	        self::table()->deleteWhere("uset_user=$userid AND uset_name=".quote($key))->exec();
+	    }
+	    else
+	    {
+	        self::blank(array(
+	            'uset_user' => $userid,
+	            'uset_name' => $key,
+	            'uset_value' => $value
+	        ))->replace();
+	    }
+	    $user->tempUnset('gwf_setting');
+	    $user->recache();
 	}
 	
 }
