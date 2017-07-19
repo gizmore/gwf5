@@ -297,9 +297,6 @@ abstract class GDOType
 		{
 			$this->value = null;
 		}
-
-		
-		
 		return $this;
 	}
 	

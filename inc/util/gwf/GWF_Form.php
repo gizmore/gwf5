@@ -82,6 +82,8 @@ class GWF_Form
 			$this->onValidated();
 		}
 		
+		$this->cleanup();
+		
 		return $valid;
 	}
 	
@@ -91,9 +93,6 @@ class GWF_Form
 		{
 			$gdoType->onValidated();
 		}
-// 		$_POST = [];
-// 		$_FILES = [];
-// 		$_REQUEST = $_GET;
 		$this->validated = true;
 	}
 	
@@ -102,9 +101,11 @@ class GWF_Form
 	##############
 	public function withGDOValuesFrom(GDO $gdo=null)
 	{
+	    $table = $gdo->table();
 		foreach ($this->fields as $field)
 		{
 			$field->gdo($gdo);
+// 			$field->gdo = $table; # 
 		}
 		return $this;
 	}
@@ -112,6 +113,11 @@ class GWF_Form
 	public function values()
 	{
 		return $this->values;
+	}
+	
+	public function hasChanged(string $key)
+	{
+	    return $this->getField($key)->hasChanged();
 	}
 	
 	public function getVar(string $key)
@@ -193,7 +199,7 @@ class GWF_Form
 		{
 			$field->cleanup();
 		}
-		unset($_REQUEST['form']);
 		unset($_POST['form']);
+		unset($_REQUEST['form']);
 	}
 }

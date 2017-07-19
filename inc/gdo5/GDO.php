@@ -375,7 +375,7 @@ abstract class GDO
 	
 	public function increase(string $key, int $by=1)
 	{
-		return $this->saveVar($key, $this->getVar($key)+$by);
+	    return $by === 0 ? $this : $this->saveVar($key, $this->getVar($key)+$by);
 	}
 	
 	public function saveVar(string $key, $value)
