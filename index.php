@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 include 'protected/config.php';
-include'inc/GWF5.php';
+include 'inc/GWF5.php';
 
 # Init
 $gwf5 = new GWF5();
@@ -24,7 +24,7 @@ if (!GWF_MEMCACHE) GDOCache::flush();
 # Exec
 try
 {
-	# Turn off Output buffering
+	# Generally turn on Output buffering
 	ob_implicit_flush(false);
 	ob_start(); # Level 1
 	GWF_Session::init(GWF_SESS_NAME, GWF_SESS_DOMAIN, GWF_SESS_TIME, !GWF_SESS_JS, GWF_SESS_HTTPS);

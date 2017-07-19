@@ -2,6 +2,9 @@
 ############
 ### Init ###
 ############
+if (php_sapi_name() !== 'cli') {
+    die(-1);
+}
 require 'protected/config.php';
 require 'inc/GWF5.php';
 
