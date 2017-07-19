@@ -16,6 +16,7 @@ class GWF_Module extends GDO
 	public $module_license = "MIT";
 	public $module_priority = 50;
 	
+	public function gdoCached() { return false; }
 	public function memCached() { return false; }
 	
 	/**
