@@ -145,6 +145,8 @@ final class GWF_User extends GDO
 		}
 		return $cache;
 	}
+	public function hasPermissionID(string $permissionId) { return $this->hasPermissionObject(GWF_Permission::getById($permissionId)); }
+	public function hasPermissionObject(GWF_Permission $permission) { return $this->hasPermission($permission->getName()); }
 	public function hasPermission(string $permission) { return array_key_exists($permission, $this->loadPermissions()); }
 	public function isAdmin() { return $this->hasPermission('admin'); }
 	public function isStaff() { return $this->hasPermission('staff'); }

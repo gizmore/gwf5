@@ -66,6 +66,7 @@ abstract class GWF_Method
 	public function init() {}
 	public function beforeExecute() {}
 	public function afterExecute() {}
+	public function getParameters() {}
 	
 	
 	/**

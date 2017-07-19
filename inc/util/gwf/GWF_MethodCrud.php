@@ -13,6 +13,8 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	
 	public abstract function hrefList();
 	
+	public function isUserRequired() { return true; }
+	
 	public function canCreate(GDO $table) { return true; }
 	public function canUpdate(GDO $gdo) { return true; }
 	public function canDelete(GDO $gdo) { return true; }
@@ -20,6 +22,8 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	public function afterCreate(GWF_Form $form) {}
 	public function afterUpdate(GWF_Form $form) {}
 	public function afterDelete(GWF_Form $form) {}
+	
+	public function getCRUDID() { return Common::getRequestString('id'); }
 	
 	/**
 	 * @var GDO
@@ -29,7 +33,7 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	public function execute()
 	{
 		$table = $this->gdoTable();
-		if ($id = Common::getRequestString('id'))
+		if ($id = $this->getCRUDID())
 		{
 			$this->gdo = $table->find($id);
 			if (!$this->canUpdate($this->gdo))

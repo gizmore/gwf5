@@ -16,10 +16,10 @@ class GDOArrayResult extends GDOResult
 	
 	private $index;
 	
-	public function __construct(array $data, GDO $gdo)
+	public function __construct(array $data, GDO $table)
 	{
 		$this->data = array_values($data);
-		$this->table = $gdo;
+		$this->table = $table;
 		$this->reset();
 	}
 	

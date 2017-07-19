@@ -71,6 +71,10 @@ class GWF_Form
 					$valid = false;
 				}
 			}
+			else
+			{
+			    $this->values[$field->name] = $field->initial;
+			}
 		}
 		
 		if ($valid)
@@ -189,5 +193,7 @@ class GWF_Form
 		{
 			$field->cleanup();
 		}
+		unset($_REQUEST['form']);
+		unset($_POST['form']);
 	}
 }

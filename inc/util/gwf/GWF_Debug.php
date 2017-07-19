@@ -46,7 +46,7 @@ final class GWF_Debug
 		if (self::$enabled === false)
 		{
 			set_error_handler(array('GWF_Debug', 'error_handler'));
-			register_shutdown_function(array('GWF_Debug', 'shutdown_function'));
+// 			register_shutdown_function(array('GWF_Debug', 'shutdown_function'));
 			self::$enabled = true;
 		}
 	}
@@ -77,11 +77,11 @@ final class GWF_Debug
 		return false;
 	}
 
-	/**
-	 * This one get's called on a fatal. No stacktrace available and some vars are messed up.
-	 */
-	public static function shutdown_function()
-	{
+// 	/**
+// 	 * This one get's called on a fatal. No stacktrace available and some vars are messed up.
+// 	 */
+// 	public static function shutdown_function()
+// 	{
 // 		if (self::$enabled)
 // 		{
 // // 			$error = error_get_last();
@@ -94,7 +94,7 @@ final class GWF_Debug
 // // // 				self::error_handler(1, $error['message'], self::shortpath($error['file']), $error['line'], NULL);
 // // 			}
 // 		}
-	}
+// 	}
 
 	/**
 	 * Error handler creates some html backtrace and can die on _every_ warning etc.
@@ -197,7 +197,7 @@ final class GWF_Debug
 			GWF_Log::logCritical($firstLine);
 			GWF_Log::flush();
 		}
-		while (ob_get_level() > 0) ob_end_clean();
+// 		$content = ''; while (ob_get_level() > 0) { $content .= ob_get_contents(); ob_end_clean(); }
 		$message = self::backtraceException($e, $is_html, ' (XH)');
 		echo self::renderError($message);
 		return true;

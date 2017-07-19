@@ -11,6 +11,12 @@
 .cb { clear: both; }
 
 
+/** GWF_File **/
+div.gwf-attachment { border: 1px dotted #ccc; margin-top: 16px; word-break: break-all; }
+div.gwf-file { padding: 8px; }
+span.gwf-file-size, span.gwf-file-type { font-weight: bold; } 
+
+
 /** GWF_Table **/
 td.gdo-button { padding: 0!important; }
 td.gdo-button .md-button { margin: 0; }
@@ -111,6 +117,7 @@ md-card .gwf-card-date {
 /** Debug **/
 .gwf-stacktrace {
 	font-family: monospace;
+	word-break: break-all;
 }
 
 /** Tags **/

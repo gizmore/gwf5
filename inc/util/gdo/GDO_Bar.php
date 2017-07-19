@@ -19,11 +19,12 @@ class GDO_Bar extends GDOType
 	
 	public function render()
 	{
-		return $this->renderCell();
+	    return GWF_Template::mainPHP('cell/bar.php', ['field' => $this]);
 	}
 	
 	public function renderCell()
 	{
-		return GWF_Template::mainPHP('cell/bar.php', ['field' => $this]);
+	    return $this->render()->getHTML();
+	    
 	}
 }

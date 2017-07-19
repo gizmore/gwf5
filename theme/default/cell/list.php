@@ -1,6 +1,6 @@
 <?php $field instanceof GDO_List; ?>
 <!-- List -->
-<md-list flex>
+<md-list flex layout="column" layout-fill>
   <md-subheader class="md-no-sticky"><?= $field->displayHeaderLabel() ?></md-subheader>
 <?php
 $result = $field->getResult();

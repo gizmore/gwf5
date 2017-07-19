@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="index, follow" />
   </head>
-  <body layout="column" layout-fill flex>
+  <body>
   
     <!-- Begin Toolbar -->
     <header>

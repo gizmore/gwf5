@@ -77,7 +77,8 @@ return array(
 'err_pass_too_short' => 'Your password has to be at least %s characters long.',
 'err_module_method' => 'The module and method could not been not found.',
 'err_invalid_choice' => 'Your selection is not applicable.',
-
+'err_permission_create' => 'You do not have permissions to create data of this type.',
+    
 # Permissions
 'perm_admin' => 'Administrator',
 'perm_cronjob' => 'Cronjob',

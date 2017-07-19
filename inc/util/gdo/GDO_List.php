@@ -44,9 +44,10 @@ class GDO_List extends GDO_Table
 	
 	public function initJSON()
 	{
+	    $pagemenu = $this->getPageMenu();
 		return array(
 			'tableName' => $this->getResult()->table->gdoClassName(),
-			'pagemenu' => $this->getPageMenu()->initJSON(),
+			'pagemenu' => $pagemenu ? $pagemenu->initJSON() : null,
 // 			'sortable' => $this->sortable,
 // 			'sortableURL' => $this->sortableURL,
 		);

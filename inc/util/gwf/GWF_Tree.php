@@ -109,6 +109,11 @@ class GWF_Tree extends GDO
 	###############
 	### Rebuild ###
 	###############
+	public function gdoAfterCreate()
+	{
+	    $this->rebuildFullTree();
+	}
+	
 	public function rebuildFullTree()
 	{
 		return $this->rebuildTree(null, 1, 0);
@@ -116,8 +121,6 @@ class GWF_Tree extends GDO
 
 	private function rebuildTree($parent, $left, $depth)
 	{
-// 		$parent = (int)$parent;
-// 		$left = (int)$left;
 		$right = $left + 1;
 
 		$p = $this->getParentColumn();
