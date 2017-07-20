@@ -199,7 +199,7 @@ class GWF_Form
 		{
 			$field->cleanup();
 		}
-		unset($_POST['form']);
+// 		unset($_POST['form']);
 		unset($_REQUEST['form']);
 	}
 }

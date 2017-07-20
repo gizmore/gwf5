@@ -664,7 +664,7 @@ abstract class GDOType
 	}
 	
 	
-	public function onValidated() {} # unset($_REQUEST['form'][$this->name]); unset($_POST['form'][$this->name]); unset($this->value); } 
+	public function onValidated() {}
 
 	###################
 	### Flow upload ###

@@ -147,16 +147,29 @@ class GDOResult
 	
 	public function fetchAllArray2dObject(GDO $table=null)
 	{
+	    $table = $table ? $table : $this->table;
+	    $array2d = [];
+	    while ($object = $this->fetchAs($table))
+	    {
+	        $array2d[$object->getID()] = $object;
+	    }
+	    return $array2d;
+	}
+	
+	public function fetchAllArrayAssoc2dObject(GDO $table=null)
+	{
 		$table = $table ? $table : $this->table;
 		$array2d = [];
+		$firstKey = '';
 		while ($object = $this->fetchAs($table))
 		{
-			$array2d[$object->getID()] = $object;
+		    $firstKey = $firstKey ? $firstKey : array_keys($object->getGDOVars())[0];
+		    $array2d[$object->getVar($firstKey)] = $object;
 		}
 		return $array2d;
 	}
 	
-	/**
+    /**
 	 * Fetch all, but only a single column as simple array.
 	 * @return string[]
 	 */
