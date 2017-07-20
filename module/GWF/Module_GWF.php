@@ -29,6 +29,14 @@ class Module_GWF extends GWF_Module
 			}
 		}
 	}
+
+	public function onInstall()
+	{
+	    if ($this->cfgSiteBirthdate() === null)
+	    {
+	        $this->saveConfigVar('site_birthdate', GWF_Time::getDate());
+	    }
+	}
 	
 	##############
 	### Config ###
@@ -36,7 +44,7 @@ class Module_GWF extends GWF_Module
 	public function getUserSettings()
 	{
 		return array(
-			GDO_Date::make('user_birthdate')->label('birthdate'),
+			GDO_DateTime::make('user_birthdate')->label('birthdate'),
 			GDO_Checkbox::make('user_hide_online')->initial('0'),
 			GDO_Checkbox::make('user_want_adult')->initial('0'),
 			GDO_Checkbox::make('user_allow_email')->initial('0'),
@@ -46,6 +54,7 @@ class Module_GWF extends GWF_Module
 	public function getConfig()
 	{
 		return array(
+		    GDO_Date::make('site_birthdate'),
 			GDO_Divider::make('div_page')->label('div_pagination'),
 			GDO_Int::make('ipp')->initial('20')->max(1000)->unsigned(),
 			GDO_Int::make('spr')->initial('10')->max(1000)->unsigned(),
@@ -58,6 +67,7 @@ class Module_GWF extends GWF_Module
 			GDO_Link::make('link_node_detect')->href(href('GWF', 'DetectNode')),
 		);
 	}
+	public function cfgSiteBirthdate() { return $this->getConfigValue('site_birthdate'); }
 	public function cfgItemsPerPage() { return $this->getConfigValue('ipp'); }
 	public function cfgMaxSuggestions() { return $this->getConfigValue('spr'); }
 	public function cfgCORS() { return $this->getConfigValue('cors_header'); }

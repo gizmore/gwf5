@@ -10,7 +10,6 @@
 .fr { float: right; }
 .cb { clear: both; }
 
-
 /** GWF_File **/
 div.gwf-attachment { border: 1px dotted #ccc; margin-top: 16px; word-break: break-all; }
 div.gwf-file { padding: 8px; }

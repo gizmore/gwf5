@@ -35,7 +35,7 @@
       <!-- END LEFT SIDENAV -->
 
       <!-- CONTENT -->
-      <md-content flex >
+      <md-content flex class="gwf-main">
         <div layout="column" layout-align="top center">
           <?php echo $response->__toString(); ?>
         </div>
