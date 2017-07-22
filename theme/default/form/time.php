@@ -9,7 +9,6 @@
    autocomplete="off"
    md-hide-icons="calendar"
    ng-init="pickDate='<?php echo $field->displayFormValue(); ?>'"
-   md-placeholder="<?php echo $field->displayLabel(); ?>"
    ng-model="pickDate"
    ng-change="datePicked('#<?php echo $id ?>')"
    md-current-view="<?php echo $field->dateStartView; ?>"></md-datepicker>

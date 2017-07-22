@@ -8,7 +8,7 @@
  */
 class GDO_Token extends GDO_Char
 {
-	public static $LENGTH = 16;
+	public static $LENGTH = 12;
 	
 	public function defaultLabel() { return $this->label('token'); }
 	
