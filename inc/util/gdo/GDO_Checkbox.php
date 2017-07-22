@@ -1,7 +1,13 @@
 <?php
 class GDO_Checkbox extends GDO_Bool
 {
-	public function formValue()
+    public function initial($initial)
+    {
+        $this->initial = (string)$initial;
+        return $this;
+    }
+    
+    public function formValue()
 	{
 		$vars = Common::getRequestArray('form', []);
 		return isset($vars[$this->name]) ?  '1' : '0';

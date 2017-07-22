@@ -48,12 +48,22 @@ md-content.gwf-message {
     border: 1px dotted #ccc;
     overflow: hidden;
 }
+
+.gwf-error i.material-icons, .gwf-message i.material-icons {
+    display: inline-block;
+    width: 30px;
+    height: 28px;
+    line-height: 28px;
+}
+
 .gwf-error p, .gwf-message p {
-    margin: 4px -10px;
     font-weight: bold;
+    margin: 0;
+    line-height: 28px;
 }
 .gwf-error p {
     color: #a11;
+    line-height: 28px;
 }
 .gwf-form-error {
     color: #a11;

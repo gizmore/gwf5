@@ -12,4 +12,9 @@ class GDO_OpenHours extends GDO_Serialize
         
     }
     
+    public function initJSON()
+    {
+        return $this->getGDOValue();
+    }
+    
 }

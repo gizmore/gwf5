@@ -1,9 +1,13 @@
 <?php $field instanceof GDO_OpenHours; ?>
-<md-input-container class="md-block md-float md-icon-left<?php echo $field->classError(); ?>" flex>
+<md-input-container
+ class="md-block md-float md-icon-left<?php echo $field->classError(); ?>"
+ flex
+ ng-controller="GWFOpenHoursCtrl"
+ ng-init='initJSON(<?=json_encode($field->initJSON()); ?>)'>
 
   <label for="form[<?php echo $field->name; ?>]"><?php echo $field->displayLabel(); ?></label>
   <?= GDO_Icon::iconS('clock'); ?>
-  <input type="text" ng-model="data.openHours.display" ng-click="openHoursDialog()"/>
+  <input type="text" ng-model="data.openHours.display" ng-click="openHoursDialog($event)"/>
 
   <input
    type="hidden"
