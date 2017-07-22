@@ -7,7 +7,6 @@ $result = $field->getResult();
  layout="column"
  flex
  layout-fill
- layout-padding
  ng-controller="GWFListCtrl"
  ng-init='init(<?php echo json_encode($field->initJSON()); ?>)'>
 
