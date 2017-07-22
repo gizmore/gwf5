@@ -253,7 +253,7 @@ abstract class GDOType
 	### Icon ###
 	############
 	public static function iconS(string $icon=null) { return self::matIconS($icon); }
-	public static function matIconS(string $icon=null) { return $icon === null ? '' : "<md-icon class=\"material-icons\">$icon</md-icon>"; }
+	public static function matIconS(string $icon=null) { return $icon === null ? '' : "<md-icon class=\"material-icons icon-$icon\">$icon</md-icon>"; }
 // 	public static function aweIconS(string $icon) { return "<md-icon class=\"material-icons\">$icon</md-icon>"; }
 	public function htmlIcon() { return $this->icon ? $this->icon : ''; }
 	public function rawIcon(string $icon=null) { $this->icon = $icon; return $this; }

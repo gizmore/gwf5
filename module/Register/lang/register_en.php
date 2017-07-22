@@ -14,6 +14,7 @@ return array(
 #############################################################################
 'ft_register_guest' => '[%s] Continue as Guest',
 'btn_signup_guest' => 'Use nickname',
+'err_guest_name_taken' => 'This guest name has been taken already.',
 'msg_registered_as_guest' => 'You are now using the site as %s.',
 #############################################################################
 'mail_activate_title'=> '%s: Activate your account',

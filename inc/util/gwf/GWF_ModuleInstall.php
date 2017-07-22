@@ -11,8 +11,6 @@ class GWF_ModuleInstall
 	
 	public static function installModule(GWF_Module $module)
 	{
-// 		echo "INSTALL {$module->getName()} {$module->getVersion()} {$module->module_version}\n";
-		
 		self::installModuleClasses($module);
 		
 		if (!$module->isPersisted())

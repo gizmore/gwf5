@@ -209,6 +209,7 @@ final class GWF5
 #####################
 ### Global helper ###
 #####################
+function sitename() { return GWF5::instance()->getSiteName(); }
 function mo() { return Common::getGetString('mo', GWF_MODULE); }
 function me() { return Common::getGetString('me', GWF_METHOD); }
 function mome() { return mo() . me(); }

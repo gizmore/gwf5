@@ -26,7 +26,7 @@ final class GWF_User extends GDO
 			GDO_AutoInc::make('user_id'),
 			GDO_Enum::make('user_type')->enumValues(self::GHOST, self::BOT, self::GUEST, self::MEMBER)->label('type')->notNull()->initial(self::GUEST),
 			GDO_Username::make('user_name')->unique(),
-			GDO_Username::make('user_guest_name')->label('guestname'),
+		    GDO_Username::make('user_guest_name')->unique()->label('guestname'),
 			GDO_PersonName::make('user_real_name'),
 			GDO_Email::make('user_email'),
 			GDO_Int::make('user_level')->unsigned()->notNull()->initial('0')->label('level'),

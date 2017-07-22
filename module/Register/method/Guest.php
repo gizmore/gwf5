@@ -10,13 +10,22 @@ class Register_Guest extends GWF_MethodForm
 	
 	public function createForm(GWF_Form $form)
 	{
-		$form->addField(GDO_Username::make('user_guest_name')->required());
+		$form->addField(GDO_Username::make('user_guest_name')->required()->validator([$this, 'validateGuestNameTaken']));
 		if (Module_Register::instance()->cfgCaptcha())
 		{
 			$form->addField(GDO_Captcha::make());
 		}
 		$form->addField(GDO_Submit::make()->label('btn_signup_guest'));
 		$form->addField(GDO_AntiCSRF::make());
+	}
+
+	public function validateGuestNameTaken(GWF_Form $form, GDO_Username $field)
+	{
+	    if (GWF_User::table()->countWhere('user_guest_name='.quote($field->formValue())))
+	    {
+	        return $field->error('err_guest_name_taken');
+	    }
+	    return true;
 	}
 	
 	public function formValidated(GWF_Form $form)

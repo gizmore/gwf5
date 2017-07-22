@@ -284,8 +284,7 @@ abstract class GDO
 	 */
 	public function countWhere(string $condition='true')
 	{
-		$result = $this->query()->select("COUNT(*)")->from($this->gdoTableIdentifier())->where($condition)->exec()->fetchRow();
-		return (int)$result[0];
+		return (int) $this->query()->select("COUNT(*)")->from($this->gdoTableIdentifier())->where($condition)->exec()->fetchValue();
 	}
 	
 	/**

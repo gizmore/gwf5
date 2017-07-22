@@ -10,8 +10,8 @@ final class Login_Form extends GWF_MethodForm
 	
 	public function createForm(GWF_Form $form)
 	{
-		$form->addField(GDO_Username::make('login')->tooltip('tt_login'));
-		$form->addField(GDO_Password::make('password'));
+		$form->addField(GDO_Username::make('login')->tooltip('tt_login')->notNull());
+		$form->addField(GDO_Password::make('password')->notNull());
 		$form->addField(GDO_Checkbox::make('bind_ip'));
 		if (Module_Login::instance()->cfgCaptcha())
 		{

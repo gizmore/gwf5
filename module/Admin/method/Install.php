@@ -62,21 +62,6 @@ class Admin_Install extends GWF_MethodForm
 		return GWF_Message::message('msg_module_uninstalled', [$this->configModule->getName()]);
 	}
 	
-// 	public function execute_wipe()
-// 	{
-// 		# Drop
-// 		GWF_ModuleInstall::dropModule($this->configModule);
-		
-// 		# Reload fixes weird bug.
-// 		GWF5::instance()->loadModules(false);
-// 		if ($this->configModule = GWF5::instance()->getModule(Common::getRequestString('module')))
-// 		{
-// 			GWF_ModuleInstall::installModule($this->configModule);
-// 		}
-		
-// 		return GWF_Message::message('msg_module_wiped', [$this->configModule->getName()]);
-// 	}
-	
 	public function execute_enable()
 	{
 		$this->configModule->saveVar('module_enabled', '1');
