@@ -34,7 +34,7 @@ class Register_Guest extends GWF_MethodForm
 		$user->setVars(array(
 			'user_type' => GWF_User::GUEST,
 			'user_register_ip' => GDO_IP::current(),
-			'user_register_time' => time(),
+			'user_register_time' => GWF_Time::getDate(),
 		));
 		$user->insert();
 		
