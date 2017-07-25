@@ -101,12 +101,15 @@ class GWF_Form
 	##############
 	public function withGDOValuesFrom(GDO $gdo=null)
 	{
-	    $table = $gdo->table();
-		foreach ($this->fields as $field)
-		{
-			$field->gdo($gdo);
-// 			$field->gdo = $table; # 
-		}
+	    if ($gdo)
+	    {
+//     	    $table = $gdo->table();
+    		foreach ($this->fields as $field)
+    		{
+    			$field->gdo($gdo);
+//     			$field->gdo = $table; 
+    		}
+	    }
 		return $this;
 	}
 	

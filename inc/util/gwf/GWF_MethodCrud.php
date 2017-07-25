@@ -93,8 +93,13 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 		}
 		else
 		{
-			$this->title('ft_crud_create', [$this->getSiteName(), $this->gdoTable()->gdoHumanName()]);
+		    $this->crudCreateTitle();
 		}
+	}
+	
+	protected function crudCreateTitle()
+	{
+	    $this->title('ft_crud_create', [$this->getSiteName(), $this->gdoTable()->gdoHumanName()]);
 	}
 	
 	##############
