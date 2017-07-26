@@ -32,16 +32,18 @@ class GDO_Captcha extends GDOType
 			GWF_Session::set('php_lock_captcha', $value);
 			return true;
 		}
-		$this->onValidated();
+		$this->invalidate();
 		return $this->error('err_captcha');
+	}
+	
+	public function invalidate()
+	{
+		GWF_Session::remove('php_lock_captcha');
 	}
 	
 	public function onValidated()
 	{
-		GWF_Session::remove('php_lock_captcha');
-		unset($_GET['form'][$this->name]);
-		unset($_POST['form'][$this->name]);
-		unset($_REQUEST['form'][$this->name]);
+	    $this->invalidate();
 	}
 	
 }

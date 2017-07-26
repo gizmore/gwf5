@@ -6,6 +6,7 @@
  */
 final class Recovery_Form extends GWF_MethodForm
 {
+    public function isUserRequired() { return false; }
 	public function isEnabled() { return (!GWF_DEBUG_EMAIL); }
 	
 	public function createForm(GWF_Form $form)

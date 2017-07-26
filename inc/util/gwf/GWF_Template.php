@@ -66,11 +66,6 @@ final class GWF_Template
 			return self::pathError($path);
 		}
 
-	    if (GWF5::instance()->isJSON())
-	    {
-	        return new GWF_Response(['template' => $path2, 'tVars' => $tVars]);
-	    }
-	    
 		if ($tVars)
 		{
 			foreach ($tVars as $__key => $__value)
@@ -134,11 +129,6 @@ final class GWF_Template
 		if (!($path2 = self::getPath($path, $moduleName)))
 		{
 			return self::pathError($path);
-		}
-		
-		if (GWF5::instance()->isJSON())
-		{
-		    return new GWF_Response(['template' => $path2]);
 		}
 		
 		return new GWF_Response(file_get_contents($path2));

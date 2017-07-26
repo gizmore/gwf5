@@ -295,7 +295,7 @@ abstract class GDOType
 		}
 		else
 		{
-			$this->value = null;
+		    $this->value = null;
 		}
 		return $this;
 	}
@@ -422,29 +422,6 @@ abstract class GDOType
 		}
 		return $array;
 	}
-	
-	
-// 	private static $SORT_COLUMN;
-// 	public function sortGDOs(array &$array)
-// 	{
-// 		self::$SORT_COLUMN = $this;
-// 		uasort($array, function(GDO $a, GDO $b) {
-// 			$name = self::$SORT_COLUMN->name;
-// 			return $a->gdoColumn($name)->gdoCompare($a, $b);
-// 		});
-			
-// 	}
-	
-// 	uasort($array, function(GDO $a, GDO $b) {
-// 		$name = self::$SORT_COLUMN;
-// 		return $a->gdoColumn($name)->gdoCompare($a, $b);
-// 	});
-// 		if (!$ascending)
-// 		{
-// 			$array = array_reverse($array, true);
-// 		}
-// 		return $array;
-		
 	
 	##############
 	### Events ###
@@ -573,16 +550,6 @@ abstract class GDOType
 	{
 		return $this->formValue();
 	}
-	
-// 	public function gdoRenderCell()
-// 	{
-// 		$method = "render_{$this->name}";
-// 		if (method_exists($this->gdo, $method))
-// 		{
-// 			return call_user_func([$this->gdo,$method]);
-// 		}
-// 		return $this->renderCell();
-// 	}
 	
 	/**
 	 * 

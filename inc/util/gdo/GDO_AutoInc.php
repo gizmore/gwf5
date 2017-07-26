@@ -30,6 +30,11 @@ class GDO_AutoInc extends GDO_Int
 	{
 		return "{$this->identifier()} INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY";
 	}
+	
+	public function validate($value)
+	{
+	    return true; # We simply do nothing in the almighty validate.
+	}
 
 	##############
 	### Events ###

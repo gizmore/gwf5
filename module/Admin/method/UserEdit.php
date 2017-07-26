@@ -40,6 +40,7 @@ class Admin_UserEdit extends GWF_MethodForm
 		$values = $form->values();
 		$password = $values['user_password'];
 		unset($values['user_password']);
+		
 		$this->user->saveVars($values);
 		$form->withGDOValuesFrom($this->user);
 		if (!empty($password))

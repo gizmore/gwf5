@@ -60,7 +60,7 @@ class GWF_Form
 		$valid = true;
 		foreach ($this->fields as $field)
 		{
-			if ($field->writable)
+		    if ($field->writable && $field->editable)
 			{
 				if (!$field->formValidate($this))
 				{
@@ -70,10 +70,6 @@ class GWF_Form
 					}
 					$valid = false;
 				}
-			}
-			else
-			{
-			    $this->values[$field->name] = $field->initial;
 			}
 		}
 		
@@ -94,6 +90,7 @@ class GWF_Form
 			$gdoType->onValidated();
 		}
 		$this->validated = true;
+		unset($_REQUEST['form']);
 	}
 	
 	##############
@@ -103,11 +100,9 @@ class GWF_Form
 	{
 	    if ($gdo)
 	    {
-//     	    $table = $gdo->table();
     		foreach ($this->fields as $field)
     		{
     			$field->gdo($gdo);
-//     			$field->gdo = $table; 
     		}
 	    }
 		return $this;
@@ -135,13 +130,17 @@ class GWF_Form
 	
 	public function addValue(string $key=null, $value)
 	{
-		if (!$this->values)
-		{
-			$this->values = [];
-		}
-		#@TODO: Not needed yet, but nested fields do not end up here.
-		#       Though usually you don't want them.
-		$this->values[$key] = $value;
+	    $field = $this->fields[$key];
+	    if ($field->editable && $field->writable) 
+	    {
+    		if (!$this->values)
+    		{
+    			$this->values = [];
+    		}
+    		#@TODO: Not needed yet, but nested fields do not end up here.
+    		#       Though usually you don't want them.
+    		$this->values[$key] = $value;
+	    }
 		return $this;
 	}
 	
@@ -202,7 +201,5 @@ class GWF_Form
 		{
 			$field->cleanup();
 		}
-// 		unset($_POST['form']);
-		unset($_REQUEST['form']);
 	}
 }

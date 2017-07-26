@@ -22,6 +22,7 @@
  * @version 5.0
  * @license MIT
  */
+if (!class_exists('Memcached')) { class Memcached {} }
 class GDOCache
 {
 	/**
@@ -34,7 +35,7 @@ class GDOCache
 	public static function flush() { self::$MEMCACHED->flush(); }
 	public static function init()
 	{
-		self::$MEMCACHED = new Memcached();
+		self::$MEMCACHED = new Memcached(); # @ignore
 		self::$MEMCACHED->addServer(GWF_MEMCACHE_HOST, GWF_MEMCACHE_PORT);
 	}
 	
@@ -109,7 +110,10 @@ class GDOCache
 	
 	public function recache(GDO $object)
 	{
-		$this->cache[$object->getID()] = $object;
+	    if ($object->gdoCached())
+	    {
+	        $this->cache[$object->getID()] = $object;
+	    }
 		if ($object->memCached())
 		{
 			self::$MEMCACHED->replace($object->gkey(), $object, GWF_MEMCACHE_TTL);

@@ -85,8 +85,8 @@ abstract class GDO
 	private $temp;
 	public function tempReset() { $this->temp = null; }
 	public function tempGet(string $key) { return @$this->temp[$key]; }
-	public function tempSet(string $key, $value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = $value; /* $this->recache(); */ }
-	public function tempUnset(string $key) { unset($this->temp[$key]); /* $this->recache(); */ }
+	public function tempSet(string $key, $value) { if (!$this->temp) $this->temp = []; $this->temp[$key] = $value; }
+	public function tempUnset(string $key) { unset($this->temp[$key]); }
 	
 	############
 	### Vars ###
@@ -335,7 +335,6 @@ abstract class GDO
 		$this->dirty = false;
 		$this->persisted = true;
 		$this->gdoAfterUpdate();
-// 		$this->recache();
 		return $this;
 	}
 	
@@ -366,8 +365,8 @@ abstract class GDO
 		{
 			$this->updateQuery()->set($this->getSetClause())->exec();
 			$this->dirty = false;
+			$this->recache(); # save is the only action where we recache!
 			$this->gdoAfterUpdate();
-			$this->recache();
 		}
 		return $this;
 	}
@@ -403,7 +402,7 @@ abstract class GDO
 			if ($withHooks) $this->beforeUpdate($query); # Can do trickery here... not needed? 
 			$query->exec();
 			$this->gdoVars = array_merge($this->gdoVars, $vars);
-			$this->recache();
+			$this->recache(); # save is the only action where we recache!
 			if ($withHooks) $this->gdoAfterUpdate();
 		}
 		return $this;
@@ -708,10 +707,7 @@ abstract class GDO
 	}
 	public function recache()
 	{
-		if ($this->gdoCached())
-		{
-			$this->table()->cache->recache($this);
-		}
+		$this->table()->cache->recache($this);
 	}
 	
 	public function uncache()
@@ -720,7 +716,6 @@ abstract class GDO
 		{
 			$this->table()->cache->uncache($this);
 		}
-		
 	}
 	
 	public function __wakeup()
@@ -798,7 +793,6 @@ abstract class GDO
 			$gdoType->gdo($this)->gdoAfterCreate();
 		}
 		$this->gdoAfterCreate();
-// 		$this->recache();
 	}
 	
 	# Overrides
