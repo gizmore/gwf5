@@ -707,7 +707,10 @@ abstract class GDO
 	}
 	public function recache()
 	{
-		$this->table()->cache->recache($this);
+	    if ($this->table()->cache)
+	    {
+	        $this->table()->cache->recache($this);
+	    }
 	}
 	
 	public function uncache()
