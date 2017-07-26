@@ -366,8 +366,8 @@ abstract class GDO
 		{
 			$this->updateQuery()->set($this->getSetClause())->exec();
 			$this->dirty = false;
-			$this->recache();
 			$this->gdoAfterUpdate();
+			$this->recache();
 		}
 		return $this;
 	}
