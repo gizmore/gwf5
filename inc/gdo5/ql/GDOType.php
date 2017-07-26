@@ -457,7 +457,7 @@ abstract class GDOType
 	
 	public function htmlDisabled()
 	{
-		return $this->writable ? '' : ' disabled="disabled"';
+	    return $this->editable ? '' : ' disabled="disabled"';
 	}
 	
 	############
