@@ -802,7 +802,10 @@ abstract class GDO
 	public function gdoAfterCreate() {}
 	public function gdoAfterUpdate()
 	{
-	    GWF_Hook::call('CacheInvalidate', $this->gdoClassName(), $this->getID());
+	    if ($this->gdoCached() || $this->memCached())
+	    {
+    	    GWF_Hook::call('CacheInvalidate', $this->gdoClassName(), $this->getID());
+	    }
 	}
 	public function gdoAfterDelete() {}
 	

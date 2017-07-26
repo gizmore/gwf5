@@ -6,11 +6,8 @@ class GDO_Color extends GDO_String
 	public $pattern = "/^#(?:[a-z0-9]{3}){1,2}$/i";
 	
 	public function defaultLabel() { return $this->label('color'); }
-	
-	public function render()
-	{
-		return GWF_Template::mainPHP('form/color.php', ['field' => $this]);
-	}
+	public function render() { return GWF_Template::mainPHP('form/color.php', ['field' => $this]); }
+	public function renderCell() { return GWF_Template::mainPHP('cell/color.php', ['field' => $this])->getHTML(); }
 	
 	public static function html2rgb($input)
 	{

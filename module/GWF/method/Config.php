@@ -1,4 +1,9 @@
 <?php
+/**
+ * API Request to get all module configs.
+ * Useful for JS Apps.
+ * @author gizmore
+ */
 final class GWF_Config extends GWF_Method
 {
     public function execute()
@@ -12,17 +17,17 @@ final class GWF_Config extends GWF_Method
         return new GWF_Response($json);
     }
     
-    public function getModuleConfig(GWF_Module $module)
+    private function getModuleConfig(GWF_Module $module)
     {
         $json = [];
         foreach ($module->getConfigCache() as $type)
         {
-            if (!$type instanceof GDO_Blank)
+            if ( (!$type instanceof GDO_Blank) && 
+                 (!$type instanceof GDO_Secret) )
             {
-                $json[$type->name] = $module->getConfigVar($type->name);
+                $json[$type->name] = $module->getConfigValue($type->name);
             }
         }
         return $json;
     }
-    
 }
