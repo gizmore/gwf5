@@ -107,7 +107,7 @@ class GDO_PageMenu extends GDO_Blank
 		$nPages = $this->getPages();
 		$pages = [];
 		$pages[] = new GWF_PageMenuItem($curr, $this->replaceHREF($curr), true);
-		for ($i = 1; $i <= 4; $i++)
+		for ($i = 1; $i <= $this->shown; $i++)
 		{
 			$page = $curr- $i;
 			if ($page > 0)

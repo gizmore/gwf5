@@ -54,7 +54,7 @@ final class GWF_UserSetting extends GDO
 	    return self::userInc(GWF_User::current(), $key, $by);
 	}
 	
-	public static function userInc(GWF_User $user=null, string $key, int $by=1)
+	public static function userInc(GWF_User $user, string $key, int $by=1)
 	{
 	    return self::userSet($user, $key, self::get($key)->getGDOValue() + $by);
 	}

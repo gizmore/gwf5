@@ -1,6 +1,8 @@
 <?php
 class GDO_Template extends GDO_Blank
 {
+    public function defaultLabel() { return $this; }
+    
 	public $module;
 	public function module(GWF_Module $module)
 	{

@@ -146,15 +146,7 @@ class GDOCache
 				self::$MEMCACHED->set($gkey, $mcached, GWF_MEMCACHE_TTL);
 				$this->newDummy();
 			}
-			elseif (GWF5::instance()->isCLI())
-			{
-				echo "MEMCache hit {$this->table->gdoHumanName()}";
-			}
 			$this->cache[$key] = $mcached;
-		}
-		elseif (GWF5::instance()->isCLI())
-		{
-			echo "Cache hit {$this->table->gdoHumanName()}";
 		}
 		return $this->cache[$key];
 	}

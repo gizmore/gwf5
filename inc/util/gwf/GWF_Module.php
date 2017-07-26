@@ -27,7 +27,7 @@ class GWF_Module extends GDO
 	/**
 	 * @return GDOType[]
 	 */
-	protected function getConfig() { return []; }
+	public function getConfig() { return []; }
 	
 	##############
 	### Config ###

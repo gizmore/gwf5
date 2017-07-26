@@ -14,6 +14,7 @@ class GDO_List extends GDO_Table
 	public function listMode(int $mode)
 	{
 		$this->listMode = $mode;
+		return $this;
 	}
 	
 	public $itemTemplate;

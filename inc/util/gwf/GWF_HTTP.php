@@ -48,7 +48,10 @@ final class GWF_HTTP
 		{
 			$url = GWF_PROTOCOL . '://' . GWF_DOMAIN . $url;
 		}
-
+		
+		var_dump($url);
+		
+		
 		# Check URL
 //		GWF_Debug::disableErrorHandler();
 //		$parts = @parse_url($url);
