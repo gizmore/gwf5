@@ -60,7 +60,7 @@ class GWF_Form
 		$valid = true;
 		foreach ($this->fields as $field)
 		{
-		    if ($field->writable && $field->editable)
+		    if ($field->editable)
 			{
 				if (!$field->formValidate($this))
 				{
@@ -70,6 +70,10 @@ class GWF_Form
 					}
 					$valid = false;
 				}
+			}
+			elseif ($field->writable)
+			{
+			    $this->addValue($field->name, $field->initial);
 			}
 		}
 		
@@ -130,17 +134,13 @@ class GWF_Form
 	
 	public function addValue(string $key=null, $value)
 	{
-	    $field = $this->fields[$key];
-	    if ($field->editable && $field->writable) 
-	    {
-    		if (!$this->values)
-    		{
-    			$this->values = [];
-    		}
-    		#@TODO: Not needed yet, but nested fields do not end up here.
-    		#       Though usually you don't want them.
-    		$this->values[$key] = $value;
-	    }
+   		if (!$this->values)
+   		{
+   			$this->values = [];
+   		}
+		#@TODO: Not needed yet, but nested fields do not end up here.
+		#       Though usually you don't want them.
+		$this->values[$key] = $value;
 		return $this;
 	}
 	

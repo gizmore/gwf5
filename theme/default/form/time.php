@@ -5,7 +5,7 @@
   <?php echo $field->htmlIcon(); ?>
   <label><?php echo $field->displayLabel(); ?></label>
   <md-datepicker
-   ng-disabled="<?php echo $field->writable?0:1; ?>"
+   ng-disabled="<?php echo $field->editable?0:1; ?>"
    autocomplete="off"
    md-hide-icons="calendar"
    ng-init="pickDate='<?php echo $field->displayFormValue(); ?>'"

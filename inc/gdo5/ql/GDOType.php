@@ -445,13 +445,13 @@ abstract class GDOType
 	public function writable(bool $writable)
 	{
 		$this->writable = $writable;
+		$this->editable = $writable;
 		return $this;
 	}
 	
 	public function editable(bool $editable)
 	{
 		$this->editable = $editable;
-		$this->writable = $editable;
 		return $this;
 	}
 	

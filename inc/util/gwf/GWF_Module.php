@@ -224,23 +224,6 @@ class GWF_Module extends GDO
 		}
 	}
 	
-// 	public function getWritableUserSettings()
-// 	{
-// 		$back = [];
-// 		if ($settings = $this->getUserSettings())
-// 		{
-// 			foreach ($settings as $name => $gdoType)
-// 			{
-// 				if ($gdoType->writable)
-// 				{
-// 					$back[$name] = $gdoType;
-// 				}
-// 			}
-// 		}
-// 		return empty($back) ? null : $back;
-// 	}
-	
-	
 	##############
 	### Method ###
 	##############
