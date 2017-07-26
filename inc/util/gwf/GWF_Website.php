@@ -48,7 +48,7 @@ final class GWF_Website
 					
 					return GWF_Message::message('msg_redirect', [GWF_HTML::anchor($url), $time]);
 				}
-			case 'json': return array('redirect' => $url, 'redirectWait' => $time);
+			case 'json': return new GWF_Response(['redirect' => $url, 'redirectWait' => $time]);
 		}
 	}
 	private static function ajaxRedirect($url)

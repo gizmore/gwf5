@@ -388,12 +388,15 @@ abstract class GDO
 		$query = $this->updateQuery();
 		foreach ($vars as $key => $value)
 		{
-			if ($this->gdoVars[$key] != $value)
-			{
-				$query->set(sprintf("%s=%s", self::quoteIdentifierS($key), self::quoteS($value)));
-				$this->markClean($key);
-				$worthy = true; # We got a change
-			}
+		    if (isset($this->gdoVars[$key]))
+		    {
+    			if ($this->gdoVars[$key] != $value)
+    			{
+    				$query->set(sprintf("%s=%s", self::quoteIdentifierS($key), self::quoteS($value)));
+    				$this->markClean($key);
+    				$worthy = true; # We got a change
+    			}
+		    }
 		}
 		if ($worthy)
 		{

@@ -1,7 +1,9 @@
 <?php
 class Register_Form extends GWF_MethodForm
 {
-	public function getUserType() { return 'ghost'; }
+    public function isUserRequired() { return false; }
+    
+    public function getUserType() { return 'ghost'; }
 	
 	public function createForm(GWF_Form $form)
 	{

@@ -16,6 +16,8 @@ abstract class GWF_MethodForm extends GWF_Method
 {
 	public function isTransactional() { return true; }
 	
+	public function isUserRequired() { return true; }
+	
 	/**
 	 * @var GWF_Form
 	 */

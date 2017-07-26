@@ -23,7 +23,7 @@ final class GWF_Template
 	protected static $MODULE_FILE = NULL; # ouch global temp var
 	
 	public static function getDesign() { return GWF5::instance()->getTheme(); }
-	private static function pathError(string $path) { return GWF_Error::error('err_file', array(htmlspecialchars(str_replace('%DESIGN%', 'default', $path)))); }
+	private static function pathError(string $path) { return new GWF_Error('err_file', [htmle(str_replace('%DESIGN%', 'default', $path))]); }
 	
 	#####################
 	### PHP Templates ###
@@ -65,6 +65,12 @@ final class GWF_Template
 		{
 			return self::pathError($path);
 		}
+
+	    if (GWF5::instance()->isJSON())
+	    {
+	        return new GWF_Response(['template' => $path2, 'tVars' => $tVars]);
+	    }
+	    
 		if ($tVars)
 		{
 			foreach ($tVars as $__key => $__value)
@@ -129,6 +135,12 @@ final class GWF_Template
 		{
 			return self::pathError($path);
 		}
+		
+		if (GWF5::instance()->isJSON())
+		{
+		    return new GWF_Response(['template' => $path2]);
+		}
+		
 		return new GWF_Response(file_get_contents($path2));
 	}
 	

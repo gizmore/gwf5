@@ -1,7 +1,9 @@
 <?php
 class Register_Guest extends GWF_MethodForm
 {
-	public function getUserType() { return 'ghost'; }
+    public function isUserRequired() { return false; }
+    
+    public function getUserType() { return 'ghost'; }
 	
 	public function isEnabled()
 	{

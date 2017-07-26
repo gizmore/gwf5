@@ -21,16 +21,8 @@ class GWF_Response
 	
 	public function __construct($html, bool $error=false)
 	{
-// 		if ($html instanceof GWF_Response)
-// 		{
-// 			$this->html = $html->getHTML();
-// 			$this->error = $html->isError();
-// 		}
-// 		else
-		{
-			$this->html = $html;
-			$this->error = $error;
-		}
+		$this->html = $html;
+		$this->error = $error;
 	}
 	
 	public function isError()

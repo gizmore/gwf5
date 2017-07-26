@@ -9,7 +9,7 @@ class GWF_Message extends GWF_Response
 		}
 		else
 		{
-			$this->html = array('message' => $key, 'args' => $args);
+			$this->html = ['message' => ['key' => $key, 'args' => $args]];
 		}
 		
 		if ($log)

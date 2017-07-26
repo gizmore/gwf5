@@ -48,22 +48,6 @@ final class GWF_HTTP
 		{
 			$url = GWF_PROTOCOL . '://' . GWF_DOMAIN . $url;
 		}
-		
-		var_dump($url);
-		
-		
-		# Check URL
-//		GWF_Debug::disableErrorHandler();
-//		$parts = @parse_url($url);
-//		GWF_Debug::enableErrorHandler();
-//		if(!$parts) {
-//			return false; /* the URL was seriously wrong */
-//		}
-		
-// 		if (!GWF_Validator::isValidURL($url))
-// 		{
-// 			return false;
-// 		}
 
 		if (!($ch = curl_init($url)))
 		{
@@ -269,9 +253,8 @@ final class GWF_HTTP
 	}
 
 	/**
-	 * 
 	 * @param string $url
-	 * @return Ambigous <string, false, boolean, unknown>
+	 * @return string
 	 */
 	public static function getDomain($url)
 	{

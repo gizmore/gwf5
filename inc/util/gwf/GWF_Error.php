@@ -13,7 +13,7 @@ class GWF_Error extends GWF_Response
 		}
 		else
 		{
-			$this->html = array('error' => $key, 'args' => $args);
+			$this->html = ['error' => ['key' => $key, 'args' => $args]];
 		}
 
 		if ($log)
