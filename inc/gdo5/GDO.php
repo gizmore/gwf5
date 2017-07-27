@@ -387,7 +387,7 @@ abstract class GDO
 		$query = $this->updateQuery();
 		foreach ($vars as $key => $value)
 		{
-		    if (isset($this->gdoVars[$key]))
+		    if (array_key_exists($key, $this->gdoVars))
 		    {
     			if ($this->gdoVars[$key] != $value)
     			{

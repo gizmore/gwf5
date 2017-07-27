@@ -631,7 +631,7 @@ abstract class GDOType
 	}
 	
 	
-	public function onValidated() {}
+	public function onValidated() { $this->value = null; $this->oldValue = null; }
 
 	###################
 	### Flow upload ###

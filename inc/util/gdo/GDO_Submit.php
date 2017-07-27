@@ -19,6 +19,11 @@ class GDO_Submit extends GDOType
 	{
 		return $this->render();
 	}
+	
+	public function validate($value)
+	{
+	    return true;
+	}
 
 	public function onValidated() { unset($_REQUEST[$this->name]); }
 }

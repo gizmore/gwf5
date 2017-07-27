@@ -89,12 +89,14 @@ class GWF_Form
 	
 	public function onValidated()
 	{
+	    # Clear request
+		unset($_REQUEST['form']);
+		# And field->value
 		foreach ($this->fields as $gdoType)
 		{
 			$gdoType->onValidated();
 		}
 		$this->validated = true;
-		unset($_REQUEST['form']);
 	}
 	
 	##############

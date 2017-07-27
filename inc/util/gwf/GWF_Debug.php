@@ -109,10 +109,6 @@ final class GWF_Debug
 	{
 		if (error_reporting() === 0) # Is set by PHP when you supress with @
 		{
-// 			if (class_exists('GWF_Log', false))
-// 			{
-// 				GWF_Log::logDebug(sprintf('%s in %s line %s', $errstr, $errfile, $errline));
-// 			}
 			return;
 		}
 		
@@ -151,6 +147,12 @@ final class GWF_Debug
 			$message = sprintf('%s(EH %s) %s in %s line %s.', $errnostr, $errno, $errstr, $errfile, $errline);
 		}
 		
+		# Send error to admin
+		if (self::$MAIL_ON_ERROR)
+		{
+		    self::sendDebugMail(self::backtrace($message, false));
+		}
+		
 		# Output error
 		if (PHP_SAPI === 'cli')
 		{
@@ -163,12 +165,6 @@ final class GWF_Debug
 			echo $is_html? self::renderError($message) : $message;
 		}
 		
-		# Send error to admin
-		if (self::$MAIL_ON_ERROR)
-		{
-			self::sendDebugMail(self::backtrace($message, false));
-		}
-
 		if (self::$die)
 		{
 			die(1); # oops :)
