@@ -18,7 +18,7 @@ final class GWF_Javascript
 
 	public static function addJavascript($path)
 	{
-		if (false === in_array($path, self::$_javascripts, true))
+		if (!in_array($path, self::$_javascripts, true))
 		{
 			self::$_javascripts[] = $path;
 		}
@@ -26,7 +26,7 @@ final class GWF_Javascript
 	
 	public static function addBowerJavascript($path)
 	{
-		self::addJavascript("/bower_components/$path");
+		self::addJavascript("bower_components/$path");
 	}
 	
 	public static function displayJavascripts($minfied=false)

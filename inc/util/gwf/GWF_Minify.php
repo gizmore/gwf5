@@ -56,12 +56,12 @@ final class GWF_Minify
 		{
 			foreach ($this->input as $path)
 			{
-				if ($path[0] === 'h')
+				if (strpos($path, '://'))
 				{
 					$this->external[] = $path;
 				}
 			}
-			$this->external[] = "/temp/minify/$earlyhash.js";
+			$this->external[] = "temp/minify/$earlyhash.js";
 			return $this->external;
 		}
 		
@@ -92,13 +92,13 @@ final class GWF_Minify
 		copy($finalpath, $earlypath);
 		
 		# Abuse external as small JS.
-		$this->external[] = "/temp/minify/$finalhash.js";
+		$this->external[] = "temp/minify/$finalhash.js";
 		return $this->external;
 	}
 	
 	public function minifiedJavascriptPath($path)
 	{
-		if ($path[0] === '/')
+		if (!strpos($path, '://'))
 		{
 			return $this->minifiedJavascript($path);
 		}
