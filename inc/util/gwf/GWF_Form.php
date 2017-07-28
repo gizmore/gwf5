@@ -99,6 +99,14 @@ class GWF_Form
 		$this->validated = true;
 	}
 	
+	public function resetForm()
+	{
+	    foreach ($this->fields as $gdoType)
+	    {
+	        $gdoType->onReset();
+	    }
+	}
+	
 	##############
 	### Values ###
 	##############

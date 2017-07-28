@@ -44,27 +44,27 @@ abstract class GWF_MethodForm extends GWF_Method
 	{
 		$response = false;
 		
-		$this->form = $this->getForm();
+		$form = $this->getForm();
 		
 		if ($flowField = Common::getRequestString('flowField'))
 		{
-			return $this->form->flowUpload($flowField);
+			return $form->flowUpload($flowField);
 		}
 		
-		foreach ($this->form->getFields() as $gdoType)
+		foreach ($form->getFields() as $gdoType)
 		{
 			if ($gdoType instanceof GDO_Submit)
 			{
 				$name = $gdoType->name;
 				if (isset($_REQUEST[$name]))
 				{
-					if ($this->form->validate())
+					if ($form->validate())
 					{
-						$response = call_user_func([$this, "onSubmit_$name"], $this->form);
+						$response = call_user_func([$this, "onSubmit_$name"], $form);
 					}
 					else
 					{
-						$response = $this->formInvalid($this->form)->add($this->renderPage());
+						$response = $this->formInvalid($form)->add($this->renderPage());
 					}
 					break;
 				}
@@ -84,8 +84,7 @@ abstract class GWF_MethodForm extends GWF_Method
 	 */
 	public function renderPage()
 	{
-		$this->form = $this->getForm();
-		return $this->form->render();
+		return $this->getForm()->render();
 	}
 	
 	/**
