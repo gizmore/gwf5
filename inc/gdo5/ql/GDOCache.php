@@ -29,9 +29,9 @@ class GDOCache
 	 * @var Memcached
 	 */
 	private static $MEMCACHED;
-	public static function get(string $key) { return self::$MEMCACHED->get($key); }
-	public static function set(string $key, $value) { self::$MEMCACHED->set($key, $value); }
-	public static function unset(string $key) { self::$MEMCACHED->delete($key); }
+	public static function get(string $key) { return self::$MEMCACHED->get(GWF_MEMCACHE_PREFIX.$key); }
+	public static function set(string $key, $value) { self::$MEMCACHED->set(GWF_MEMCACHE_PREFIX.$key, $value); }
+	public static function unset(string $key) { self::$MEMCACHED->delete(GWF_MEMCACHE_PREFIX.$key); }
 	public static function flush() { self::$MEMCACHED->flush(); }
 	public static function init()
 	{
@@ -116,7 +116,7 @@ class GDOCache
 	    }
 		if ($object->memCached())
 		{
-			self::$MEMCACHED->replace($object->gkey(), $object, GWF_MEMCACHE_TTL);
+			self::$MEMCACHED->replace(GWF_MEMCACHE_PREFIX.$object->gkey(), $object, GWF_MEMCACHE_TTL);
 		}
 	}
 	
@@ -129,7 +129,7 @@ class GDOCache
 	{
 	    $className = $this->table->gdoClassName();
 		unset($this->cache[$id]);
-		self::$MEMCACHED->delete($className . $id);
+		self::$MEMCACHED->delete(GWF_MEMCACHE_PREFIX.$className . $id);
 	}
 	
 	/**
@@ -144,10 +144,10 @@ class GDOCache
 		if (!isset($this->cache[$key]))
 		{
 			$gkey = $this->dummy->gkey();
-			if (!($mcached = self::$MEMCACHED->get($gkey)))
+			if (!($mcached = self::$MEMCACHED->get(GWF_MEMCACHE_PREFIX.$gkey)))
 			{
 				$mcached = $this->dummy->setPersisted();
-				self::$MEMCACHED->set($gkey, $mcached, GWF_MEMCACHE_TTL);
+				self::$MEMCACHED->set(GWF_MEMCACHE_PREFIX.$gkey, $mcached, GWF_MEMCACHE_TTL);
 				$this->newDummy();
 			}
 			$this->cache[$key] = $mcached;
