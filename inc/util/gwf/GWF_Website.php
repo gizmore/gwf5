@@ -10,16 +10,7 @@
 final class GWF_Website
 {
 	private static $_links = [];
-// 	private static $_meta = array(
-// 		'keywords' => array('keywords', '', 0),
-// 		'description' => array('description', '', 0),
-// 	);
-
 	private static $_inline_css = '';
-// 	private static $_output = '';
-
-
-// 	public static function plaintext() { header('Content-Type: text/plain; charset=UTF-8'); }
 
 	public static function redirectMessage($url, $time=12)
 	{
@@ -58,18 +49,8 @@ final class GWF_Website
 	}
 
 	public static function addInlineCSS($css) { self::$_inline_css .= $css; }
-// 	public static function addMetaDescr($s) { self::$_meta['description'][1] .= $s; }
-// 	public static function addMetaTags($s) { self::$_meta['keywords'][1] .= $s; }
-// 	public static function addFeed($href, $title) { self::addLink($href, 'application/rss+xml', 'alternate'); }
 	public static function addCSS($path, $media=0) { self::addLink($path, 'text/css', 'stylesheet', $media); }
-	public static function addBowerCSS($path) { self::addCSS("/bower_components/$path"); }
-	
-// 	public static function setMetaTags($s) { self::$_meta['keywords'][1] = $s; }
-// 	public static function setMetaDescr($s) { self::$_meta['description'][1] = $s; }
-// 	public static function setPageTitle($title) { self::$_page_title = $title; }
-// 	public static function setPageTitlePre($title) { self::$_page_title_pre = $title; }
-// 	public static function setPageTitleAfter($title) { self::$_page_title_post = $title; }
-// 	public static function getPageTitle() { return self::$_page_title; }
+	public static function addBowerCSS($path) { self::addCSS("bower_components/$path"); }
 
 	/**
 	 * add an html <link>
@@ -83,39 +64,6 @@ final class GWF_Website
 	{
 		self::$_links[] = array(htmlspecialchars($href), $type, $rel);
 	}
-
-// 	# TODO: move
-// 	public static function parseLink($href)
-// 	{
-// 		$url = parse_url(urldecode($href));
-// 		$scheme = isset($url['scheme']) ? $url['scheme'].'://' : '';
-// 		$host = isset($url['host']) ? htmlspecialchars($url['host']) : '';
-// 		$port = isset($url['port']) ? sprintf(':%d', $url['port']) : '';
-// 		$path = isset($url['path']) ? htmlspecialchars($url['path']) : '';
-// 		$querystring = '';
-// 		if (isset($url['query']))
-// 		{
-// 			$querystring .= '?';
-// 			parse_str($url['query'], $query);
-// 			foreach ($query as $k => $v)
-// 			{
-// 				$k = urlencode($k);
-// 				if (is_array($v))
-// 				{
-// 					foreach($v as $vk => $vv)
-// 					{
-// 						$querystring .= sprintf('%s[%s]=&s&', $k, is_int($vk) ? '' : urlencode($vk), urlencode($vv));
-// 					}
-// 				}
-// 				else
-// 				{
-// 					$querystring .= sprintf('%s=%s&', $k, urlencode($v));
-// 				}
-// 			}
-// 			$querystring = htmlspecialchars(substr($querystring, 0, -1));
-// 		}
-// 		return $scheme . $host . $port . $path . $querystring;
-// 	}
 
 	/**
 	 * Output of {$head_links}
@@ -137,20 +85,6 @@ final class GWF_Website
 		return $back;
 	}
 
-// 	/**
-// 	 * You can not specify media and title with this function
-// 	 * @param array $paths
-// 	 * @param type $pre
-// 	 * @param type $after 
-// 	 */
-// 	public static function addCSSA(array $paths, $pre='', $after='')
-// 	{
-// 		foreach($paths as $path)
-// 		{
-// 			self::addCSS($pre.$path.$after);
-// 		}
-// 	}
-
 	/**
 	 * add an html <meta> tag
 	 * @param array $meta = array($name, $content, 0=>name;1=>http-equiv);
@@ -166,7 +100,6 @@ final class GWF_Website
 			return false;
 		}
 		self::$_meta[$metaA[0]] = $metaA;
-		//self::$_meta[$name] = array($name, $content, $mode);
 		return true;
 	}
 
@@ -198,9 +131,4 @@ final class GWF_Website
 		}
 		return $back;
 	}
-
-
-	####################
-	### Display Page ###
-	####################
 }
