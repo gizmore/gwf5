@@ -3,7 +3,7 @@ final class GWF_Url
 {
 	public static function host() { return isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : GWF_DOMAIN; }
 	public static function protocol() { return isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] !== 'off') ? 'https' : 'http'; }
-	public static function absolute(string $url) { return sprintf('%s://%s%s', self::protocol(), self::host(), self::relative($url)); }
+	public static function absolute(string $url) { return sprintf('%s://%s%s%s', self::protocol(), self::host(), GWF_WEB_ROOT, self::relative($url)); }
 	public static function relative(string $url)
 	{
 		return $url;

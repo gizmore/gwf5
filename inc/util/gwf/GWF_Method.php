@@ -89,7 +89,7 @@ abstract class GWF_Method
 	##############
 	public function error(string $key, array $args=null) { return $this->module->error($key, $args); }
 	public function message(string $key, array $args=null) { return $this->module->message($key, $args); }
-	public function href(string $app='') { return sprintf('/index.php?mo=%s&me=%s%s', $this->module->getName(), $this->getName(), $app); }
+	public function href(string $app='') { return GWF5::instance()->getMethodHREF($this->module->getName(), $this->getName(), $app); }
 	public function templatePHP(string $filename, array $tVars=null) { return $this->module->templatePHP($filename, $tVars); }
 	public function getFormat() { return GWF5::instance()->getFormat(); }
 

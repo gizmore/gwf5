@@ -163,12 +163,12 @@ class GWF_Session extends GDO
 		# Fetch from possibly from cache via find :)
 		if (!($session = self::table()->find($sessId, false)))
 		{
-			return false;
+		    return false;
 		}
 		
 		if ($session->getToken() !== $sessToken)
 		{
-			return false;
+		    return false;
 		}
 		
 		# IP Check?

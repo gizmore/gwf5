@@ -12,12 +12,12 @@ class GDO_Captcha extends GDOType
 	
 	public function hrefCaptcha()
 	{
-		return "/index.php?mo=Captcha&me=Image&ajax=1";
+		return "index.php?mo=Captcha&me=Image&ajax=1";
 	}
 	
 	public function hrefNewCaptcha()
 	{
-		return "/index.php?mo=Captcha&me=Image&ajax=1&new=1";
+		return "index.php?mo=Captcha&me=Image&ajax=1&new=1";
 	}
 
 	public function render()

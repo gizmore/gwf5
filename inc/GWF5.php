@@ -164,7 +164,7 @@ final class GWF5
 	
 	public static function getMethodHREF(string $moduleName, string $methodName, string $append='')
 	{
-		return sprintf('/index.php?mo=%s&me=%s%s', $moduleName, $methodName, $append);
+		return sprintf('index.php?mo=%s&me=%s%s', $moduleName, $methodName, $append);
 	}
 	
 	
