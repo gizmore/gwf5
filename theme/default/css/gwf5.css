@@ -29,6 +29,13 @@ img.gwf-country, img.gwf-language { width: 42px; }
 .gwf-table table tbody tr td.gdo-rownum div { position: relative; padding: 0; left: 12px; top: 12px; }
 /* .gwf-table table .gdo-num, .gwf-table table .gdo-rownum { max-width: 80px; } */
 .gwf-tblorder a.sel { color: gold; }
+.gwf-table th md-select { margin: -4px 0 0 0; }
+.gwf-table th md-checkbox { margin: 3px 0; }
+.gwf-tblorder { display: inline-block; position: relative; left: -6px; }
+.gwf-tblorder a { display: block; }
+.gwf-tblorder a:first-child { position: relative; bottom: -30px; }
+.gwf-tblorder a:last-child { position: relative; bottom: -10px; }
+.gwf-table th { text-align: center; }
 
 /** GWF_Form **/
 div.gdo-tooltip { display: inline-block; }
