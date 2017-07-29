@@ -28,9 +28,13 @@ class GDO_Table extends GDO_Blank
 	}
 	
 	public $ordered;
-	public function ordered(bool $ordered=true)
+	public $orderDefault;
+	public $orderDefaultAsc = true;
+	public function ordered(bool $ordered=true, string $defaultOrder=null, bool $defaultAsc = true)
 	{
 		$this->ordered = $ordered;
+		$this->orderDefault = $defaultOrder;
+		$this->orderDefaultAsc = $defaultAsc;
 		return $this;
 	}
 	
@@ -136,6 +140,7 @@ class GDO_Table extends GDO_Blank
 		}
 		if ($this->ordered)
 		{
+		    $hasCustomOrder = false;
 			foreach (Common::getRequestArray('o') as $name => $asc)
 			{
 				if ($field = $this->getField($name))
@@ -143,8 +148,19 @@ class GDO_Table extends GDO_Blank
 					if ($field->orderable)
 					{
 						$query->order($name, !!$asc);
+						$hasCustomOrder = true;
 					}
 				}
+			}
+			if (!$hasCustomOrder)
+			{
+			    if ($this->orderDefault)
+			    {
+			        $ascdesc = $this->orderDefaultAsc ? 1 : 0;
+// 			        $_REQUEST['o'] = [$this->orderDefault => $ascdesc];
+// 			        $_SERVER['REQUEST_URI'] .= "&o[$this->orderDefault]=$ascdesc";
+			        $query->order($this->orderDefault, $this->orderDefaultAsc);
+			    }
 			}
 		}
 		if ($this->pagemenu)

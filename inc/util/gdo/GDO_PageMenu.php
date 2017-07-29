@@ -27,7 +27,7 @@ class GDO_PageMenu extends GDO_Blank
 	    return max(array(intval((($numItems-1) / $ipp)+1), 1));
 	}
 	
-	public $shown = 4;
+	public $shown = 3;
 	public function shown(int $shown)
 	{
 		$this->shown = $shown;

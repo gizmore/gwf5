@@ -55,6 +55,10 @@ try
 	$response = GWF_Response::make($unwanted)->add($response);
 	echo $gwf5->render($response);
 }
+catch (GWF_PermissionException $e)
+{
+    echo $gwf5->render(GWF_Error::make($e->getMessage()));
+}
 catch (Exception $e)
 {
 	GWF_Log::logException($e);

@@ -36,6 +36,7 @@ img.gwf-country, img.gwf-language { width: 42px; }
 .gwf-tblorder a:first-child { position: relative; bottom: -30px; }
 .gwf-tblorder a:last-child { position: relative; bottom: -10px; }
 .gwf-table th { text-align: center; }
+.gwf-pagemenu .page-selected a { background: #f00; }
 
 /** GWF_Form **/
 div.gdo-tooltip { display: inline-block; }

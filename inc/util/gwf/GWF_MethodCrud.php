@@ -48,12 +48,12 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 			$this->gdo = $table->find($id);
 			if (!$this->canUpdate($this->gdo))
 			{
-				throw new GWF_Exception('err_permission_update');
+				throw new GWF_PermissionException('err_permission_update');
 			}
 		}
 		elseif (!$this->canCreate($table))
 		{
-			throw new GWF_Exception('err_permission_create');
+		    throw new GWF_PermissionException('err_permission_create');
 		}
 		
 		return parent::execute();

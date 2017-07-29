@@ -29,7 +29,7 @@ class GWF_Language extends GDO
 	 */
 	public static function getByISOOrUnknown(string $iso=null)
 	{
-		if (!($language = self::getById($iso)))
+	    if ( ($iso === null) || (!($language = self::getById($iso))) )
 		{
 			$language = self::blank(['lang_iso'=>'zz']);
 		}

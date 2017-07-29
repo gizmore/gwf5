@@ -22,7 +22,8 @@ class GWF_Country extends GDO
 	 */
 	public static function getByISOOrUnknown(string $iso=null)
 	{
-		if (!($country = self::getById($iso)))
+	    
+	    if ( ($iso === null) || (!($country = self::getById($iso))) )
 		{
 			$country = self::blank(['c_iso'=>'zz']);
 		}
