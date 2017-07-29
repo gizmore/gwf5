@@ -182,17 +182,21 @@ class GWF_Module extends GDO
 		if (!$this->inited)
 		{
 			$this->inited = true;			
-			if ($classes = $this->getClasses())
-			{
-				foreach ($classes as $class)
-				{
-					$this->includeClass($class);
-				}
-			}
 			$this->onLoadLanguage();
 			$this->registerSettings();
 			$this->onInit();
 		}
+	}
+	
+	public function loadClasses()
+	{
+	    if ($classes = $this->getClasses())
+	    {
+	        foreach ($classes as $class)
+	        {
+	            $this->includeClass($class);
+	        }
+	    }
 	}
 	
 	public function loadLanguage(string $path)

@@ -89,6 +89,10 @@ final class GWF_ModuleLoader
 // 		uasort($this->modules, function($a, $b){return $a->module_priority - $b->module_priority; });
 		foreach ($this->modules as $module)
 		{
+		    $module->loadClasses();
+		}
+		foreach ($this->modules as $module)
+		{
 			$module->initModule();
 		}
 // 		$this->initModuleVars();
@@ -114,6 +118,10 @@ final class GWF_ModuleLoader
 		{
 			uasort($this->modules, function($a, $b){ return $a->module_priority - $b->module_priority; });
 			GWF_Module::table()->sort($this->activeModules, 'module_sort');
+			foreach ($this->modules as $module)
+			{
+			    $module->loadClasses();
+			}
 			$this->initModuleVars();
 			foreach ($this->modules as $module)
 			{
