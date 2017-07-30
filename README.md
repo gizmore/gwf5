@@ -37,32 +37,33 @@ There is no unit testing.
 
 ### Available modules
 
-git clone https://github.com/gizmore/gwf5-account Account
-git clone https://github.com/gizmore/gwf5-adsense Adsense (coming soon)
-git clone https://github.com/gizmore/gwf5-audio Audio
-git clone https://github.com/gizmore/gwf5-avatar Avatar
-git clone https://github.com/gizmore/gwf5-backup Backup (coming soon)
-git clone https://github.com/gizmore/gwf5-category Category
-git clone https://github.com/gizmore/gwf5-comments Comments
-git clone https://github.com/gizmore/gwf5-contact Contact
-git clone https://github.com/gizmore/gwf5-currency Currency
-git clone https://github.com/gizmore/gwf5-download Download
-git clone https://github.com/gizmore/gwf5-facebook Facebook
-git clone https://github.com/gizmore/gwf5-forum Forum
-git clone https://github.com/gizmore/gwf5-friends Friends
-git clone https://github.com/gizmore/gwf5-helpdesk Helpdesk (coming soon)
-git clone https://github.com/gizmore/gwf5-ip2country IP2Country
-git clone https://github.com/gizmore/gwf5-links Links
-git clone https://github.com/gizmore/gwf5-logs Logs (coming soon)
-git clone https://github.com/gizmore/gwf5-maps Maps
-git clone https://github.com/gizmore/gwf5-news News
-git clone https://github.com/gizmore/gwf5-payment Payment
-git clone https://github.com/gizmore/gwf5-payment-credits PaymentCredits
-git clone https://github.com/gizmore/gwf5-payment-paypal PaymentPaypal
-git clone https://github.com/gizmore/gwf5-pm PM
-git clone https://github.com/gizmore/gwf5-poll Poll (coming soon)
-git clone https://github.com/gizmore/gwf5-profile Profile
-git clone https://github.com/gizmore/gwf5-tags Tags
-git clone https://github.com/gizmore/gwf5-votes Votes
-git clone https://github.com/gizmore/gwf5-websocket Websocket
+
+    git clone https://github.com/gizmore/gwf5-account Account
+    git clone https://github.com/gizmore/gwf5-adsense Adsense (coming soon)
+    git clone https://github.com/gizmore/gwf5-audio Audio
+    git clone https://github.com/gizmore/gwf5-avatar Avatar
+    git clone https://github.com/gizmore/gwf5-backup Backup (coming soon)
+    git clone https://github.com/gizmore/gwf5-category Category
+    git clone https://github.com/gizmore/gwf5-comments Comments
+    git clone https://github.com/gizmore/gwf5-contact Contact
+    git clone https://github.com/gizmore/gwf5-currency Currency
+    git clone https://github.com/gizmore/gwf5-download Download
+    git clone https://github.com/gizmore/gwf5-facebook Facebook
+    git clone https://github.com/gizmore/gwf5-forum Forum
+    git clone https://github.com/gizmore/gwf5-friends Friends
+    git clone https://github.com/gizmore/gwf5-helpdesk Helpdesk (coming soon)
+    git clone https://github.com/gizmore/gwf5-ip2country IP2Country
+    git clone https://github.com/gizmore/gwf5-links Links
+    git clone https://github.com/gizmore/gwf5-logs Logs (coming soon)
+    git clone https://github.com/gizmore/gwf5-maps Maps
+    git clone https://github.com/gizmore/gwf5-news News
+    git clone https://github.com/gizmore/gwf5-payment Payment
+    git clone https://github.com/gizmore/gwf5-payment-credits PaymentCredits
+    git clone https://github.com/gizmore/gwf5-payment-paypal PaymentPaypal
+    git clone https://github.com/gizmore/gwf5-pm PM
+    git clone https://github.com/gizmore/gwf5-poll Poll (coming soon)
+    git clone https://github.com/gizmore/gwf5-profile Profile
+    git clone https://github.com/gizmore/gwf5-tags Tags
+    git clone https://github.com/gizmore/gwf5-votes Votes
+    git clone https://github.com/gizmore/gwf5-websocket Websocket
 
