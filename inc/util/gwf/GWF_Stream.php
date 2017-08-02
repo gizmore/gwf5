@@ -35,7 +35,6 @@ final class GWF_Stream
 	public static function file(GWF_File $file)
 	{
 		self::path($file->getPath());
-		
 	}
 	
 	public static function serve(GWF_File $file)

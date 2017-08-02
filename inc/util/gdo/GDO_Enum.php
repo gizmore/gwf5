@@ -22,6 +22,11 @@ class GDO_Enum extends GDOType
 		return $index === false ? 0 : $index + 1;
 	}
 	
+	public function enumForId(int $index)
+	{
+	    return @$this->enumValues[$index-1];
+	}
+	
 	public function gdoColumnDefine()
 	{
 		$values = implode(',', array_map(array('GDO', 'quoteS'), $this->enumValues));
