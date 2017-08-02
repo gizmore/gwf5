@@ -83,6 +83,10 @@ md-input-container .gwf-form-error {
 	top: -12px;
     position: relative;
 }
+
+md-input-container > md-select {
+	margin-bottom: 20px;
+}
 .gwf-divider-label {
 	font-size: 20px;
 }

@@ -74,8 +74,8 @@ class GWF_File extends GDO
 	public function copy()
 	{
 	    self::createDir(self::filesDir());
-		copy($this->path, $this->getDestPath());
 		$this->insert();
+		copy($this->path, $this->getDestPath());
 		$this->path = null;
 		return $this;
 	}

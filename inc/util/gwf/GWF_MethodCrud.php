@@ -42,10 +42,12 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	
 	public function execute()
 	{
-		$table = $this->gdoTable();
+	    $this->crudMode = self::CREATED;
+	    $table = $this->gdoTable();
 		if ($id = $this->getCRUDID())
 		{
 			$this->gdo = $table->find($id);
+			$this->crudMode = self::EDITED;
 			if (!$this->canUpdate($this->gdo))
 			{
 				throw new GWF_PermissionException('err_permission_update');
@@ -125,7 +127,6 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	###############
 	public function onCreate(GWF_Form $form)
 	{
-	    $this->crudMode = self::CREATED;
 		$table = $this->gdoTable();
 		$gdo = $this->gdo = $table->blank($form->values())->insert();
 		return
@@ -136,8 +137,8 @@ abstract class GWF_MethodCrud extends GWF_MethodForm
 	
 	public function onUpdate(GWF_Form $form)
 	{
-	    $this->crudMode = self::EDITED;
 	    $this->gdo->saveVars($form->values());
+	    $this->form = null;
 		return
 			$this->message('msg_crud_updated', [$this->gdo->gdoClassName()])->
 			add($this->afterUpdate($form))->

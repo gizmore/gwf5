@@ -14,8 +14,11 @@ class GDO_Serialize extends GDO_Text
 	
 	public function getGDOValue()
 	{
-		$value = $this->gdo->getVar($this->name);
-		return $value === null ? null : unserialize($value);
+	    if ($this->gdo)
+	    {
+    		$value = $this->gdo->getVar($this->name);
+    		return $value === null ? null : unserialize($value);
+	    }
 	}
 	
 	public function setGDOValue($value)

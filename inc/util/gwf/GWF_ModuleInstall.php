@@ -53,10 +53,23 @@ class GWF_ModuleInstall
 	
 	public static function dropModule(GWF_Module $module)
 	{
-		$module->onWipe();
-		self::dropModuleClasses($module);
-		$module->delete();
-		GDOCache::unset('gwf_modules');
+	    $db = GDODB::instance();
+	    try
+	    {
+	        $db->queryWrite('SET FOREIGN_KEY_CHECKS=0');
+    		$module->onWipe();
+    		self::dropModuleClasses($module);
+    		$module->delete();
+    		GDOCache::unset('gwf_modules');
+	    }
+	    catch (Exception $ex)
+	    {
+	        throw $ex;
+	    }
+	    finally
+	    {
+    	    $db->queryWrite('SET FOREIGN_KEY_CHECKS=1');
+	    }
 	}
 
 	public static function dropModuleClasses(GWF_Module $module)

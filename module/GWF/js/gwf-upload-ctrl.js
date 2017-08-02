@@ -1,7 +1,7 @@
 'use strict';
 angular.module('gwf5').
 controller('GWFUploadCtrl', function($scope, $http) {
-	$scope.data.transfer = {
+	$scope.transfer = {
 		fileNum: 0,
 		filesCount: 0,
 		bytesTotal: 0,
@@ -13,8 +13,8 @@ controller('GWFUploadCtrl', function($scope, $http) {
 	
 	$scope.initGWFConfig = function(config, selector) {
 		console.log('UploadCtrl.initGWFConfig()', config, selector);
-		$scope.data.config = config;
-		$scope.data.config.selector = selector;
+		$scope.config = config;
+		$scope.config.selector = selector;
 		$scope.initFiles(config);
 	};
 	
@@ -39,7 +39,7 @@ controller('GWFUploadCtrl', function($scope, $http) {
 		}
 		setTimeout(function(){
 			$scope.$flow.files = flowFiles;
-			$scope.data.lfFiles = lfFiles;
+			$scope.lfFiles = lfFiles;
 			$scope.updateHiddenFiles();
 			$scope.$apply();
 		}, 1);
@@ -49,13 +49,13 @@ controller('GWFUploadCtrl', function($scope, $http) {
 	
 	$scope.displayFileName = function() {
 		var display = [];
-		for (var i in $scope.data.lfFiles) {
-			var lfFile = $scope.data.lfFiles[i];
+		for (var i in $scope.lfFiles) {
+			var lfFile = $scope.lfFiles[i];
 			var file = lfFile.lfFile;
 			display.push(file.name + " (" + file.size + ")");
 		}
 		
-		return display.length ? display.join(', ') : "Select flies";
+		return display.length ? display.join(', ') : $scope.config.label;
 	};
 	
     $scope.genLfFileObj = function(file) {
@@ -73,11 +73,11 @@ controller('GWFUploadCtrl', function($scope, $http) {
     };
 
 	$scope.lfFilesChanged = function($event) {
-		console.log('UploadCtrl.lfFilesChanged()', $event, $scope.data, $scope.$flow);
+		console.log('UploadCtrl.lfFilesChanged()', $event, $scope, $scope.$flow);
 		var files = [];
 		var keep = [];
-		for (var i in $scope.data.lfFiles) {
-			var lfFile = $scope.data.lfFiles[i];
+		for (var i in $scope.lfFiles) {
+			var lfFile = $scope.lfFiles[i];
 			console.log(lfFile);
 			if ($scope.isValidFile(lfFile.lfFile)) {
 				if (!lfFile.isInitial) {
@@ -86,7 +86,7 @@ controller('GWFUploadCtrl', function($scope, $http) {
 				keep.push(lfFile);
 			}
 		}
-		$scope.data.lfFiles = keep;
+		$scope.lfFiles = keep;
 		if (files.length > 0) {
 			setTimeout(function(){
 				$scope.$flow.addFiles(files, $event);
@@ -97,10 +97,10 @@ controller('GWFUploadCtrl', function($scope, $http) {
 	};
 	
 	$scope.updateHiddenFiles = function() {
-		console.log('UploadCtrl.updateHiddenFiles()', $scope.data.lfFiles);
+		console.log('UploadCtrl.updateHiddenFiles()', $scope.lfFiles);
 		var value = [];
-		for (var i in $scope.data.lfFiles) {
-			var lfFile = $scope.data.lfFiles[i];
+		for (var i in $scope.lfFiles) {
+			var lfFile = $scope.lfFiles[i];
 			if (lfFile.isInitial) {
 				value.push({initial:true, id:lfFile.key});
 			}
@@ -108,7 +108,7 @@ controller('GWFUploadCtrl', function($scope, $http) {
 				value.push({initial:false, id:0, name: lfFile.lfFile.name});
 			}
 		}
-		$($scope.data.config.selector).val(JSON.stringify(value));
+		$($scope.config.selector).val(JSON.stringify(value));
 	};
 	
 	$scope.onFlowSubmitted = function($flow) {
@@ -124,9 +124,9 @@ controller('GWFUploadCtrl', function($scope, $http) {
 	};
 	
 	$scope.isValidFile = function($file) {
-		console.log('UploadCtrl.isValidFile()', $file, $scope.data.config);
-		var maxSize = $scope.data.config.maxsize;
-		var mimeTypes = $scope.data.config.mimes;
+		console.log('UploadCtrl.isValidFile()', $file, $scope.config);
+		var maxSize = $scope.config.maxsize;
+		var mimeTypes = $scope.config.mimes;
 		if ($file.size > maxSize) {
 			$scope.denyFile($file, 'Max size exceeded.');
 		}
@@ -160,7 +160,7 @@ controller('GWFUploadCtrl', function($scope, $http) {
 	
 	$scope.onFlowProgress = function($file, $flow, $msg) {
 //		console.log('UploadCtrl.onFlowProgress()', $file, $flow, $msg);
-		var transfer = $scope.data.transfer;
+		var transfer = $scope.transfer;
 		var j = 0, index = 0;
 		transfer.bytesTotal = 0;
 		transfer.bytesTransferred = 0;
@@ -184,17 +184,17 @@ controller('GWFUploadCtrl', function($scope, $http) {
 
 	$scope.onFlowSuccess = function($file, $flow, $msg) {
 		console.log('UploadCtrl.onFlowSuccess()', $file, $flow, $msg);
-		$scope.data.transfer.speed = $scope.data.transfer.bytesTotal;
-		$scope.data.transfer.bytesTransferred = $scope.data.transfer.bytesTotal;
-		$scope.data.transfer.inProgress = false;
+		$scope.transfer.speed = $scope.transfer.bytesTotal;
+		$scope.transfer.bytesTransferred = $scope.transfer.bytesTotal;
+		$scope.transfer.inProgress = false;
 	};
 	
 	$scope.progressIndicatorDisabled = function() {
-		return !$scope.data.transfer.inProgress;
+		return !$scope.transfer.inProgress;
 	};
 	
 	$scope.progressIndicatorValue = function() {
-		var t = $scope.data.transfer;
+		var t = $scope.transfer;
 		var value = t.bytesTransferred / t.bytesTotal;
 		return value * 100;
 	};

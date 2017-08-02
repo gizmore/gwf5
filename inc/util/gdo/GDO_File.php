@@ -91,6 +91,7 @@ class GDO_File extends GDO_Object
 			'preview' => $this->preview,
 			'mimes' => $this->mimes,
 			'selectedFiles' => $this->initJSONFile(),
+		    'label' => $this->label,
 		);
 	}
 	

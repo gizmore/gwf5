@@ -1,21 +1,22 @@
 <?php $field instanceof GDO_Enum; ?>
-<md-input-container class="md-block md-float md-icon-left<?php echo $field->classError(); ?>" flex>
-  <label><?php echo $field->displayLabel(); ?></label>
+<md-input-container class="md-block md-float md-icon-left<?= $field->classError(); ?>" flex>
+  <label><?= $field->displayLabel(); ?></label>
   <md-select
    ng-controller="GWFSelectCtrl"
    ng-model="selection"
-   ng-init="selection = '<?php echo $field->displayFormValue(); ?>'"
-   ng-change="valueSelected('#gwfsel_<?php echo $field->name; ?>')"
-   <?php echo $field->htmlDisabled(); ?>>
+   ng-init="selection = '<?= $field->displayFormValue(); ?>'"
+   ng-change="valueSelected('#gwfsel_<?= $field->name; ?>')"
+   <?= $field->htmlRequired(); ?>
+   <?= $field->htmlDisabled(); ?>>
     <?php foreach ($field->enumValues as $enumValue) : ?>
-      <md-option value="<?php echo $enumValue; ?>"><?php l('enum_'.$enumValue); ?></md-option>
+      <md-option value="<?= $enumValue; ?>"><?= t('enum_'.$enumValue); ?></md-option>
     <?php endforeach; ?>
   </md-select>
   <input
    class="n"
    type="hidden"
-   id="gwfsel_<?php echo $field->name; ?>"
-   value="<?php echo $field->displayFormValue(); ?>"
-   name="form[<?php echo $field->name?>]" />
-  <div class="gwf-error"><?php echo $field->displayError(); ?></div>
+   id="gwfsel_<?= $field->name; ?>"
+   value="<?= $field->displayFormValue(); ?>"
+   name="form[<?= $field->name?>]" />
+  <div class="gwf-error"><?= $field->displayError(); ?></div>
 </md-input-container>

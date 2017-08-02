@@ -140,7 +140,6 @@ class Module_GWF extends GWF_Module
 		$this->addJavascript('js/gwf-form-ctrl.js');
 		$this->addJavascript('js/gwf-list-ctrl.js');
 		$this->addJavascript('js/gwf-loading-srvc.js');
-		$this->addJavascript('js/gwf-open-hours-ctrl.js');
 		$this->addJavascript('js/gwf-request-interceptor.js');
 		$this->addJavascript('js/gwf-request-srvc.js');
 		$this->addJavascript('js/gwf-sort-ctrl.js');

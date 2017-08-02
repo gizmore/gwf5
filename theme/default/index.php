@@ -2,8 +2,8 @@
 <html>
   <head>
     <title><?php #echo $method->title; ?></title>
-    <link href="theme/default/css/gwf5.css" rel="stylesheet" />
     <?php echo GWF_Website::displayLink(); ?>
+    <link href="theme/default/css/gwf5.css" rel="stylesheet" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="index, follow" />

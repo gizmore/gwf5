@@ -18,6 +18,11 @@ class GDO_Url extends GDO_String
 	public $max = 255;
 	public $pattern = "#(?:https?://|/).*#i";
 	
+	public function __construct()
+	{
+	    $this->icon('language');
+	}
+	
 	public function allowLocal(bool $allowLocal=true)
 	{
 		$this->allowLocal = $allowLocal;
