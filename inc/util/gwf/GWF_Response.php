@@ -50,7 +50,7 @@ class GWF_Response
 	
 	public function add(GWF_Response $response=null)
 	{
-		if ($response)
+		if ( ($response) && (!empty($response)) )
 		{
 			$this->error = $response->error || $this->error;
 			if (empty($this->html))
@@ -59,10 +59,11 @@ class GWF_Response
 			}
 			elseif (is_array($this->html))
 			{
-				if (!empty($response->html))
-				{
-					$this->html = array_merge($this->html, $response->html);
-				}
+				$this->html = array_merge($this->html, $response->html);
+			}
+			elseif (is_array($response->html))
+			{
+			    $this->html = array_merge(['html' => $this->html], $response->html);
 			}
 			else
 			{

@@ -56,6 +56,7 @@ trait GDO_ObjectTrait
 	public function setGDOValue($value)
 	{
 		$this->gdo->setVar($this->name, $value ? $value->getID() : null);
+		return $this;
 	}
 	
 	public function getGDOData()

@@ -159,6 +159,10 @@ class GWF_Session extends GDO
 
 	public static function reload(string $cookieValue)
 	{
+	    if (!strpos($cookieValue, '-'))
+	    {
+	        return false;
+	    }
 		list($sessId, $sessToken) = @explode('-', $cookieValue, 2);
 		# Fetch from possibly from cache via find :)
 		if (!($session = self::table()->find($sessId, false)))

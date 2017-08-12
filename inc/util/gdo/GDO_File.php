@@ -134,6 +134,22 @@ class GDO_File extends GDO_Object
 		return null;
 	}
 	
+	public function setGDOValue($value)
+	{
+	    $initial = [];
+	    foreach ($value as $image)
+	    {
+	        $image instanceof GWF_File;
+	        $initial[] = ['id' => $image->getID()];
+	    }
+	    $this->initial = json_encode($initial);
+	    if ($this->multiple)
+	    {
+	        return $this;
+	    }
+	    return parent::setGDOValue($value);
+	}
+	
 	public function formValue()
 	{
 		$files = [];
@@ -175,7 +191,13 @@ class GDO_File extends GDO_Object
 				}
 			}
 		}
-		if (!$this->multiple)
+		if ($this->multiple)
+		{
+		    $this->oldValue = $this->getValue();
+		    $this->value = $value;
+		    $form->addValue($this->name, $this->value);
+		}
+		else
 		{
 			$this->oldValue = $this->getValue();
 			$this->value = count($value) ? $value[0]->getID() : null;

@@ -12,6 +12,7 @@
   <label for="form[<?php echo $field->name; ?>]"><?php echo $field->displayLabel(); ?></label>
   <?php echo $field->htmlIcon(); ?>
   <lf-ng-md-file-input
+   <?php if ($field->multiple) : ?>multiple<?php endif; ?>
    lf-files="lfFiles"
    lf-caption="{{displayFileName()}}"
    lf-placeholder="{{displayFileName()}}"
