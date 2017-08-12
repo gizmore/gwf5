@@ -1,10 +1,11 @@
 <?php
-class Memcached
+if (!class_exists('Memcached', false))
 {
-    public function addServer() {}
-    public function get() {}
-    public function set() {}
-    public function replace() {}
-    
-    
+    class Memcached
+    {
+        public function addServer() {}
+        public function get() {}
+        public function set() {}
+        public function replace() {}
+    }
 }

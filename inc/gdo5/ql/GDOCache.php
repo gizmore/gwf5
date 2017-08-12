@@ -22,7 +22,7 @@
  * @version 5.0
  * @license MIT
  */
-if (!class_exists('Memcached')) { include('GDOCacheShim.php'); }
+include('GDOCacheShim.php');
 class GDOCache
 {
 	/**
