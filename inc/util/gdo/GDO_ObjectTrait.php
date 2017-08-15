@@ -59,11 +59,6 @@ trait GDO_ObjectTrait
 		return $this;
 	}
 	
-	public function getGDOData()
-	{
-		return array($this->name => $this->gdo->getVar($this->name));
-	}
-	
 	#####################
 	### Class to join ###
 	#####################

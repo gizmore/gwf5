@@ -15,7 +15,8 @@ controller('GWFUploadCtrl', function($scope, $http) {
 		console.log('UploadCtrl.initGWFConfig()', config, selector);
 		$scope.config = config;
 		$scope.config.selector = selector;
-		$scope.initFiles(config);
+//		$scope.initFiles(config);
+		$scope.updateHiddenFiles();
 	};
 	
 	$scope.initFiles = function(config) {
@@ -96,18 +97,36 @@ controller('GWFUploadCtrl', function($scope, $http) {
 		$scope.updateHiddenFiles();
 	};
 	
+	$scope.removeInitialFile = function(fileId) {
+		console.log('UploadCtrl.removeInitialFile()', fileId);
+		var files = [];
+		for (var i in $scope.config.selectedFiles) {
+			var initialFile = $scope.config.selectedFiles[i];
+			if (initialFile.file_id != fileId) {
+				files.push(initialFile);
+			}	
+		}
+		$scope.config.selectedFiles = files;
+		$scope.updateHiddenFiles();
+	};
+	
 	$scope.updateHiddenFiles = function() {
 		console.log('UploadCtrl.updateHiddenFiles()', $scope.lfFiles);
 		var value = [];
 		for (var i in $scope.lfFiles) {
 			var lfFile = $scope.lfFiles[i];
-			if (lfFile.isInitial) {
-				value.push({initial:true, id:lfFile.key});
-			}
-			else {
+//			if (lfFile.isInitial) {
+//				value.push({initial:true, id:lfFile.key});
+//			}
+//			else {
 				value.push({initial:false, id:0, name: lfFile.lfFile.name});
-			}
+//			}
 		}
+		for (var i in $scope.config.selectedFiles) {
+			var file = $scope.config.selectedFiles[i];
+			value.push({initial:true, id:file.file_id});
+		}
+
 		$($scope.config.selector).val(JSON.stringify(value));
 	};
 	
@@ -120,6 +139,7 @@ controller('GWFUploadCtrl', function($scope, $http) {
 			}
 		}
 		$flow.files = acceptedFiles;
+		console.log('Accepted files', acceptedFiles);
 		$flow.upload();
 	};
 	

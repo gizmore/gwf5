@@ -38,12 +38,20 @@ GWF_InstallData::install();
 ###################
 ### System User ###
 ###################
-$user = GWF_User::blank(array(
-    'user_name'=>'system',
-    'user_email' => GWF_BOT_EMAIL,
-    'user_type' => 'bot',
-    'user_password' => GWF_Password::create('system')->__toString(),
-))->insert();
+if ($user = GWF_User::getByName('system'))
+{
+    $user->saveVar('user_id', '1');
+}
+else
+{
+    $user = GWF_User::blank(array(
+        'user_id' => '1',
+        'user_name'=>'system',
+        'user_email' => GWF_BOT_EMAIL,
+        'user_type' => 'bot',
+        'user_password' => GWF_Password::create('system')->__toString(),
+    ))->replace();
+}
 
 
 ###############

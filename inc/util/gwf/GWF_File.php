@@ -39,6 +39,14 @@ class GWF_File extends GDO
 		return $this;
 	}
 	
+	private $href;
+	public function tempHref(string $href=null)
+	{
+	    $this->href = $href;
+	    return $this;
+	}
+	
+	public function getHref() { return $this->href; }
 	public function getPath() { return $this->path ? $this->path : $this->getDestPath(); }
 	public function getDestPath() { return self::filesDir() . $this->getID(); }
 	
@@ -49,6 +57,12 @@ class GWF_File extends GDO
 		@unlink($this->getDestPath());
 		return parent::delete();
 	}
+	
+	public function toJSON()
+	{
+	    return array_merge(parent::toJSON(), ['href' => $this->getHref(), 'initial' => true]);
+	}
+	
 	
 	###############
 	### Factory ###

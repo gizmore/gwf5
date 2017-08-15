@@ -31,6 +31,14 @@ class GDO_File extends GDO_Object
 		return $this->preview();
 	}
 	
+	public $href;
+	public function getHref() { return $this->href; }
+	public function href(string $href=null)
+	{
+	    $this->href = $href;
+	    return $this;
+	}
+	
 	public $minsize = 1024;
 	public function minsize(int $minsize)
 	{
@@ -90,16 +98,22 @@ class GDO_File extends GDO_Object
 			'maxfiles' => $this->maxfiles,
 			'preview' => $this->preview,
 			'mimes' => $this->mimes,
-			'selectedFiles' => $this->initJSONFile(),
+			'selectedFiles' => $this->initJSONFiles(),
 		    'label' => $this->label,
 		);
 	}
 	
-	public function initJSONFile()
+	public function initJSONFiles()
 	{
-		$file = $this->getGDOValue();
-		$file instanceof GWF_File;
-		return $file ? [$file->toJSON()] : null;
+	    $json = [];
+		$files = GWF_Array::array($this->getGDOValue());
+		foreach ($files as $file)
+		{
+		    $file instanceof GWF_File;
+		    $file->tempHref($this->href);
+		    $json[] = $file->toJSON();
+		}
+		return $json;
 	}
 	
 	public function render()
@@ -121,30 +135,33 @@ class GDO_File extends GDO_Object
 	 */
 	public function getGDOValue()
 	{
-		if ($this->gdo)
-		{
-			$id = $this->gdo->getVar($this->name);
-			return $this->foreignTable()->find($id, false);
-		}
+	    if (!$this->multiple)
+	    {
+    		if ($this->gdo)
+    		{
+    			$id = $this->gdo->getVar($this->name);
+    			if ($file = $this->foreignTable()->find($id, false))
+    			{
+    			    return $file;
+    			}
+    			return null;
+    		}
+	    }
 		$files = $this->formValue();
-		if (count($files))
-		{
-			return $this->multiple ? $files : $files[0];
-		}
-		return null;
+		return count($files) ? $files : null;
 	}
 	
 	public function setGDOValue($value)
 	{
 	    $initial = [];
-	    foreach ($value as $image)
+	    foreach ($value as $file)
 	    {
-	        $image instanceof GWF_File;
-	        $initial[] = ['id' => $image->getID()];
+	        $file instanceof GWF_File;
+	        $initial[] = $file->toJSON();
 	    }
-	    $this->initial = json_encode($initial);
 	    if ($this->multiple)
 	    {
+	        $this->initial = json_encode($initial);
 	        return $this;
 	    }
 	    return parent::setGDOValue($value);
@@ -160,7 +177,7 @@ class GDO_File extends GDO_Object
 			{
 				if ($value->initial)
 				{
-					$files[] = GWF_File::table()->find($value->id);
+					$files[] = GWF_File::table()->find($value->file_id);
 				}
 				else
 				{

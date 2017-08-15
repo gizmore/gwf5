@@ -7,13 +7,13 @@ final class GWF_DebugInfo
 	
 	public function __construct()
 	{
-		$this->t1 = microtime(true);
 		self::$INSTANCE = $this;
 	}
 	
 	public function data()
 	{
-		$totalTime = microtime(true) - $this->t1;
+	    $this->t1 = microtime(true);
+	    $totalTime = microtime(true) - $this->t1;
 		$phpTime = $totalTime - GDODB::$QUERY_TIME;
 		$memphp = memory_get_peak_usage(false);
 		$memreal = memory_get_peak_usage(true);

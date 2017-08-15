@@ -146,3 +146,8 @@ md-list-item:last-child { border-bottom: 1px solid #ccc; }
 	float: left;
 	margin-right: 4px;
 }
+
+/** Upload **/
+.gwf-file-preview img {
+	height: 160px;
+}
